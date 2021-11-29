@@ -20,8 +20,8 @@
 		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 		rel="stylesheet" />
 	<!-- Core theme CSS (includes Bootstrap)-->
-	<link href="/finalpj/resource/css/styles.css" rel="stylesheet" />
-	<link href="/finalpj/resource/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
+	<link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<!-- jquery -->
 	<script type="text/javascript"
@@ -175,7 +175,7 @@
                         			 <p class="mb-2"><img width="80%" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></p>
                         		</c:when>
                         		<c:otherwise>
-                        			<p class="mb-2"><img width="80%" src="/finalpj/resource/img/kakaologo/kakao_login_large_narrow.png" /></p>
+                        			<p class="mb-2"><img width="80%" src="/gooppl/resource/img/kakaologo/kakao_login_large_narrow.png" /></p>
                         		</c:otherwise>
                         	</c:choose>
                         </div>
@@ -204,7 +204,7 @@
 	                <div class="card mb-3" style="max-width: 700px;">
 	                    <div class="row align-items-center ">
 	                        <div class="col-md-6">
-	                            <img src="/finalpj/resource/img/혜수네.jpg" class="img-fluid rounded-start rounded-end" alt="...">
+	                            <img src="/gooppl/resource/img/혜수네.jpg" class="img-fluid rounded-start rounded-end" alt="...">
 	                        </div>
 	                        <div class="col-md-6">
 	                            <div class="card-body">
@@ -235,7 +235,7 @@
                 <div class="card text-center" style="max-width: 860px;">
                     <div class="row g-0">
                         <div class="col-md-3">
-                            <img src="/finalpj/resource/img/gapyeong.jpg" class="img-fluid rounded-start" alt="...">
+                            <img src="/gooppl/resource/img/gapyeong.jpg" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-3">
                             <div class="card-body align-items-center">
@@ -322,7 +322,7 @@
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row g-0 ">
                         <div class="col-md-4">
-                            <img src="daejeon.jpg" class="img-fluid rounded-start" alt="...">
+                            <img src="/gooppl/resource/img/daejeon.jpg" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -418,7 +418,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 	<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 	
-	<script src="/finalpj/resource/js/scripts.js"></script>
+	<script src="/gooppl/resource/js/scripts.js"></script>
 </body>
 
 </html>

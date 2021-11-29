@@ -8,6 +8,6 @@ public class MainController {
 	
 	@RequestMapping("/mypage.do")
 	public String mypage() {
-		return "mypage";
+		return "member/mypage";
 	}
 }
