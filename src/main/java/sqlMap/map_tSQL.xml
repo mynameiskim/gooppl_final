@@ -7,7 +7,7 @@
   		insert into 
   			mapt
   		values(
-  			gooppl_map_map_idx.nextval,
+  			mapt_map_idx.nextval,
   			#{map_title},
   			#{member_idx},
   			#{people_num},
