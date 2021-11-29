@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.placedetail">
+  	<select id="existContentid" parameterType="Integer" resultType="Integer">
+  		select
+  			count(*)
+  		from 
+  			gooppl_placedetail
+  		where
+  			contentid=#{contentid}
+  	</select>
+  	<insert id="addPlaceDetail" parameterType="goo.placedetail.model.Gooppl_PlaceDetailDTO">
+  		insert into
+  			gooppl_placedetail
+  		values(
+  			#{contentid},
+  			#{title},
+  			#{addr},
+  			#{areacode},
+  			#{sigungucode},
+  			#{mapx},
+  			#{mapy},
+  			#{overview},
+  			#{readnum},
+  			#{homepage},
+  			#{firstimage}
+  		)
+  	</insert>
+  </mapper>

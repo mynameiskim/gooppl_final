@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="yong.admin">
+  	<select id="loginCheck2" parameterType="Map" resultType="int">
+  		SELECT
+  			COUNT(*)
+  		FROM member
+  		WHERE goo_id = #{goo_id}
+  		AND pwd = #{pwd}
+  	</select>
+  	<update id="loginRecode" parameterType="int">
+  		UPDATE 
+  			admin 
+  		SET
+  			last_connection_date = sysdate
+  		WHERE 
+  			member_idx = #{member_idx}
+  	</update>
+  	<select id="adminMemberInfo" parameterType="String" resultType="goo.member.model.MemberDTO">
+  		SELECT
+  			*
+  		FROM member
+  		WHERE goo_id = #{goo_id}
+  	</select>
+  	<select id="allAdminMemberInfo" resultType="goo.member.model.MemberDTO">
+  		SELECT
+  			*
+  		FROM member
+  		WHERE member_type = 'A'
+  	</select>
+  	<select id="adminInfo" parameterType="String" resultType="goo.admin.model.AdminDTO">
+ 		SELECT
+  			a.*
+  		FROM admin a, member m
+  		WHERE a.member_idx = m.member_idx
+  		AND	m.goo_id = #{goo_id}
+  	</select>
+  	<select id="allAdminInfo" resultType="goo.admin.model.AdminDTO">
+  		SELECT
+  			*
+  		FROM admin	
+  	</select>
+  	<select id="get_site_settings" resultType="goo.admin.model.SiteSettingsDTO">
+  		SELECT 
+  			*
+  		FROM site_settings
+  	</select>
+  	<update id="site_settings_update" parameterType="goo.admin.model.SiteSettingsDTO">
+  		UPDATE
+  			site_settings
+  		SET
+  			  web_browser_title = #{web_browser_title}
+  			, keyword = #{keyword} 
+  			, description = #{description}
+  			
+  	</update>
+  </mapper>

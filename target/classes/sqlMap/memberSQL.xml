@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goo.member">
+	<select id="loginCheck" parameterType="goo.member.model.MemberDTO" resultType="goo.member.model.MemberDTO">
+		select * from member where goo_id=#{goo_id} and pwd=#{pwd}
+	</select>
+	<select id="naveridcheck" parameterType="String" resultType="Integer">
+		select count(*) from member where naver_id=#{naverid}
+	</select>
+	<select id="getMemberInfo" parameterType="String" resultType="goo.member.model.MemberDTO">
+		select * from member where naver_id=#{id} or goo_id=#{id} or kakao_id=#{id}
+	</select>
+	<insert id="naverjoin" parameterType="Map">
+		insert into member values(
+			member_idx.nextval,
+			default,
+			#{naverid},
+			default,
+			#{naverpwd},
+			#{nickname},
+			sysdate,
+			default,
+			default
+			)
+	</insert>
+	<select id="kakaoidCheck" parameterType="String" resultType="Integer">
+		select count(*) from member where kakao_id=#{kakaoid} 
+	</select>
+	<insert id="kakaojoin" parameterType="Map">
+		insert into member values(
+			member_idx.nextval,
+			default,
+			default,
+			#{kakaoid},
+			#{kakaopwd},
+			#{nickname},
+			sysdate,
+			default,
+			default
+			)
+	</insert>
+</mapper>

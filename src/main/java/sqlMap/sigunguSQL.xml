@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.sigungu">
+  	<insert id="sigunguInsert" parameterType="goo.sigungu.model.SigunguDTO">
+  	insert into
+  		sigungu
+  	values(
+  		sigungu_sigungu_idx.nextval,
+  		#{areacode},
+  		#{sigungucode},
+  		#{sigungu_name}
+  	)
+  	</insert>
+  	<select id="sigunguSelect" resultType="goo.sigungu.model.SigunguDTO">
+  	select 
+  		* 
+  	from 
+  		sigungu
+  	order by
+  		areacode asc, sigungucode asc
+  	</select>
+  </mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 1.dataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+	
+	<!-- 2.transactionManager -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 3. mybatis setting -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
+	</bean>	
+
+	<!-- naver login BO bean -->
+   <bean id="naverLoginBO" class="goo.naver.NaverLoginBO"></bean>
+
+	<!-- daos -->
+   <bean id="memberDao" class="goo.member.model.MemberDAOImple">
+      <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+   </bean>
+   <bean id="sigunguDao" class="goo.sigungu.model.SigunguDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="areaDao" class="goo.area.model.AreaDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="mapinfoDao" class="goo.mapinfo.model.MapInfoDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="gooppl_mapDao" class="goo.map_t.model.Gooppl_mapDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="gooppl_placedetailDao" class="goo.placedetail.model.Gooppl_PlaceDetailDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="adDao" class="goo.ad.model.AdDAOImple">
+         <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="adminDao" class="goo.admin.model.AdminDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
+	<bean id="siteSettingsDao" class="goo.admin.model.SiteSettingsDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
+	
+	<!-- service -->	
+   <bean id="memberService" class="goo.member.model.MemberServiceImple">
+      <property name="memberDao" ref="memberDao"></property>
+   </bean>
+   <bean id="sigunguService" class="goo.sigungu.model.SigunguServiceImple">
+		<property name="sigunguDao" ref="sigunguDao"></property>
+	</bean>
+	<bean id="areaService" class="goo.area.model.AreaServiceImple">
+		<property name="areaDao" ref="areaDao"></property>
+	</bean>
+	<bean id="mapinfoService" class="goo.mapinfo.model.MapInfoServiceImple">
+		<property name="mapinfoDao" ref="mapinfoDao"></property>
+	</bean>
+	<bean id="gooppl_mapService" class="goo.map_t.model.Gooppl_mapServiceImple">
+		<property name="gooppl_mapDao" ref="gooppl_mapDao"></property>
+	</bean>
+	<bean id="gooppl_placedetailService" class="goo.placedetail.model.Gooppl_PlaceDetailServiceImple">
+		<property name="gooppl_placedetailDao" ref="gooppl_placedetailDao"></property>
+	</bean>
+	<bean id="adService" class="goo.ad.model.AdServiceImple">
+         <property name="adDao" ref="adDao"></property>
+   </bean>
+   <bean id="adminService" class="goo.admin.model.AdminServiceImple">
+		<constructor-arg ref="adminDao"/>
+	</bean>
+	<bean id="siteSettingsService" class="goo.admin.model.SiteSettingsServiceImple">
+		<constructor-arg ref="siteSettingsDao"/>
+	</bean>
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.mapinfo">
+  	<insert id="addMapInfo" parameterType="goo.mapinfo.model.MapInfoDTO">
+  		insert into
+  			mapinfo
+  		values(
+  			#{map_idx},
+  			#{day_num},
+  			#{route_num},
+  			#{contentid}
+  		)
+  	</insert>
+  </mapper>

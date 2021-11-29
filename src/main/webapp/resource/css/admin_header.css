@@ -1,0 +1,11 @@
+@charset "UTF-8";
+.ul_1{
+  list-style: none;
+  margin-bottom: 0px;
+}
+.li_1{
+  display: inline-block;;
+}
+.welcome{
+	text-align: center;
+}

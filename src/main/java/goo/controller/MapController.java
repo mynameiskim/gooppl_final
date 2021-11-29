@@ -1,0 +1,126 @@
+package goo.controller;
+
+import java.util.*;
+import java.sql.*;
+import java.sql.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import goo.area.model.AreaDTO;
+import goo.area.model.AreaService;
+import goo.map_t.model.*;
+import goo.mapinfo.model.MapInfoDTO;
+import goo.mapinfo.model.MapInfoService;
+import goo.placedetail.model.Gooppl_PlaceDetailDTO;
+import goo.placedetail.model.Gooppl_PlaceDetailService;
+import goo.sigungu.model.SigunguDTO;
+import goo.sigungu.model.SigunguService;
+
+@Controller
+public class MapController {
+
+	@Autowired
+	private SigunguService sigunguService;
+	@Autowired
+	private AreaService areaService;
+	@Autowired
+	private MapInfoService mapinfoService;
+	@Autowired
+	private Gooppl_mapService gooppl_mapService;
+	@Autowired
+	private Gooppl_PlaceDetailService gooppl_placedetailService;
+	
+	@RequestMapping("/mapBbs.do")
+	public ModelAndView mapBbs() {
+		ModelAndView mav = new ModelAndView();
+		List<AreaDTO> arealist = areaService.areaList();
+		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+		mav.addObject("arealist", arealist);
+		mav.addObject("sigungulist", sigungulist);
+		mav.setViewName("map/mapBbs");
+		return mav;
+	}
+	@RequestMapping("/addNewMap.do")
+	public ModelAndView addNewMap(
+			@RequestParam("map_title") String map_title,
+			@RequestParam("member_idx") int member_idx,
+			@RequestParam("people_num") int people_num,
+			@RequestParam("trip_type") int trip_type,
+			@RequestParam("starty") int starty,
+			@RequestParam("startm") int startm,
+			@RequestParam("startd") int startd,
+			@RequestParam("endy") int endy,
+			@RequestParam("endm") int endm,
+			@RequestParam("endd") int endd,
+			@RequestParam("share_ok") String share_ok,
+			@RequestParam("del_ok") String del_ok
+			) {
+		String startdate_s=starty+"-"+startm+"-"+startd;
+		String enddate_s=endy+"-"+endm+"-"+endd;
+		Date startdate=Date.valueOf(startdate_s);
+		Date enddate=Date.valueOf(enddate_s);
+		
+		ModelAndView mav = new ModelAndView();
+		Gooppl_mapDTO dto = new Gooppl_mapDTO(0, map_title, member_idx, people_num, trip_type, startdate, enddate, enddate, share_ok, del_ok);
+		int result=gooppl_mapService.getMapidx(dto);
+		mav.addObject("msg", result);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
+	@RequestMapping("/addMapInfo_newMap.do")
+	public ModelAndView appMapInfo_newMap(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num,
+			@RequestParam("contentid") List<Integer> contentid
+			) {
+		ModelAndView mav = new ModelAndView();
+		List<MapInfoDTO> list = new ArrayList<MapInfoDTO>();
+		for(int i=0;i<contentid.size();i++) {
+			MapInfoDTO dto=new MapInfoDTO(map_idx, day_num, i+1, contentid.get(i)); 
+			list.add(dto);
+		}
+		int result=mapinfoService.addMapInfo(list);
+		mav.addObject("msg", result);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
+	@RequestMapping("/savePlaceDetail.do")
+	public ModelAndView savePlaceDetail(
+			@RequestParam("contentid") int contentid,
+			@RequestParam("title") String title,
+			@RequestParam("addr") String addr,
+			@RequestParam("areacode") int areacode,
+			@RequestParam("sigungucode") int sigungucode,
+			@RequestParam("mapx") double mapx,
+			@RequestParam("mapy") double mapy,
+			@RequestParam("overview") String overview,
+			@RequestParam("readnum") int readnum,
+			@RequestParam("homepage") String homepage,
+			@RequestParam("firstimage") String firstimage
+			) {
+		ModelAndView mav = new ModelAndView();
+		Gooppl_PlaceDetailDTO dto=new Gooppl_PlaceDetailDTO(contentid, title, addr, areacode, sigungucode, mapx, mapy, overview, readnum, homepage, firstimage);
+		int result=gooppl_placedetailService.addPlaceDetail(dto);
+		mav.addObject("msg", result);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
+	@RequestMapping("/existMap.do")
+	public ModelAndView moveExistMap(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num
+			) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("map_idx", map_idx);
+		mav.addObject("day_num", day_num);
+		mav.setViewName("map/existMap");
+		return mav;
+	}
+}

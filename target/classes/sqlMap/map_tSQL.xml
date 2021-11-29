@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.map_t">
+  	<insert id="addMap_t" parameterType="goo.map_t.model.Gooppl_mapDTO">
+  		insert into 
+  			gooppl_map
+  		values(
+  			gooppl_map_map_idx.nextval,
+  			#{map_title},
+  			#{member_idx},
+  			#{people_num},
+  			#{trip_type},
+  			#{startdate},
+  			#{enddate},
+  			sysdate,
+  			#{share_ok},
+  			#{del_ok}
+  		)
+  	</insert>
+  	<select id="getMapIdx" resultType="Integer">
+  		select 
+  			max(map_idx)
+  		from 
+  			gooppl_map
+  	</select>
+  </mapper>
