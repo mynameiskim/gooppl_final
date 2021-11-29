@@ -5,7 +5,7 @@
   <mapper namespace="goo.map_t">
   	<insert id="addMap_t" parameterType="goo.map_t.model.Gooppl_mapDTO">
   		insert into 
-  			gooppl_map
+  			mapt
   		values(
   			gooppl_map_map_idx.nextval,
   			#{map_title},
@@ -23,6 +23,6 @@
   		select 
   			max(map_idx)
   		from 
-  			gooppl_map
+  			mapt
   	</select>
   </mapper>

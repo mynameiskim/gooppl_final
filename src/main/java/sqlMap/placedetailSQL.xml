@@ -7,13 +7,13 @@
   		select
   			count(*)
   		from 
-  			gooppl_placedetail
+  			placedetail
   		where
   			contentid=#{contentid}
   	</select>
   	<insert id="addPlaceDetail" parameterType="goo.placedetail.model.Gooppl_PlaceDetailDTO">
   		insert into
-  			gooppl_placedetail
+  			placedetail
   		values(
   			#{contentid},
   			#{title},
