@@ -11,7 +11,7 @@
 		margin-bottom: 20px;">
             <div class="row">
                 <div class="col-md-3 mb-1">
-                    <h5>관리자 정보</h5>
+                    <h5>관리자 정보 </h5>
                 </div>
             </div>
             <table class="table table-bordered" style="font-size: 13px;">
