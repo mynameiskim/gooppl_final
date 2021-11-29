@@ -14,7 +14,12 @@ public class SigunguDAOImple implements SigunguDAO {
 	}
 
 	public int addSigungu(SigunguDTO dto) {
-		int result=sqlMap.insert("sigunguInsert", dto);
+		int count=sqlMap.selectOne("sigunguexist", dto);
+		int result=0;
+		if(count==0) {
+			result=sqlMap.insert("sigunguInsert", dto);
+		}
+		
 		return result;
 	}
 	public List<SigunguDTO> sigunguList() {

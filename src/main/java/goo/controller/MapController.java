@@ -34,6 +34,27 @@ public class MapController {
 	@Autowired
 	private Gooppl_PlaceDetailService gooppl_placedetailService;
 	
+	@RequestMapping("/sigungu.do")
+	public String sigungu() {
+		return "map/sigungu";
+	}
+	
+	@RequestMapping("/addSigunguTable.do")
+	public ModelAndView addSigunguTable(
+			@RequestParam("areacode") int areacode,
+			@RequestParam("sigungucode") int sigungucode,
+			@RequestParam("sigungu_name") String sigungu_name
+			) {
+
+		ModelAndView mav = new ModelAndView();
+		SigunguDTO dto = new SigunguDTO(0, areacode, sigungucode, sigungu_name);
+		int result=sigunguService.addSigungu(dto);
+		String msg=result>0?"입력성공":"이미 존재하는 데이터";
+		mav.addObject("msg", msg);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
 	@RequestMapping("/mapBbs.do")
 	public ModelAndView mapBbs() {
 		ModelAndView mav = new ModelAndView();

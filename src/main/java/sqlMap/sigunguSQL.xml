@@ -3,6 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="goo.sigungu">
+  	<select id="sigunguexist" parameterType="goo.sigungu.model.SigunguDTO" resultType="Integer">
+  	select
+  		count(areacode)
+  	from 
+  		sigungu
+  	where 
+  		areacode=#{areacode} and sigungucode=#{sigungucode}
+  	</select>
   	<insert id="sigunguInsert" parameterType="goo.sigungu.model.SigunguDTO">
   	insert into
   		sigungu
