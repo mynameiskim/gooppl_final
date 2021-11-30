@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>관광지 데이터 게시판</title>
 </head>
-<link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
+<link href="resource/css/styles.css" rel="stylesheet" />
 <script src="resource/js/httpRequest.js"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
