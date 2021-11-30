@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="/myweb3/admin_css/admin_common.css" type="text/css" rel="stylesheet">
+<link href="/myweb3/admin_css/admin_header.css" type="text/css" rel="stylesheet">
+<link href="/myweb3/admin_css/admin_footer.css" type="text/css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
     .tb_hover{
@@ -27,7 +30,7 @@
 			<dt>사이트 정보관리</dt>
 			<dd>
 				<c:url var="site_info_Url" value="admin_site_info.do">
-					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
+					<c:param name="goo_id">${sessionScope.goo_id}</c:param>
 				</c:url>
 				- <a href='${site_info_Url}'
 				>사이트 기본정보</a><br />

@@ -16,6 +16,13 @@ public class AdminDAOImple implements AdminDAO {
 		super();
 		this.sqlMap = sqlMap;
 	}
+
+	public int loginCheck(Map map) {
+		System.out.println("DAOImple loginCheck OK");
+		int count=sqlMap.selectOne("loginCheck2", map);
+		System.out.println("SQL통과");
+		return count;
+	}
 	
 	public void loginRecode(int member_idx) {
 		System.out.println("DAOImple loginRecode OK");
@@ -50,26 +57,5 @@ public class AdminDAOImple implements AdminDAO {
 		List<MemberDTO> list=sqlMap.selectList("allAdminMemberInfo");
 		System.out.println("SQL통과");
 		return list;
-	}
-	
-	public int adminInsert1(MemberDTO mdto) {
-		System.out.println("AdminDAOImple adminInsert1 OK");
-		int count = sqlMap.insert("adminInsert1", mdto);
-		return count;
-	}
-	
-	public int adminInsert2(AdminDTO adto) {
-		int count = sqlMap.insert("adminInsert2", adto);
-		return count;
-	}
-	
-	public int admin_update1(MemberDTO mdto) {
-		int count = sqlMap.update("adminUpdate1", mdto);
-		return count;
-	}
-	
-	public int admin_update2(AdminDTO adto) {
-		int count = sqlMap.update("adminUpdate2", adto);
-		return count;
 	}
 }

@@ -14,34 +14,28 @@
                     <h5>관리자 정보 </h5>
                 </div>
             </div>
-            <form name="admin_update" action="admin_update.do" method="post">
             <table class="table table-bordered" style="font-size: 13px;">
-            	<tr>
-                    <th class="tr_bg">회원번호	</th>
-                    <td>${mdto.member_idx}
-                    	<input type="hidden" value="${mdto.member_idx}" name="member_idx">
-                    </td>
-                    
-                </tr>
                 <tr>
                     <th class="tr_bg">아이디</th>
                     <td>${mdto.goo_id}</td>
-                </tr>
-                <tr>
                     <th class="tr_bg">비밀번호</th>
-                    <td><input type="password" value="${mdto.pwd}" name="pwd"></td>
+                    <td><input type="password" value="${mdto.pwd}"></td>
                 </tr>
                 <tr>
                     <th class="tr_bg">이름</th>
-                    <td><input type="text" value="${mdto.nickname}" name="nickname"></td>
+                    <td><input type="text" value=""></td>
+                    <th class="tr_bg">닉네임</th>
+                    <td><input type="text" value="${mdto.nickname}"></td>
                 </tr>
                 <tr>
                     <th class="tr_bg">휴대폰</th>
-                    <td><input type="tel" value="${adto.admin_phone}" name="admin_phone"></td>
+                    <td><input type="tel" value="${adto.admin_phone}"></td>
+                    <th class="tr_bg">전화번호</th>
+                    <td><input type="tel" value="${adto.admin_tel}"></td>
                 </tr>
                 <tr>
-                    <th class="tr_bg">전화번호</th>
-                    <td><input type="tel" value="${adto.admin_tel}" name="admin_tel"></td>
+                	<th class="tr_bg">E-Mail</th>
+                    <td><input type="email" value="${mdto.goo_id}"></td>
                 </tr>
                 <tr>
                		<th class="tr_bg">우편번호</th>
@@ -51,7 +45,7 @@
                     <th class="tr_bg">주소</th>
                     <td colspan="4">
                         <div>
-                            <input type="text" style="width: 300px;" value="${adto.admin_addr}" name="admin_addr">
+                            <input type="text" style="width: 300px;" value="${adto.admin_addr}">
                         </div>
                         <div>
                             <input type="text" style="width: 300px;">
@@ -60,11 +54,10 @@
                 </tr>
                 <tr>
                     <td colspan="4" class="text-center">
-                        <input class="bt btn-secondary" type="submit" value="관리자정보 수정">
+                        <input class="bt btn-secondary" type="button" value="확인">
                     </td>
                 </tr>
             </table>
-            </form>
         </fieldset>
 </div>
 </body>

@@ -8,10 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
@@ -62,75 +60,27 @@ public class AdminBasicSettings {
 		return mav;
 	}
 	
-	@RequestMapping(value ="/admin_member_config.do")
+	@RequestMapping("/admin_member_config.do")
 	public String member_config() {
 		return "admin/basic_settings/admin_member_config";
 	}
 	
-	@RequestMapping(value = "/admin_insert.do",method = RequestMethod.GET)
-	public String addAdminPage() {
-		return "admin/basic_settings/add_admin";
+	@RequestMapping("/addAdmin.do")
+	public String addAdmin() {
+		return "admin/basic_settings/addAdmin";
 	}
 	
-	@RequestMapping(value = "/admin_insert.do",method = RequestMethod.POST)
-	public ModelAndView addAdmin(MemberDTO mdto,AdminDTO adto) {
-		System.out.println("admin_insert.do ok");
-		System.out.println(mdto.getGoo_id());
-		System.out.println(adto.getAdmin_phone());
-		int result = adminService.adminInsert1(mdto);
-		ModelAndView mav = new ModelAndView();
-		if(result>0) {
-			mdto= adminService.adminMemberInfo(mdto.getGoo_id());
-			int member_idx=mdto.getMember_idx();
-			adto.setMember_idx(member_idx);
-			System.out.println("adto.getMember_idx="+adto.getMember_idx());
-			System.out.println("adto.getAdmin_addr="+adto.getAdmin_addr());
-			int result2 = adminService.adminInsert2(adto);
-			if(result2>0) {
-				mav.addObject("msg", "관리자 등록완료");
-			}else {
-				mav.addObject("msg", "관리자 등록실패");
-			}
-		}else {
-			mav.addObject("msg", "관리자 등록실패");
-		}
-		mav.setViewName("admin/basic_settings/admin_insert_result_msg");
-		return mav;
-	}
-	
-	@RequestMapping("/admin_update.do")
-	public ModelAndView admin_update(MemberDTO mdto,AdminDTO adto) {
-		System.out.println("admin_update OK");
-		System.out.println(mdto.getMember_idx());
-		System.out.println(adto.getMember_idx());
-		int result1 = adminService.admin_update1(mdto);
-		ModelAndView mav = new ModelAndView();
-		if(result1>0) {
-			int result2 = adminService.admin_update2(adto);
-			if(result2>0) {
-				mav.addObject("msg", "관리자정보 수정완료");
-			}else {
-				mav.addObject("msg", "관리자정보 수정실패");
-			}
-		}else {
-			mav.addObject("msg", "관리자정보 수정실패");
-		}
-		mav.setViewName("admin/basic_settings/admin_update_result_msg");
-		return mav;
-	}
-	
-	
-	@RequestMapping("/admin_details.do")
-	public ModelAndView adminDetails(@RequestParam(("goo_id")) String goo_id) {
-		System.out.println("admin_details ok");
-		System.out.println(goo_id);
+	@RequestMapping("/adminDetails.do")
+	public ModelAndView adminDetails(@RequestParam("member_idx")int member_idx,@RequestParam(("goo_id")) String goo_id) {
+		System.out.println("adminDetails ok");
 		MemberDTO mdto=adminService.adminMemberInfo(goo_id);
 		AdminDTO adto=adminService.adminInfo(goo_id);
+		System.out.println(member_idx);
 		System.out.println(goo_id);
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("mdto", mdto);
 		mav.addObject("adto", adto);
-		mav.setViewName("admin/basic_settings/admin_details");
+		mav.setViewName("admin/basic_settings/admin_adminDetails");
 		return mav;
 	}
 	

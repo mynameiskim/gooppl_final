@@ -20,7 +20,7 @@
 <header class="bg-success p-2 text-dark bg-opacity-10">
   <nav class="navbar navbar-expand-lg navbar-light p-1 text-dark bg-opacity-10">
     <div class="container-fluid">
-    	<div class="welcome">${sessionScope.sessionNickname}님 안녕하세요 <br>today :${sessionScope.now}</div>&nbsp;&nbsp;&nbsp;
+    	<div class="welcome">${sessionScope.nickname}님 안녕하세요 <br>today :${sessionScope.now}</div>&nbsp;&nbsp;&nbsp;
       <b>관리자페이지</b>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
