@@ -7,20 +7,38 @@
 <meta charset="UTF-8">
 <title>관광지 데이터 게시판</title>
 </head>
+<link href="resource/css/styles.css" rel="stylesheet" />
 <script src="resource/js/httpRequest.js"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 var cp;
 var viewContents=[];
+var setAreacode;
+var setSigungucode;
+var setContenttype;
+var contentids=[];
+var images=[];
+var addrs=[];
+var titles=[];
+
 function show(){
 	$('#viewTable').empty();
+	contentids.splice(0, contentids.length);
+	images.splice(0, images.length);
+	addrs.splice(0, addrs.length);
+	titles.splice(0, titles.length);
 	var sigungucode=document.getElementById('sigungucode').value;
-	var setContenttype=document.getElementById('contenttype').value;
-	var setAreacode=document.getElementById('areacode').value;
-	var setSigungucode=sigungucode==''?'':sigungucode;
+	setContenttype=document.getElementById('contenttype').value;
+	setAreacode=document.getElementById('areacode').value;
+	setSigungucode=sigungucode==''?'':sigungucode;
+	var sigunguList = document.getElementsByClassName(setAreacode);
+	for(var i=0;i<sigunguList.length;i++){
+		var sigungu=sigunguList[i];
+		sigungu.style.display='block';
+	}
 	console.log('contentTypeId='+setContenttype+'&areaCode='+setAreacode+'&sigunguCode='+setSigungucode);
 	var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
-	var param='ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+setContenttype+'&areaCode='+setAreacode+'&sigunguCode='+setSigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=40000&pageNo=1';
+	var param='ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+setContenttype+'&areaCode='+setAreacode+'&sigunguCode='+setSigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=40000&pageNo=1';
 	sendRequest(url, param, showResult, 'GET');
 }
 function showResult(){
@@ -34,11 +52,6 @@ function showResult(){
 	}
 }
 function setTable(){
-	var table=document.getElementById('viewTable');
-	var contentids=[];
-	var images=[];
-	var addrs=[];
-	var titles=[];
 	for(var i=0;i<viewContents.length;i++){
 		var contentid;
 		var image;
@@ -52,7 +65,7 @@ function setTable(){
 		}
 		
 		if(viewContents[i].getElementsByTagName('firstimage').length==0){
-			image='img/noimage.png';
+			image='resource/img/noimage.png';
 		}else{
 			image=viewContents[i].getElementsByTagName('firstimage').item(0).firstChild.nodeValue;
 		}
@@ -68,15 +81,80 @@ function setTable(){
 		}else{
 			title=viewContents[i].getElementsByTagName('title').item(0).firstChild.nodeValue;
 		}
-		contentids.push(contentid);
-		images.push(image);
-		addrs.push(addr);
-		titles.push(title);
+		if(contentid!=0 && addr!='정보 없음'){
+			contentids.push(contentid);
+			addrs.push(addr);
+			images.push(image);
+			titles.push(title);
+		}
+	}
+	document.getElementById('placenum').innerHTML='검색결과 : '+contentids.length+'개';
+
+	var cp=1;
+	tableSet(cp);
+	pagingModule(cp);
+}
+
+function movePage(cp){
+	tableSet(cp);
+	pagingModule(cp);
+}
+
+function pagingModule(cp){
+	var totalCnt=contentids.length;
+	var listSize=12;
+	var pageSize=10;
+	var totalPage=Math.floor(totalCnt/listSize+1);
+	if(totalCnt%listSize==0){
+		totalPage--;
+	}
+	var userGroup=Math.floor(cp/pageSize);
+	if(cp%pageSize==0){
+		userGroup--;
 	}
 	
-	for(var i=0;i<viewContents.length;i++){
+	var pageStr;
+	
+	if(userGroup!=0) {
+		var num=(userGroup-1)*pageSize+pageSize;
+		pageStr+='<li class="page-item" onclick="movePage('+num+')"><a class="page-link" href="#">Prev</a></li>';
+	}
+	for(var i=userGroup*pageSize+1;i<=userGroup*pageSize+pageSize;i++){
+		if(i==cp){
+			pageStr+='<li class="page-item active" onclick="movePage('+i+')"><a class="page-link" href="#">'+i+'</a></div>';
+		}else{
+			pageStr+='<li class="page-item" onclick="movePage('+i+')"><a class="page-link" href="#">'+i+'</a></div>';
+		}
+	}
+	if(userGroup!=(Math.floor(totalPage/pageSize))-(totalPage%pageSize==0?1:0)){
+		var num=(userGroup+1)*pageSize+1;
+		pageStr+='<li class="page-item" onclick="movePage('+num+')"><a class="page-link" href="#">Next</a></div>';
+	}
+	var pageUl=document.getElementsByClassName('pagination');
+	pageUl[0].innerHTML=pageStr;
+	console.log(pageStr);
+} 
+
+function tableSet(cp){
+	$('#viewTable').empty();
+	var table=document.getElementById('viewTable');
+	var startNum;
+	var endNum;
+	if(cp==1){
+		startNum=0;
+	}else{
+		startNum=(cp-1)*12;
+	}
+	if((cp*12)+1>contentids.length){
+		endNum=contentids.length;
+	}else{
+		endNum=cp*12;
+	}
+	console.log(startNum);
+	console.log(endNum);
+	for(var i=startNum;i<endNum;i++){
 		var trNode;
-        if(i%4==0 && i!=11){
+        if(i%4==0 && i!=endNum-1){
 	    	trNode=document.createElement('tr');
 	    	table.appendChild(trNode);
 	    }
@@ -94,7 +172,7 @@ function setTable(){
 	    tdNode.appendChild(pNode);
 	    tdNode.appendChild(pNode2);
 	    trNode.appendChild(tdNode);
-	    
+	    tdNode.setAttribute('onclick', 'getPlaceDetail('+contentids[i]+')');
 	}
 }
 //특별, 광역시, 도 단위 지역 이동시 처리할 함수
@@ -114,6 +192,10 @@ function changeAreacode(){
 		var sigungu=sigunguList[i];
 		sigungu.style.display='block';
 	}
+}
+
+function getPlaceDetail(contentid){
+	console.log(contentid+'에 대한 링크 테스트');
 }
 </script>
 <body onload="show()">
@@ -142,7 +224,15 @@ function changeAreacode(){
 		<td colspan="4" id="placenum">검색결과 : 0개</td>
 	</tr>
 </table>
-<table border="1" name="viewTable" id="viewTable">
+<table name="viewTable" id="viewTable" style="word-break:break-all;width:900px;align:center;text-align: center;">
 </table>
+<div id="pageModule" style="align:center;">
+	<div class="row justify-content-md-center">
+         <div class="col-md-3 ">
+             <ul class="pagination">
+             </ul>
+         </div>
+	</div>
+</div>
 </body>
 </html>
