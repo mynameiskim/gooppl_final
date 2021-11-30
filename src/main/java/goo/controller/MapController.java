@@ -65,6 +65,7 @@ public class MapController {
 		mav.setViewName("map/placeList");
 		return mav;
 	}
+	
 	@RequestMapping("/addNewMap.do")
 	public ModelAndView addNewMap(
 			@RequestParam("map_title") String map_title,
