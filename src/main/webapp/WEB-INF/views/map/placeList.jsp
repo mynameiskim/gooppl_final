@@ -7,16 +7,16 @@
 <meta charset="UTF-8">
 <title>관광지 데이터 게시판</title>
 </head>
-<script src="js/httpRequest.js"></script>
+<script src="resource/js/httpRequest.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 var cp;
 var viewContents=[];
 function show(){
-	var contenttype=document.getElementById('contenttype').value;
-	var areacode=document.getElementById('areacode').value;
+	$('#viewTable').empty();
 	var sigungucode=document.getElementById('sigungucode').value;
-	var setContenttype=contenttype==''?'':contenttype;
-	var setAreacode=areacode==''?'':areacode;
+	var setContenttype=document.getElementById('contenttype').value;
+	var setAreacode=document.getElementById('areacode').value;
 	var setSigungucode=sigungucode==''?'':sigungucode;
 	console.log('contentTypeId='+setContenttype+'&areaCode='+setAreacode+'&sigunguCode='+setSigungucode);
 	var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
@@ -116,10 +116,9 @@ function changeAreacode(){
 	}
 }
 </script>
-<body>
+<body onload="show()">
 <h1>실험</h1>
 <select name="contenttype" id="contenttype">
-    <option value="" selected disabled>==선택==</option>
 	<option value="12">관광지</option>
 	<option value="14">문화시설</option>
 	<option value="32">숙박</option>
@@ -127,13 +126,12 @@ function changeAreacode(){
 	<option value="39">음식점</option>
 </select>
 <select name="areacode" id="areacode" onchange="changeAreacode()">
-    <option value="" selected disabled>==선택==</option>
 	<c:forEach var="areadto" items="${arealist }">
 		<option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
 	</c:forEach>
 </select>
 <select name="sigungucode" id="sigungucode">
-    <option value="" selected disabled>==선택==</option>
+    <option value="" selected disabled>==전체==</option>
 	<c:forEach var="sigungudto" items="${sigungulist }">
 		<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
 	</c:forEach>

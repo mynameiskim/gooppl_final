@@ -55,14 +55,14 @@ public class MapController {
 		return mav;
 	}
 	
-	@RequestMapping("/mapBbs.do")
+	@RequestMapping("/placeList.do")
 	public ModelAndView mapBbs() {
 		ModelAndView mav = new ModelAndView();
 		List<AreaDTO> arealist = areaService.areaList();
 		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
 		mav.addObject("arealist", arealist);
 		mav.addObject("sigungulist", sigungulist);
-		mav.setViewName("map/mapBbs");
+		mav.setViewName("map/placeList");
 		return mav;
 	}
 	@RequestMapping("/addNewMap.do")

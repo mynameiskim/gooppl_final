@@ -74,6 +74,7 @@ public class NaverController {
 	        String pro_nick = dtos.getNickname().substring(0,1);
 	        mav.addObject("result", apiResult);
 			session.setAttribute("sessionNickname",dtos.getNickname());
+			session.setAttribute("sessionMember_idx",dtos.getMember_idx());
 			session.setAttribute("profileNick", pro_nick);
 			session.setAttribute("sessionMemberType",dtos.getMember_type());
 			session.setAttribute("sessionJoinType","naver");
@@ -93,6 +94,7 @@ public class NaverController {
     	        mav.addObject("result", apiResult);
     	        String pro_nick = dtos.getNickname().substring(0,1);
     	        session.setAttribute("sessionNickname",dtos.getNickname());
+    	        session.setAttribute("sessionMember_idx",dtos.getMember_idx());
     			session.setAttribute("profileNick", pro_nick);
     			session.setAttribute("sessionMemberType",dtos.getMember_type());
     			session.setAttribute("sessionJoinType","naver");
