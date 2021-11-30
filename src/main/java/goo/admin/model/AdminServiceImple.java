@@ -31,22 +31,6 @@ public class AdminServiceImple implements AdminService {
 		this.adminDao = adminDao;
 	}
 
-
-
-	public int loginCheck(MemberDTO dto1) {
-		System.out.println("ServiceImple OK1");
-		Map<String,String> map=new HashMap<String,String>();
-		map.put("goo_id", dto1.getGoo_id());
-		map.put("pwd",dto1.getPwd());
-		int count = adminDao.loginCheck(map);
-		System.out.println("ServiceImple OK2");
-		int result=LOGIN_FAIL;
-		if(count != 0) {
-			result=LOGIN_OK;
-		}
-		return result;
-		
-	}
 	
 	public void loginRecode(int member_idx) {
 		adminDao.loginRecode(member_idx);
@@ -71,5 +55,24 @@ public class AdminServiceImple implements AdminService {
 		List<MemberDTO> list=adminDao.allAdminMemberInfo();
 		return list;
 	}
+	public int adminInsert1(MemberDTO mdto) {
+		System.out.println("adminInsert1 OK");
+		int count = adminDao.adminInsert1(mdto);
+		return count;
+	}
 	
+	public int adminInsert2(AdminDTO adto) {
+		int count = adminDao.adminInsert2(adto);
+		return count;
+	}
+	
+	public int admin_update1(MemberDTO mdto) {
+		int count = adminDao.admin_update1(mdto);
+		return count;
+	}
+	
+	public int admin_update2(AdminDTO adto) {
+		int count = adminDao.admin_update2(adto);
+		return count;
+	}
 }

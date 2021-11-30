@@ -4,10 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="/myweb3/admin_css/admin_common.css" type="text/css" rel="stylesheet">
-<link href="/myweb3/admin_css/admin_header.css" type="text/css" rel="stylesheet">
-<link href="/myweb3/admin_css/admin_footer.css" type="text/css" rel="stylesheet">
-<script src="js/httpRequest.js"></script>
+<script src="resource/js/httpRequest.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -30,35 +27,33 @@ tr{
 <script>
 
 function addAdmin(){
-	open('addAdmin.do','addAdmin','width=600px,height=580px,top=300,left=800');
+	open('admin_insert.do','admin_insert','width=600px,height=580px,top=300,left=800');
 }
 
-
 function adminDetails(index,size){
-	var param1=document.getElementById("member_idx"+index).value;
-	var param2=document.getElementById("goo_id"+index).value;
+	var param=document.getElementById("goo_id"+index).value;
 	var btn=document.getElementById("btn"+index);
 	
 	console.log(size);
 		
-	if(btn.value=="상세보기"){
-		sendRequest('adminDetails.do?member_idx='+param1+'&goo_id='+param2,null,showResult,'GET');
+	if(btn.value=='상세보기'){
+		sendRequest('admin_details.do?goo_id='+param,null,showResult,'GET');
 		for(var i=0;i<=size;i++){
 			btn=document.getElementById("btn"+i);
 			if(i==index){
-				btn.value="접기";
+				btn.value='접기';
 			}else{
-				btn.value="상세보기";
+				btn.value='상세보기';
 			}
 			
 		}
 		
-	}else if(btn.value=="접기"){
+	}else if(btn.value=='접기'){
 		var divNode=document.all.di2;
 		divNode.remove();
 		for(var i=0;i<=size;i++){
 			btn=document.getElementById("btn"+i);
-			btn.value="상세보기";
+			btn.value='상세보기';
 		}
 	}
 }
@@ -73,7 +68,12 @@ function showResult(){
 	}
 }
 
-
+function adminDelete(){
+	var param=document.getElementById("goo_id"+index).value;
+	var btn=document.getElementById("delete_btn"+index);
+	
+	sendRequest('admin_delete.do?goo_id='+param,null,showResult,'GET');
+}
 
 </script>
 </head>
@@ -87,7 +87,7 @@ function showResult(){
 			<dt>사이트 정보관리</dt>
 			<dd>
 				<c:url var="site_info_Url" value="admin_site_info.do">
-					<c:param name="goo_id">${sessionScope.goo_id}</c:param>
+					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
 				</c:url>
 				- <a href='${site_info_Url}'
 				>사이트 기본정보</a><br />
@@ -122,6 +122,7 @@ function showResult(){
                 	<th class="f_tab_th">번호</th>
                 	<th class="f_tab_th">회원유형</th>
                 	<th class="f_tab_th">회원번호</th>
+                	<th class="f_tab_th">이름</th>
                     <th class="f_tab_th">아이디</th>
                     <th class="f_tab_th">최근 접속일</th>
                     <th class="f_tab_th">등록일</th>
@@ -134,12 +135,16 @@ function showResult(){
                 	<td class="f_tab_td">${list1.member_idx}
                 	<input id="member_idx${status.index}" type="hidden" value="${list1.member_idx}">
                 	</td>
+                    <td class="f_tab_td">${list1.nickname}</td>
                     <td class="f_tab_td">${list1.goo_id}
                     <input id="goo_id${status.index}" type="hidden" value="${list1.goo_id}">
                     </td>
                     <td class="f_tab_td">${list2[status.index].last_connection_date}</td>
                     <td class="f_tab_td">${list1.join_date}</td>
-                    <td class="f_tab_td"><input id="btn${status.index}" class="bt btn-secondary" type="button" onclick="adminDetails(${status.index},${list2[status.index].admin_idx})" value="상세보기"></td>
+                    <td class="f_tab_td">
+                    <input id="btn${status.index}" class="bt btn-secondary" type="button" onclick="adminDetails(${status.index},${list2[status.index].admin_idx})" value="상세보기">
+                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="adminDelete(${status.index},${list2[status.index].admin_idx})" value="삭제">
+                    </td>
                 </tr>
                 </c:forEach>
         </table>
