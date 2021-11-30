@@ -123,7 +123,7 @@ function changeAreacode(){
 	<option value="14">문화시설</option>
 	<option value="32">숙박</option>
 	<option value="38">쇼핑</option>
-	<option value="39">음식점 </option>
+	<option value="39">음식점</option>
 </select>
 <select name="areacode" id="areacode" onchange="changeAreacode()">
 	<c:forEach var="areadto" items="${arealist }">
