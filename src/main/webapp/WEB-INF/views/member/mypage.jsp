@@ -102,7 +102,7 @@
                         프로필수정
                     </button>
                     <c:if test="${sessionScope.sessionMemberType=='M'}">
-                    	<button type="button" class="btn btn-primary">광고주 등록</button>
+                    	<button class="btn btn-primary" onclick="location.href='adInfo.do?member_idx=${sessionScope.sessionMember_idx}'">광고주 등록</button>
                     </c:if>
                 </div>
             </div>

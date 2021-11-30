@@ -31,6 +31,7 @@ public class MemberController {
 		}else {
 			String pro_nick = dtos.getNickname().substring(0,1);
 			session.setAttribute("sessionNickname", dtos.getNickname());
+			session.setAttribute("sessionMember_idx",dtos.getMember_idx());
 			session.setAttribute("profileNick", pro_nick);
 			session.setAttribute("sessionId",dtos.getGoo_id());
 			session.setAttribute("sessionMemberType",dtos.getMember_type());
