@@ -88,7 +88,16 @@ $(function () {
 $(function () {
     $('#del_Bt').click( function() {
         $('#listTable td').empty();
-        itemcount = 0;
+        hideLines();
+        latly.splice(0, latly.length);
+        drawLines.splice(0, drawLines.length);
+		markers.splice(0, markers.length);
+        mapys.splice(0, mapys.length);
+        mapxs.splice(0, mapxs.length);
+        titles.splice(0, titles.length);
+        images.splice(0, images.length);
+        addrs.splice(0, addrs.length);  
+        count2 = 0;
     });
 });
 /**동적으로 생성된 태그에 접근하는 방법*/
@@ -196,8 +205,7 @@ $(function() {
 		    var tdTextNode = document.createTextNode(i);
 		    var tdNode2 = document.createElement('td');
 		    var tdTextNode2 = document.createTextNode(titles[i]);
-		    var tdNode3 = document.createElement('td');
-		    var tdTextNode3 = document.createTextNode(addrs[i]);
+
 		    var tdNode4 = document.createElement('td');
 		   
 		    var imgNode = document.createElement('img');
@@ -215,12 +223,12 @@ $(function() {
 		    table.appendChild(trNode);
 		    trNode.appendChild(tdNode);
 		    trNode.appendChild(tdNode2);
-		    trNode.appendChild(tdNode3);
+
 		    trNode.appendChild(tdNode4);
 		    trNode.appendChild(tdNode5);
 		    tdNode.appendChild(tdTextNode);
 		    tdNode2.appendChild(tdTextNode2);
-		    tdNode3.appendChild(tdTextNode3);
+
 		    tdNode4.appendChild(imgNode);
 		    tdNode5.appendChild(addBt);
 		}
@@ -404,8 +412,7 @@ function makeMarker(mapy, mapx, title, image, addr, contentid){
     var tdTextNode = document.createTextNode(count2);
     var tdNode2 = document.createElement('td');
     var tdTextNode2 = document.createTextNode(title);
-    var tdNode3 = document.createElement('td');
-    var tdTextNode3 = document.createTextNode(addr);
+
     var tdNode4 = document.createElement('td');
    
     var imgNode = document.createElement('img');
@@ -423,12 +430,12 @@ function makeMarker(mapy, mapx, title, image, addr, contentid){
     table.appendChild(trNode);
     trNode.appendChild(tdNode);
     trNode.appendChild(tdNode2);
-    trNode.appendChild(tdNode3);
+
     trNode.appendChild(tdNode4);
     trNode.appendChild(tdNode5);
     tdNode.appendChild(tdTextNode);
     tdNode2.appendChild(tdTextNode2);
-    tdNode3.appendChild(tdTextNode3);
+
     tdNode4.appendChild(imgNode);
     tdNode5.appendChild(addBt);
     
