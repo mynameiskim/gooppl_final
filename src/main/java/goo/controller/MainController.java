@@ -1,4 +1,4 @@
-package finalpj.controller;
+package goo.controller;
 
 
 
