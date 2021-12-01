@@ -29,4 +29,12 @@
   	order by
   		areacode asc, sigungucode asc
   	</select>
+  	<select id="getSigunguName" parameterType="Map" resultType="String">
+  	select
+  		sigungu_name
+  	from 
+  		sigungu
+  	where
+  		areacode=#{areacode} and sigungucode=#{sigungucode}
+  	</select>
   </mapper>

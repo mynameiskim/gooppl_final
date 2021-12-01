@@ -1,6 +1,6 @@
 package goo.sigungu.model;
 
-import java.util.List;
+import java.util.*;
 
 public class SigunguServiceImple implements SigunguService {
 
@@ -21,5 +21,12 @@ public class SigunguServiceImple implements SigunguService {
 	public List<SigunguDTO> sigunguList() {
 		List<SigunguDTO> list=sigunguDao.sigunguList();
 		return list;
+	}
+	public String getSigunguName(int areacode, int sigungucode) {
+		Map map=new HashMap();
+		map.put("areacode", areacode);
+		map.put("sigungucode", sigungucode);
+		String sigunguName=sigunguDao.getSigunguName(map);
+		return sigunguName;
 	}
 }
