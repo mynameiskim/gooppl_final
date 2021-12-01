@@ -74,7 +74,7 @@ table{
 .dotOverlay:after {content:'';position:absolute;margin-left:-6px;left:50%;bottom:-8px;width:11px;height:8px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white_small.png')}
 </style>
 <script src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=b8cc8a9140ffda30a4356a4ac796f64b&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript" src="js/httpRequest.js"></script>
+<script type="text/javascript" src="/gooppl/resource/js/httpRequest.js"></script>
 
 
 <script src="//code.jquery.com/jquery.min.js"></script>
@@ -99,13 +99,15 @@ $(function() {
         hideMarkers();
         hideLines();
  
-        drawLines.splice(click_id, 1);
+        latly.splice(click_id, 1);
+        drawLines.splice(click_id-1, 1);
 		markers.splice(click_id, 1);
         mapys.splice(click_id, 1);
         mapxs.splice(click_id, 1);
         titles.splice(click_id, 1);
         images.splice(click_id, 1);
         addrs.splice(click_id, 1);    
+        
         
 		for(var i=0; i<mapys.length; i++){
 			
@@ -117,8 +119,8 @@ $(function() {
 	           		position: new kakao.maps.LatLng(mapys[i], mapxs[i])
 	            }
 	            
-	        latly.push(xy.position);
-	       	
+	        latly[i]= xy.position;
+	        
 	        // 인포윈도우로 장소에 대한 설명을 표시합니다
 	        var infowindow = new kakao.maps.InfoWindow({
 	            content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
@@ -130,7 +132,7 @@ $(function() {
 	        // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
 	        map.panTo(moveLatLon);
 	        
-	        markers.push(marker); 
+	        markers[i] = marker; 
 	        
 	        kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 	        kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
@@ -164,7 +166,7 @@ $(function() {
                 strokeStyle : 'solid' // 선의 스타일입니다
             });
      
-            drawLines.push(drawLine);
+            drawLines[i] = drawLine;
             drawLine.setMap(map);
 	        
 	        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
@@ -223,7 +225,6 @@ $(function() {
 		    tdNode5.appendChild(addBt);
 		}
         count2--;
-        delcount++;
     });
 });
 </script>
@@ -300,7 +301,6 @@ var markers = [];
 var latly = [];
 var drawLines = [];
 var count2 = 0;
-var delcount = 0;
 
 var mapys = [];
 var mapxs = [];
@@ -319,6 +319,7 @@ function makeMarker(mapy, mapx, title, image, addr, contentid){
     images.push(image);
     addrs.push(addr);
     
+
    	var marker = new kakao.maps.Marker({
         position: new kakao.maps.LatLng(mapy, mapx)
     });
@@ -355,14 +356,9 @@ function makeMarker(mapy, mapx, title, image, addr, contentid){
     var linePath;
     var lineLine = new daum.maps.Polyline();
  
-    alert(count2);
-    alert(latly.length);
-    alert(drawLines.length);
     for (var i = 0; i < 1; i++) {
-        if (count2 != 0 && delcount == 0) {
+        if (count2 != 0) {
             linePath = [ latly[count2-1], latly[count2] ] //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다
-        }else if(count2 != 0 && delcount > 1){
-        	linePath = [ latly[count2], latly[count2+1] ]
         }
         ;
         
