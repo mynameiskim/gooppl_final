@@ -45,7 +45,6 @@ function showResult(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var doc=XHR.responseXML;
-			console.log(doc);
 			viewContents=doc.getElementsByTagName('item');
 			setTable();
 		}
@@ -106,33 +105,35 @@ function pagingModule(cp){
 	var pageSize=10;
 	var totalPage=Math.floor(totalCnt/listSize+1);
 	if(totalCnt%listSize==0){
-		totalPage--;
+		totalPage=totalPage-1;
 	}
 	var userGroup=Math.floor(cp/pageSize);
 	if(cp%pageSize==0){
-		userGroup--;
+		userGroup=userGroup-1;
 	}
 	
-	var pageStr;
+	var pageStr='';
 	
 	if(userGroup!=0) {
 		var num=(userGroup-1)*pageSize+pageSize;
-		pageStr+='<li class="page-item" onclick="movePage('+num+')"><a class="page-link" href="#">Prev</a></li>';
+		pageStr+='<li class="page-item" onclick="movePage('+num+')"><p class="page-link">Prev</p></li>';
 	}
 	for(var i=userGroup*pageSize+1;i<=userGroup*pageSize+pageSize;i++){
 		if(i==cp){
-			pageStr+='<li class="page-item active" onclick="movePage('+i+')"><a class="page-link" href="#">'+i+'</a></div>';
+			pageStr+='<li class="page-item active" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></div>';
 		}else{
-			pageStr+='<li class="page-item" onclick="movePage('+i+')"><a class="page-link" href="#">'+i+'</a></div>';
+			pageStr+='<li class="page-item" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></div>';
+		}
+		if(i==totalPage){
+			break;
 		}
 	}
 	if(userGroup!=(Math.floor(totalPage/pageSize))-(totalPage%pageSize==0?1:0)){
 		var num=(userGroup+1)*pageSize+1;
-		pageStr+='<li class="page-item" onclick="movePage('+num+')"><a class="page-link" href="#">Next</a></div>';
+		pageStr+='<li class="page-item" onclick="movePage('+num+')"><p class="page-link">Next</p></div>';
 	}
 	var pageUl=document.getElementsByClassName('pagination');
 	pageUl[0].innerHTML=pageStr;
-	console.log(pageStr);
 } 
 
 function tableSet(cp){
@@ -150,11 +151,9 @@ function tableSet(cp){
 	}else{
 		endNum=cp*12;
 	}
-	console.log(startNum);
-	console.log(endNum);
 	for(var i=startNum;i<endNum;i++){
 		var trNode;
-        if(i%4==0 && i!=endNum-1){
+        if(i%4==0){
 	    	trNode=document.createElement('tr');
 	    	table.appendChild(trNode);
 	    }
@@ -195,7 +194,7 @@ function changeAreacode(){
 }
 
 function getPlaceDetail(contentid){
-	console.log(contentid+'에 대한 링크 테스트');
+	location.href='goPlaceDetail.do?contentid='+contentid;
 }
 </script>
 <body onload="show()">
