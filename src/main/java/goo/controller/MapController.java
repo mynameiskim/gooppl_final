@@ -68,9 +68,15 @@ public class MapController {
 	
 	@RequestMapping("/goPlaceDetail.do")
 	public ModelAndView placeDetail(
-			@RequestParam("contentid") int contentid
+			@RequestParam("contentid") int contentid,
+			@RequestParam("areacode") int areacode,
+			@RequestParam("sigungucode") int sigungucode
 			) {
 		ModelAndView mav = new ModelAndView();
+		String areaname=areaService.getAreaName(areacode);
+		String sigunguname=sigunguService.getSigunguName(areacode, sigungucode);
+		mav.addObject("areaname", areaname);
+		mav.addObject("sigunguname", sigunguname);
 		mav.addObject("contentid", contentid);
 		mav.setViewName("map/placeDetail");
 		return mav;

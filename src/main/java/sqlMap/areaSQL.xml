@@ -11,4 +11,12 @@
   order by
   	areacode asc
   </select>
+  <select id="getAreaName" parameterType="Integer" resultType="String">
+  select
+  	areaname
+  from 
+  	area
+  where 
+  	areacode=#{areacode}
+  </select>
   </mapper>
