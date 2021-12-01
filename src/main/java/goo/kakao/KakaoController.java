@@ -63,6 +63,7 @@ public class KakaoController {
         	session.setAttribute("sessionNickname",dtos.getNickname()); //세션 생성
 	        String pro_nick = dtos.getNickname().substring(0,1);
 			session.setAttribute("sessionNickname",dtos.getNickname());
+			session.setAttribute("sessionMember_idx",dtos.getMember_idx());
 			session.setAttribute("profileNick", pro_nick);
 			session.setAttribute("sessionMemberType",dtos.getMember_type());
 			session.setAttribute("sessionJoinType","kakao");
@@ -80,6 +81,7 @@ public class KakaoController {
         		MemberDTO dtos = memberService.getMemberInfo(kakao_id);
     	        String pro_nick = dtos.getNickname().substring(0,1);
     	        session.setAttribute("sessionNickname",dtos.getNickname());
+    	        session.setAttribute("sessionMember_idx",dtos.getMember_idx());
     			session.setAttribute("profileNick", pro_nick);
     			session.setAttribute("sessionMemberType",dtos.getMember_type());
     			session.setAttribute("sessionJoinType","kakao");

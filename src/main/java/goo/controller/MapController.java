@@ -65,6 +65,17 @@ public class MapController {
 		mav.setViewName("map/placeList");
 		return mav;
 	}
+	
+	@RequestMapping("/goPlaceDetail.do")
+	public ModelAndView placeDetail(
+			@RequestParam("contentid") int contentid
+			) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contentid", contentid);
+		mav.setViewName("map/placeDetail");
+		return mav;
+	}
+	
 	@RequestMapping("/addNewMap.do")
 	public ModelAndView addNewMap(
 			@RequestParam("map_title") String map_title,

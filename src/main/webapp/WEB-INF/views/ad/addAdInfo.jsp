@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="UTF-8">
 
@@ -21,15 +22,25 @@
     <link href="resource/css/styles.css" rel="stylesheet" />
     <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
     <script>
-        function ckTermsOfUse() {
-            var fm = document.fm;
-            var ck = document.fm.check1;
-            if (!ck) {
-                window.alert('약관에 동의해주세요');
-                return false;
-            }
-            fm.submit();
-        }
+        //특별, 광역시, 도 단위 지역 이동시 처리할 함수
+       function changeAreacode(){
+          var sigunguSelector=document.getElementById('sigungucode');
+          var optionNodes=sigunguSelector.getElementsByTagName('option');
+          for(var i=0;i<optionNodes.length;i++){
+             var optionNode=optionNodes[i];
+             optionNode.style.display='none';
+          }
+          sigunguSelector.value='';
+          var areaSelector=document.getElementById('areacode');
+          var areacodeVal=areaSelector.options[areaSelector.selectedIndex].value;
+          var areacodeText=areaSelector.options[areaSelector.selectedIndex].text;
+          var sigunguList = document.getElementsByClassName(areacodeVal);
+          for(var i=0;i<sigunguList.length;i++){
+             var sigungu=sigunguList[i];
+             sigungu.style.display='block';
+          }
+       }
+        console.log(${member_idx});
     </script>
     
 
@@ -63,143 +74,141 @@
         <form class="form-inline needs-validation" id="adForm" name="adForm" action="ad_test.do" method="post">
             <div class="container" style="width:60%">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-7">
                         <h3>광고 등록</h3>
                     </div>
-                    <div class="col-md-8">
-                        <select class="form-select" id="areacode" name="areacode" required>
-                            <option selected disabled>areaCode</option>
-                            <option value="1">서울</option>
-                        	<option value="2">인천</option>
-                        	<option value="3">대전</option>
-                        	<option value="4">대구</option>
-                        	<option value="5">광주</option>
-                        	<option value="6">부산</option>
-                        	<option value="7">울산</option>
-                        	<option value="8">세종</option>
-                        	<option value="31">경기도</option>
-                        	<option value="32">강원도</option>
-                        	<option value="33">충북</option>
-                        	<option value="34">충남</option>
-                        	<option value="35">경북</option>
-                        	<option value="36">경남</option>
-                        	<option value="37">전북</option>
-                        	<option value="38">전남</option>
-                        	<option value="39">제주</option>
-                        </select>
+                    <div class="col-md-5">
+                       <div class="row">
+                          <div class="col-md-7">
+                           <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required>
+                               <option value="" selected disabled>지역선택</option>
+                               <c:forEach var="areadto" items="${arealist }">
+                           <option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
+                        </c:forEach>
+                           </select>  
+                          </div>
+                          <div class="col-md-5">
+                           <select class="form-select" name="sigungucode" id="sigungucode" required>
+                         <option value="" selected disabled>==전체==</option>
+                        <c:forEach var="sigungudto" items="${sigungulist}">
+                           <option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
+                        </c:forEach>
+                     </select>                    
+                          </div>
+                       </div>
                     </div>
                 </div>
                 <hr><br>
                 <div class="row">
                     <div class="col-md-5">
                     
-					<div id="map" style="width:350px;height:350px;margin-top:10px;"></div>
-					
-					<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-					<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>
-					<script>
-					    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-					        mapOption = {
-					            center: new daum.maps.LatLng(37.5663174209601, 126.977829174031), // 지도의 중심좌표
-					            level: 3 // 지도의 확대 레벨
-					        };
-					
-					    //지도를 미리 생성
-					    var map = new daum.maps.Map(mapContainer, mapOption);
-					    
-					    
-					    
-					    
-					    //주소-좌표 변환 객체를 생성
-					    var geocoder = new daum.maps.services.Geocoder();
-    					
-    					var markers = [];
-    					var infos = [];
-    					
-					    /* //마커를 미리 생성
-					    var marker = new daum.maps.Marker({
-					        //position: new daum.maps.LatLng(37.537187, 127.005476),
-					        image: markerImage, // 마커이미지 설정 
-					        map: map
-					    }); */
-					
-					
-					    function foundAddr() {
-					        new daum.Postcode({
-					            oncomplete: function(data) {
-					                var addr = data.address; // 최종 주소 변수
-					
-					                // 주소 정보를 해당 필드에 넣는다.
-					                document.getElementById("addr").value = addr;
-					                // 주소로 상세 정보를 검색
-					                geocoder.addressSearch(data.address, function(results, status) {
-					                    // 정상적으로 검색이 완료됐으면
-					                    if (status === daum.maps.services.Status.OK) {
-					
-					                    	if(markers.length != 0){
-					                    		markers[0].setMap(null);;
-					                    		markers.splice(0,1);
-					                    	}
-					                    	if(infos.length != 0){
-					                    		infos[0].setMap(null);
-					                    		infos.splice(0,1);
-					                    	}
-					                    	
-					                    	
-					                        var result = results[0]; //첫번째 결과의 값을 활용
-					
-					                        var x = document.getElementById('mapx');
-					                        var y = document.getElementById('mapy');
-					                        
-					                        x.value=result.y;
-					                        y.value=result.x;
-					                        
-					                       /*  document.adForm.mapx.value=result.y;
-					                        document.adForm.mapy.value=result.x; */
-					                        //console.log('x의 값:'+x.value);
-					                        //console.log('y의 값:'+y.value);
-					                        
-					                        var real_y = parseFloat(result.y)+0.0001;
-					                        
-					                        
-					                        // 해당 주소에 대한 좌표를 받아서
-					                        var coords = new daum.maps.LatLng(result.y, result.x);
-					                        var coords2 = new daum.maps.LatLng(real_y, result.x);
-					                        
-					                        //결과값으로 받은 위치를 마커로 표시한다.
-					                        var marker = new kakao.maps.Marker({
-					                        	map: map,
-					                        	position: coords
-					                        });
-					                        
-					                        markers.push(marker);
-					                        
-					                        var infowindow = new kakao.maps.InfoWindow({
-					                        	map: map,
-					                        	position: coords,
-					                        	content: '<div style="padding:5px;">여기가 맞나요? <br><a href="https://map.kakao.com/link/map/'+addr+','+result.y+','+result.x+'" style="color:blue" target="_blank">큰지도보기</a></div>'
-					                        });
-					                        
-					                        infos.push(infowindow);
-					                        infowindow.open(map, marker);
-					                        
-					                        
-					                        // 지도를 보여준다.
-					                        mapContainer.style.display = "block";
-					                        map.relayout();
-					                        // 지도 중심을 변경한다.
-					                        map.setCenter(coords);
-					                        // 마커를 결과값으로 받은 위치로 옮긴다.
-					                        //marker.setPosition(coords);
-					                        infowindow.setPosition(coords2);
-                        					infowindow.setContent('<div style="padding:5px;">여기가 맞나요? <br><a href="https://map.kakao.com/link/map/'+addr+','+realy+','+realx+'" style="color:blue" target="_blank">큰지도보기</a></div>')
-					                    }
-					                });
-					            }
-					        }).open();
-					    }
-					</script>
-                    	<!-- <div class="img-fluid rounded-start"  id="map" style="width:350px; height:350px;"></div> -->
+               <div id="map" style="width:350px;height:350px;margin-top:10px;"></div>
+               
+               <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+               <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>
+               <script>
+                   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                       mapOption = {
+                           center: new daum.maps.LatLng(37.5663174209601, 126.977829174031), // 지도의 중심좌표
+                           level: 3 // 지도의 확대 레벨
+                       };
+               
+                   //지도를 미리 생성
+                   var map = new daum.maps.Map(mapContainer, mapOption);
+                   
+                   
+                   
+                   
+                   //주소-좌표 변환 객체를 생성
+                   var geocoder = new daum.maps.services.Geocoder();
+                   
+                   var markers = [];
+                   var infos = [];
+                   
+                   /* //마커를 미리 생성
+                   var marker = new daum.maps.Marker({
+                       //position: new daum.maps.LatLng(37.537187, 127.005476),
+                       image: markerImage, // 마커이미지 설정 
+                       map: map
+                   }); */
+               
+               
+                   function foundAddr() {
+                       new daum.Postcode({
+                           oncomplete: function(data) {
+                               var addr = data.address; // 최종 주소 변수
+               
+                               // 주소 정보를 해당 필드에 넣는다.
+                               document.getElementById("addr").value = addr;
+                               // 주소로 상세 정보를 검색
+                               geocoder.addressSearch(data.address, function(results, status) {
+                                   // 정상적으로 검색이 완료됐으면
+                                   if (status === daum.maps.services.Status.OK) {
+               
+                                      if(markers.length != 0){
+                                         markers[0].setMap(null);;
+                                         markers.splice(0,1);
+                                      }
+                                      if(infos.length != 0){
+                                         infos[0].setMap(null);
+                                         infos.splice(0,1);
+                                      }
+                                      
+                                      
+                                       var result = results[0]; //첫번째 결과의 값을 활용
+               
+                                       var x = document.getElementById('mapx');
+                                       var y = document.getElementById('mapy');
+                                       
+                                       x.value=result.y;
+                                       y.value=result.x;
+                                       
+                                      /*  document.adForm.mapx.value=result.y;
+                                       document.adForm.mapy.value=result.x; */
+                                       //console.log('x의 값:'+x.value);
+                                       //console.log('y의 값:'+y.value);
+                                       
+                                       var real_y = parseFloat(result.y)+0.0001;
+                                       
+                                       
+                                       // 해당 주소에 대한 좌표를 받아서
+                                       var coords = new daum.maps.LatLng(result.y, result.x);
+                                       var coords2 = new daum.maps.LatLng(real_y, result.x);
+                                       
+                                       //결과값으로 받은 위치를 마커로 표시한다.
+                                       var marker = new kakao.maps.Marker({
+                                          map: map,
+                                          position: coords
+                                       });
+                                       
+                                       markers.push(marker);
+                                       
+                                       var infowindow = new kakao.maps.InfoWindow({
+                                          map: map,
+                                          position: coords,
+                                          content: '<div style="padding:5px;">여기가 맞나요? <br><a href="https://map.kakao.com/link/map/'+addr+','+result.y+','+result.x+'" style="color:blue" target="_blank">큰지도보기</a></div>'
+                                       });
+                                       
+                                       infos.push(infowindow);
+                                       infowindow.open(map, marker);
+                                       
+                                       
+                                       // 지도를 보여준다.
+                                       mapContainer.style.display = "block";
+                                       map.relayout();
+                                       // 지도 중심을 변경한다.
+                                       map.setCenter(coords);
+                                       // 마커를 결과값으로 받은 위치로 옮긴다.
+                                       //marker.setPosition(coords);
+                                       infowindow.setPosition(coords2);
+                                       infowindow.setContent('<div style="padding:5px;">여기가 맞나요? <br><a href="https://map.kakao.com/link/map/'+addr+','+realy+','+realx+'" style="color:blue" target="_blank">큰지도보기</a></div>')
+                                   }
+                               });
+                           }
+                       }).open();
+                   }
+               </script>
+                       <!-- <div class="img-fluid rounded-start"  id="map" style="width:350px; height:350px;"></div> -->
                     </div>
                     <input type="hidden" id="mapx" name="mapx">
                     <input type="hidden" id="mapy" name="mapy">
@@ -210,17 +219,12 @@
                             <div class="col-md-4 form-group">
                                 <label for="title" class="form-label">상호명</label>
                                 <input type="text" class="form-control" id="title" name="title" required>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
+                                
                             </div>
                             <div class="col-md-5 form-group">
                                 <label for="business_number" class="form-label">사업자번호</label>
-                                <input type="text" class="form-control" id="business_number" name="business_number"
-                                    required>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
+                                <input type="text" class="form-control" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="/^\d{3}-\d{2}-\d{5}$/" required>
+                                
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="contenttype" class="form-label">타입</label>
@@ -239,27 +243,18 @@
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="email" name="email"
                                         aria-describedby="inputGroupPrepend" required>
-                                    <div class="invalid-feedback">
-                                        Please choose a username.
-                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-md-4 form-group">
                                 <label for="business_tel" class="form-label">업체번호</label>
                                 <input type="text" class="form-control" id="business_tel" name="business_tel" required>
-                                <div class="invalid-feedback">
-                                    Please select a valid state.
-                                </div>
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="name" class="form-label">이름</label>
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="name" name="name"
                                         aria-describedby="inputGroupPrepend" required>
-                                    <div class="invalid-feedback">
-                                        Please choose a username.
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-5 form-group">
@@ -267,9 +262,6 @@
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="tel" name="tel"
                                         aria-describedby="inputGroupPrepend" required>
-                                    <div class="invalid-feedback">
-                                        Please choose a username.
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3 form-group">
@@ -277,9 +269,6 @@
                                 <div class="input-group has-validation">
                                     <input type="number" class="form-control" id="ad_period"
                                         name="ad_period" aria-describedby="inputGroupPrepend" required>
-                                    <div class="invalid-feedback">
-                                        Please choose a username.
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-9 form-group">
@@ -287,9 +276,6 @@
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="addr" name="addr"
                                         aria-describedby="inputGroupPrepend" readonly required>
-                                    <div class="invalid-feedback">
-                                        Please choose a username.
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3 mb-2 form-group">
@@ -308,40 +294,33 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-	                    <div class="row">
-	                        <div class="col-md-12 form-group">
-	                        <div class="row">
-	                        	<div class="col-md-7">
-	                        		<label for="ad_content" class="form-label" style="margin-top:10px;">업체설명</label>
-	                        	</div>
-	                        	<div class="col-md-5 mb-3">
-	                        		<input type="file" class="form-control form-control-sm" name="firstimage" required>
-	                        	</div>
-	                        </div>
-	                            
-	                            <div class="input-group has-validation">
-	                                <textarea class="form-control" name="ad_content" rows="5" required></textarea>
-	
-	                                <div class="invalid-feedback">
-	                                    Please choose a username.
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col-md-12 form-group">
-	                            <div class="form-check">
-	                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-	                                <label class="form-check-label" for="invalidCheck">
-	                                    Agree to terms and conditions
-	                                </label>
-	                                <div class="invalid-feedback">
-	                                    You must agree before submitting.
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col-12">
-	                            <button class="btn btn-primary" type="submit">Submit form</button>
-	                        </div>
-	                    </div>
+                       <div class="row">
+                           <div class="col-md-12 form-group">
+                           <div class="row">
+                              <div class="col-md-7">
+                                 <label for="ad_content" class="form-label" style="margin-top:10px;">업체설명</label>
+                              </div>
+                              <div class="col-md-5 mb-3">
+                                 <input type="file" class="form-control form-control-sm" name="firstimage" required>
+                              </div>
+                           </div>
+                               
+                               <div class="input-group has-validation">
+                                   <textarea class="form-control" name="ad_content" rows="5" required></textarea>
+                               </div>
+                           </div>
+                           <div class="col-md-12 form-group">
+                               <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                   <label class="form-check-label" for="invalidCheck">
+                                       약관 동의 및 광고주 등급 신청
+                                   </label>
+                               </div>
+                           </div>
+                           <div class="col-12">
+                               <button class="btn btn-primary" type="submit">광고주 등록 신청</button>
+                           </div>
+                       </div>
                     </div>
                 </div>
             </div>
