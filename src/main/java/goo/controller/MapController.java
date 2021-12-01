@@ -39,6 +39,11 @@ public class MapController {
 		return "map/sigungu";
 	}
 	
+	@RequestMapping("/kyumap.do")
+	public String kyumap() {
+		return "map/kyumap";
+	}
+	
 	@RequestMapping("/addSigunguTable.do")
 	public ModelAndView addSigunguTable(
 			@RequestParam("areacode") int areacode,
