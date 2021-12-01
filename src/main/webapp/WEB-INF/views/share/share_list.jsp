@@ -1,0 +1,416 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Grayscale - Start Bootstrap Theme</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
+
+    <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
+
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="slick/slick.js"></script>
+    <link rel="stylesheet"
+        href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <style>
+        #pagepath a {
+            font-size: x-small;
+            color: #198754fa;
+            text-decoration: none;
+        }
+
+        #pagepath span {
+            font-size: x-small;
+
+        }
+
+        .slider .slick-list {
+            margin: 0 -20px;
+        }
+
+        .slick-slide {
+            margin: 0 20px;
+        }
+
+        .slick-next:before {
+            content: url(https://img.icons8.com/flat-round/48/000000/circled-right-2--v1.png);
+        }
+
+        .slick-prev:before {
+            padding: -64px;
+            content: url(https://img.icons8.com/flat-round/48/000000/circled-left-2--v1.png);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#page-top">GooPPl</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="signup-section bg-light" id="signup"
+        style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
+        <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
+        <div class="container-sm mb-5">
+
+
+            <div class="row" style="height: 128px;">
+                <div class="col-md-4">
+
+                    <!-- 페이지 경로 -->
+                    <div id="pagepath">
+                        <span> <a href="">커뮤니티</a>&gt;일정공유게시판
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <!-- 	제목 -->
+                    <div id="title">
+                        <h5 class="display-6 fw-bolder text-center">일정 공유 게시판</h5>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+
+            <!--   	검색영역 -->
+            <div class="row" style="margin-bottom: 64px;">
+                <div class="col-md-offset-1 col-md-10"
+                    style="margin: 0px auto; text-align: center;  background-color: #F0FFF0;">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2 col-xs-12 mb-3">
+                            <div class="btn-group">
+                                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    카테고리
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item btn-outline-success btn-sm" type="button">가족여행</button>
+                                    <button class="dropdown-item btn-outline-success btn-sm" type="button">커플여행</button>
+                                    <button class="dropdown-item btn-outline-success btn-sm" type="button">나홀로여행</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="input-group mb-3 ">
+                                <input type="text" class="form-control" placeholder="여행지를 입력해주세요"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-success" type="button" id="button-addon2">검색</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 지도이미지로 표현되는 일정 목록 -->
+            <div class="row">
+                <div class="center" style="padding-left: 40px;">
+                    <div class="col-md--4 " style=" padding-left: 40px;">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-9">
+                                    <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                        class="img-fluid rounded-start" alt="..." style="width: 100%; height: auto;">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">원주</h5>
+                                        <p class="card-text">즐거운 원주 여행</p>
+                                        <p class="card-text">
+                                            <small class="text-muted">#맛집탐방~</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-4" style=" padding-left: 40px;">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-9">
+                                    <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                        class="img-fluid rounded-start" alt="..." style="width: 100%; height: auto;">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">속초</h5>
+                                        <p class="card-text">가족과함께 떠나요</p>
+                                        <p class="card-text">
+                                            <small class="text-muted">#알파카</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style=" padding-left: 40px;">
+
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-9">
+                                    <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                        class="img-fluid rounded-start" alt="..." style="width: 100%; height: auto;">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">부산</h5>
+                                        <p class="card-text">여름휴가는 부산으로~!</p>
+                                        <p class="card-text">
+                                            <small class="text-muted">#해운대</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                $('.center').slick({
+                    centerMode: true,
+                    centerPadding: '60px',
+                    slidesToShow: 1.7,
+                    responsive: [{
+                        breakpoint: 768,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            centerPadding: '40px',
+                            slidesToShow: 1
+                        }
+                    }, {
+                        breakpoint: 480,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            centerPadding: '40px',
+                            slidesToShow: 1
+                        }
+                    }]
+                });
+            </script>
+
+
+
+            <div class="row">
+
+
+                <!--     버튼 -->
+
+                <div class="container" style="text-align: center; margin-top: 32px;">
+                    <a class="mx-2" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                        aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <span class="ir_su display-10 fw-bolder text-center">전체메뉴 보기</span>
+                    </a>
+                </div>
+
+                <!--     전체 일정 목록  -->
+
+                <div class="collapse row" id="collapseExample" style="margin-top: 32px;">
+                    <div class="col-md-3" style="margin-top: 32px;">
+                        <div class="card">
+                            <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">부산</h5>
+                                <p class="card-text">
+                                    여행 카테고리~
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성자
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성일
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 32px;">
+                        <div class="card">
+                            <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">부산</h5>
+                                <p class="card-text">
+                                    여행 카테고리~
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성자
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성일
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 32px;">
+                        <div class="card">
+                            <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">부산</h5>
+                                <p class="card-text">
+                                    여행 카테고리~
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성자
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성일
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 32px;">
+                        <div class="card">
+                            <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">부산</h5>
+                                <p class="card-text">
+                                    여행 카테고리~
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성자
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성일
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 32px;">
+                        <div class="card">
+                            <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">부산</h5>
+                                <p class="card-text">
+                                    여행 카테고리~
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성자
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성일
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 32px;">
+                        <div class="card">
+                            <img src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+                                class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">부산</h5>
+                                <p class="card-text">
+                                    여행 카테고리~
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성자
+                                </p>
+                                <p class="card-text" style="font-size: small;">
+                                    작성일
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--목록 경계선 -->
+                </div>
+
+
+
+            </div>
+    </section>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    <!-- Contact-->
+    <section class="contact-section bg-primary align-items-center">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-md-center">
+                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
+                    <div class="card py-1 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">Address</h4>
+                            <hr class="my-4 mx-auto" />
+                            <div class="small text-black-50">은평구 동서로 101-2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
+                    <div class="card py-1 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-envelope text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">1:1상담</h4>
+                            <hr class="my-4 mx-auto" />
+                            <div class="small text-black-50"><a href="#">문의하기</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
+                    <div class="card py-1 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">FAQ</h4>
+                            <hr class="my-4 mx-auto" />
+                            <div class="small text-black-50"><a href="#">자주하는 질문</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
+        <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
+    </footer>
+
+</body>
+
+</html>
