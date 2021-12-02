@@ -67,6 +67,7 @@ public class AdminBasicSettings {
 		
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("cp", cp);
+		mav.addObject("size", list2.size());
 		mav.addObject("listSize", listSize);
 		mav.addObject("pageStr", pageStr);
 		mav.addObject("list1", list1);

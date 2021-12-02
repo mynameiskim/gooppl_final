@@ -216,7 +216,7 @@ function adminDelete(index){
                     <td class="f_tab_td">${list2[status.index].last_connection_date}</td>
                     <td class="f_tab_td">${list1.join_date}</td>
                     <td class="f_tab_td">
-                    <input id="btn${status.index}" class="bt btn-secondary" type="button" onclick="adminDetails(${status.index},${list2[status.index].admin_idx})" value="상세보기">
+                    <input id="btn${status.index}" class="bt btn-secondary" type="button" onclick="adminDetails(${status.index},${size})" value="상세보기">
                     <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="adminDelete(${status.index})" value="삭제">
                     </td>
                 </tr>
