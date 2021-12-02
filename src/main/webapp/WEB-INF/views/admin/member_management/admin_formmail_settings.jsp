@@ -34,7 +34,7 @@ caption{
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				- <a href="/final/admin_member_out.jsp"
+				- <a href="admin_member_out.do"
 					>탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>
@@ -50,7 +50,6 @@ caption{
 				<li>여러가지 상황(회원가입축하 메일,비밀번호찾기 메일 등)에 따른 폼메일을 관리할 수 있습니다.</li>
 			</ul>
 <script type="text/javascript">
-
 function changeCode(item) {
 	var param = item.options[item.selectedIndex].value;
 	location.href="admin_formmail_settings.do?form_type="+param;
@@ -71,7 +70,7 @@ function openPreview() {
 	f.submit();
 }
 
-function formmailUpdate(){
+function formmailUpdate(form_no){
 	Swal.fire({
 		title: '수정하시겠습니까?',
 		text: "",
@@ -79,7 +78,7 @@ function formmailUpdate(){
 		showCancelButton: true,
 		confirmButtonColor: '#d33',
 		cancelButtonColor: '#000000',
-		confirmButtonText: '삭제',
+		confirmButtonText: '확인',
 		cancelButtonText: '취소',
 		showLoaderOnConfirm: true,
 		allowOutsideClick: () => !Swal.isLoading()
@@ -88,9 +87,10 @@ function formmailUpdate(){
 	  		var form_type = document.getElementById('form_type').value;
 	  		var form_title = document.getElementById('form_title').value;
 	  		var form_content = document.getElementById('form_content').value;
+	  		form_content = encodeURIComponent(form_content);	
 			$.ajax({
 				type: "GET",
-				url: 'form_update.do?form_type='+form_type+'&form_title='+form_title+'&form_content='+form_content,
+				url: 'form_update.do?form_no='+form_no+'&form_type='+form_type+'&form_title='+form_title+'&form_content='+form_content,
 				dataType: "json",
 				error: function(result){
 					
@@ -160,7 +160,7 @@ function formmailUpdate(){
 				<tr>
 					<td colspan="2" class="text-center">
 					<button class="btn btn-secondary" type="button" onClick="openPreview()">미리보기</button>
-					<button class="btn btn-secondary" type="button" onClick="formmail()">확인</button>
+					<button class="btn btn-secondary" type="button" onClick="formmailUpdate(${fdto.form_no})">확인</button>
 					</td>
 				</tr>
 			</tfoot>

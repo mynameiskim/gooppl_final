@@ -83,7 +83,6 @@ public class AdminMemberManagement {
 	}
 	
 	@RequestMapping("/member_update.do")
-	@ResponseBody
 	public  ModelAndView memberUpdate(MemberDTO mdto){
 		int result = adminService.memberUpdate(mdto);
 		
@@ -118,4 +117,32 @@ public class AdminMemberManagement {
 		return mav;
 	}
 	
+	@RequestMapping("/form_update.do")
+	@ResponseBody
+	public Map<String, Object> formUpdate(FormmailDTO fdto){
+		System.out.println(fdto.getForm_no());
+		System.out.println(fdto.getForm_type()+"/"+fdto.getForm_title());
+		System.out.println(fdto.getForm_content());
+		int result = formmailService.formUpdate(fdto);
+		int code = 0;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(result>0) {
+			map.put("msg", fdto.getForm_type()+" 폼메일이 수정되었습니다.");
+			code = 1;
+		}else if(result==0) {
+			map.put("msg", "ERROR");
+			code = 0;
+		}
+		map.put("code", code);
+		return map;
+	}
+	
+	@RequestMapping("/admin_member_out.do")
+	public ModelAndView memberOut() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/member_management/admin_member_out");
+		return mav;
+	}
 }

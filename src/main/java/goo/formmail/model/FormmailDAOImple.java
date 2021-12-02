@@ -34,4 +34,9 @@ public class FormmailDAOImple implements FormmailDAO {
 		}
 		return result;
 	}
+	
+	public int formUpdate(FormmailDTO fdto) {
+		int count = sqlMap.update("formUpdate", fdto);
+		return count;
+	}
 }
