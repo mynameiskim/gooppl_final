@@ -25,4 +25,9 @@ public class FormmailServiceImple implements FormmailService {
 		int count = formmailDao.selectedUpdate(form_type);
 		return count;
 	}
+	
+	public int formUpdate(FormmailDTO fdto) {
+		int count = formmailDao.formUpdate(fdto);
+		return count;
+	}
 }

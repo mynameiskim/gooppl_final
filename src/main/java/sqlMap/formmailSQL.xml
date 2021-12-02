@@ -34,4 +34,14 @@
   		WHERE 
   		NOT	form_type = #{form_type}
   	</update>
+  	<update id="formUpdate" parameterType="goo.formmail.model.FormmailDTO">
+  		UPDATE
+  			formmail
+  		SET
+  			form_type = #{form_type}
+  		  , form_title = #{form_title}
+  		  , form_content = #{form_content}
+  		WHERE
+  			form_no = #{form_no} 
+  	</update>
   </mapper>

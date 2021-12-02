@@ -200,11 +200,11 @@ td{
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>
-				- <a href='/nmanager/setup/config_manager.do'
+				- <a href='admin_share.do'
 				>공유게시판 관리</a><br />
-				- <a href='/nmanager/setup/config_manager.do'
+				- <a href='admin_review.do'
 				>후기게시판 관리</a><br />
-				- <a href='/nmanager/setup/config_m6anager.do'
+				- <a href='admin_relpy.do'
 				>댓글 관리 </a>
 			</dd>
 		</dl>
@@ -218,11 +218,11 @@ td{
 			<h4>공유게시판 관리</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="/final/admin_member_list.jsp"
+			<dt><a href="admin_share.do"
 				>공유게시판 관리</a>
 			</dt>
 			<dd>
-				<a href="/final/admin_member_list.jsp"
+				<a href="admin_share.do"
 				>공유게시판의 게시글을 관리합니다.
 				</a>
 			</dd>
@@ -232,12 +232,12 @@ td{
 		</div>
 		<dl class="menu_list">
 			<dt>
-				<a href="/final/admin_member_out.jsp"
+				<a href="admin_review.do"
 				>후기게시판 관리
 				</a>
 			</dt>
 			<dd>
-				<a href="/final/admin_member_out.jsp"
+				<a href="admin_review.do"
 				>후기게시판의 게시글을 관리합니다.
 				</a>
 			</dd>
@@ -247,12 +247,12 @@ td{
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href="/final/admin_formMail_settings.jsp"
+				<a href="admin_relpy.do"
 				>댓글 관리
 				</a>
 			</dt>
 			<dd>
-				<a href="/final/admin_formMail_settings.jsp"
+				<a href="admin_relpy.do"
 					>모든 게시글의 댓글을 관리하는 곳입니다.
 				</a>
 			</dd>
