@@ -61,8 +61,11 @@
     <bean id="adminDao" class="goo.admin.model.AdminDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
-	<bean id="siteSettingsDao" class="goo.admin.model.SiteSettingsDAOImple">
+	<bean id="siteSettingsDao" class="goo.siteSettings.model.SiteSettingsDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
+	<bean id="formmailDao" class="goo.formmail.model.FormmailDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
 	
 	<!-- service -->	
@@ -96,7 +99,10 @@
    <bean id="adminService" class="goo.admin.model.AdminServiceImple">
 		<constructor-arg ref="adminDao"/>
 	</bean>
-	<bean id="siteSettingsService" class="goo.admin.model.SiteSettingsServiceImple">
+	<bean id="siteSettingsService" class="goo.siteSettings.model.SiteSettingsServiceImple">
 		<constructor-arg ref="siteSettingsDao"/>
+	</bean>
+	<bean id="formmailService" class="goo.formmail.model.FormmailServiceImple">
+		<constructor-arg ref="formmailDao"></constructor-arg>
 	</bean>
 </beans>

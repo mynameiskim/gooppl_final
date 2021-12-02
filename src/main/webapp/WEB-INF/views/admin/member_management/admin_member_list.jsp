@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="/myweb3//admin_css/admin_common.css" type="text/css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resource/css/admin_header.css" type="text/css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
@@ -14,7 +14,103 @@
 .tr_bg{
 	background-color: #1987541f !important;
 }
+.tr_aling{
+	vertical-align: middle;
+}
 </style>
+<script>
+function memberInfo(index,size){
+	var param=document.getElementById("member_idx"+index).value;
+	var btn=document.getElementById("btn"+index);
+	
+	console.log(size);
+		
+	if(btn.value=='상세보기'){
+		sendRequest('member_info.do?member_idx='+param,null,showResult,'GET');
+		for(var i=0;i<size;i++){
+			btn=document.getElementById("btn"+i);
+			if(i==index){
+				btn.value='접기';
+			}else{
+				btn.value='상세보기';
+			}
+			
+		}
+		
+	}else if(btn.value=='접기'){
+		var divNode=document.all.di2;
+		divNode.remove();
+		for(var i=0;i<size;i++){
+			btn=document.getElementById("btn"+i);
+			btn.value='상세보기';
+		}
+	}
+}
+
+function showResult(){
+	if(XHR.readyState==4){
+		if(XHR.status==200){			
+			var data=XHR.responseText;
+			var divNode=document.all.di;
+			divNode.innerHTML=data;
+		}
+	}
+}
+
+function memberDelete(index){
+	Swal.fire({
+		title: '정말로 삭제하시겠습니까?',
+		text: "삭제된 계정은 복구가 불가능합니다.",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#000000',
+		confirmButtonText: '삭제',
+		cancelButtonText: '취소',
+		showLoaderOnConfirm: true,
+		allowOutsideClick: () => !Swal.isLoading()
+	}).then((result) => {
+	  if (result.isConfirmed) {
+	  		var param=document.getElementById("member_idx"+index).value;
+	  		
+			$.ajax({
+				type: "GET",
+				url: 'member_delete.do?member_idx='+param,
+				dataType: "json",
+				error: function(result){
+					
+				},
+				success: function(result){
+					if(result.code==0){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'warning',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#d33'
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.reload();
+					    	}
+					    })
+					}else if(result.code==1){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'success',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#A4C399'
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.reload();
+					    	}
+					    })
+					}
+				}
+			});
+	  }
+	})
+}
+
+</script>
 </head>
 <body>
 <div id="wrap">
@@ -25,7 +121,7 @@
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				- <a href="/final/admin_member_list.jsp"
+				- <a href="admin_member_list.do"
 				>회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
@@ -35,12 +131,11 @@
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				- <a href="/final/admin_email_settings.jsp"
+				- <a href="admin_formmail_settings.do?form_type=회원가입"
 				>폼메일 관리</a><br />
 			</dd>
 		</dl>
 	</div>
-</div>
 	<div id="contents">
     	<h6><b>회원목록</b></h6>
     	<ul class='helpbox'>
@@ -70,7 +165,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-3 text-left">
-					<label><b>총 회원수:</b> <b>검색수:</b></label>
+					<label><b>총 회원수:${totalMember}</b> <b>검색수:</b></label>
 				</div>
 				<div class="col-md-9 mb-1" style="writing-mode: vertical-rl;">
 					<input type="button" class="bt btn-success" value="엑셀파일저장"> 
@@ -79,105 +174,55 @@
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
-					<th class="text-center"><input type="checkbox"></th>
-                    <th class="text-center">번호</th>
-					<th class="text-center">이름</th>
-					<th class="text-center">닉네임</th>
-					<th class="text-center">아이디</th>
-					<th class="text-center">가입일</th>
-					<th class="text-center">보기</th>
+					<th class="text-center"></th>
+					<th class="text-center">번호</th>
+                    <th class="text-center">회원번호</th>
+                    <th class="text-center">회원유형</th>
+                    <th class="text-center">닉네임</th>
+					<th class="text-center">구플 아이디</th>
+					<th class="text-center">네이버 아이디</th>
+					<th class="text-center">카카오 아이디</th>
+					<th class="text-center">회원가입일</th>
+					<th class="text-center">기능</th>
 				</tr>
 		</thead>
 			<tfoot style="border-top: 0px">
 		      <tr>
-				<td colspan="9" class="text-center">페이징영역</td>
+				<td colspan="10" class="text-center">${pageStr}</td>
 		     </tr>
 		  </tfoot>
 		  <tbody>
-		    <tr style="vertical-align: middle;">
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Mark</td>
-		      <td class="text-center">Otto</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center">
-		      <input type="button" class="bt btn-dark" value="수정">
-		      <input type="button" class="bt btn-danger" value="삭제">
-		      </td>
-		    </tr>
-		    <tr>
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Jacob</td>
-		      <td class="text-center">Thornton</td>
-		      <td class="text-center">@fat</td>
-		      <td class="text-center">@fat</td>
-		      <td class="text-center">@fat</td>
-		      <td class="text-center">
-			  <input type="button" class="bt btn-dark" value="수정">
-		      <input type="button" class="bt btn-danger" value="삭제">
-		      </td>
-		    </tr>
-		    <tr>
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Larry the Bird</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">
-			  <input type="button" class="bt btn-dark" value="수정">
-		      <input type="button" class="bt btn-danger" value="삭제">
-		      </td>
-		    </tr>
-		    <tr>
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Larry the Bird</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">@twitter</td>
-		      <td class="text-center">
-			  <input type="button" class="bt btn-dark" value="수정">
-		      <input type="button" class="bt btn-danger" value="삭제">
-		      </td>
-		    </tr>
+		  	<c:if test="${empty list}">
+		  		<tr>
+				<td colspan="10" align="center">
+				<b>등록된 회원이 없습니다.</b>
+				</td>
+			</tr>
+		  	</c:if>
+		  	<c:forEach var="list" items="${list}" varStatus="status">
+		  		<tr class="tr_aling">
+			      <th class="text-center" ><input type="checkbox"></th>
+			      <td class="text-center" >${(cp-1)*listSize+status.index+1}</td>
+			      <td class="text-center" >${list.member_idx}
+			      	<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}">
+			      </td>
+			      <td class="text-center" >${list.member_type}</td>
+			      <td class="text-center" >${list.nickname}</td>
+			      <td class="text-center" >${list.goo_id}</td>
+			      <td class="text-center" >${list.naver_id}</td>
+			      <td class="text-center" >${list.kakao_id}</td>
+			      <td class="text-center" >${list.join_date}</td>
+			      <td class="text-center" >
+			      <input id="btn${status.index}" type="button" class="bt btn-dark" value="상세보기" onclick="memberInfo(${status.index},${size})">
+			      <input id="delete_btn${status.index}" type="button" class="bt btn-danger" value="삭제" onclick="memberDelete(${status.index})">
+			      </td>
+			    </tr>
+		  	</c:forEach>
 		  </tbody>
 		</table>
-        <fieldset style="border: 3px solid #1987541f; padding: 12px 14px 10px;
-		margin-bottom: 20px;">
-            <div class="row">
-                <div class="col-md-3 mb-1">
-                    <h5>회원정보</h5>
-                </div>
-            </div>
-            <table class="table table-bordered" style="font-size: 13px;">
-                <tr>
-                    <th class="tr_bg">회원번호 <label style="color: red;">*</label></th>
-                    <td>0</td>
-                    <th class="tr_bg">이름 <label style="color: red;">*</label></th>
-                    <td><input type="text" value="관리자"></td>
-                </tr>
-                <tr>
-                    <th class="tr_bg">닉네임 <label style="color: red;">*</label></th>
-                    <td><input type="text" value="관리자"></td>
-                    <th class="tr_bg">아이디 <label style="color: red;">*</label></th>
-                    <td><input type="text" value="test@test.com"></td>
-                </tr>
-                <tr>
-                    <th class="tr_bg">가입일</th>
-                    <td>2021-11-23 12:37:50</td>
-                    <th class="tr_bg">인증여부</th>
-                    <td>Y</td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="text-align: center;">
-                        <input class="bt btn-primary" type="button" value="확인">
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
+		<div id="di"></div>
        </div> 
+	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>
 </body>

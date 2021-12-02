@@ -231,7 +231,7 @@ function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 	</c:forEach>
 </select>
 <select name="sigungucode" id="sigungucode">
-    <option value="" selected disabled>==전체==</option>
+    <option value="">==전체==</option>
 	<c:forEach var="sigungudto" items="${sigungulist }">
 		<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
 	</c:forEach>

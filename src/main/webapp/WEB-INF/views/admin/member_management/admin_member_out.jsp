@@ -25,22 +25,21 @@
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				- <a href="/final/admin_member_list.jsp"
+				- <a href="admin_member_list.do"
 				>회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				- <a href="/final/admin_member_out.jsp"
+				- <a href="admin_member_out.do"
 					>탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				- <a href="/final/admin_email_settings.jsp"
+				- <a href="admin_formmail_settings.do?form_type=회원가입"
 				>폼메일 관리</a><br />
 			</dd>
 		</dl>
 	</div>
-</div>
 	<div id="contents">
     	<h6><b>탈퇴회원목록</b></h6>
     	<ul class='helpbox'>
@@ -59,7 +58,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>등록일</th>
+				<th>탈퇴일</th>
 				<td><input type="date">~<input type="date"></td>
 			</tr>
 		</table>
@@ -122,6 +121,7 @@
 		    </tr>
 		  </tbody>
 		</table>
+		</div>
 	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>

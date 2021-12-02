@@ -2,14 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="yong.admin">
-  	<select id="loginCheck2" parameterType="Map" resultType="int">
-  		SELECT
-  			COUNT(*)
-  		FROM member
-  		WHERE goo_id = #{goo_id}
-  		AND pwd = #{pwd}
-  	</select>
+  <mapper namespace="goo.admin">
   	<update id="loginRecode" parameterType="int">
   		UPDATE 
   			admin 
@@ -21,39 +14,138 @@
   	<select id="adminMemberInfo" parameterType="String" resultType="goo.member.model.MemberDTO">
   		SELECT
   			*
-  		FROM member
-  		WHERE goo_id = #{goo_id}
+  		FROM 
+  			member
+  		WHERE 
+  			goo_id = #{goo_id}
   	</select>
-  	<select id="allAdminMemberInfo" resultType="goo.member.model.MemberDTO">
-  		SELECT
-  			*
-  		FROM member
-  		WHERE member_type = 'A'
+  	<select id="allAdminMemberInfo" parameterType="Map" resultType="goo.member.model.MemberDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member WHERE member_type = 'A' AND del = 'N' ORDER BY member_idx asc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
   	<select id="adminInfo" parameterType="String" resultType="goo.admin.model.AdminDTO">
  		SELECT
   			a.*
-  		FROM admin a, member m
-  		WHERE a.member_idx = m.member_idx
+  		FROM 
+  			admin a, member m
+  		WHERE 
+  			a.member_idx = m.member_idx 
   		AND	m.goo_id = #{goo_id}
   	</select>
-  	<select id="allAdminInfo" resultType="goo.admin.model.AdminDTO">
+  	<select id="allAdminInfo" parameterType="Map" resultType="goo.admin.model.AdminDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT a.* FROM admin a, member m WHERE a.member_idx = m.member_idx AND m.del = 'N' ORDER BY a.member_idx asc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="totalAdmin" resultType="integer">
   		SELECT
-  			*
-  		FROM admin	
+  			count(*)
+  		FROM
+  			admin a, member m
+  		WHERE 
+  			a.member_idx = m.member_idx
+  		AND m.del = 'N'
   	</select>
-  	<select id="get_site_settings" resultType="goo.admin.model.SiteSettingsDTO">
-  		SELECT 
-  			*
-  		FROM site_settings
-  	</select>
-  	<update id="site_settings_update" parameterType="goo.admin.model.SiteSettingsDTO">
+  	<insert id="adminInsert1" parameterType="goo.member.model.MemberDTO">
+  		INSERT INTO
+  			member(member_idx
+	  			, goo_id
+	  			, pwd
+	  			, nickname
+	  			, join_date
+	  			, del
+	  			, member_type)
+  		VALUES
+  			(member_idx.nextval
+			, #{goo_id}
+			, #{pwd}
+	  		, #{nickname}
+	  		, sysdate
+	  		, 'N'
+	  		, 'A')
+  	</insert>
+  	<insert id="adminInsert2" parameterType="goo.admin.model.AdminDTO">
+  		INSERT INTO
+  			admin
+  		VALUES
+  			(admin_idx.nextval
+			, #{member_idx}
+			, #{admin_phone}
+			, #{admin_tel}
+			, #{admin_addr}
+			, sysdate)
+  	</insert>
+  	<update id="adminUpdate1" parameterType="goo.member.model.MemberDTO">
   		UPDATE
-  			site_settings
-  		SET
-  			  web_browser_title = #{web_browser_title}
-  			, keyword = #{keyword} 
-  			, description = #{description}
-  			
+  			member
+  		SET 
+  			  pwd = #{pwd}
+  			, nickname = #{nickname}
+  		WHERE 
+  			member_idx = #{member_idx}
   	</update>
+  	<update id="adminUpdate2" parameterType="goo.admin.model.AdminDTO">
+  		UPDATE
+  			admin
+  		SET 
+  			  admin_tel = #{admin_tel}
+  			, admin_phone = #{admin_phone}
+  			, admin_addr = #{admin_addr}
+  		WHERE 
+  			member_idx = #{member_idx}
+  	</update>
+  	<delete id="adminDelete1" parameterType="integer">
+  		DELETE FROM
+  			admin
+  		WHERE 
+  			member_idx = #{member_idx}
+  	</delete>
+  	<delete id="adminDelete2" parameterType="integer">
+  		DELETE FROM
+  			member
+  		WHERE 
+  			member_idx = #{member_idx}
+  	</delete>
+  	<select id="memberList" parameterType="Map" resultType="goo.member.model.MemberDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member WHERE NOT member_type = 'A' AND del = 'N' ORDER BY member_idx DESC)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="totalMember" resultType="integer">
+  		SELECT
+  			COUNT(*)
+  		FROM 
+  			member
+  		WHERE 
+  			NOT member_type = 'A' 
+  		AND del = 'N'
+  		ORDER BY 
+  			member_idx DESC
+  	</select>
+  	<delete id="memberDelete" parameterType="integer">
+  		DELETE FROM
+  			member
+  		WHERE 
+  			member_idx = #{member_idx}
+  	</delete>
+  	<update id="memberUpdate" parameterType="goo.member.model.MemberDTO">
+  		UPDATE
+  			member
+  		SET
+  			nickname = #{nickname}
+  		WHERE
+  			member_idx = #{member_idx}
+  	</update>
+  	<select id="memberInfo" parameterType="integer" resultType="goo.member.model.MemberDTO">
+		SELECT
+			*
+		FROM
+			member
+		WHERE
+			member_idx = #{member_idx}
+	</select>
   </mapper>
