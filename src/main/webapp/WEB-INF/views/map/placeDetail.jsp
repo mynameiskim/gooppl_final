@@ -1,17 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>관광지 상세 정보 페이지</title>
 <script src="resource/js/httpRequest.js"></script>
+<style>
+#allDiv{
+	position: absolute;
+	top: 10%;
+	left: 30%;
+}
+</style>
 <script>
 var contentid=${contentid}
 var areacode;
 var sigungucode;
 var centerMapx;
 var centerMapy;
+var contenttype;
+var placeDetail;
 window.onload = function() {
 	settingPage(contentid);
 }
@@ -24,15 +34,14 @@ function getPlaceDetail(){
 		if(XHR.readyState==4){
 			if(XHR.status==200){
 				var doc = XHR.responseXML;
-				console.log(doc);
 				var items = doc.getElementsByTagName('item');
 	        	if(items.length!=0){
+	        	console.log('공통정보 있음');
 	        	 var contentid;
 	        	 var title;
 	        	 var addr;
 	        	 areacode;
 	        	 sigungucode;
-	        	 var contenttype;
 	        	 var mapx;
 	        	 var mapy;
 	        	 var overview;
@@ -94,7 +103,7 @@ function getPlaceDetail(){
 	        	 }else{
 		        	 firstimage=items[0].getElementsByTagName('firstimage').item(0).firstChild.nodeValue;
 	        	 }
-	        	 var placeDetail={
+	        	 placeDetail={
 	        	 	contentid:contentid,
 	        	 	title:title,
 	        	 	addr:addr,
@@ -110,10 +119,34 @@ function getPlaceDetail(){
 	        	 
 	        	 centerMapx=mapx;
 	        	 centerMapy=mapy;
-	        	 var divHead='<h2>'+title+'</h2>';
-	        	 var divHeadNode=document.getElementById('divHead');
-	        	 divHeadNode.innerHTML(divHead);
 	        	 
+	        	 var contenttype_s;
+	        	 if(contenttype==12){
+	        		 contenttype_s='관광지';
+	        	 }else if(contenttype==14){
+	        		 contenttype_s='문화시설';
+	        	 }else if(contenttype==32){
+	        		 contenttype_s='숙박';
+	        	 }else if(contenttype==38){
+	        		 contenttype_s='쇼핑';
+	        	 }else if(contenttype==39){
+	        		 contenttype_s='음식점';
+	        	 }else if(contentype==0){
+	        		 contenttype_s='';
+	        	 }
+	        	 
+	        	 var allDiv=document.getElementById('allDiv');
+	        	 allDiv.setAttribute('align', 'center');
+	        	 var divHead='<h2 id="topTitle">'+title+'</h2>';
+	        	 divHead+='<div class="area_address" id="topAddr"><p style="font-size:12px;color:dimgray;">${areaname}  ${sigunguname} > '+contenttype_s+'</p>';
+	        	 divHead+='<p id="addr"></p></div>';
+	        	 var divHeadNode=document.getElementById('divHead');
+	        	 divHeadNode.innerHTML=divHead;
+	        	 var divBody='<div id="image"><img src="'+firstimage+'" alt="NoImage" width="600"><h3 style="font-size:20px;text-align: left;">상세정보</h3>';
+	        	 divBody+='<hr/><p id="overview" style="width: 600px;word-break:break-all; text-align: left;font-size:12px;">'+overview+'</p></div>';
+	        	 var divBodyNode=document.getElementById('divBody');
+	        	 divBodyNode.innerHTML=divBody;
+	        	
 	        }
 		}
 	}
@@ -121,6 +154,8 @@ function getPlaceDetail(){
 </script>
 </head>
 <body>
-<h1>${contentid}에 대한 페이지</h1>
-<div id="divHead"></div>
+<div id="allDiv">
+	<div id="divHead"></div>
+	<div id="divBody"></div>
+</div>
 </html>

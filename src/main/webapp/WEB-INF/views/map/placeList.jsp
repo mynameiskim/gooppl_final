@@ -20,6 +20,8 @@ var contentids=[];
 var images=[];
 var addrs=[];
 var titles=[];
+var paramAreacodes=[];
+var paramSigungucodes=[];
 
 function show(){
 	$('#viewTable').empty();
@@ -56,11 +58,25 @@ function setTable(){
 		var image;
 		var addr;
 		var title;
+		var paramAreacode;
+		var paramSigunguCode;
 		
 		if(viewContents[i].getElementsByTagName('contentid').length==0){
 			contentid=0;
 		}else{
 			contentid=viewContents[i].getElementsByTagName('contentid').item(0).firstChild.nodeValue;
+		}
+		
+		if(viewContents[i].getElementsByTagName('areacode').length==0){
+			paramAreacode=0;
+		}else{
+			paramAreacode=viewContents[i].getElementsByTagName('areacode').item(0).firstChild.nodeValue;
+		}
+		
+		if(viewContents[i].getElementsByTagName('sigungucode').length==0){
+			paramSigunguCode=0;
+		}else{
+			paramSigunguCode=viewContents[i].getElementsByTagName('sigungucode').item(0).firstChild.nodeValue;
 		}
 		
 		if(viewContents[i].getElementsByTagName('firstimage').length==0){
@@ -80,13 +96,16 @@ function setTable(){
 		}else{
 			title=viewContents[i].getElementsByTagName('title').item(0).firstChild.nodeValue;
 		}
-		if(contentid!=0 && addr!='정보 없음'){
+		if(contentid!=0 && addr!='정보 없음' && paramAreacode!=0 && paramSigunguCode!=0){
 			contentids.push(contentid);
 			addrs.push(addr);
 			images.push(image);
 			titles.push(title);
+			paramAreacodes.push(paramAreacode);
+			paramSigungucodes.push(paramSigunguCode);
 		}
 	}
+	
 	document.getElementById('placenum').innerHTML='검색결과 : '+contentids.length+'개';
 
 	var cp=1;
@@ -171,7 +190,7 @@ function tableSet(cp){
 	    tdNode.appendChild(pNode);
 	    tdNode.appendChild(pNode2);
 	    trNode.appendChild(tdNode);
-	    tdNode.setAttribute('onclick', 'getPlaceDetail('+contentids[i]+')');
+	    tdNode.setAttribute('onclick', 'getPlaceDetail('+contentids[i]+','+paramAreacodes[i]+','+paramSigungucodes[i]+')');
 	}
 }
 //특별, 광역시, 도 단위 지역 이동시 처리할 함수
@@ -193,8 +212,8 @@ function changeAreacode(){
 	}
 }
 
-function getPlaceDetail(contentid){
-	location.href='goPlaceDetail.do?contentid='+contentid;
+function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
+	location.href='goPlaceDetail.do?contentid='+contentid+'&areacode='+paramAreacode+'&sigungucode='+paramSigungucode;
 }
 </script>
 <body onload="show()">

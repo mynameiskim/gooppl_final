@@ -7,6 +7,13 @@
   <name>gooppl</name>
   <description>this is final project team 1</description>
   <dependencies>
+		<!-- email : https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+  
       <!-- random String -->
       <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
       <dependency>

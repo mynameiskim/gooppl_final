@@ -1,6 +1,7 @@
 package goo.sigungu.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -25,5 +26,9 @@ public class SigunguDAOImple implements SigunguDAO {
 	public List<SigunguDTO> sigunguList() {
 		List<SigunguDTO> list = sqlMap.selectList("sigunguSelect");
 		return list;
+	}
+	public String getSigunguName(Map map) {
+		String sigunguName=sqlMap.selectOne("getSigunguName", map);
+		return sigunguName;
 	}
 }

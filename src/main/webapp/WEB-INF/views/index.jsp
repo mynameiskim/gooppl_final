@@ -23,22 +23,20 @@
 <link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
 <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<!-- login js -->
-<script type="text/javascript" src="/gooppl/resource/js/login.js"></script>
 <!-- jquery -->
 <script type="text/javascript"
-  src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <!-- join form -->
- <style>
-        /* .help-block 을 일단 보이지 않게 설정 */
-        #join .help-block{
-            display: none;
-        }
-        /* glyphicon 을 일단 보이지 않게 설정 */
-        #join .glyphicon{
-            display: none;
-        }
-    </style>
+	src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<!-- XHM -->
+<script type="text/javascript" src="/gooppl/resource/js/httpRequest.js"></script>
+<style>
+#mail_check_input_box_false{
+    background-color:#ebebe4;
+}
+ 
+#mail_check_input_box_true{
+    background-color:white;
+}
+</style>
 </head>
 <body id="page-top">
 	<!-- Navigation-->
@@ -55,30 +53,26 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+					<li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
 
 					<c:choose>
 						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend">
-								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-								    <label class="bg-primary text-center"
-								    	style="
-                                        width: 30px;
-                                        border-radius: 50%;
-                                        color: #fff;
-                                        font-weight: 600;
-                                        font-size: 1.2rem;">${profileNick}</label>
-								  </a>
+							<li class="nav-item dropdown dropend"><a
+								class="nav-link dropdown-toggle" href="#" role="button"
+								id="dropdownMenuLink" data-bs-toggle="dropdown"
+								aria-expanded="false"> <label class="bg-primary text-center"
+									style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+							</a>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-							</ul>
-							</li>
+									<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+									<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+								</ul></li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
-								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
+							<li class="nav-item"><a id="login_bt" class="nav-link"
+								href="#" role="button" data-bs-toggle="modal"
+								data-bs-target="#loginmd">LogIn</a></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
@@ -163,7 +157,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/andong.jpg" class="card-img-top"
+							src="/gooppl/resource/img/andong.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">ANDONG</h5>
@@ -176,7 +170,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/busan.jpg" class="card-img-top"
+							src="/gooppl/resource/img/busan.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">BUSAN</h5>
@@ -189,7 +183,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/chuncheon.jpg" class="card-img-top"
+							src="/gooppl/resource/img/chuncheon.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">CHUNCHEON</h5>
@@ -202,7 +196,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/gangneung.jpg" class="card-img-top"
+							src="/gooppl/resource/img/gangneung.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">GANGNEUNG</h5>
@@ -215,7 +209,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/gapyeong.jpg" class="card-img-top"
+							src="/gooppl/resource/img/gapyeong.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">GAPYEONG</h5>
@@ -228,7 +222,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/gunsan.jpg" class="card-img-top"
+							src="/gooppl/resource/img/gunsan.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">GUNSAN</h5>
@@ -241,7 +235,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/incheon.jpg" class="card-img-top"
+							src="/gooppl/resource/img/incheon.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">INCHEON</h5>
@@ -254,7 +248,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/jecheon.jpg" class="card-img-top"
+							src="/gooppl/resource/img/jecheon.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">JECHEON</h5>
@@ -267,7 +261,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/jeonju.jpg" class="card-img-top"
+							src="/gooppl/resource/img/jeonju.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">JEONJU</h5>
@@ -280,7 +274,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/mokpo.jpg" class="card-img-top"
+							src="/gooppl/resource/img/mokpo.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">MOKPO</h5>
@@ -293,7 +287,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/seoul.jpg" class="card-img-top"
+							src="/gooppl/resource/img/seoul.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">SEOUL</h5>
@@ -306,7 +300,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/suwon.jpg" class="card-img-top"
+							src="/gooppl/resource/img/suwon.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">SUWON</h5>
@@ -319,7 +313,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/ulleung.jpg" class="card-img-top"
+							src="/gooppl/resource/img/ulleung.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">ULLEUNG</h5>
@@ -332,7 +326,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/yeongwol.jpg" class="card-img-top"
+							src="/gooppl/resource/img/yeongwol.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">YEONGWOL</h5>
@@ -345,7 +339,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/yeosu.jpg" class="card-img-top"
+							src="/gooppl/resource/img/yeosu.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">YEOSU</h5>
@@ -358,7 +352,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/jeju.jpg" class="card-img-top"
+							src="/gooppl/resource/img/jeju.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">JEJU</h5>
@@ -371,7 +365,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/busan.jpg" class="card-img-top"
+							src="/gooppl/resource/img/busan.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">BUSAN</h5>
@@ -384,7 +378,7 @@
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#staticBackdrop"> <img
-							src="/finalpj/resource/img/gapyeong.jpg" class="card-img-top"
+							src="/gooppl/resource/img/gapyeong.jpg" class="card-img-top"
 							alt="...">
 							<div class="card-body">
 								<h5 class="card-title">GAPYEONG</h5>
@@ -452,7 +446,7 @@
 					<div class="card mb-1" style="max-width: 800px;">
 						<div class="row g-0 ">
 							<div class="col-md-4">
-								<img src="/finalpj/resource/img/gangneung.jpg"
+								<img src="/gooppl/resource/img/gangneung.jpg"
 									class="img-fluid rounded-start" alt="...">
 							</div>
 							<div class="col-md-8">
@@ -522,14 +516,15 @@
 						<div class="mb-3 text-center">SNS 간편 로그인</div>
 						<div class="mb-3 text-center">
 							<!-- 아래와같이 아이디를 꼭 써준다. -->
-							<div id="naver_id_login" style="text-align: center; margin-bottom:2px;">
-								<a href="${naver_url}">
-									<img width="90%" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
+							<div id="naver_id_login"
+								style="text-align: center; margin-bottom: 2px;">
+								<a href="${naver_url}"> <img width="90%"
+									src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
 							</div>
 							<div id="kakao_id_login" style="text-align: center">
-							  <a href="${kakao_url}">
-							  	<img width="90%" src="/gooppl/resource/img/kakaologo/kakao_login_large_narrow.png" />
-							  </a>
+								<a href="${kakao_url}"> <img width="90%"
+									src="/gooppl/resource/img/kakaologo/kakao_login_large_narrow.png" />
+								</a>
 							</div>
 						</div>
 					</div>
@@ -537,8 +532,9 @@
 			</div>
 		</div>
 	</div>
-	 <!-- join modal -->
-	 <div class="modal fade" id="joinmd" data-bs-backdrop="static"
+	<!-- 로그인 모달 끝 -->
+	<!-- join modal -->
+	<div class="modal fade" id="joinmd" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1" aria-labelledby="joinmdLabel"
 		aria-hidden="true">
 		<div class="modal-dialog">
@@ -549,48 +545,57 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body p-1 pt-0">
-					<div class="col-md-9 col-lg-9 mx-auto">
-						<form name="join" method="post" enctype="application/x-www-form-urlencoded" id="join" action="#">
-							<div class="form-group has-feedback mb-2">
-								<label class="form-label" style="color: #6c757d">이메일</label> <input
-									type="text" class="form-control" name="goo_id" id="goo_id"
-									placeholder="ex) gooppl@naver.com">
-									<span id="emailErr" class="help-block">올바른 이메일 형식이 아닙니다. 다시 입력해 주세요.</span>
-            						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-							</div>
-							<div class="form-group has-feedback mb-2">
-								<label class="form-label " style="color: #6c757d">닉네임</label> <input
-									type="text" class="form-control" name="nickname" id="nickname" >
-									
-							</div>
-							<div class="form-group has-feedback mb-2">
-								<label class="form-label" style="color: #6c757d">비밀번호</label> <input
-									type="password" class="form-control" name="pwd" id="pwd" 
-									placeholder="영문,특수문자 혼합 12자 이상">
-									      <span id="pwdRegErr" class="help-block">8글자 이상 입력하세요.</span>
-            							  <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-							</div>
-							<div class="form-group has-feedback mb-2">
-								<label class="form-label" style="color: #6c757d">비밀번호 확인</label>
-								<input type="password" class="form-control" name="pwdRe" id="pwdRe" >
-								<span id="rePwdErr" class="help-block">비밀번호와 일치하지 않습니다. 다시 입력해 주세요.</span>
-            					<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-							</div>
-							<div class="form-group has-feedback mb-1 form-check">
-								<input type="checkbox" class="form-check-input" id="check1" >
-								<label class="form-check-label" style="font-size: 0.7em;">개인정보수집에
-									동의합니다</label> <a href="#"
-									style="text-decoration: none; font-size: 0.7em;">보기</a>
-							</div>
-							<div class="form-group mb-2 form-check">
-								<input type="checkbox" class="form-check-input" id="check2">
-								<label class="form-check-label" style="font-size: 0.7em;">이용약관에
-									동의합니다.</label> <a href="#"
-									style="text-decoration: none; font-size: 0.7em;">보기</a>
-							</div>
-							<div class="form-group d-grid gap-2 mb-4" >
-								<button class="btn btn-primary" type="button" id="joinBtn">가입하기</button>
-								<button class="btn btn-dark" type="button">뒤로가기</button>
+					<div class="input-form col-md-9 col-lg-9 mx-auto">
+						<form class="validation-form" novalidate>
+							<div class="row mb-3 mail_wrap">
+								<label for="email">이메일</label>
+								<div class="col-md-12 col-sm-8 mx-auto mail_inpt_box">
+									<input type="email" class="form-control mail_input" id="email"
+										name="memberMail" placeholder="gooppl@naver.com" required>
+								</div>
+								<div class="col-md-8 col-sm-8- mx-auto mail_check_wrap">
+									<div class="mail_check_input_box" id="mail_check_input_box_false">
+										<input class="mail_check_input" disabled="disabled">
+									</div>
+								</div>
+								<div class="col-md-4 col-sm-4 mx-auto mail_check_button">
+									<span>인증번호 전송</span>
+								</div>
+								<div class="clearfix"></div>
+								<div class="mb-3">
+									<label for="nickname">닉네임</label> <input type="text"
+										class="form-control" id="nickname" placeholder="" value=""
+										required>
+									<div class="invalid-feedback">별명을 입력해주세요.</div>
+								</div>
+								<div class="mb-3">
+									<label for="pwd">비밀번호</label> <input type="text"
+										class="form-control" id="pwd" placeholder="영문+숫자 10자 이상"
+										required>
+									<div class="invalid-feedback">비밀번호를 확인해주세요.</div>
+								</div>
+								<div class="mb-3">
+									<label for="pwdRe">비밀번호 확인</label> <input type="text"
+										class="form-control" id="pwdRe" required>
+									<div class="invalid-feedback">비밀번호를 확인해주세요.</div>
+								</div>
+								<hr class="mb-3">
+								<div class="custom-control custom-checkbox mb-3">
+									<input type="checkbox" class="custom-control-input"
+										id="aggrement1" required> <label
+										class="custom-control-label" for="aggrement1">개인정보 수집
+										및 이용에 동의합니다.</label> <a href="#"
+										style="text-decoration: none; font-size: 0.7em;">보기</a> <br>
+									<input type="checkbox" class="custom-control-input"
+										id="aggrement2" required> <label
+										class="custom-control-label" for="aggrement2">이용약관에
+										동의합니다.</label> <a href="#"
+										style="text-decoration: none; font-size: 0.7em;">보기</a>
+								</div>
+								<div class="d-grid gap-2 mb-3">
+									<button class="btn btn-primary btn-lg btn-block" type="submit">가입
+										완료</button>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -598,32 +603,37 @@
 			</div>
 		</div>
 	</div>
-	<!--모달 끝-->
+	<!--조인 모달 끝-->
 	<!-- Footer-->
 	<footer class="footer bg-primary small text-center text-white-50">
 		<div class="container px-4 px-lg-5">Copyright &copy; Your
 			Website 2021</div>
 	</footer>
+	<!-- 이메일 인증 관련 -->
+
 	<!-- Bootstrap core JS-->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Core theme JS-->
 	<!-- sweetalert -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-	<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-	
-	<script src="/finalpj/resource/js/scripts.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+
+	<script src="/gooppl/resource/js/scripts.js"></script>
 	<!-- Naver Login Js -->
 	<!-- Kakao login -->
-	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
-	 <script type="text/javascript">
+	<script type="text/javascript"
+		src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
+	<script type="text/javascript">
 		 //초기화 시키기. 
 		 $(document).ready(function(){
 			 Kakao.init('dc40fc11f37c1093d3da086af893f84f');
 			 Kakao.isInitialized();
 		 });
 	 </script>
-	 <script>
+	<script>
 		window.onload=function(){
 			var login_result = "<c:out value='${login_result}'/>";
 		
@@ -631,7 +641,7 @@
 				Swal.fire({
 					  position: 'center',
 					  icon: 'success',
-					  imageUrl: '/finalpj/resource/img/kakaologo/kakaohello.gif',
+					  imageUrl: '/gooppl/resource/img/kakaologo/kakaohello.gif',
 					  title:'LOGIN Success',
 					  text:'환영합니다 ${sessionNickname}님!',
 					  width: 500,
@@ -653,43 +663,48 @@
 			}
 		}
 	 </script>
-	<script type="text/javascript">
-	$(function() {
-		$('#joinBtn').click(function() {
-			var goo_id = $('#goo_id');
-			var nickname = $('#nickname');
-			var pwd = $('#pwd');
-			var pwdRe = $('#pwdRe');
-			
-			if(goo_id.val() == ''){
-				Swal.fire('이메일을 입력해주세요.')
-				goo_id.focus();
-				return false;
-			}
-			if(nickname.val() == ''){
-				Swal.fire('닉네임을 입력해주세요.')
-				nickname.focus();
-				return false;
-			}
-			if(pwd.val() == ''){
-				Swal.fire('패스워드를 입력해주세요.')
-				pwd.focus();
-				return false;
-			}
-			if(pwdRe.val() == ''){
-				Swal.fire('패스워드 확인을 입력해주세요.')
-				pwdRe.focus();
-				return false;
-			}
-			if(pwd.val() != pwdRe.val()){
-				Swal.fire('패스워드를 확인해주세요.')
-				pwdRe.focus();
-				return false;
-			}
-			
-		});
-	});
-</script>
+	 <script>
+	 /* 인증번호 이메일 전송 */
+	 $(".mail_check_button").click(function(){
+		 var email = $(".mail_input").val();        // 입력한 이메일
+		 $.ajax({
+		        
+		        type:"GET",
+		        url:"mailCheck.do?email=" + email
+		        
+		                
+		    });
+		 
+	 });
+	 </script>
+	<script>
+    window.addEventListener('load', () => {
+      const forms = document.getElementsByClassName('validation-form');
+      var pwd=$('#pwd').val();
+      var email=$('#goo_id').val();
+      var pwdRe=$('#pwdRe').val();
+      var reg=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var pwformat = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+      //validity로 입력폼 관리
+      Array.prototype.filter.call(forms, (form) => {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            Swal.fire({
+				  text: '약관을 확인해주세요.',
+				  icon: 'warning',
+				  confirmButtonText: '확인'
+			})
+          }
+          
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+    
+    
+  </script>
 
 	<script type="text/javascript"
 		src="http://code.jquery.com/jquery-1.11.3.min.js"></script>

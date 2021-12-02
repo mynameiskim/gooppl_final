@@ -19,4 +19,8 @@ public class AreaServiceImple implements AreaService {
 		return list;
 	}
 
+	public String getAreaName(int areacode) {
+		String areaName=areaDao.getAreaName(areacode);
+		return areaName;
+	}
 }
