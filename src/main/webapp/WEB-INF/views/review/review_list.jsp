@@ -17,8 +17,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
+   <link href="resource/css/styles.css" rel="stylesheet" />
+    <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
 </head>
 <style>
@@ -70,7 +70,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
                 </ul>
@@ -114,7 +114,7 @@
 
 
                 <div id="writereview" class="col-md-6 col-xs-12">
-                    <button class="btn btn-outline-success btn-sm" style="float: right;">후기작성하기</button>
+                    <button class="btn btn-outline-success btn-sm" style="float: right;" onclick="location.href='reviewWrite.do'">후기작성하기</button>
                 </div>
                 <div class="col-md-1"></div>
             </div>
@@ -383,7 +383,7 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
+    <script src="resource/js/scripts.js"></script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

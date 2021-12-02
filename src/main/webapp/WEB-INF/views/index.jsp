@@ -53,7 +53,7 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+					<li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
 
 					<c:choose>
 						<c:when test="${!empty sessionNickname}">

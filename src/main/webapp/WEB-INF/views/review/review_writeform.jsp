@@ -17,10 +17,10 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="resource/css/styles.css" rel="stylesheet" />
+    <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
-    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="resource/js/jquery-3.6.0.min.js"></script>
     <style>
         #pagepath a {
             font-size: x-small;
@@ -78,7 +78,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
                 </ul>
@@ -110,7 +110,7 @@
             </div>
 
             <!--작성 폼 -->
-            <form id="review_form" class="form-inline" name="writereview">
+            <form id="review_form" class="form-inline" name="writereview" action="#" method="post" enctype="multipart/form-data">
                 
                 <div class="container">
                     <div class="row justify-content-md-center">
@@ -185,6 +185,7 @@
                  //   $colDiv2.classList.add('column')
                     
                     $colDiv1.classList.add('col-md-8')
+                    $colDiv1.classList.add('mb-4')
                  //   $colDiv2.classList.add('col-md-6')
             
                     fileArr.forEach((file, index) => {
@@ -195,7 +196,7 @@
                         const $textarea = document.createElement('textarea')
                     //    const $contentarea = document.createElement('div')
 
-                        //$imgDiv.classList.add('col-md-6')
+                        $imgDiv.classList.add('mb-4')
                     //    $contentarea.classList.add('editor')
                         $img.classList.add('image')
                         $img.classList.add('img-fluid')
@@ -225,7 +226,7 @@
                         reader.readAsDataURL(file)
                     })
                     multipleContainer.appendChild($colDiv1)
-                    multipleContainer.appendChild($colDiv2)
+                  //  multipleContainer.appendChild($colDiv2)
                 }
             }
             // 이벤트 리스너
