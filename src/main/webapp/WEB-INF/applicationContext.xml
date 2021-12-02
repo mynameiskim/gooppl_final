@@ -49,6 +49,9 @@
 	<bean id="gooppl_placedetailDao" class="goo.placedetail.model.Gooppl_PlaceDetailDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="ownerDao" class="goo.owner.model.OwnerDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	<bean id="adDao" class="goo.ad.model.AdDAOImple">
          <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
     </bean>
@@ -77,6 +80,9 @@
 	</bean>
 	<bean id="gooppl_placedetailService" class="goo.placedetail.model.Gooppl_PlaceDetailServiceImple">
 		<property name="gooppl_placedetailDao" ref="gooppl_placedetailDao"></property>
+	</bean>
+	<bean id="ownerService" class="goo.owner.model.OwnerServiceImple">
+		<property name="ownerDao" ref="ownerDao"></property>
 	</bean>
 	<bean id="adService" class="goo.ad.model.AdServiceImple">
          <property name="adDao" ref="adDao"></property>

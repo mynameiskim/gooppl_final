@@ -13,4 +13,5 @@ public interface MemberService {
 	public int kakaoidCheck(String kakaoid);
 	public int kakaoJoin(Map hmp);
 	
+	
 }

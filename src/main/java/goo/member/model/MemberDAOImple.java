@@ -48,4 +48,11 @@ public class MemberDAOImple implements MemberDAO {
 		int count = sqlMap.insert("kakaojoin",hmp);
 		return count;
 	}
+	
+	
+	
+	public int ownerAppli(int member_idx) {
+		int result = sqlMap.selectOne("ownerAppli", member_idx);
+		return result;
+	}
 }

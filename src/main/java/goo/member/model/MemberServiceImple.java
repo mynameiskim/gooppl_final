@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 
+
 public class MemberServiceImple implements MemberService {
 	
 	private MemberDAO memberDao;
@@ -43,4 +44,5 @@ public class MemberServiceImple implements MemberService {
 		int count = memberDao.kakaoJoin(hmp);
 		return count;
 	}
+	
 }

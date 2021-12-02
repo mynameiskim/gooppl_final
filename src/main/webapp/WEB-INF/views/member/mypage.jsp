@@ -102,7 +102,8 @@
                         프로필수정
                     </button>
                     <c:if test="${sessionScope.sessionMemberType=='M'}">
-                    	<button class="btn btn-primary" onclick="location.href='adInfo.do?member_idx=${sessionScope.sessionMember_idx}'">광고주 등록</button>
+                    	<button class="btn btn-primary" onclick="location.href='ckOwnerAppli.do?member_idx=${sessionScope.sessionMember_idx}'">광고주 신청</button>
+                    	
                     </c:if>
                 </div>
             </div>

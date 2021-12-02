@@ -904,6 +904,7 @@ function getResultAdd2(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
+			console.log(data);
 			placeDetails.splice(0,1);
 			if(placeDetails.length!=0){
 				savePlaceDetailData();

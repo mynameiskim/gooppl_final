@@ -11,10 +11,4 @@ public class AdServiceImple implements AdService {
 	public void setAdDao(AdDAO adDao) {
 		this.adDao = adDao;
 	}
-
-	public int adTest(AdDTO dto) {
-		int result = adDao.adTest(dto);
-		return result;
-	}
-
 }

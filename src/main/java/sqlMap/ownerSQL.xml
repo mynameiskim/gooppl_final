@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goo.owner">
+	<insert id="addOwnerInfo" parameterType="goo.owner.model.OwnerDTO">
+	insert into
+		owner_info
+	values(
+		owner_info_idx.nextval,
+		#{member_idx},
+		#{title},
+		#{business_number},
+		#{name},
+		#{email},
+		#{business_tel},
+		#{tel},
+		#{contenttype},
+		#{firstimg},
+		#{addr},
+		#{detailed_addr},
+		#{ad_content},
+		#{mapx},
+		#{mapy},
+		#{areacode},
+		#{sigungucode},
+		#{state}
+	)
+	</insert>
+	
+	<select id="ownerAppli" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
+		select
+			*
+		from
+			owner_info
+		where
+			member_idx=#{member_idx}
+	</select>
+</mapper>
