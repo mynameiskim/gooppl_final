@@ -1,4 +1,4 @@
-package goo.admin.model;
+package goo.siteSettings.model;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +24,10 @@ public class SiteSettingsDAOImple implements SiteSettingsDAO {
 	}
 
 
-	public SiteSettingsDTO get_site_settings() {
+	public SiteSettingsDTO getSiteSettings() {
 		System.out.println("SiteSettingsDAOImple 진입");
-		System.out.println("heldleh");
-		System.out.println("asdasSDSDSd");
-		System.out.println("혜수 테스트");
-		System.out.println("ads");
-		SiteSettingsDTO dto = sqlMap.selectOne("get_site_settings");
-		System.out.println("SQL통과");
+		SiteSettingsDTO dto = sqlMap.selectOne("getSiteSettings");
+		System.out.println("SQL?�과");
 		return dto;
 	}
 }

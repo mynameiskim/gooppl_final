@@ -14,13 +14,15 @@
 <link href="${pageContext.request.contextPath}/resource/css/admin_footer.css" type="text/css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="resource/js/httpRequest.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <header class="bg-success p-2 text-dark bg-opacity-10">
   <nav class="navbar navbar-expand-lg navbar-light p-1 text-dark bg-opacity-10">
     <div class="container-fluid">
-    	<div class="welcome">${sessionScope.nickname}님 안녕하세요 <br>today :${sessionScope.now}</div>&nbsp;&nbsp;&nbsp;
+    	<div class="welcome">${sessionScope.sessionNickname}님 안녕하세요 <br>today :${sessionScope.now}</div>&nbsp;&nbsp;&nbsp;
       <b>관리자페이지</b>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,10 +48,10 @@
         <span class="navbar-text">
           <ul class="ul_1">
             <li class="li_1">
-              <a class="nav-link disabled">GooPPl</a>
+              <a href="index.do" class="nav-link">GooPPl</a>
             </li>
             <li class="li_1">
-              <a class="nav-link disabled" href="logout.do">Logout</a>
+              <a href="logout.do?sessionId=${sessionScope.sessionId}" class="nav-link">Logout</a>
             </li>   
           </ul>
         </span>

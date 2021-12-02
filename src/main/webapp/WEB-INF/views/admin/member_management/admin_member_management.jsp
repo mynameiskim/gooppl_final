@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="/myweb3//admin_css/admin_common.css" type="text/css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resource/css/admin_header.css" type="text/css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
@@ -29,7 +29,7 @@ td{
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				- <a href="/final/admin_member_list.jsp"
+				- <a href="admin_member_list.do"
 				>회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
@@ -39,7 +39,7 @@ td{
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				- <a href="/final/admin_formMail_settings.jsp"
+				- <a href="admin_formmail_settings.do?form_type=회원가입"
 				>폼메일 관리</a><br />
 			</dd>
 		</dl>
@@ -53,11 +53,11 @@ td{
 			<h4>회원목록</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="/final/admin_member_list.jsp"
+			<dt><a href="admin_member_list.do"
 				>회원목록</a>
 			</dt>
 			<dd>
-				<a href="/final/admin_member_list.jsp"
+				<a href="admin_member_list.do"
 				>사이트에 가입한 회원들을 일괄 관리합니다.
 				</a>
 			</dd>
@@ -67,12 +67,12 @@ td{
 		</div>
 		<dl class="menu_list">
 			<dt>
-				<a href="/final/admin_member_out.jsp"
+				<a href="admin_member_out.do"
 				>탈퇴회원목록
 				</a>
 			</dt>
 			<dd>
-				<a href="/final/admin_member_out.jsp"
+				<a href="admin_member_out.do"
 				>탈퇴된 회원들을 일괄 관리합니다.
 				</a>
 			</dd>
@@ -82,12 +82,12 @@ td{
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href="/final/admin_formMail_settings.jsp"
+				<a href="admin_formmail_settings.do?form_type=회원가입"
 				>폼메일 관리
 				</a>
 			</dt>
 			<dd>
-				<a href="/final/admin_formMail_settings.jsp"
+				<a href="admin_formmail_settings.do?form_type=회원가입"
 					>여러가지 상황(회원가입축하 메일,비밀번호찾기 메일 등)에 따른 폼메일을 관리할 수 있습니다.
 				</a>
 			</dd>

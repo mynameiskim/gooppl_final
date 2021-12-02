@@ -1,4 +1,4 @@
-package goo.admin.model;
+package goo.siteSettings.model;
 
 public class SiteSettingsDTO {
 
