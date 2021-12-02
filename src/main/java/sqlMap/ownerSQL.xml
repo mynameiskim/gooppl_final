@@ -28,7 +28,7 @@
 	)
 	</insert>
 	
-	<select id="ownerAppli" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
+	<select id="ckOwnerInfo" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
 		select
 			*
 		from
@@ -36,4 +36,5 @@
 		where
 			member_idx=#{member_idx}
 	</select>
+	
 </mapper>

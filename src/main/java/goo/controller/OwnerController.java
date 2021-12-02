@@ -44,7 +44,7 @@ public class OwnerController {
 	/**광고주 신청 상태 확인*/
 	@RequestMapping("/ckOwnerAppli.do")
 	public ModelAndView ckOwnerAppli(@RequestParam("member_idx")int member_idx) {
-		OwnerDTO dto = ownerService.ownerAppli(member_idx);
+		OwnerDTO dto = ownerService.ckOwnerInfo(member_idx);
 		ModelAndView mav = new ModelAndView();
 		if(dto == null) {
 			mav.setViewName("adInfo.do?member_idx="+member_idx);
