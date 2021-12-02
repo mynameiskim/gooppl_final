@@ -43,6 +43,10 @@ public class MapController {
 	public String kyumap() {
 		return "map/kyumap";
 	}
+	@RequestMapping("/homap.do")
+	public String mapTest() {
+		return "map/211202";
+	}
 	
 	@RequestMapping("/addSigunguTable.do")
 	public ModelAndView addSigunguTable(

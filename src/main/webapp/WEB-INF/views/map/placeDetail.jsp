@@ -22,6 +22,8 @@ var centerMapx;
 var centerMapy;
 var contenttype;
 var placeDetail;
+var overview;
+var smallOverView;
 window.onload = function() {
 	settingPage(contentid);
 }
@@ -35,8 +37,8 @@ function getPlaceDetail(){
 			if(XHR.status==200){
 				var doc = XHR.responseXML;
 				var items = doc.getElementsByTagName('item');
+				console.log(items[0]);
 	        	if(items.length!=0){
-	        	console.log('공통정보 있음');
 	        	 var contentid;
 	        	 var title;
 	        	 var addr;
@@ -44,7 +46,7 @@ function getPlaceDetail(){
 	        	 sigungucode;
 	        	 var mapx;
 	        	 var mapy;
-	        	 var overview;
+	        	 overview;
 	        	 var homepage;
 	        	 var firstimage;
 	        	 if(items[0].getElementsByTagName('contentid').length==0){
@@ -116,10 +118,14 @@ function getPlaceDetail(){
 	        	 	homepage:homepage,
 	        	 	firstimage:firstimage,
 	        	 };
-	        	 
 	        	 centerMapx=mapx;
 	        	 centerMapy=mapy;
-	        	 
+	        	 if(overview.length>685){
+	        		 smallOverView=overview.substring(0, 685)+'...';
+	        	 }else{
+	        		 smallOverView=overview;
+	        	 }
+
 	        	 var contenttype_s;
 	        	 if(contenttype==12){
 	        		 contenttype_s='관광지';
@@ -142,20 +148,61 @@ function getPlaceDetail(){
 	        	 divHead+='<p id="addr"></p></div>';
 	        	 var divHeadNode=document.getElementById('divHead');
 	        	 divHeadNode.innerHTML=divHead;
-	        	 var divBody='<div id="image"><img src="'+firstimage+'" alt="NoImage" width="600"><h3 style="font-size:20px;text-align: left;">상세정보</h3>';
-	        	 divBody+='<hr/><p id="overview" style="width: 600px;word-break:break-all; text-align: left;font-size:12px;">'+overview+'</p></div>';
+	        	 var divBody='<div id="detail"><img src="'+firstimage+'" alt="NoImage" width="600"><h3 style="font-size:20px;text-align: left;">상세정보</h3>';
+	        	 divBody+='<hr/><p id="overview" style="width: 600px;word-break:break-all; text-align: left;font-size:12px;">'+smallOverView+'</p>';
+	        	 divBody+='</div><div id="cont_more" style="float:right;"><button type="button" onclick="changeButton(1)" id="cont_more_bt" title="내용더보기" style="background:white; border:0px;font-size:10px;"><b>내용 더보기 + </b>';
+	        	 divBody+='<button type="button" onclick="changeButton(2)" id="cont_small_bt" title="내용닫기" style="background:white; border:0px;font-size:10px;display:none;"><b>내용 닫기 - </b></div>';
 	        	 var divBodyNode=document.getElementById('divBody');
 	        	 divBodyNode.innerHTML=divBody;
 	        	
+	        	 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	 		    mapOption = { 
+	 		        center: new kakao.maps.LatLng(centerMapy, centerMapx), // 지도의 중심좌표
+	 		        level: 4 // 지도의 확대 레벨
+	 		    };
+	 		
+	 		// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+	 		var map = new kakao.maps.Map(mapContainer, mapOption); 
+	 		
+	 		// 마커가 표시될 위치입니다 
+	 		var markerPosition  = new kakao.maps.LatLng(centerMapy, centerMapx); 
+
+	 		// 마커를 생성합니다
+	 		var marker = new kakao.maps.Marker({
+	 		    position: markerPosition
+	 		});
+
+	 		// 마커가 지도 위에 표시되도록 설정합니다
+	 		marker.setMap(map);
 	        }
 		}
 	}
 }
+function changeButton(num){
+	var overviewDiv=document.getElementById('overview');
+	var openBt;
+	var closeBt;
+	if(num==1){
+		overviewDiv.innerHTML=overview;
+		openBt=document.getElementById('cont_small_bt');
+		closeBt=document.getElementById('cont_more_bt');
+	}else if(num==2){
+		overviewDiv.innerHTML=smallOverView;
+		openBt=document.getElementById('cont_more_bt');
+		closeBt=document.getElementById('cont_small_bt');
+	}
+	openBt.style.display='block';
+	closeBt.style.display='none';
+}
 </script>
 </head>
 <body>
-<div id="allDiv">
-	<div id="divHead"></div>
-	<div id="divBody"></div>
-</div>
+	<div id="allDiv">
+		<div id="divHead"></div>
+		<div id="divBody"></div>
+		<!-- 지도를 표시할 div 입니다 -->
+		<div id="map" style="width:100%;height:250px;"></div>
+	</div>
+	<script src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=33817b3ae46352524552aa3d23525140"></script>
+</body>
 </html>
