@@ -23,7 +23,7 @@ public class MainController {
 	
 	@RequestMapping("/mypage.do")
 	public String mypage() {
-		return "mypage";
+		return "member/mypage";
 	}
 	
 	//email 인증 관련 
