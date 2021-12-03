@@ -25,16 +25,15 @@
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>
-				- <a href='/nmanager/setup/config_manager.do'
+				- <a href='admin_share.do'
 				>공유게시판 관리</a><br />
-				- <a href='/nmanager/setup/config_manager.do'
+				- <a href='admin_review.do'
 				>후기게시판 관리</a><br />
-				- <a href='/nmanager/setup/config_m6anager.do'
+				- <a href='admin_relpy.do'
 				>댓글 관리 </a>
 			</dd>
 		</dl>
 	</div>
-</div>
 	<div id="contents"><h6><b>댓글</b></h6>
 		<ul class='helpbox'>
 			<li>모든 게시글의 댓글을 관리하는 곳입니다.</li>
@@ -97,7 +96,8 @@
 					<td class="text-center"><input type="button" class="bt btn-danger" value="삭제"></td>
 				</tr>
 				</tbody>
-			</table>	
+			</table>
+		</div>	
 	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>

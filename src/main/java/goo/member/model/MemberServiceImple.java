@@ -1,4 +1,4 @@
-package goo.member.model;
+﻿package goo.member.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +25,10 @@ public class MemberServiceImple implements MemberService {
 		return dto;
 		
 	}
+	public int gooidCheck(String goo_id) {
+		int count = memberDao.gooidCheck(goo_id);
+		return count;
+	}
 	
 	public int naveridCheck(String naverid) {
 		int count = memberDao.naveridCheck(naverid);
@@ -44,6 +48,10 @@ public class MemberServiceImple implements MemberService {
 	}
 	public int kakaoJoin(Map hmp) {
 		int count = memberDao.kakaoJoin(hmp);
+		return count;
+	}
+	public int gooJoin(MemberDTO dto) {
+		int count = memberDao.gooJoin(dto);
 		return count;
 	}
 	

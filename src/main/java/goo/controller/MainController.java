@@ -2,9 +2,9 @@ package goo.controller;
 
 
 
-import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import goo.member.model.MemberService;
+
 @Controller
 public class MainController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private MemberService memberService;
+	
 	
 	@RequestMapping("/mypage.do")
 	public String mypage() {
@@ -29,7 +34,7 @@ public class MainController {
 	//email 인증 관련 
 	@RequestMapping(value="/mailCheck.do",method=RequestMethod.GET)
 	@ResponseBody
-	public void mailCheckGET(String email) throws Exception{
+	public String mailCheckGET(String email,HttpSession session) throws Exception{
 		
 		System.out.println("이메일 데이터 전송확인");
 		System.out.println("인증번호 : " + email);
@@ -61,6 +66,8 @@ public class MainController {
         }catch(Exception e) {
             e.printStackTrace();
         }
+        
+        return emailToken;
 		
 	}
 	

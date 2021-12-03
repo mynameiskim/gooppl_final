@@ -34,7 +34,7 @@ td{
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				- <a href="/final/admin_member_out.jsp"
+				- <a href="admin_member_out.do"
 					>탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>

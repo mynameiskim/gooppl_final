@@ -1,4 +1,4 @@
-package goo.member.model;
+﻿package goo.member.model;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -26,6 +26,10 @@ public class MemberDAOImple implements MemberDAO {
 		System.out.println("sqlOk");
 		return dto;
 	}
+	public int gooidCheck(String goo_id) {
+		int count = sqlMap.selectOne("gooidCheck",goo_id);
+		return count;
+	}
 	
 	public int naveridCheck(String naverid) {
 		
@@ -49,8 +53,10 @@ public class MemberDAOImple implements MemberDAO {
 		int count = sqlMap.insert("kakaojoin",hmp);
 		return count;
 	}
-	
-	
+	public int gooJoin(MemberDTO dto) {
+		int count = sqlMap.insert("gooJoin",dto);
+		return count;
+	}
 	
 	public int ownerAppli(int member_idx) {
 		int result = sqlMap.selectOne("ownerAppli", member_idx);
