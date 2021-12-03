@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
@@ -64,6 +64,9 @@
 	<bean id="siteSettingsDao" class="goo.siteSettings.model.SiteSettingsDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
+	<bean id="reviewDao" class="goo.review.model.ReviewDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	<bean id="formmailDao" class="goo.formmail.model.FormmailDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
@@ -101,6 +104,9 @@
 	</bean>
 	<bean id="siteSettingsService" class="goo.siteSettings.model.SiteSettingsServiceImple">
 		<constructor-arg ref="siteSettingsDao"/>
+	</bean>
+	<bean id="reviewService" class="goo.review.model.ReviewServiceImple">
+		<property name="reviewDao" ref="reviewDao"></property>
 	</bean>
 	<bean id="formmailService" class="goo.formmail.model.FormmailServiceImple">
 		<constructor-arg ref="formmailDao"></constructor-arg>

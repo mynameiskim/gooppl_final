@@ -55,19 +55,13 @@ function changeCode(item) {
 	location.href="admin_formmail_settings.do?form_type="+param;
 }
 
-function openPreview() {
-	var f = document.Frm;
+function openPreview(form_no) {
+	var form_type = document.getElementById('form_type').value;
+	var form_title = document.getElementById('form_title').value;
+	var form_content = document.getElementById('form_content').value;
+	form_content = encodeURIComponent(form_content);	
+	window.open('mail_form_preview_pop.do?form_no='+form_no+'&form_type='+form_type+'&form_title='+form_title+'&form_content='+form_content	, 'previewMailForm' , 'width=900px,height=700px,top=300,left=800');
 
-	if (isEmpty(f.content)) {
-		alert("내용을 입력해주세요.");
-		return false;
-	}
-
-	openPopup("../../dummy.htm", "PreviewMailForm", 737, 600, "scrollbars=1");
-
-	f.target = "PreviewMailForm";
-	f.action = "mail_form_preview_pop.do";
-	f.submit();
 }
 
 function formmailUpdate(form_no){
@@ -81,7 +75,7 @@ function formmailUpdate(form_no){
 		confirmButtonText: '확인',
 		cancelButtonText: '취소',
 		showLoaderOnConfirm: true,
-		allowOutsideClick: () => !Swal.isLoading()
+		allowOutsideClick:false
 	}).then((result) => {
 	  if (result.isConfirmed) {
 	  		var form_type = document.getElementById('form_type').value;
@@ -101,7 +95,9 @@ function formmailUpdate(form_no){
 					      title: result.msg,
 					      icon:'warning',
 					      confirmButtonText: '확인',
-					      confirmButtonColor: '#d33'
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
 					    }).then((result) => {
 					    	if (result.isConfirmed) {
 					    		location.reload();
@@ -112,7 +108,9 @@ function formmailUpdate(form_no){
 					      title: result.msg,
 					      icon:'success',
 					      confirmButtonText: '확인',
-					      confirmButtonColor: '#A4C399'
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
 					    }).then((result) => {
 					    	if (result.isConfirmed) {
 					    		location.reload();
@@ -127,7 +125,7 @@ function formmailUpdate(form_no){
 
 	</script>
 	
-	<form name="formmail_update" action="formmail_update.do" method="post">
+	<form name="Frm" action="formmail_update.do" method="post">
 			<table class="table table-bordered">
 			<caption>폼메일 수정</caption>
 			<colgroup><col width="130"><col width="*"></colgroup>
@@ -159,7 +157,7 @@ function formmailUpdate(form_no){
 			<tfoot style="border-top:0px;">
 				<tr>
 					<td colspan="2" class="text-center">
-					<button class="btn btn-secondary" type="button" onClick="openPreview()">미리보기</button>
+					<button class="btn btn-secondary" type="button" onClick="openPreview(${fdto.form_no})">미리보기</button>
 					<button class="btn btn-secondary" type="button" onClick="formmailUpdate(${fdto.form_no})">확인</button>
 					</td>
 				</tr>

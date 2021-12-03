@@ -68,7 +68,7 @@ function memberDelete(index){
 		confirmButtonText: '삭제',
 		cancelButtonText: '취소',
 		showLoaderOnConfirm: true,
-		allowOutsideClick: () => !Swal.isLoading()
+		allowOutsideClick:false
 	}).then((result) => {
 	  if (result.isConfirmed) {
 	  		var param=document.getElementById("member_idx"+index).value;
@@ -86,7 +86,9 @@ function memberDelete(index){
 					      title: result.msg,
 					      icon:'warning',
 					      confirmButtonText: '확인',
-					      confirmButtonColor: '#d33'
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
 					    }).then((result) => {
 					    	if (result.isConfirmed) {
 					    		location.reload();
@@ -97,7 +99,9 @@ function memberDelete(index){
 					      title: result.msg,
 					      icon:'success',
 					      confirmButtonText: '확인',
-					      confirmButtonColor: '#A4C399'
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
 					    }).then((result) => {
 					    	if (result.isConfirmed) {
 					    		location.reload();

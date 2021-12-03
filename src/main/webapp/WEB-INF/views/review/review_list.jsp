@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Grayscale - Start Bootstrap Theme</title>
+    <title>여행 리뷰 게시판</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -86,7 +87,7 @@
                 <div class="col-md-4" style="height: 128px;">
                     <!-- 페이지 경로 -->
                     <div id="pagepath">
-                        <span> <a href="">커뮤니티</a>&gt;후기게시판
+                        <span> <a href="comunity.do">커뮤니티</a>&gt;후기게시판
                         </span>
                     </div>
                 </div>
@@ -105,7 +106,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-4" style="float: right">
                     <div class="container-fluid">
-                        <form class="d-flex">
+                        <form class="d-flex" name="reivew_search" action="#">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
@@ -120,7 +121,11 @@
             </div>
 
             <!-- 게시글 슬라이더  -->
-
+            <c:if test="${empty list }">
+            	<div class="row">
+            		
+            	</div>
+            </c:if>
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
@@ -185,30 +190,34 @@
             </div>
 
             <!--     전체 후기 목록  -->
-
+            <c:if test="${empty list }">
+            	 <div class="collapse" id="collapseExample">
+            	 	등록된 게시글이 없습니다.
+            	 </div>
+            </c:if>
             <div class="collapse" id="collapseExample">
-                
+                <c:forEach var="dto" items="${list }">
                 <div class="row justify-content-md-center">
                     <div class="col-md-10">
                         <div class="card mb-3">
                             <div class="row g-0">
                                 <div class="col-md-3">
                                     <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2020/01/09/99135906.5.jpg"
-                                        class="img-fluid rounded-start" alt="..." style="width: 205px; height: 128px">
+                                        class="img-fluid rounded-start" alt="썸네일" style="width: 205px; height: 128px">
                                 </div>
                                 <div class="col-md-9">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-9">
-                                            <h5 class="card-title mb-5">게시글제목</h5>
-                                            <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">ㅁㄴ이러ㅚㅁㄴㅇ롬닝러ㅣㅁㅇ나룀ㄴㅇ러ㅣ;ㅁㄴ얼;ㅣㅁㄴ아ㅓㄹ;ㅁㄴ이ㅏ러;ㄴㅇㄴㅁㅇㄹ</p>
+                                            <h5 class="card-title mb-5">${dto.subject }</h5>
+                                            <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">${dto.prologue }</p>
                                             </div>
                                             <div class="col-md-3">
                                                 <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성자</small>
+                                                    <small class="text-muted" style="font-size: x-small;">${dto.nickname }</small>
                                                 </p>
                                                 <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성 날짜</small>
+                                                    <small class="text-muted" style="font-size: x-small;">${dto.writedate }</small>
                                                 </p>
                                             </div>
                                         </div>
@@ -218,157 +227,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-md-10">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2020/01/09/99135906.5.jpg"
-                                        class="img-fluid rounded-start" alt="..." style="width: 205px; height: 128px">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                            <h5 class="card-title mb-5">게시글제목</h5>
-                                            <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">ㅁㄴ이러ㅚㅁㄴㅇ롬닝러ㅣㅁㅇ나룀ㄴㅇ러ㅣ;ㅁㄴ얼;ㅣㅁㄴ아ㅓㄹ;ㅁㄴ이ㅏ러;ㄴㅇㄴㅁㅇㄹ</p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성자</small>
-                                                </p>
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성 날짜</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </c:forEach>
+                <div >
+                	${pageStr }
                 </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-md-10">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2020/01/09/99135906.5.jpg"
-                                        class="img-fluid rounded-start" alt="..." style="width: 205px; height: 128px">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                            <h5 class="card-title mb-5">게시글제목</h5>
-                                            <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">ㅁㄴ이러ㅚㅁㄴㅇ롬닝러ㅣㅁㅇ나룀ㄴㅇ러ㅣ;ㅁㄴ얼;ㅣㅁㄴ아ㅓㄹ;ㅁㄴ이ㅏ러;ㄴㅇㄴㅁㅇㄹ</p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성자</small>
-                                                </p>
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성 날짜</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-md-10">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2020/01/09/99135906.5.jpg"
-                                        class="img-fluid rounded-start" alt="..." style="width: 205px; height: 128px">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                            <h5 class="card-title mb-5">게시글제목</h5>
-                                            <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">ㅁㄴ이러ㅚㅁㄴㅇ롬닝러ㅣㅁㅇ나룀ㄴㅇ러ㅣ;ㅁㄴ얼;ㅣㅁㄴ아ㅓㄹ;ㅁㄴ이ㅏ러;ㄴㅇㄴㅁㅇㄹ</p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성자</small>
-                                                </p>
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성 날짜</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-md-10">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2020/01/09/99135906.5.jpg"
-                                        class="img-fluid rounded-start" alt="..." style="width: 205px; height: 128px">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                            <h5 class="card-title mb-5">게시글제목</h5>
-                                            <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">ㅁㄴ이러ㅚㅁㄴㅇ롬닝러ㅣㅁㅇ나룀ㄴㅇ러ㅣ;ㅁㄴ얼;ㅣㅁㄴ아ㅓㄹ;ㅁㄴ이ㅏ러;ㄴㅇㄴㅁㅇㄹ</p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성자</small>
-                                                </p>
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성 날짜</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-md-10">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2020/01/09/99135906.5.jpg"
-                                        class="img-fluid rounded-start" alt="..." style="width: 205px; height: 128px">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                            <h5 class="card-title mb-5">게시글제목</h5>
-                                            <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">ㅁㄴ이러ㅚㅁㄴㅇ롬닝러ㅣㅁㅇ나룀ㄴㅇ러ㅣ;ㅁㄴ얼;ㅣㅁㄴ아ㅓㄹ;ㅁㄴ이ㅏ러;ㄴㅇㄴㅁㅇㄹ</p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성자</small>
-                                                </p>
-                                                <p class="card-text">
-                                                    <small class="text-muted" style="font-size: x-small;">작성 날짜</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
             </div>
 
 
