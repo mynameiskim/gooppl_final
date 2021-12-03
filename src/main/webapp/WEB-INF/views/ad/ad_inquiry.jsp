@@ -22,60 +22,112 @@
     <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
     <script>
     	function changeInquiryType(){
-    		var changeTypeNode = document.getElementById('changeType');
+    		var divNode = document.getElementById('changeType');
+    		//var fstNode = divNode.firstChild.nextSibling.nodeName;
+    		var labelNode = document.getElementById('notice');
+    		var textNode = labelNode.lastChild;
+    		
+    		
+    		var contentNode1 = labelNode.nextSibling;
+    		var contentNode2 = labelNode.nextSibling.nextSibling;
+    		console.log('태그1 이름'+contentNode1.nodeName);
+    		console.log('태그2 이름'+contentNode2.nodeName);
+    		console.log('라벨노드'+labelNode.nodeName);
+    		
+    		
     		var inquiry_typeValue = document.getElementById('inquiry_type').value;
     		
-    		console.log(inquiry_typeValue);
-    		
-    		var noticeNode = document.getElementById('notice');
-    		var delNoticeTextNode = noticeNode.firstChild;
-    		console.log(noticeNode);
-    		var delNode = noticeNode.nextSibling;
-    		
-    		var periodInputNode = document.createElement('input');
-    		var reasonSelectNode = document.createElement('select');
-    		
-    		noticeNode.setAttribute('class','form-label');
-    		
-    		if(inquiry_typeValue==='광고신청'){
-    			var noticeTextNode = createTextNode
-    			if(changeTypeNode.childNodes.length>0){
-    				changeTypeNode.removeChild('noticeNode');
-    				changeTypeNode.removeChild('delNode');
-    			}
+    		if(inquiry_typeValue === '광고신청'){
+    			labelNode.removeChild(textNode);
+    			divNode.removeChild(contentNode1);
+    			divNode.removeChild(contentNode2);
     			
-    			changeTypeNode.appendChild(noticeNode);
-    			noticeTextNode = document.createTextNode(inquiry_typeValue);
-    			noticeNode.appendChild(noticeTextNode);
-	    		
-    			periodInputNode.setAttribute('type', 'number');
-    			periodInputNode.setAttribute('name', 'ad_period');
-    			periodInputNode.setAttribute('requerid' , true);
-    			changeTypeNode.appendChild(periodInputNode);
-    		}else if(inquiry_typeValue==='광고취소'){
-    			if(changeTypeNode.childNodes.length>0){
-    				//noticeNode.removeChild('delNoticeTextNode');
-    				changeTypeNode.removeChild(documentElementById('notice'));
-    				changeTypeNode.removeChild('delNode');
-    			}
-    		}else if(inquiry_typeValue==='광고수정'){
-    			if(changeTypeNode.childNodes.length>0){
-    				//noticeNode.removeChild('delNoticeTextNode');
-    				changeTypeNode.removeChild('noticeNode');
-    				changeTypeNode.removeChild('delNode');
-    			}
+    			var labelTextNode = document.createTextNode('광고기간(개월)');
+    			labelNode.appendChild(labelTextNode);
+    			
+    			var inputNode = document.createElement('input');
+    			inputNode.setAttribute('type','number');
+    			inputNode.setAttribute('name','ad_period');
+    			inputNode.setAttribute('class','form-control');
+    			inputNode.setAttribute('min',1);
+    			inputNode.setAttribute('max',24);
+    			inputNode.setAttribute('required', "required");
+    			
+    			var hiddenNode = document.createElement('input');
+    			hiddenNode.setAttribute('type','hidden');
+    			hiddenNode.setAttribute('name','reason');
+    			hiddenNode.setAttribute('value','N');
+    			
+    			divNode.appendChild(inputNode);
+    			divNode.appendChild(hiddenNode);
+    			
+    		}else if(inquiry_typeValue === '광고수정'){
+    			labelNode.removeChild(textNode);
+    			divNode.removeChild(contentNode1);
+    			divNode.removeChild(contentNode2);
+    			
+    			var labelTextNode = document.createTextNode(' ');
+    			labelNode.appendChild(labelTextNode);
+    			
+    			var inputNode = document.createElement('input');
+    			inputNode.setAttribute('type','hidden');
+    			inputNode.setAttribute('name','ad_period');
+    			inputNode.setAttribute('value',0);
+    			
+    			var hiddenNode = document.createElement('input');
+    			hiddenNode.setAttribute('type','hidden');
+    			hiddenNode.setAttribute('name','reason');
+    			hiddenNode.setAttribute('value','N');
+    			
+    			divNode.appendChild(inputNode);
+    			divNode.appendChild(hiddenNode);
+    		}else if(inquiry_typeValue === '광고취소'){
+    			labelNode.removeChild(textNode);
+    			divNode.removeChild(contentNode1);
+    			divNode.removeChild(contentNode2);
+    			
+    			var labelTextNode = document.createTextNode('환불사유');
+    			labelNode.appendChild(labelTextNode);
+    			
+    			var selectNode = document.createElement('select');
+    			selectNode.setAttribute('class','form-select');
+    			selectNode.setAttribute('name','reason');
+    			selectNode.setAttribute('required',"required");
+    			var optionNode1 = document.createElement('option');
+    			var optionNode2 = document.createElement('option');
+    			var optionNode3 = document.createElement('option');
+    			var optionNode4 = document.createElement('option');
+    			var optionNode5 = document.createElement('option');
+    			var optionTextNode1 = document.createTextNode('광고효과가 없음');
+    			var optionTextNode2 = document.createTextNode('금액부담');
+    			var optionTextNode3 = document.createTextNode('가게사정');
+    			var optionTextNode4 = document.createTextNode('폐업');
+    			var optionTextNode5 = document.createTextNode('기타');
+    			optionNode1.setAttribute('value','광고효과가 없음');
+    			optionNode2.setAttribute('value','금액부담');
+    			optionNode3.setAttribute('value','가게사정');
+    			optionNode4.setAttribute('value','폐업');
+    			optionNode5.setAttribute('value','기타');
+    			optionNode1.appendChild(optionTextNode1);
+    			optionNode2.appendChild(optionTextNode2);
+    			optionNode3.appendChild(optionTextNode3);
+    			optionNode4.appendChild(optionTextNode4);
+    			optionNode5.appendChild(optionTextNode5);
+    			selectNode.appendChild(optionNode1);
+    			selectNode.appendChild(optionNode2);
+    			selectNode.appendChild(optionNode3);
+    			selectNode.appendChild(optionNode4);
+    			selectNode.appendChild(optionNode5);
+    			
+    			var hiddenNode = document.createElement('input');
+    			hiddenNode.setAttribute('type','hidden');
+    			hiddenNode.setAttribute('name','ad_period');
+    			hiddenNode.setAttribute('value',0);
+    			
+    			divNode.appendChild(selectNode);
+    			divNode.appendChild(hiddenNode);
     		}
-    		
     	}
-        function ckTermsOfUse(){
-            var inquiryForm = document.inquiryForm;
-            var ck = document.inquiryForm.check1;
-            if(!ck){
-                window.alert('약관에 동의해주세요');
-    		    return false;
-    	    }
-            inquiryForm.submit();
-        }
     </script>
 </head>
 
@@ -103,11 +155,12 @@
     
     <section class="signup-section" id="sigup">
     	<div class="container px-5 my-5" style="width:55%">
-    	<form name="inquiryForm" action="#">
+    	<form name="inquiryForm" action="adInquiry.do" method="post">
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
                         <h2>광고 문의</h2>
+                        <input type="hidden" name="owner_idx" value="${owner_idx}">
                     </div>
                     <div class="col-md-4">
                         <select class="form-select" id="inquiry_type" name="inquiry_type" onchange="changeInquiryType()" required>
@@ -130,7 +183,7 @@
                                 <label class="form-label" style="color:#6c757d">사업자번호</label>
                                 <input type="text" class="form-control" id="business_number" name="business_number" value="${business_number}" readonly>
                             </div>
-<div class="col-4 mb-4" id="changeType"><label class="form-label" style="color:#6c757d" id="notice">광고기간</label><input type="number" class="form-control" id="ad_period" name="ad_period"></div>
+							<div class="col-4 mb-4" id="changeType"><label class="form-label" style="color:#6c757d" id="notice">광고기간(개월)</label><input type="number" class="form-control" id="ad_period" name="ad_period" required><input type="hidden" name="reason" value="n"></div>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -139,7 +192,7 @@
                     </div>
                     <div class="mb-4">
                         <label class="form-label" style="color:#6c757d">문의내용</label>
-                        <textarea class="form-control" name="inquiries" rows="10" required></textarea>
+                        <textarea class="form-control" name="inquiry_content" rows="10" required></textarea>
                     </div>
                     <div class="mb-1 form-check">
                         <label>상담하시고자 하는 내용을 보내주세요.<br>빠른 시일내에 담당자가 연락드리겠습니다.<br></label>
@@ -155,7 +208,6 @@
                     </div>
                     <div class="d-grid gap-2">
                         <input type="submit" class="btn btn-primary" value="확인" >
-                        <!-- <button class="btn btn-primary" type="submit">확인</button> -->
                     </div>
             </div>
     	</form>

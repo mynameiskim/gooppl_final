@@ -13,7 +13,7 @@ public class Ad_inquiryServiceImple implements Ad_inquiryService {
 	}
 
 	public int adInquiry(Ad_inquiryDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = ad_inquiryDao.adInquiry(dto);
+		return result;
 	}
 }

@@ -91,6 +91,7 @@ public class OwnerController {
 		String msg = result>0?"신청이 완료되었습니다.":"신청에 실패했습니다.";
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("msg", msg);
+		mav.addObject("goUrl","mypage.do");
 		mav.setViewName("ad/adMsg");
 		return mav;
 	}
