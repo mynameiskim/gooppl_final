@@ -15,8 +15,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="resource/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="resource/css/styles.css" rel="stylesheet" /> 
+    <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet"/>
+   	<link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
 <style>
 select{
@@ -66,6 +66,16 @@ input[type="button"]{
 	color: white;
     box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
 }
+#del_Bt{
+	border: 0;
+	background-color: #f3969a;
+	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    border-radius: 5px;
+	color: white;
+    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
+}
+
 table{
 	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 80%;
@@ -83,7 +93,7 @@ table{
 .savedList li{display: flex;flex: 1;font-size: 80%;font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";}
 .savedList li:not(:last-of-type) {border-bottom: 1px solid var(--border-color);}
 .savedList li.over .draggable {background-color: #f3969a;}
-.savedList .placeinfo {margin: 0 20px 0 0;}
+.savedList .placeinfo {margin: 0 17px 0 0;}
 .draggable { cursor: pointer; display: flex; align-items: center;justify-content: space-between;padding:10px;flex: 1;margin:0px 0px;}
 .tripnum{color: white; border-radius: 5px;background:#f3969a;width:8%;display: flex;align-items: center;justify-content: center;}
 .placeinfo{width:80%;align-text: center;vertical-align:middle;display:inline;}
@@ -110,7 +120,7 @@ $(function () {
 /**추가한 여행지 전체삭제*/
 $(function () {
     $('#del_Bt').click( function() {
-        $('.savedList').empty();
+        $('#savedList').empty();
         
         hideLines();
         latly.splice(0, latly.length);
@@ -256,19 +266,20 @@ $(function() {
     	    var divNode=document.createElement('div');
     	    divNode.setAttribute('class', 'draggable');
     	    divNode.setAttribute('draggable', 'true');
-    	    var pNode=document.createElement('p');
+    	    divNode.setAttribute('style', 'justify-content: center;');
+    	    var pNode=document.createElement('span');
     	    pNode.setAttribute('class', 'placeinfo');
     	    var imgNode=document.createElement('img');
     	    imgNode.setAttribute('src', images[i]);
-    	    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
+    	    imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
     	    pNode.appendChild(imgNode);
     	    var spanNode2=document.createElement('span');
     	    spanNode2.setAttribute('class', 'tripdis');
     	    var spanTextNode2=document.createTextNode(titles[i]);
-    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
+    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
     	    spanNode2.appendChild(spanTextNode2);
     	    pNode.appendChild(spanNode2);
-    	    pNode.setAttribute('style', 'display:inline;');
+    	    pNode.setAttribute('style', 'display:inline; max-width: 80px;');
     	    divNode.appendChild(pNode);
     	    var addBt = document.createElement('input');
     	    addBt.setAttribute('type','button');
@@ -295,12 +306,12 @@ $(function() {
 });
 
 /**드래그앤 드랍시 새로 생성 ---아직 안됨 미완성*/
-$(function() {
-	$(document).on("change",".listName",function(){
+function newlist(){
         $('#savedList').empty();
         hideLines();
         hideMarkers();  
         
+        /**
         latly.splice(0, latly.length);
         drawLines.splice(0, drawLines.length);
 		markers.splice(0, markers.length);
@@ -310,10 +321,7 @@ $(function() {
         images.splice(0, images.length);
         addrs.splice(0, addrs.length);
         contentids.splice(0, contentids.length);
-        
-        for(var k=0; k<count2; k++){
-        	
-        }
+        */
         
     	for(var i=0; i<mapys.length; i++){
     		
@@ -426,19 +434,20 @@ $(function() {
     	    var divNode=document.createElement('div');
     	    divNode.setAttribute('class', 'draggable');
     	    divNode.setAttribute('draggable', 'true');
-    	    var pNode=document.createElement('p');
+    	    divNode.setAttribute('style', 'justify-content: center;');
+    	    var pNode=document.createElement('span');
     	    pNode.setAttribute('class', 'placeinfo');
     	    var imgNode=document.createElement('img');
     	    imgNode.setAttribute('src', images[i]);
-    	    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
+    	    imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
     	    pNode.appendChild(imgNode);
     	    var spanNode2=document.createElement('span');
     	    spanNode2.setAttribute('class', 'tripdis');
     	    var spanTextNode2=document.createTextNode(titles[i]);
-    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
+    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
     	    spanNode2.appendChild(spanTextNode2);
     	    pNode.appendChild(spanNode2);
-    	    pNode.setAttribute('style', 'display:inline;');
+    	    pNode.setAttribute('style', 'display:inline; max-width: 80px;');
     	    divNode.appendChild(pNode);
     	    var addBt = document.createElement('input');
     	    addBt.setAttribute('type','button');
@@ -460,8 +469,7 @@ $(function() {
     	    
     	    addEventListeners();
     	}
-    });
-});
+}
 
 
     
@@ -564,7 +572,7 @@ function showResult(){
             
              var imgNode = document.createElement('img');
              imgNode.setAttribute('src', image);
-             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px; ');
           
              var tdNode5 = document.createElement('td');
              var addBt = document.createElement('input');
@@ -803,19 +811,21 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     var divNode=document.createElement('div');
     divNode.setAttribute('class', 'draggable');
     divNode.setAttribute('draggable', 'true');
-    var pNode=document.createElement('p');
+    divNode.setAttribute('style', 'justify-content: center;');
+    var pNode=document.createElement('span');
     pNode.setAttribute('class', 'placeinfo');
     var imgNode=document.createElement('img');
     imgNode.setAttribute('src', image);
-    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
+    imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
+    imgNode.setAttribute('hover', '');
     pNode.appendChild(imgNode);
     var spanNode2=document.createElement('span');
     spanNode2.setAttribute('class', 'tripdis');
     var spanTextNode2=document.createTextNode(title);
-    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
+    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
     spanNode2.appendChild(spanTextNode2);
     pNode.appendChild(spanNode2);
-    pNode.setAttribute('style', 'display:inline;');
+    pNode.setAttribute('style', 'display:inline; max-width: 80px;');
     divNode.appendChild(pNode);
     var addBt = document.createElement('input');
     addBt.setAttribute('type','button');
@@ -914,19 +924,20 @@ function addEventListeners() {
 	  var delBtns=document.getElementsByClassName('del_Bt2');
 	  var tripnums=document.getElementsByClassName('tripnum');
 
+	  [mapys[dragStartIndex], mapys[dragEndIndex]] = [mapys[dragEndIndex], mapys[dragStartIndex]];
+	  [mapxs[dragStartIndex], mapxs[dragEndIndex]] = [mapxs[dragEndIndex], mapxs[dragStartIndex]];
+	  [titles[dragStartIndex], titles[dragEndIndex]] = [titles[dragEndIndex], titles[dragStartIndex]];
+	  [images[dragStartIndex], images[dragEndIndex]] = [images[dragEndIndex], images[dragStartIndex]];
+	  [addrs[dragStartIndex], addrs[dragEndIndex]] = [addrs[dragEndIndex], addrs[dragStartIndex]];
+	  [contentids[dragStartIndex], contentids[dragEndIndex]] = [contentids[dragEndIndex], contentids[dragStartIndex]];
+	  
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
 		  var delBtn=delBtns[i];
 		  delBtn.id=tripnum;
-		  
-		  	changeArrayOrder(mapys, 1, 3);
-		    mapxs.push(mapx);
-		    titles.push(title);
-		    images.push(image);
-		    addrs.push(addr);
-		    contentids.push(contentid);
 	  }
 	  
+	  newlist();
 	}
 	
 	//위에서 아래로 움직일 때 
@@ -1037,7 +1048,7 @@ function addEventListeners() {
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="color: #f3969a; padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
 	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveAll()" id="save_Bt">저장하기</button>
 	                    	</div>
 				        </div>
