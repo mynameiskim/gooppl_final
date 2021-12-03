@@ -28,15 +28,6 @@
 	src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <!-- XHM -->
 <script type="text/javascript" src="/gooppl/resource/js/httpRequest.js"></script>
-<style>
-#mail_check_input_box_false{
-    background-color:#ebebe4;
-}
- 
-#mail_check_input_box_true{
-    background-color:white;
-}
-</style>
 </head>
 <body id="page-top">
 	<!-- Navigation-->
@@ -102,26 +93,7 @@
 					<i class="fas fa-map-marked-alt fa-2x mb-2 text-black-50"></i>
 					<h2 class="text-black-50 mb-5">어디로 갈까?</h2>
 					<h6 class="text-black-50 mb-5">추천하는 여행지 카드를 선택하여 일정을 만들어보세요.</h6>
-					<!-- * * * * * * * * * * * * * * *-->
-					<!-- * * SB Forms Contact Form * *-->
-					<!-- * * * * * * * * * * * * * * *-->
-					<!-- This form is pre-integrated with SB Forms.-->
-					<!-- To make this form functional, sign up at-->
-					<!-- https://startbootstrap.com/solution/contact-forms-->
-					<!-- to get an API token!-->
-					<form class="form-signup" id="contactForm"
-						data-sb-form-api-token="API_TOKEN">
-						<!-- Email address input-->
-						<div class="row input-group-newsletter">
-							<div class="col">
-								<input class="form-control" id="area" type="text"
-									placeholder="여행할 지역을 검색해주세요" />
-							</div>
-							<div class="col-auto">
-								<input class="btn btn-primary" type="button" value="검색">
-							</div>
-						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -440,29 +412,30 @@
 	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-body p-0 pt-0">
-					<div class="card mb-1" style="max-width: 800px;">
+					<div class="card mb-1" style="max-width: 1200px;">
 						<div class="row g-0 ">
 							<div class="col-md-4">
 								<img src="/gooppl/resource/img/gangneung.jpg"
-									class="img-fluid rounded-start" alt="...">
+									class="img-fluid rounded-start" alt="..." style="width:100%; height:100%">
 							</div>
 							<div class="col-md-8">
-								<div class="card-body">
-									<h5 class="card-title">
+								<div class="card-body" style="padding:50px 50px 10px 50px;">
+									<h6 class="card-title display-7">
 										<strong>GANGNEUNG</strong>
 									</h5>
 									<h6 class="card-title">대한민국 강릉</h6>
-									<p class="card-text" style="font-size: 13px;">은은한 커피향이 남다른
+									<p class="card-text" style="font-size: 18px;">은은한 커피향이 남다른
 										강원도 강릉시. 그중에도 카페거리로 유명한 안목해변은 발이 닿는 어디든 향긋한 커피 한 잔에 지평선 끝까지
 										펼쳐지는 바다 풍경은 덤으로 얻을 수 있다. 일출 명소로 유명한 정동진과 야경이 아름다운 경포대는 대표 여행
 										코스! 구름도 머물다 간다는 해발 1,100m에 위치한 강릉 안반데기 마을은 전망대에 올라 드넓게 펼쳐진
 										배추밭이 붉게 물드는 일출 전경이 일품이다..</p>
-									<button type="button" class="btn btn-primary">일정만들기</button>
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">닫기</button>
+										<br>
+									<button type="button" class="btn btn-primary btn-lg">일정만들기</button>
+									<button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">닫기</button>
+										<br>
 								</div>
 							</div>
 						</div>
@@ -546,56 +519,60 @@
 				</div>
 				<div class="modal-body p-1 pt-0">
 					<div class="input-form col-md-9 col-lg-9 mx-auto">
-						<form class="validation-form" novalidate>
-							<div class="row mb-3 mail_wrap">
-								<label for="email">이메일</label>
-								<div class="col-md-12 col-sm-8 mx-auto mail_inpt_box">
-									<input type="email" class="form-control mail_input" id="email"
-										name="memberMail" placeholder="gooppl@naver.com" required>
-								</div>
-								<div class="col-md-8 col-sm-8- mx-auto mail_check_wrap">
-									<div class="mail_check_input_box" id="mail_check_input_box_false">
-										<input class="mail_check_input" disabled="disabled">
+						<form class="needs-validation" id="joinForm" name="joinForm" action="join.do" 
+						method="post" enctype="application/x-www-form-urlencoded" novalidate >
+						<!-- 멤버 타입 히든 -->
+						<input type="hidden" name="member_type" value="M">
+						<!--  -->
+							<div class="row form-group has-feedback">
+								<div class="col-md-12 mb-3">
+									<label for="email">이메일</label> 
+									<div class="input-group mb-1">
+									  <input type="text" name="goo_id" id="goo_id" class="form-control" placeholder="goo@gmail.com" aria-label="goo@gmail.com" aria-describedby="idCheck" required>
+									  <button class="btn btn-outline-primary" type="button" id="idCheck">ID 체크</button>
 									</div>
 								</div>
-								<div class="col-md-4 col-sm-4 mx-auto mail_check_button">
-									<span>인증번호 전송</span>
+								<div class="col-md-10 mb-3 form-group has-feedback"  id="token_div" style="display:none;">
+									 <div class="input-group mb-3">
+									  <input type="text" id="mail_token"class="form-control" placeholder="인증번호를 입력하세요." aria-label="인증번호를 입력하세요" aria-describedby="Token_button" required readonly>
+									  <button class="btn btn-outline-secondary" type="button" id="token_button" value="n">인증번호 발급</button>
+									  <button class="btn btn-outline-secondary" type="button" id="token_check" value="n" style="display:none">인증하기</button>
+									  <button class="btn btn-success" type="button" id="token_ok" value="n" style="display:none" disabled>인증완료</button>
+									  <input type="hidden" id="made_token">
+									  <label style="color:red; display:none;">인증번호가 올바르지 않습니다.</label>
+									</div>
 								</div>
-								<div class="clearfix"></div>
-								<div class="mb-3">
-									<label for="nickname">닉네임</label> <input type="text"
-										class="form-control" id="nickname" placeholder="" value=""
-										required>
-									<div class="invalid-feedback">별명을 입력해주세요.</div>
-								</div>
-								<div class="mb-3">
-									<label for="pwd">비밀번호</label> <input type="text"
-										class="form-control" id="pwd" placeholder="영문+숫자 10자 이상"
-										required>
-									<div class="invalid-feedback">비밀번호를 확인해주세요.</div>
-								</div>
-								<div class="mb-3">
-									<label for="pwdRe">비밀번호 확인</label> <input type="text"
-										class="form-control" id="pwdRe" required>
-									<div class="invalid-feedback">비밀번호를 확인해주세요.</div>
-								</div>
-								<hr class="mb-3">
-								<div class="custom-control custom-checkbox mb-3">
-									<input type="checkbox" class="custom-control-input"
-										id="aggrement1" required> <label
-										class="custom-control-label" for="aggrement1">개인정보 수집
-										및 이용에 동의합니다.</label> <a href="#"
-										style="text-decoration: none; font-size: 0.7em;">보기</a> <br>
-									<input type="checkbox" class="custom-control-input"
-										id="aggrement2" required> <label
-										class="custom-control-label" for="aggrement2">이용약관에
-										동의합니다.</label> <a href="#"
-										style="text-decoration: none; font-size: 0.7em;">보기</a>
-								</div>
-								<div class="d-grid gap-2 mb-3">
-									<button class="btn btn-primary btn-lg btn-block" type="submit">가입
-										완료</button>
-								</div>
+							</div>
+							<div class="mb-3 form-group has-feedback">
+									<label for="nickname">닉네임</label>
+									 <input type="text" class="form-control" name="nickname" id="nickname" placeholder="" value="" required>
+							</div>
+							<div class="mb-3 form-group has-feedback">
+									<label for="pwd">비밀번호</label>
+									 <input type="password" class="form-control pwds" name="pwd" id="pwd" placeholder="" value="" required pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}">
+									<div class="valid-feedback">사용가능</div>
+       								<div class="invalid-feedback">하나 이상의 숫자,문자,특수문자를 포함하여 8자 이상입력하셔야 합니다.</div>
+							</div>
+							<div class="mb-3 form-group has-feedback">
+									<label for="pwdRe">비밀번호 확인</label> 
+									<input type="password" class="form-control pwds" id="pwdRe" placeholder="" value="" required pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}">
+									<div id="cPwdValid" class="valid-feedback">사용가능</div>
+       								<div id="cPwdInvalid" class="valid-feedback">하나 이상의 숫자,문자,특수문자를 포함하여 8자 이상입력하셔야 합니다.</div>
+       							
+							</div>
+							<hr class="mb-4 form-group has-feedback">
+							<div class="form-check mb-3">
+								<input type="checkbox" class="form-check-input" id="aggrement1" required> 
+								<label class="form-check-label" for="aggrement1">개인정보 수집 및 이용에 동의합니다.</label>
+								<a href="#" style="text-decoration: none; font-size: 0.7em;">보기</a>
+							</div>
+							<div class="form-check mb-3 mb-3">
+								<input type="checkbox" class="form-check-input" id="aggrement2" required> 
+								<label class="form-check-label" for="aggrement2">이용약관에 동의합니다.</label>
+								<a href="#" style="text-decoration: none; font-size: 0.7em;">보기</a>
+							</div>
+							<div class="d-grid gap-2 mb-4">
+							<button class="btn btn-primary btn-lg btn-block" type="submit" id="joinbt" disabled="true">회원가입</button>
 							</div>
 						</form>
 					</div>
@@ -631,25 +608,46 @@
 		 $(document).ready(function(){
 			 Kakao.init('dc40fc11f37c1093d3da086af893f84f');
 			 Kakao.isInitialized();
+			 
 		 });
 	 </script>
 	<script>
 		window.onload=function(){
 			var login_result = "<c:out value='${login_result}'/>";
-		
+			var join_result = "<c:out value='${join_result}'/>"
+			console.log(join_result);
+			
+			if(join_result!=''){
+					Swal.fire({
+						  position: 'center',
+						  icon: 'success',
+						  imageUrl: '/gooppl/resource/img/welcome2.gif',
+						  title:'Gooppl 회원가입 성공',
+						  width: 500,
+						  height:500,
+						  showConfirmButton: false,
+						  backdrop: `
+							    rgba(0,0,0,0.7)
+							  `,
+						  timer: 2000
+						})
+					setTimeout(function(){location.href= "index.do"},2010);
+			}
 			if(login_result=="yes"){
-				Swal.fire({
-					  position: 'center',
-					  icon: 'success',
-					  imageUrl: '/gooppl/resource/img/kakaologo/kakaohello.gif',
-					  title:'LOGIN Success',
-					  text:'환영합니다 ${sessionNickname}님!',
-					  width: 500,
-					  height:500,
-					  showConfirmButton: false,
-					  timer: 1500
-					})
-			      setTimeout(function(){location.href= "index.do"},1510);
+					Swal.fire({
+						  position: 'center',
+						  icon: 'success',
+						  imageUrl: '/gooppl/resource/img/kakaologo/kakaohello.gif',
+						  title:'환영합니다 ${sessionNickname}님!',
+						  width: 500,
+						  height:500,
+						  showConfirmButton: false,
+						  backdrop: `
+							    rgba(0,0,0,0.7)
+							  `,
+						  timer: 2000
+						})
+						setTimeout(function(){location.href= "index.do"},2010);
 			}else if(login_result=='no'){
 				document.getElementById('login_bt').click();
 				Swal.fire({
@@ -658,54 +656,125 @@
 					  icon: 'warning',
 					  confirmButtonText: '확인'
 					})
-			}else{
-				
 			}
 		}
 	 </script>
 	 <script>
-	 /* 인증번호 이메일 전송 */
-	 $(".mail_check_button").click(function(){
-		 var email = $(".mail_input").val();        // 입력한 이메일
-		 $.ajax({
-		        
-		        type:"GET",
-		        url:"mailCheck.do?email=" + email
-		        
-		                
-		    });
-		 
-	 });
-	 </script>
+	 	/*인증번호 체크*/
+	 	$('#token_check').click(function(){
+	 		var input_token=$('#mail_token').val();
+	 		var made_token=$('#made_token').val();	
+	 		if(input_token==made_token){
+	 			Swal.fire('인증되었습니다.');
+	 			$('#joinbt').removeAttr("disabled");
+	 			$('#mail_token').attr('readonly','readonly');
+	 			$('#token_check').css('display','none')
+	 			$('#token_ok').css('display','')
+	 		}else{
+	 			Swal.fire({
+					  title: '인증 실패',
+					  text: '인증번호를 확인해주세요!',
+					  icon: 'warning',
+					  confirmButtonText: '확인'
+					})
+	 		}
+	 	
+	 	});
+	 	
+	    /* 인증번호 이메일 전송 */
+	    $("#token_button").click(function(){
+	       var email = $("#goo_id").val();        // 입력한 이메일
+	       
+	       $.ajax({
+	              
+	              type:"GET",
+	              url:"mailCheck.do",
+	              data:{"email":email},
+	              success:function(data){
+	              	$('#made_token').val(data);
+	              }        
+	          });
+	       Swal.fire('입력하신 email로 인증번호를 전송하였습니다.');
+	       $('#goo_id').attr('readonly','readonly');
+	       $('#token_button').css('display','none');
+	       $('#token_check').css('display','');
+	       $('#mail_token').removeAttr('readonly');
+	       
+	       
+	    });
+	    
+	    /* 아이디체크 */
+		 $("#idCheck").click(function(){
+			 var email = $("#goo_id").val();        // 입력한 이메일
+			 var reg=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			 if(email==''){
+		    	   Swal.fire('이메일을 입력해주세요');
+	    	 }else if(!reg.test(email)){
+	    		 Swal.fire('이메일 형식을 확인해주세요.<br>ex)gooppl@naver.com');
+			 }else{
+				 $.ajax({
+			            method:"GET",
+			            url:"idCheck.do",
+			            data:{"email":email},
+			            success:function(data){
+			                if(data==0){//사용 가능한 아이디 라면 
+			                	Swal.fire('사용 가능한 email 입니다.')
+			                	$('#token_div').css('display','');
+			                    
+			                }else{//사용 가능한 아이디가 아니라면 
+			                	Swal.fire('사용중인 email 입니다.')
+			                	$('#token_div').css('display','none');
+			                }
+			            }
+			     });
+		       } 
+		 });
+    </script>
 	<script>
+	
     window.addEventListener('load', () => {
-      const forms = document.getElementsByClassName('validation-form');
-      var pwd=$('#pwd').val();
-      var email=$('#goo_id').val();
+      $('#joinbt').attr('disabled','disabled');
+      const forms = document.getElementsByClassName('needs-validation');
+      var pwd_s = document.getElementById('pwd');
+      var pwdRe_s = document.getElementById('pwdRe');
+      
       var pwdRe=$('#pwdRe').val();
-      var reg=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      var pwformat = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+      var pwd=$("#pwd").val();
       //validity로 입력폼 관리
+    //validity로 입력폼 관리
       Array.prototype.filter.call(forms, (form) => {
         form.addEventListener('submit', function (event) {
           if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-            Swal.fire({
-				  text: '약관을 확인해주세요.',
-				  icon: 'warning',
-				  confirmButtonText: '확인'
-			})
+          
           }
           
           form.classList.add('was-validated');
         }, false);
       });
     }, false);
-    
-    
+	
   </script>
-
+  <script>
+  
+   $('#pwd, #pwdRe').on('keyup', function () {
+	      if ($('#pwd').val() != '' && $('#pwdRe').val() != '' && $('#pwd').val() == $('#pwdRe').val()) {
+	        $("#joinbt").attr("disabled",false);
+	        $('#cPwdValid').show();
+	        $('#cPwdInvalid').hide();
+	        $('#cPwdValid').html('사용가능').css('color', 'green');
+	        $('.pwds').removeClass('is-invalid')
+	      } else {
+	        $("#joinbt").attr("disabled",true);
+	        $('#cPwdValid').hide();
+	        $('#cPwdInvalid').show();
+	        $('#cPwdInvalid').html('일치하지 않음').css('color', 'red');
+	        $('.pwds').addClass('is-invalid')
+	      }
+	});
+</script>    
+  
 	<script type="text/javascript"
 		src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->

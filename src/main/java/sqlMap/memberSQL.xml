@@ -6,6 +6,9 @@
 	<select id="loginCheck" parameterType="goo.member.model.MemberDTO" resultType="goo.member.model.MemberDTO">
 		select * from member where goo_id=#{goo_id} and pwd=#{pwd}
 	</select>
+	<select id="gooidCheck" parameterType="String" resultType="Integer">
+		select count(*) from member where goo_id=#{goo_id}
+	</select>
 	<select id="naveridcheck" parameterType="String" resultType="Integer">
 		select count(*) from member where naver_id=#{naverid}
 	</select>
@@ -40,5 +43,20 @@
 			default,
 			default
 			)
+	</insert>
+	<insert id="gooJoin" parameterType="goo.member.model.MemberDTO">
+		insert into member values(
+			member_idx.nextval,
+			#{goo_id},
+			default,
+			default,
+			#{pwd},
+			#{nickname},
+			sysdate,
+			default,
+			default
+		)
+		
+		
 	</insert>
 </mapper>
