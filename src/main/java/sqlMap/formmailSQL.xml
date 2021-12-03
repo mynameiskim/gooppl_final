@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.admin">
+  	<select id="formmail" resultType="goo.formmail.model.FormmailDTO">
+  		SELECT
+  			*
+  		FROM
+  			formmail
+  		ORDER BY
+  			selected ASC
+  	</select>
+  	<select id="formType" parameterType="String" resultType="goo.formmail.model.FormmailDTO">
+  		SELECT
+  			*
+  		FROM
+  			formmail
+  		WHERE form_type = #{form_type}
+  	</select>
+  	<update id="selectedUpdate1" parameterType="String">
+  		UPDATE
+  			formmail
+  		SET
+  			selected = 1
+  		WHERE 
+  			form_type = #{form_type}
+  	</update>
+  	<update id="selectedUpdate2" parameterType="String">
+  		UPDATE
+  			formmail
+  		SET
+  			selected = 2
+  		WHERE 
+  		NOT	form_type = #{form_type}
+  	</update>
+  	<update id="formUpdate" parameterType="goo.formmail.model.FormmailDTO">
+  		UPDATE
+  			formmail
+  		SET
+  			form_type = #{form_type}
+  		  , form_title = #{form_title}
+  		  , form_content = #{form_content}
+  		WHERE
+  			form_no = #{form_no} 
+  	</update>
+  </mapper>

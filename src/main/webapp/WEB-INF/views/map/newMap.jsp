@@ -15,8 +15,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="resource/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="resource/css/styles.css" rel="stylesheet" /> 
-   	<!-- <link href="css/bootstrap.min.css" rel="stylesheet"/>  -->
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
 <style>
 select{
@@ -32,6 +32,11 @@ select{
 	border-radius: 5px;
 }
 
+div{
+	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 100%;
+    
+}
 input[type="text"]{
     box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
     padding: 0.5rem 1.5rem;
@@ -74,13 +79,13 @@ table{
 .dotOverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}    
 .number {font-weight:bold;color:#ee6152;}
 .dotOverlay:after {content:'';position:absolute;margin-left:-6px;left:50%;bottom:-8px;width:11px;height:8px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white_small.png')}
-.savedList {border:1px;padding:0;list-style-type:none;}
-.savedList li{background-color: #fff; display: flex;flex: 1;}
+.savedList {border:1px;padding:0;list-style-type:none;border-radius: 5px;}
+.savedList li{display: flex;flex: 1;font-size: 80%;font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";}
 .savedList li:not(:last-of-type) {border-bottom: 1px solid var(--border-color);}
-.savedList li.over .draggable {background-color: #eaeaea;}
+.savedList li.over .draggable {background-color: #f3969a;}
 .savedList .placeinfo {margin: 0 20px 0 0;}
 .draggable { cursor: pointer; display: flex; align-items: center;justify-content: space-between;padding:10px;flex: 1;margin:0px 0px;}
-.tripnum{color:#3444F;background:#C3C7CA;width:8%;display: flex;align-items: center;justify-content: center;}
+.tripnum{color: white; border-radius: 5px;background:#f3969a;width:8%;display: flex;align-items: center;justify-content: center;}
 .placeinfo{width:80%;align-text: center;vertical-align:middle;display:inline;}
 
 </style>
@@ -96,42 +101,371 @@ var areacodes=[];
 var sigungucodes=[];
 var map_idx;
 var moveDay;
-/**관광데이터 테이블 초기화 제이쿼리*/
+/**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
     $('#search_bt').click( function() {
         $('#setTable').empty();
     });
 });
+/**추가한 여행지 전체삭제*/
 $(function () {
     $('#del_Bt').click( function() {
         $('.savedList').empty();
+        
+        hideLines();
+        latly.splice(0, latly.length);
+        drawLines.splice(0, drawLines.length);
+		markers.splice(0, markers.length);
+        mapys.splice(0, mapys.length);
+        mapxs.splice(0, mapxs.length);
+        titles.splice(0, titles.length);
+        images.splice(0, images.length);
+        addrs.splice(0, addrs.length);
+        contentids.splice(0, contentids.length);
+        count2 = 0;
     });
 });
-/**동적으로 생성된 태그에 접근하는 방법*/
-function delPlace(delnum){
-	var delListNode=document.getElementById('li'+delnum);
-	delListNode.parentNode.removeChild(delListNode);
-	var lists=document.getElementsByClassName('listName');
-	console.log(lists);
-	var delBtns=document.getElementsByClassName('del_Bt2');
-	listItems.splice(delnum-1,1);
-	for(var i=delnum-1;i<lists.length;i++){
-		var liNode=lists[i];
-		var num=i+1;
-		var tripnums=liNode.getElementsByClassName('tripnum');
-		var delBtn=delBtns[i];
-		liNode.setAttribute('data-index', num-1);
-		delBtn.setAttribute('onclick', 'delPlace('+num+')');
-		tripnums[0].innerHTML=num;
-		liNode.setAttribute('id', 'li'+num);
-	}
-	markers[delnum-1].setMap(null);
-	markers.splice(delnum-1,1);
-	placeDetails.splice(delnum-1,1);
-	count2--;
-}
+/**동적으로 생성된 태그에 접근*/
+/**선택한 여행지 삭제*/
+$(function() {
+	$(document).on("click",".del_Bt2",function(){
+        var click_id = $(this).attr('id');
+        $('#savedList').empty();
+        hideLines();
+        hideMarkers();
+        
+        latly.splice(click_id, 1);
+        drawLines.splice(click_id-1, 1);
+		markers.splice(click_id, 1);
+        mapys.splice(click_id, 1);
+        mapxs.splice(click_id, 1);
+        titles.splice(click_id, 1);
+        images.splice(click_id, 1);
+        addrs.splice(click_id, 1);    
+        contentids.splice(click_id, 1);
+        listItems.splice(click_id, 1);        
+        
+    	for(var i=0; i<mapys.length; i++){
+    		
+    	   	var marker = new kakao.maps.Marker({
+    	        position: new kakao.maps.LatLng(mapys[i], mapxs[i])
+    	    });
+    	    
+    	    var xy = {
+    	   		position: new kakao.maps.LatLng(mapys[i], mapxs[i])
+    	    }
+    	    
+    	    latly[i]= xy.position;
+
+    	    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    	    var infowindow = new kakao.maps.InfoWindow({
+    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	    });
+    	    
+    	    // 이동할 위도 경도 위치를 생성합니다 
+    	    var moveLatLon = new kakao.maps.LatLng(mapys[i], mapxs[i]);
+    	   
+    	    // 지도 중심을 부드럽게 이동시킵니다
+    	    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    	    map.panTo(moveLatLon);
+    	    
+    	    markers[i] = marker;
+    	    
+    	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+    	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+    	    
+    	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    	    kakao.maps.event.addListener(marker, 'click', function() {
+    	   	 closeOverlay();
+    	        overlay.setMap(map);
+    	    });
+    	    
+    	    var linePath;
+    	    var lineLine = new daum.maps.Polyline();
+
+            for (var j = 0; j < i; j++) {
+                if (latly.length != 0) {
+                    linePath = [ latly[i-1], latly[i] ] //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다
+                }
+                ;
+                
+                lineLine.setPath(linePath); // 선을 그릴 라인을 세팅합니다    
+                
+            }
+            
+    		var drawLine = new daum.maps.Polyline({
+    		    path : linePath,
+    		    strokeWeight : 3, // 선의 두께입니다 
+    		    strokeColor : '#db4040', // 선의 색깔입니다
+    		    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+    		    strokeStyle : 'solid' // 선의 스타일입니다
+    		});
+
+            drawLines[i] = drawLine;
+            drawLine.setMap(map);
+            
+    	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+    	    function makeOverListener(map, marker, infowindow) {
+    	        return function() {
+    	            infowindow.open(map, marker);
+    	        };
+    	    }
+    		
+    	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+    	    function makeOutListener(infowindow) {
+    	        return function() {
+    	            infowindow.close();
+    	        };
+    	    }
+
+    	    // 마커를 지도에 표시합니다.
+    		marker.setMap(map);
+    	       
+    	    
+    	    /*
+    		var savedList = document.getElementById('savedList');
+    		var listitem = savedList.innerHTML;
+
+    	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
+    		    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+i+'</span>';
+    		    listitem+= '<div class="draggable" draggable="true">';
+    			    listitem+= '<p class="placeinfo" style="display:inline;">';
+    				    listitem+= '<img src="'+images[i]+'" style="width: 80px; height: 80px;">';
+    				    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+titles[i]+'</span>';
+    			    listitem+= '</p>';
+    			    listitem+= '<input type="button" id="'+i+'" class="del_Bt2" value="-">';
+    			    listitem+= '<input type="hidden" name="cotentid" value="'+contentids[i]+'" class="contentid">';
+    		    listitem+= '</div>';
+    	    listitem+= '</li>';
+    	    
+    		savedList.innerHTML=listitem;
+
+    	    */
+    	    
+    		var savedList = document.getElementById('savedList');
+    	    
+    	    var listitem=document.createElement('li');
+    	    listitem.setAttribute('class', 'listName');
+    	    listitem.setAttribute('id', 'li'+i);
+    	    listitem.setAttribute('data-index', i);
+    	    var spanNode=document.createElement('span');
+    	    spanNode.setAttribute('class', 'tripnum');
+    	    var spanTextNode=document.createTextNode(i);
+    	    spanNode.appendChild(spanTextNode);
+    	    spanNode.setAttribute('style', 'vertical-align:middle;text-align:center;');
+    	    var divNode=document.createElement('div');
+    	    divNode.setAttribute('class', 'draggable');
+    	    divNode.setAttribute('draggable', 'true');
+    	    var pNode=document.createElement('p');
+    	    pNode.setAttribute('class', 'placeinfo');
+    	    var imgNode=document.createElement('img');
+    	    imgNode.setAttribute('src', images[i]);
+    	    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
+    	    pNode.appendChild(imgNode);
+    	    var spanNode2=document.createElement('span');
+    	    spanNode2.setAttribute('class', 'tripdis');
+    	    var spanTextNode2=document.createTextNode(titles[i]);
+    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
+    	    spanNode2.appendChild(spanTextNode2);
+    	    pNode.appendChild(spanNode2);
+    	    pNode.setAttribute('style', 'display:inline;');
+    	    divNode.appendChild(pNode);
+    	    var addBt = document.createElement('input');
+    	    addBt.setAttribute('type','button');
+    	    addBt.className='del_Bt2';
+    	    addBt.id=i;
+    	    addBt.setAttribute('value','-');
+    	    var hiddenNode=document.createElement('input');
+    	    hiddenNode.setAttribute('type', 'hidden');
+    	    hiddenNode.setAttribute('name', 'contentid');
+    	    hiddenNode.setAttribute('value', contentids[i]);
+    	    hiddenNode.setAttribute('class', 'contentid');
+    	    divNode.appendChild(addBt);
+    	    divNode.appendChild(hiddenNode);
+    	    listitem.appendChild(spanNode);
+    	    listitem.appendChild(divNode);
+    	    savedList.appendChild(listitem);
+    	    
+    	    listItems[i]=listitem;
+    	    
+    	    addEventListeners();
+    	}
+    count2--;
+    });
+});
+
+/**드래그앤 드랍시 새로 생성 ---아직 안됨 미완성*/
+$(function() {
+	$(document).on("change",".listName",function(){
+        $('#savedList').empty();
+        hideLines();
+        hideMarkers();  
+        
+        latly.splice(0, latly.length);
+        drawLines.splice(0, drawLines.length);
+		markers.splice(0, markers.length);
+        mapys.splice(0, mapys.length);
+        mapxs.splice(0, mapxs.length);
+        titles.splice(0, titles.length);
+        images.splice(0, images.length);
+        addrs.splice(0, addrs.length);
+        contentids.splice(0, contentids.length);
+        
+        for(var k=0; k<count2; k++){
+        	
+        }
+        
+    	for(var i=0; i<mapys.length; i++){
+    		
+    	   	var marker = new kakao.maps.Marker({
+    	        position: new kakao.maps.LatLng(mapys[i], mapxs[i])
+    	    });
+    	    
+    	    var xy = {
+    	   		position: new kakao.maps.LatLng(mapys[i], mapxs[i])
+    	    }
+    	    
+    	    latly[i]= xy.position;
+
+    	    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    	    var infowindow = new kakao.maps.InfoWindow({
+    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	    });
+    	    
+    	    // 이동할 위도 경도 위치를 생성합니다 
+    	    var moveLatLon = new kakao.maps.LatLng(mapys[i], mapxs[i]);
+    	   
+    	    // 지도 중심을 부드럽게 이동시킵니다
+    	    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    	    map.panTo(moveLatLon);
+    	    
+    	    markers[i] = marker;
+    	    
+    	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+    	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+    	    
+    	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    	    kakao.maps.event.addListener(marker, 'click', function() {
+    	   	 closeOverlay();
+    	        overlay.setMap(map);
+    	    });
+    	    
+    	    var linePath;
+    	    var lineLine = new daum.maps.Polyline();
+
+            for (var j = 0; j < i; j++) {
+                if (latly.length != 0) {
+                    linePath = [ latly[i-1], latly[i] ] //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다
+                }
+                ;
+                
+                lineLine.setPath(linePath); // 선을 그릴 라인을 세팅합니다    
+                
+            }
+            
+    		var drawLine = new daum.maps.Polyline({
+    		    path : linePath,
+    		    strokeWeight : 3, // 선의 두께입니다 
+    		    strokeColor : '#db4040', // 선의 색깔입니다
+    		    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+    		    strokeStyle : 'solid' // 선의 스타일입니다
+    		});
+
+            drawLines[i] = drawLine;
+            drawLine.setMap(map);
+            
+    	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+    	    function makeOverListener(map, marker, infowindow) {
+    	        return function() {
+    	            infowindow.open(map, marker);
+    	        };
+    	    }
+    		
+    	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+    	    function makeOutListener(infowindow) {
+    	        return function() {
+    	            infowindow.close();
+    	        };
+    	    }
+
+    	    // 마커를 지도에 표시합니다.
+    		marker.setMap(map);
+    	       
+    	    
+    	    /*
+    		var savedList = document.getElementById('savedList');
+    		var listitem = savedList.innerHTML;
+
+    	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
+    		    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+i+'</span>';
+    		    listitem+= '<div class="draggable" draggable="true">';
+    			    listitem+= '<p class="placeinfo" style="display:inline;">';
+    				    listitem+= '<img src="'+images[i]+'" style="width: 80px; height: 80px;">';
+    				    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+titles[i]+'</span>';
+    			    listitem+= '</p>';
+    			    listitem+= '<input type="button" id="'+i+'" class="del_Bt2" value="-">';
+    			    listitem+= '<input type="hidden" name="cotentid" value="'+contentids[i]+'" class="contentid">';
+    		    listitem+= '</div>';
+    	    listitem+= '</li>';
+    	    
+    		savedList.innerHTML=listitem;
+
+    	    */
+    	    
+    		var savedList = document.getElementById('savedList');
+    	    
+    	    var listitem=document.createElement('li');
+    	    listitem.setAttribute('class', 'listName');
+    	    listitem.setAttribute('id', 'li'+i);
+    	    listitem.setAttribute('data-index', i);
+    	    var spanNode=document.createElement('span');
+    	    spanNode.setAttribute('class', 'tripnum');
+    	    var spanTextNode=document.createTextNode(i);
+    	    spanNode.appendChild(spanTextNode);
+    	    spanNode.setAttribute('style', 'vertical-align:middle;text-align:center;');
+    	    var divNode=document.createElement('div');
+    	    divNode.setAttribute('class', 'draggable');
+    	    divNode.setAttribute('draggable', 'true');
+    	    var pNode=document.createElement('p');
+    	    pNode.setAttribute('class', 'placeinfo');
+    	    var imgNode=document.createElement('img');
+    	    imgNode.setAttribute('src', images[i]);
+    	    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
+    	    pNode.appendChild(imgNode);
+    	    var spanNode2=document.createElement('span');
+    	    spanNode2.setAttribute('class', 'tripdis');
+    	    var spanTextNode2=document.createTextNode(titles[i]);
+    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
+    	    spanNode2.appendChild(spanTextNode2);
+    	    pNode.appendChild(spanNode2);
+    	    pNode.setAttribute('style', 'display:inline;');
+    	    divNode.appendChild(pNode);
+    	    var addBt = document.createElement('input');
+    	    addBt.setAttribute('type','button');
+    	    addBt.className='del_Bt2';
+    	    addBt.id=i;
+    	    addBt.setAttribute('value','-');
+    	    var hiddenNode=document.createElement('input');
+    	    hiddenNode.setAttribute('type', 'hidden');
+    	    hiddenNode.setAttribute('name', 'contentid');
+    	    hiddenNode.setAttribute('value', contentids[i]);
+    	    hiddenNode.setAttribute('class', 'contentid');
+    	    divNode.appendChild(addBt);
+    	    divNode.appendChild(hiddenNode);
+    	    listitem.appendChild(spanNode);
+    	    listitem.appendChild(divNode);
+    	    savedList.appendChild(listitem);
+    	    
+    	    listItems[i]=listitem;
+    	    
+    	    addEventListeners();
+    	}
+    });
+});
 
 
+    
+    
 //특별, 광역시, 도 단위 지역 이동시 처리할 함수
 function changeAreacode(){
 	var sigunguSelector=document.getElementById('sigungucode');
@@ -222,8 +556,6 @@ function showResult(){
              if(mapx==0||mapy==0){
              	trNode.setAttribute('style', 'display:none;');
              }
-             var tdNode = document.createElement('td');
-             var tdTextNode = document.createTextNode(count+'번 결과');
              var tdNode2 = document.createElement('td');
              var tdTextNode2 = document.createTextNode(title);
              var tdNode3 = document.createElement('td');
@@ -232,7 +564,7 @@ function showResult(){
             
              var imgNode = document.createElement('img');
              imgNode.setAttribute('src', image);
-             imgNode.setAttribute('style', 'width: 100px; height: 100px;');
+             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
           
              var tdNode5 = document.createElement('td');
              var addBt = document.createElement('input');
@@ -241,12 +573,10 @@ function showResult(){
              addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
              
              table.appendChild(trNode);
-             trNode.appendChild(tdNode);
              trNode.appendChild(tdNode2);
              trNode.appendChild(tdNode3);
              trNode.appendChild(tdNode4);
              trNode.appendChild(tdNode5);
-             tdNode.appendChild(tdTextNode);
              tdNode2.appendChild(tdTextNode2);
              tdNode3.appendChild(tdTextNode3);
              tdNode4.appendChild(imgNode);
@@ -352,16 +682,33 @@ function getResult(){
 	      }
 	 }
 }
-var markers = [];
-var latly = [];
+
+
 var count2 = 0;
 var listItems=[];
 var placeDetails=[];
+
+var markers = [];
+var latly = [];
+var drawLines = [];
+var mapys = [];
+var mapxs = [];
+var titles = [];
+var images = [];
+var addrs = [];
+var contentids = [];
 /**추가 버튼 누른후 마커생성*/
 function makeMarker(contentid, mapy, mapx, title, image, addr){
 	//alert(mapy+'\n'+mapx+'\n'+title+'\n'+image);
 	
 	placeDetailInfo(contentid);
+	
+    mapys.push(mapy);
+    mapxs.push(mapx);
+    titles.push(title);
+    images.push(image);
+    addrs.push(addr);
+    contentids.push(contentid);
 	
     // 결과값으로 받은 위치를 마커로 표시합니다
   
@@ -374,9 +721,6 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     }
     
     latly.push(xy.position);
-    
-    var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다 
-    var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
     
     // 인포윈도우로 장소에 대한 설명을 표시합니다
     var infowindow = new kakao.maps.InfoWindow({
@@ -404,51 +748,28 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     var linePath;
     var lineLine = new daum.maps.Polyline();
 
-
-    
     var distance;
  
-    for (var i = 0; i < latly.length; i++) {
-        if (i != 0) {
-            linePath = [ latly[i - 1], latly[i] ] //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다
+    for (var i = 0; i < 1; i++) {
+        if (count2 != 0) {
+            linePath = [ latly[count2-1], latly[count2] ] //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다
         }
         ;
         
         lineLine.setPath(linePath); // 선을 그릴 라인을 세팅합니다
- 
-        var drawLine = new daum.maps.Polyline({
-            map : map, // 선을 표시할 지도입니다 
-            path : linePath,
-            strokeWeight : 3, // 선의 두께입니다 
-            strokeColor : '#db4040', // 선의 색깔입니다
-            strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-            strokeStyle : 'solid' // 선의 스타일입니다
-        });
- 
-        distance = Math.round(lineLine.getLength());
-        displayCircleDot(latly[i], distance);
-         
+        
     }
  
-    
-var distanceOverlay = [];
-    
-    function displayCircleDot(position, distance) {
-        if (distance > 0) {
-            // 클릭한 지점까지의 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
-            distanceOverlay = new daum.maps.CustomOverlay(
-                    {
-                        content : '<div class="dotOverlay">거리 <span class="number">'
-                                + distance + '</span>m</div>',
-                        position : position,
-                        yAnchor : 2.5,
-                        zIndex : 2
-                    });
- 
-            // 지도에 표시합니다
-            distanceOverlay.setMap(map);
-        }
-    }
+	var drawLine = new daum.maps.Polyline({
+	    path : linePath,
+	    strokeWeight : 3, // 선의 두께입니다 
+	    strokeColor : '#db4040', // 선의 색깔입니다
+	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+	    strokeStyle : 'solid' // 선의 스타일입니다
+	});
+
+    drawLines.push(drawLine);
+    drawLine.setMap(map);
     
     // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
     function makeOverListener(map, marker, infowindow) {
@@ -467,15 +788,13 @@ var distanceOverlay = [];
     // 마커를 지도에 표시합니다.
 	marker.setMap(map);
        
+    //----------------------------------------------------
 	var savedList = document.getElementById('savedList');
-    //table.setAttribute('style','width: 20%; float: left;');
-    
-    count2++;
     
     var listitem=document.createElement('li');
     listitem.setAttribute('class', 'listName');
     listitem.setAttribute('id', 'li'+count2);
-    listitem.setAttribute('data-index', count2-1);
+    listitem.setAttribute('data-index', count2);
     var spanNode=document.createElement('span');
     spanNode.setAttribute('class', 'tripnum');
     var spanTextNode=document.createTextNode(count2);
@@ -501,7 +820,7 @@ var distanceOverlay = [];
     var addBt = document.createElement('input');
     addBt.setAttribute('type','button');
     addBt.className='del_Bt2';
-    addBt.setAttribute('onclick', 'delPlace('+count2+')');
+    addBt.id=count2;
     addBt.setAttribute('value','-');
     var hiddenNode=document.createElement('input');
     hiddenNode.setAttribute('type', 'hidden');
@@ -513,10 +832,35 @@ var distanceOverlay = [];
     listitem.appendChild(spanNode);
     listitem.appendChild(divNode);
     savedList.appendChild(listitem);
-
-    listItems.push(listitem);
     
+    count2++;
+    //---------------------------------------------
+    
+    /*
+	var savedList = document.getElementById('savedList');
+	var listitem = savedList.innerHTML;
+    
+    listitem+= '<li class="listName" id="li"'+count2+'" data-index="'+(count2)+'">';
+	    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+count2+'</span>';
+	    listitem+= '<div class="draggable" draggable="true">';
+		    listitem+= '<p class="placeinfo" style="display:inline;">';
+			    listitem+= '<img src="'+image+'" style="width: 80px; height: 80px; border-radius: 8px;">';
+			    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+title+'</span>';
+		    listitem+= '</p>';
+		    listitem+= '<input type="button" id="'+count2+'" class="del_Bt2" value="-">';
+		    listitem+= '<input type="hidden" name="cotentid" value="'+contentid+'" class="contentid">';
+	    listitem+= '</div>';
+    listitem+= '</li>';
+    
+	savedList.innerHTML=listitem;
+	
+	count2++;
+	*/
+	
+    listItems.push(listitem);
+	
     addEventListeners();
+    
 }
 
 function addEventListeners() {
@@ -547,7 +891,7 @@ function addEventListeners() {
 
 	function dragLeave() {
 	  // console.log('Event: ', 'dragleave');
-	  this.classList.remove('over');
+	  this.classList.remove('over'); 
 	}
 
 	function dragOver(e) {
@@ -573,9 +917,18 @@ function addEventListeners() {
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
 		  var delBtn=delBtns[i];
-		  delBtn.setAttribute('onclick', 'delPlace('+tripnum+')');
+		  delBtn.id=tripnum;
+		  
+		  	changeArrayOrder(mapys, 1, 3);
+		    mapxs.push(mapx);
+		    titles.push(title);
+		    images.push(image);
+		    addrs.push(addr);
+		    contentids.push(contentid);
 	  }
+	  
 	}
+	
 	//위에서 아래로 움직일 때 
 	function swapUpToDown(fromIndex, toIndex){
 		var itemOne = listItems[fromIndex].querySelector('.draggable');
@@ -584,7 +937,6 @@ function addEventListeners() {
 			var temp=listItems[i].querySelector('.draggable');
 			listItems[i-1].appendChild(temp);
 		}
-		uptodownUpdate(1, 1, fromIndex, toIndex);
 	}
 	
 	//아래서 위로 움직일 때
@@ -680,13 +1032,13 @@ function addEventListeners() {
 				        </div>
 				        <div class="col-md-7" >
 				        	<div style="height: 665px; overflow: auto;">
+				        		<div style="text-align: center;">추가한 여행지</div>
 								<ul id="savedList" style="width:100%;" class="savedList">
-									<li>추가한 여행지</li>
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="saveAll()" id="save_Bt">저장하기</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="color: #f3969a; padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveAll()" id="save_Bt">저장하기</button>
 	                    	</div>
 				        </div>
 				    </div>
@@ -701,13 +1053,14 @@ function addEventListeners() {
 						<option value="39">음식점</option>
 						<option value="38">쇼핑</option>
 					</select>
+					<div style="height: 4px;"></div>
 		        	<input type="text" name="areaCode" id="areaC">
 		        	<div class="row">
 	                    <div class="col-md-12" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
 	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">여행지 검색</button>
 	                    </div>
 	                </div>
-					<div style="height: 626px; overflow: auto;">
+					<div style="height: 584px; overflow: auto;">
 						<table id="setTable" style="width: 100%; text-align: center;">
 							<tr>
 								<th colspan="5">여행지를 검색해 주세요</th>
@@ -756,7 +1109,7 @@ function setArea(areacode, sigungucode){
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 mapOption = {
     center: new kakao.maps.LatLng(setMapy, setMapx), // 지도의 중심좌표
-    level: 10, // 지도의 확대 레벨
+    level: 8, // 지도의 확대 레벨
     mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
 }; 
 
@@ -769,13 +1122,20 @@ function setMarkers(map) {
         markers[i].setMap(map);
     }            
 }
+function setLines(map) {
+    for (var i = 0; i < drawLines.length; i++) {
+    	drawLines[i].setMap(map);
+    }
+}
 // "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
 function hideMarkers() {
     setMarkers(null);
     listItems.splice(0, listItems.length);
     placeDetails.splice(0, placeDetails.length);
     markers.splice(0, placeDetails.length);
-    count2=0;
+}
+function hideLines() {
+    setLines(null);
 }
 function createDay() {
 	var start1 = document.getElementById('startDate').value;

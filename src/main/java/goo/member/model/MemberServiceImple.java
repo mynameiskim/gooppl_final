@@ -1,5 +1,7 @@
-package goo.member.model;
+﻿package goo.member.model;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
@@ -23,6 +25,10 @@ public class MemberServiceImple implements MemberService {
 		return dto;
 		
 	}
+	public int gooidCheck(String goo_id) {
+		int count = memberDao.gooidCheck(goo_id);
+		return count;
+	}
 	
 	public int naveridCheck(String naverid) {
 		int count = memberDao.naveridCheck(naverid);
@@ -44,5 +50,31 @@ public class MemberServiceImple implements MemberService {
 		int count = memberDao.kakaoJoin(hmp);
 		return count;
 	}
+	public int gooJoin(MemberDTO dto) {
+		int count = memberDao.gooJoin(dto);
+		return count;
+	}
+	
+	//-----------------------------
+		//회원목록 조회
+		public List<MemberDTO> memberList(int cp,int ls) {
+			int start=(cp-1)*ls+1;
+			int end=cp*ls;
+			Map map=new HashMap();
+			map.put("start", start);
+			map.put("end",end);
+			List<MemberDTO> list = memberDao.memberList(map);
+			return list;
+		}
+		//총 회원수
+		public int totalMember() {
+			int count = memberDao.totalMember();
+			return count;
+		}
+		//회원정보
+		public MemberDTO memberInfo(int member_idx) {
+			MemberDTO mdto = memberDao.memberInfo(member_idx);
+			return mdto;
+		}
 	
 }

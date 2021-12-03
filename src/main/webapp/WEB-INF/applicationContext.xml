@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
@@ -55,13 +55,19 @@
 	<bean id="adDao" class="goo.ad.model.AdDAOImple">
          <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
     </bean>
+    <bean id="ad_inquiryDao" class="goo.ad_inquery.model.Ad_inquiryDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
     <bean id="adminDao" class="goo.admin.model.AdminDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
-	<bean id="siteSettingsDao" class="goo.admin.model.SiteSettingsDAOImple">
+	<bean id="siteSettingsDao" class="goo.siteSettings.model.SiteSettingsDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
 	<bean id="reviewDao" class="goo.review.model.ReviewDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="formmailDao" class="goo.formmail.model.FormmailDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
 	
@@ -90,13 +96,19 @@
 	<bean id="adService" class="goo.ad.model.AdServiceImple">
          <property name="adDao" ref="adDao"></property>
    </bean>
+   <bean id="ad_inquiryService" class="goo.ad_inquery.model.Ad_inquiryServiceImple">
+   		<property name="ad_inquiryDao" ref="ad_inquiryDao"></property>
+   </bean>
    <bean id="adminService" class="goo.admin.model.AdminServiceImple">
 		<constructor-arg ref="adminDao"/>
 	</bean>
-	<bean id="siteSettingsService" class="goo.admin.model.SiteSettingsServiceImple">
+	<bean id="siteSettingsService" class="goo.siteSettings.model.SiteSettingsServiceImple">
 		<constructor-arg ref="siteSettingsDao"/>
 	</bean>
 	<bean id="reviewService" class="goo.review.model.ReviewServiceImple">
 		<property name="reviewDao" ref="reviewDao"></property>
+	</bean>
+	<bean id="formmailService" class="goo.formmail.model.FormmailServiceImple">
+		<constructor-arg ref="formmailDao"></constructor-arg>
 	</bean>
 </beans>

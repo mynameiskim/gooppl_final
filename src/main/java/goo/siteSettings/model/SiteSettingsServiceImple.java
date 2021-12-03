@@ -1,4 +1,4 @@
-package goo.admin.model;
+package goo.siteSettings.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,9 +24,9 @@ public class SiteSettingsServiceImple implements SiteSettingsService {
 	}
 
 
-	public SiteSettingsDTO get_site_settings() {
+	public SiteSettingsDTO getSiteSettings() {
 		System.out.println("SiteSettingsServiceImple OK");
-		SiteSettingsDTO dto = siteSettingsDao.get_site_settings();
+		SiteSettingsDTO dto = siteSettingsDao.getSiteSettings();
 		return dto;
 	}
 }

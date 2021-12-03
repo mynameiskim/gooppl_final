@@ -15,6 +15,8 @@ import goo.area.model.AreaService;
 import goo.map_t.model.*;
 import goo.mapinfo.model.MapInfoDTO;
 import goo.mapinfo.model.MapInfoService;
+import goo.owner.model.OwnerDTO;
+import goo.owner.model.OwnerService;
 import goo.placedetail.model.Gooppl_PlaceDetailDTO;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
 import goo.sigungu.model.SigunguDTO;
@@ -33,6 +35,8 @@ public class MapController {
 	private Gooppl_mapService gooppl_mapService;
 	@Autowired
 	private Gooppl_PlaceDetailService gooppl_placedetailService;
+	@Autowired
+	private OwnerService ownerService;
 	
 	@RequestMapping("/sigungu.do")
 	public String sigungu() {
@@ -42,6 +46,15 @@ public class MapController {
 	@RequestMapping("/kyumap.do")
 	public String kyumap() {
 		return "map/kyumap";
+	}
+	@RequestMapping("/homap.do")
+	public String mapTest() {
+		return "map/211202";
+	}
+	
+	@RequestMapping("/newMape.do")
+	public String mapTest2() {
+		return "map/newMape";
 	}
 	
 	@RequestMapping("/addSigunguTable.do")
@@ -65,9 +78,28 @@ public class MapController {
 		ModelAndView mav = new ModelAndView();
 		List<AreaDTO> arealist = areaService.areaList();
 		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
 		mav.addObject("arealist", arealist);
 		mav.addObject("sigungulist", sigungulist);
+		mav.addObject("adlist", adlist);
 		mav.setViewName("map/placeList");
+		return mav;
+	}
+	
+	@RequestMapping("/goAdPlaceDetail.do")
+	public ModelAndView AdPlaceDetail(
+			@RequestParam("contentid") int contentid,
+			@RequestParam("areacode") int areacode,
+			@RequestParam("sigungucode") int sigungucode
+			) {
+		ModelAndView mav = new ModelAndView();
+		String areaname=areaService.getAreaName(areacode);
+		String sigunguname=sigunguService.getSigunguName(areacode, sigungucode);
+		OwnerDTO dto = ownerService.getOwnerDetail(contentid);
+		mav.addObject("areaname", areaname);
+		mav.addObject("sigunguname", sigunguname);
+		mav.addObject("placeinfo", dto);
+		mav.setViewName("map/adPlaceDetail");
 		return mav;
 	}
 	

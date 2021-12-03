@@ -44,7 +44,7 @@ public class OwnerController {
 	/**광고주 신청 상태 확인*/
 	@RequestMapping("/ckOwnerAppli.do")
 	public ModelAndView ckOwnerAppli(@RequestParam("member_idx")int member_idx) {
-		OwnerDTO dto = ownerService.ownerAppli(member_idx);
+		OwnerDTO dto = ownerService.ckOwnerInfo(member_idx);
 		ModelAndView mav = new ModelAndView();
 		if(dto == null) {
 			mav.setViewName("adInfo.do?member_idx="+member_idx);
@@ -91,6 +91,7 @@ public class OwnerController {
 		String msg = result>0?"신청이 완료되었습니다.":"신청에 실패했습니다.";
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("msg", msg);
+		mav.addObject("goUrl","mypage.do");
 		mav.setViewName("ad/adMsg");
 		return mav;
 	}

@@ -14,7 +14,7 @@
 			<dt>사이트 정보관리</dt>
 			<dd>
 				<c:url var="site_info_Url" value="admin_site_info.do">
-					<c:param name="goo_id">${sessionScope.goo_id}</c:param>
+					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
 				</c:url>
 				- <a href='${site_info_Url}'
 				>사이트 기본정보</a><br />
@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                     <th class="tr_bg">관리자 이메일</th>
-                    <td colspan="3">${sessionScope.goo_id}</td>
+                    <td colspan="3">${sessionScope.sessionId}</td>
                 </tr>
                 <tr>
                     <th class="tr_bg">관리자 전화번호</th>

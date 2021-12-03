@@ -22,6 +22,7 @@ var addrs=[];
 var titles=[];
 var paramAreacodes=[];
 var paramSigungucodes=[];
+var addContents=[];
 
 function show(){
 	$('#viewTable').empty();
@@ -38,11 +39,34 @@ function show(){
 		var sigungu=sigunguList[i];
 		sigungu.style.display='block';
 	}
-	console.log('contentTypeId='+setContenttype+'&areaCode='+setAreacode+'&sigunguCode='+setSigungucode);
+	if(addContents.length!=0){
+		for(var i=0;i<addContents.length;i++){
+			if(setSigungucode==''){
+				if(addContents[i].contenttype==setContenttype && addContents[i].areacode==setAreacode){
+					contentids.push(addContents[i].contentid);
+					addrs.push(addContents[i].addr);
+					images.push(addContents[i].image);
+					titles.push(addContents[i].title);
+					paramAreacodes.push(addContents[i].areareacode);
+					paramSigungucodes.push(addContents[i].sigunguCode);
+				}
+			}else{
+				if(addContents[i].contenttype==setContenttype && addContents[i].areacode==setAreacode && addContents[i].sigungucode==setSigungucode){
+					contentids.push(addContents[i].contentid);
+					addrs.push(addContents[i].addr);
+					images.push(addContents[i].image);
+					titles.push(addContents[i].title);
+					paramAreacodes.push(addContents[i].areareacode);
+					paramSigungucodes.push(addContents[i].sigunguCode);
+				}
+			}
+		}
+	}
 	var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
 	var param='ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+setContenttype+'&areaCode='+setAreacode+'&sigunguCode='+setSigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=40000&pageNo=1';
 	sendRequest(url, param, showResult, 'GET');
 }
+
 function showResult(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
@@ -190,7 +214,11 @@ function tableSet(cp){
 	    tdNode.appendChild(pNode);
 	    tdNode.appendChild(pNode2);
 	    trNode.appendChild(tdNode);
-	    tdNode.setAttribute('onclick', 'getPlaceDetail('+contentids[i]+','+paramAreacodes[i]+','+paramSigungucodes[i]+')');
+	    if(titles[i].substr(0, 3)=='[AD'){
+	    	tdNode.setAttribute('onclick', 'getAdPlaceDetail('+contentids[i]+','+paramAreacodes[i]+','+paramSigungucodes[i]+')');
+	    }else{
+	    	tdNode.setAttribute('onclick', 'getPlaceDetail('+contentids[i]+','+paramAreacodes[i]+','+paramSigungucodes[i]+')');
+	    }
 	}
 }
 //특별, 광역시, 도 단위 지역 이동시 처리할 함수
@@ -212,11 +240,65 @@ function changeAreacode(){
 	}
 }
 
+function getAdPlaceDetail(contentid, paramAreacode, paramSigungucode){
+	location.href='goAdPlaceDetail.do?contentid='+contentid+'&areacode='+paramAreacode+'&sigungucode='+paramSigungucode;
+}
+
 function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 	location.href='goPlaceDetail.do?contentid='+contentid+'&areacode='+paramAreacode+'&sigungucode='+paramSigungucode;
 }
 </script>
 <body onload="show()">
+<div id="adInfo" style="display:none;">
+	<table id="adSite">
+		<c:if test="${empty adlist }">
+			<tr class="noContent">
+				<td colspan="5" align="center">
+				등록된 게시글이 없습니다.
+				</td>
+			</tr>
+		</c:if>
+		<c:forEach var="addto" items="${adlist }">
+			<tr>
+				<td class="adlist">
+					<span class="ad_idx">${addto.owner_idx }</span>
+					<span class="adimg">${addto.firstimg }</span>
+					<span class="adaddr">${addto.addr }</span>
+					<span class="adtitle">${addto.title }</span>
+					<span class="adcontenttype">${addto.contenttype }</span>
+					<span class="adareacode">${addto.areacode }</span>
+					<span class="adsigungucode">${addto.sigungucode }</span>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
+<script>
+var table=document.getElementById('adSite');
+var datay_n=document.getElementsByClassName('noContent')[0];
+if(datay_n!='undefined'){
+	adList=table.getElementsByClassName('adlist');
+	for(var i=0;i<adList.length;i++){
+		var ad_idx=adList[i].getElementsByClassName('ad_idx')[0].firstChild.nodeValue;
+		var adaddr=adList[i].getElementsByClassName('adaddr')[0].firstChild.nodeValue;
+		var image=adList[i].getElementsByClassName('adimg')[0].firstChild.nodeValue;
+		var adtitle='[AD] '+adList[i].getElementsByClassName('adtitle')[0].firstChild.nodeValue;
+		var adcontenttype=adList[i].getElementsByClassName('adcontenttype')[0].firstChild.nodeValue;
+		var adareacode=adList[i].getElementsByClassName('adareacode')[0].firstChild.nodeValue;
+		var adsigungucode=adList[i].getElementsByClassName('adsigungucode')[0].firstChild.nodeValue;
+		var addContent={
+			contentid:ad_idx,
+			addr:adaddr,
+			image:image,
+			title:adtitle,
+			contenttype:adcontenttype,
+			areacode:adareacode,
+			sigungucode:adsigungucode
+		};
+		addContents.push(addContent);
+	}
+}
+</script>
 <h1>실험</h1>
 <select name="contenttype" id="contenttype">
 	<option value="12">관광지</option>
@@ -231,7 +313,7 @@ function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 	</c:forEach>
 </select>
 <select name="sigungucode" id="sigungucode">
-    <option value="" selected disabled>==전체==</option>
+    <option value="">==전체==</option>
 	<c:forEach var="sigungudto" items="${sigungulist }">
 		<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
 	</c:forEach>
