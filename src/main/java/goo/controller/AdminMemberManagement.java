@@ -15,6 +15,8 @@ import goo.admin.model.AdminService;
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
 import goo.member.model.*;
+import goo.memberout.model.MemberOutDTO;
+import goo.memberout.model.MemberOutService;
 
 @Controller
 public class AdminMemberManagement {
@@ -25,6 +27,8 @@ public class AdminMemberManagement {
 	private FormmailService formmailService;
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private MemberOutService memberOutService;
 	
 	@RequestMapping("/admin_member_management.do")
 	public String memberManagement() {
@@ -140,8 +144,10 @@ public class AdminMemberManagement {
 	}
 	
 	@RequestMapping("/admin_member_out.do")
-	public ModelAndView memberOut() {
+	public ModelAndView memberOutList() {
+		List<MemberOutDTO> list = memberOutService.memberOutList();
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
 		mav.setViewName("admin/member_management/admin_member_out");
 		return mav;
 	}

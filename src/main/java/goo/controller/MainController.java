@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import goo.formmail.model.FormmailDTO;
+import goo.formmail.model.FormmailService;
 import goo.member.model.MemberService;
 
 @Controller
@@ -24,7 +26,10 @@ public class MainController {
 	private JavaMailSender mailSender;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private FormmailService formmailService;
 	
+	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	
 	@RequestMapping("/mypage.do")
 	public String mypage() {
@@ -36,13 +41,21 @@ public class MainController {
 	@ResponseBody
 	public String mailCheckGET(String email,HttpSession session) throws Exception{
 		
+		FormmailDTO fdto = formmailService.emailTokenFormmail(EMAIL_AUTH_FORMMAIL_NO);
 		System.out.println("이메일 데이터 전송확인");
 		System.out.println("인증번호 : " + email);
-		
 		String emailToken = RandomStringUtils.randomAlphanumeric(10);
 		System.out.println(emailToken);
 		
 		/* 이메일 보내기 */
+        String setFrom = "w12310@naver.com";
+        String toMail = email;
+        String title = fdto.getForm_title();
+        String content = fdto.getForm_content();
+        content = content.replace("{{EMAILTOKEN}}", emailToken);
+                
+		/* 이메일 보내기 */
+        /*
         String setFrom = "w12310@naver.com";
         String toMail = email;
         String title = "회원가입 인증 이메일 입니다.";
@@ -52,6 +65,7 @@ public class MainController {
                 "인증 번호는 <strong>" + emailToken + "</strong>입니다." + 
                 "<br>" + 
                 "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+        */
         
         try {
             

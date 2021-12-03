@@ -30,4 +30,9 @@ public class FormmailServiceImple implements FormmailService {
 		int count = formmailDao.formUpdate(fdto);
 		return count;
 	}
+	
+	public FormmailDTO emailTokenFormmail(int form_no) {
+		FormmailDTO dto = formmailDao.emailTokenFormmail(form_no);
+		return dto;
+	}
 }

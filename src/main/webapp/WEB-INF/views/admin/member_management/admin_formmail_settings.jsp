@@ -170,43 +170,14 @@ function formmailUpdate(form_no){
 	
 			<div class="replacement">
 				<h2>※ 치환코드<span>(내용 중 프로그램으로 된 정보를 뿌려줄때 아래와 같이 코드를 삽입합니다.)</span></h2>
-				<p>기본정보</p>
+				<p>이메일 인증</p>
 				<ul>
-					<li class="m"><span>{{MAKE_DATE}}</span> : 메일 작성일자</li>
-					<li><span>{{MAIL_TOP}}</span> : 메일 상단 내용</li>
-					<li><span>{{MAIL_FOOTER}}</span> : 메일 하단 내용</li>
+					<li><span>{{EMAILTOKEN}}</span> : 인증번호</li>
 				</ul>
-	
-				<p>기본메일폼</p>
-				<ul>
-					<li><span>{{SUBJECT}}</span> : 제목</li>
-					<li><span>{{CONTENT}}</span> : 내용</li>
-				</ul>
-	
 				<p>회원가입</p>
 				<ul>
 					<li><span>{{NICKNAME}}</span> : 닉네임</li>
-					<li><span>{{GOO_ID}}</span> : 아이디</li>
 				</ul>
-	
-				<p>아이디 찾기</p>
-				<ul>
-					<li><span>{{NICKNAME}}</span> : 닉네임</li>
-					<li><span>{{GOO_ID}}</span> : 아이디</li>
-				</ul>
-	
-				<p>비밀번호 찾기</p>
-				<ul>
-					<li><span>{{NICKNAME}}</span> : 닉네임</li>
-					<li><span>{{MEMBER_ID}}</span> : 아이디</li>
-				</ul>
-	
-				<p>회원탈퇴</p>
-				<ul>
-					<li><span>{{NICKNAME}}</span> : 닉네임</li>
-					<li><span>{{GOO_ID}}</span> : 구플 아이디</li>
-				</ul>
-	
 			</div>
 		</div>
 	</div>
