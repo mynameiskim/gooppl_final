@@ -48,6 +48,11 @@ public class MapController {
 		return "map/211202";
 	}
 	
+	@RequestMapping("/newMape.do")
+	public String mapTest2() {
+		return "map/newMape";
+	}
+	
 	@RequestMapping("/addSigunguTable.do")
 	public ModelAndView addSigunguTable(
 			@RequestParam("areacode") int areacode,
