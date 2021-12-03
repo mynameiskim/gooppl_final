@@ -35,7 +35,7 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value = "/index.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView login(Model model, HttpSession session,@RequestParam(value= "login_result",defaultValue="start") String login_result) {
+	public ModelAndView login(Model model, HttpSession session,@RequestParam(value= "login_result",defaultValue="start") String login_result,@RequestParam(value= "join_result",defaultValue="") String join_result) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -91,6 +91,10 @@ public class IndexController {
 			//카카오
 			mav.addObject("kakao_url", kakaoUrl);
 			mav.addObject("login_result",login_result );
+		}
+		
+		if(join_result.equals("ok")) {
+			mav.addObject("join_result",join_result );
 		}
 		
 		mav.setViewName("index");

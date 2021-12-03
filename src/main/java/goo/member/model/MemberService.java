@@ -13,6 +13,8 @@ public interface MemberService {
 	public int naverJoin(Map hmp);
 	public int kakaoidCheck(String kakaoid);
 	public int kakaoJoin(Map hmp);
+	public int gooidCheck(String goo_id);
+	public int gooJoin(MemberDTO dto);
 	
 	//--------------------------
 		public List<MemberDTO> memberList(int cp,int ls);//회원목록
