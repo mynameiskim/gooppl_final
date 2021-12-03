@@ -18,8 +18,8 @@ public class OwnerDAOImple implements OwnerDAO {
 		return result;
 	}
 	
-	public OwnerDTO ownerAppli(int member_idx) {
-		OwnerDTO dto = sqlMap.selectOne("ownerAppli", member_idx);
+	public OwnerDTO ckOwnerInfo(int member_idx) {
+		OwnerDTO dto = sqlMap.selectOne("ckOwnerInfo", member_idx);
 		return dto;
 	}
 	
