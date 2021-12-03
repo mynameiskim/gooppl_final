@@ -56,8 +56,7 @@ public class MemberDAOImple implements MemberDAO {
 	public int gooJoin(MemberDTO dto) {
 		int count = sqlMap.insert("gooJoin",dto);
 		return count;
-	
-	
+	}
 	
 	public int ownerAppli(int member_idx) {
 		int result = sqlMap.selectOne("ownerAppli", member_idx);
