@@ -61,6 +61,9 @@
 	<bean id="siteSettingsDao" class="goo.admin.model.SiteSettingsDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
+	<bean id="reviewDao" class="goo.review.model.ReviewDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	
 	<!-- service -->	
    <bean id="memberService" class="goo.member.model.MemberServiceImple">
@@ -92,5 +95,8 @@
 	</bean>
 	<bean id="siteSettingsService" class="goo.admin.model.SiteSettingsServiceImple">
 		<constructor-arg ref="siteSettingsDao"/>
+	</bean>
+	<bean id="reviewService" class="goo.review.model.ReviewServiceImple">
+		<property name="reviewDao" ref="reviewDao"></property>
 	</bean>
 </beans>

@@ -27,12 +27,7 @@ public class SiteSettingsDAOImple implements SiteSettingsDAO {
 	public SiteSettingsDTO get_site_settings() {
 		System.out.println("SiteSettingsDAOImple 진입");
 		System.out.println("heldleh");
-<<<<<<< HEAD
-		System.out.println("asdasSDSDSd");
-		System.out.println("혜수 테스트");
-=======
-		System.out.println("ads");
->>>>>>> 100e8db8d1a1de881e694e266f0fa85165412ab4
+
 		SiteSettingsDTO dto = sqlMap.selectOne("get_site_settings");
 		System.out.println("SQL통과");
 		return dto;
