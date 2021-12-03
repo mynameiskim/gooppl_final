@@ -47,15 +47,6 @@ public class MapController {
 	public String kyumap() {
 		return "map/kyumap";
 	}
-	@RequestMapping("/homap.do")
-	public String mapTest() {
-		return "map/211202";
-	}
-	
-	@RequestMapping("/newMape.do")
-	public String mapTest2() {
-		return "map/newMape";
-	}
 	
 	@RequestMapping("/addSigunguTable.do")
 	public ModelAndView addSigunguTable(
