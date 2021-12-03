@@ -27,7 +27,6 @@
 		#{state}
 	)
 	</insert>
-	
 	<select id="ckOwnerInfo" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
 		select
 			*
@@ -36,5 +35,26 @@
 		where
 			member_idx=#{member_idx}
 	</select>
-	
+	<select id="totalOwnerAppli" resultType="integer">
+  		SELECT
+  			count(*)
+  		FROM
+  			OWNER_INFO
+  		WHERE
+  			STATE = '대기'
+  	</select>
+  	<select id="allOwnerAppliInfo" parameterType="Map" resultType="goo.owner.model.OwnerDTO">
+  		SELECT * FROM	
+			(SELECT rownum AS rnum, a.* FROM
+			(SELECT * FROM OWNER_INFO WHERE state = '대기' ORDER BY OWNER_IDX ASC)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="ownerInfo" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
+		select
+			*
+		from
+			owner_info
+		where
+			member_idx=#{member_idx}
+	</select>
 </mapper>

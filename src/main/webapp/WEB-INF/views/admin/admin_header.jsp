@@ -39,7 +39,7 @@
             <a class="nav-link" href="admin_board_management.do">게시판관리</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">광고관리</a>
+            <a class="nav-link" href="admin_ad_management.do">광고관리</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="admin_statistics.do">통계/분석</a>

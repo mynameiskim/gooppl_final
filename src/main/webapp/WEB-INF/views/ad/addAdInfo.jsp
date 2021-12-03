@@ -41,38 +41,6 @@
           }
        }
 
-		function insertOwnerInfo(){
-			
-			var param = 'member_idx=' + member_idx;
-			param += '&title=' + title;
-			param += '&business_number=' + business_number;
-			param += '&name=' + name;
-			param += '&email=' + email
-			param += '&business_tel=' + business_tel;
-			param += '&tel=' + tel;
-			param += '&contenttype=' + contenttype;
-			param += '&addr=' + addr;
-			param += '&detailed_addr=' + detailed_addr;
-			param += '&ad_content=' + ad_content;
-			param += '&mapx=' + mapx;
-			param += '&mapy=' + mapy;
-			param += '&areacode=' + areacode;
-			param += '&sigungucode=' + sigungucode;
-			console.log(param);
-			sendRequest('saveOwnerInfo.do', param, getResultAdd, 'GET');
-		}
-		
-		function getResultAdd(){
-			if(XHR.readyState==4){
-				if(XHR.status==200){
-					var data = XHR.responseText;
-					imgUpload();
-				}
-			}
-		}
-		
-		
-		//function imgUpload()
     </script>
     
 
@@ -192,8 +160,8 @@
                                        var x = document.getElementById('mapx');
                                        var y = document.getElementById('mapy');
                                        
-                                       x.value=result.y;
-                                       y.value=result.x;
+                                       x.value=result.x;
+                                       y.value=result.y;
                                        
                                       /*  document.adForm.mapx.value=result.y;
                                        document.adForm.mapy.value=result.x; */
@@ -297,7 +265,7 @@
                                 </div>
                             </div>
                             <div class="col-md-5 form-group">
-                                <label for="registration_date" class="form-label">기간</label>
+                                <label for="registration_date" class="form-label">대표사진</label>
                                 <div class="input-group has-validation">
                                     <input type="file" class="form-control form-control-sm mb-2" name="upload" required>
                                 </div>
@@ -319,7 +287,7 @@
                             <div class="col-md-12 form-group">
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="detailed_addr" name="detailed_addr"
-                                        placeholder="상세주소" aria-describedby="inputGroupPrepend" required>
+                                        placeholder="상세주소" aria-describedby="inputGroupPrepend">
                                 </div>
                             </div>
                         </div>
