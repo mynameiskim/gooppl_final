@@ -562,7 +562,7 @@ function addEventListeners() {
 	  if(dragWay>0){
 		  swapUpToDown(dragStartIndex, dragEndIndex);
 	  }else if(dragWay<0){
-		  swqpDownToUp(dragStartIndex, dragEndIndex);
+		  swapDownToUp(dragStartIndex, dragEndIndex);
 	  }
 	  //swapItems(dragStartIndex, dragEndIndex);
 
@@ -588,7 +588,7 @@ function addEventListeners() {
 	}
 	
 	//아래서 위로 움직일 때
-	function swqpDownToUp(fromIndex, toIndex){
+	function swapDownToUp(fromIndex, toIndex){
 		var itemOne = listItems[fromIndex].querySelector('.draggable');
 		listItems[toIndex].appendChild(itemOne);
 		for(var i=toIndex;i<fromIndex;i++){
@@ -904,6 +904,7 @@ function getResultAdd2(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
+			console.log(data);
 			placeDetails.splice(0,1);
 			if(placeDetails.length!=0){
 				savePlaceDetailData();

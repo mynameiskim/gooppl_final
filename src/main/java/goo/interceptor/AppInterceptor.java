@@ -1,6 +1,7 @@
 package goo.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -9,8 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import goo.admin.model.SiteSettingsDTO;
-import goo.admin.model.SiteSettingsService;
+import goo.siteSettings.model.SiteSettingsDTO;
+import goo.siteSettings.model.SiteSettingsService;
 
 public class AppInterceptor extends HandlerInterceptorAdapter {
 	
@@ -26,7 +27,7 @@ public class AppInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		System.out.println("interceptor 실행");
-		SiteSettingsDTO dto=siteSettingsService.get_site_settings();
+		SiteSettingsDTO dto=siteSettingsService.getSiteSettings();
 		HttpSession session=request.getSession();
 		session.setAttribute("dto", dto);
 		

@@ -29,35 +29,27 @@ tr{
             <h5 class="text-center">관리자 등록</h5>
         </div>
     </div>
-    <form class="mg_top">
-    <table class="table table-bordered" style="font-size: 13px;">
+    <form name="admin_insert" action="admin_insert.do" method="post">
+    <table class="table table-bordered mg_top" style="font-size: 13px;">
         <tr>
-            <th class="tr_bg">아이디</label></th>
-            <td><input type="text"></td>
+            <th class="tr_bg">아이디</th>
+            <td><input type="text" name="goo_id"></td>
         </tr>
         <tr>
-        	<th class="tr_bg">비밀번호</label></th>
-            <td><input type="password"></td>
+        	<th class="tr_bg">비밀번호</th>
+            <td><input type="password" name="pwd"></td>
         </tr>
         <tr>
-            <th class="tr_bg">이름</label></th>
-            <td><input type="text"></td>
-        </tr>
-        <tr>
-        	<th class="tr_bg">닉네임</label></th>
-            <td colspan="3"><input type="text"></td>
+        	<th class="tr_bg">이름</th>
+            <td colspan="3"><input type="text" name="nickname"></td>
         </tr>
         <tr>
             <th class="tr_bg">휴대폰</th>
-            <td><input type="tel"></td>
+            <td><input type="tel" name="admin_phone" required="required"></td>
         </tr>
         <tr>
         	<th class="tr_bg">전화번호</th>
-            <td><input type="tel"></td>
-        </tr>
-        <tr>
-        	<th class="tr_bg">E-Mail</label></th>
-            <td><input type="email"></td>
+            <td><input type="tel" name="admin_tel" required="required"></td>
         </tr>
         <tr>
        		<th class="tr_bg">우편번호</th>
@@ -67,7 +59,7 @@ tr{
             <th class="tr_bg">주소</th>
             <td>
                 <div>
-                    <input type="text" style="width: 300px;">
+                    <input type="text" style="width: 300px;" name="admin_addr" required="required">
                 </div>
                 <div>
                     <input type="text"  style="width: 300px;">

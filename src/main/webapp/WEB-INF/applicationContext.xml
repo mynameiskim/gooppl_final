@@ -49,14 +49,20 @@
 	<bean id="gooppl_placedetailDao" class="goo.placedetail.model.Gooppl_PlaceDetailDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="ownerDao" class="goo.owner.model.OwnerDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	<bean id="adDao" class="goo.ad.model.AdDAOImple">
          <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
     </bean>
     <bean id="adminDao" class="goo.admin.model.AdminDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
-	<bean id="siteSettingsDao" class="goo.admin.model.SiteSettingsDAOImple">
+	<bean id="siteSettingsDao" class="goo.siteSettings.model.SiteSettingsDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
+	<bean id="formmailDao" class="goo.formmail.model.FormmailDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
 	
 	<!-- service -->	
@@ -78,13 +84,19 @@
 	<bean id="gooppl_placedetailService" class="goo.placedetail.model.Gooppl_PlaceDetailServiceImple">
 		<property name="gooppl_placedetailDao" ref="gooppl_placedetailDao"></property>
 	</bean>
+	<bean id="ownerService" class="goo.owner.model.OwnerServiceImple">
+		<property name="ownerDao" ref="ownerDao"></property>
+	</bean>
 	<bean id="adService" class="goo.ad.model.AdServiceImple">
          <property name="adDao" ref="adDao"></property>
    </bean>
    <bean id="adminService" class="goo.admin.model.AdminServiceImple">
 		<constructor-arg ref="adminDao"/>
 	</bean>
-	<bean id="siteSettingsService" class="goo.admin.model.SiteSettingsServiceImple">
+	<bean id="siteSettingsService" class="goo.siteSettings.model.SiteSettingsServiceImple">
 		<constructor-arg ref="siteSettingsDao"/>
+	</bean>
+	<bean id="formmailService" class="goo.formmail.model.FormmailServiceImple">
+		<constructor-arg ref="formmailDao"></constructor-arg>
 	</bean>
 </beans>

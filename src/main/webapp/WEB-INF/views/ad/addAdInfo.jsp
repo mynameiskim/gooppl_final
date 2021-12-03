@@ -40,7 +40,39 @@
              sigungu.style.display='block';
           }
        }
-        console.log(${member_idx});
+
+		function insertOwnerInfo(){
+			
+			var param = 'member_idx=' + member_idx;
+			param += '&title=' + title;
+			param += '&business_number=' + business_number;
+			param += '&name=' + name;
+			param += '&email=' + email
+			param += '&business_tel=' + business_tel;
+			param += '&tel=' + tel;
+			param += '&contenttype=' + contenttype;
+			param += '&addr=' + addr;
+			param += '&detailed_addr=' + detailed_addr;
+			param += '&ad_content=' + ad_content;
+			param += '&mapx=' + mapx;
+			param += '&mapy=' + mapy;
+			param += '&areacode=' + areacode;
+			param += '&sigungucode=' + sigungucode;
+			console.log(param);
+			sendRequest('saveOwnerInfo.do', param, getResultAdd, 'GET');
+		}
+		
+		function getResultAdd(){
+			if(XHR.readyState==4){
+				if(XHR.status==200){
+					var data = XHR.responseText;
+					imgUpload();
+				}
+			}
+		}
+		
+		
+		//function imgUpload()
     </script>
     
 
@@ -71,7 +103,7 @@
 
 
     <section class="signup-section" id="sigup">
-        <form class="form-inline needs-validation" id="adForm" name="adForm" action="ad_test.do" method="post">
+        <form class="form-inline needs-validation" id="adForm" name="adForm" action="addOwnerInfo.do" method="post" enctype="multipart/form-data">
             <div class="container" style="width:60%">
                 <div class="row">
                     <div class="col-md-7">
@@ -79,7 +111,7 @@
                     </div>
                     <div class="col-md-5">
                        <div class="row">
-                          <div class="col-md-7">
+                          <div class="col-md-6">
                            <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required>
                                <option value="" selected disabled>지역선택</option>
                                <c:forEach var="areadto" items="${arealist }">
@@ -87,9 +119,9 @@
                         </c:forEach>
                            </select>  
                           </div>
-                          <div class="col-md-5">
+                          <div class="col-md-6">
                            <select class="form-select" name="sigungucode" id="sigungucode" required>
-                         <option value="" selected disabled>==전체==</option>
+                         <option value="" selected disabled>선택해주세요</option>
                         <c:forEach var="sigungudto" items="${sigungulist}">
                            <option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
                         </c:forEach>
@@ -106,7 +138,7 @@
                
                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>
-               <script>
+                         <script>
                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                        mapOption = {
                            center: new daum.maps.LatLng(37.5663174209601, 126.977829174031), // 지도의 중심좌표
@@ -212,24 +244,25 @@
                     </div>
                     <input type="hidden" id="mapx" name="mapx">
                     <input type="hidden" id="mapy" name="mapy">
+                    <input type="hidden" id="member_idx" name="member_idx" value="${member_idx}">
                     
                     <div class="col-md-7">
                         <!-- <form name="form" class="row g-3"> -->
                         <div class="row">
                             <div class="col-md-4 form-group">
                                 <label for="title" class="form-label">상호명</label>
-                                <input type="text" class="form-control" id="title" name="title" required>
+                                <input type="text" class="form-control mb-2" id="title" name="title" required>
                                 
                             </div>
                             <div class="col-md-5 form-group">
                                 <label for="business_number" class="form-label">사업자번호</label>
-                                <input type="text" class="form-control" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="/^\d{3}-\d{2}-\d{5}$/" required>
+                                <input type="text" class="form-control mb-2" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required>
                                 
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="contenttype" class="form-label">타입</label>
 
-                                <select class="form-select" id="contenttype" name="contenttype" required>
+                                <select class="form-select mb-2" id="contenttype" name="contenttype" required>
                                     <option selected disabled>타입</option>
                                     <option value="14">문화시설</option>
                                     <option value="32">숙박</option>
@@ -241,34 +274,32 @@
                             <div class="col-md-8 form-group">
                                 <label for="email" class="form-label">이메일</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" class="form-control" id="email" name="email"
-                                        aria-describedby="inputGroupPrepend" required>
+                                    <input type="text" class="form-control mb-2" id="email" name="email"
+                                        aria-describedby="inputGroupPrepend" pattern="^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$" required>
                                 </div>
                             </div>
 
                             <div class="col-md-4 form-group">
-                                <label for="business_tel" class="form-label">업체번호</label>
-                                <input type="text" class="form-control" id="business_tel" name="business_tel" required>
+                                <label for="business_tel" class="form-label">업체 전화번호</label>
+                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-3 form-group">
                                 <label for="name" class="form-label">이름</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        aria-describedby="inputGroupPrepend" required>
+                                    <input type="text" class="form-control mb-2" id="name" name="name" aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="tel" class="form-label">번호</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control mb-2" id="tel" name="tel"
+                                        aria-describedby="inputGroupPrepend" pattern="^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$" required>
                                 </div>
                             </div>
                             <div class="col-md-5 form-group">
-                                <label for="tel" class="form-label">번호</label>
-                                <div class="input-group has-validation">
-                                    <input type="text" class="form-control" id="tel" name="tel"
-                                        aria-describedby="inputGroupPrepend" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3 form-group">
                                 <label for="registration_date" class="form-label">기간</label>
                                 <div class="input-group has-validation">
-                                    <input type="number" class="form-control" id="ad_period"
-                                        name="ad_period" aria-describedby="inputGroupPrepend" required>
+                                    <input type="file" class="form-control form-control-sm mb-2" name="upload" required>
                                 </div>
                             </div>
                             <div class="col-md-9 form-group">
@@ -301,7 +332,7 @@
                                  <label for="ad_content" class="form-label" style="margin-top:10px;">업체설명</label>
                               </div>
                               <div class="col-md-5 mb-3">
-                                 <input type="file" class="form-control form-control-sm" name="firstimage" required>
+                                 
                               </div>
                            </div>
                                

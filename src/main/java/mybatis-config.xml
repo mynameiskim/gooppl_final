@@ -10,7 +10,10 @@
 		<mapper resource="sqlMap/sigunguSQL.xml"></mapper>
   		<mapper resource="sqlMap/areaSQL.xml"></mapper>
   		<mapper resource="sqlMap/placedetailSQL.xml"></mapper>
+  		<mapper resource="sqlMap/ownerSQL.xml"></mapper>
   		<mapper resource="sqlMap/adSQL.xml"></mapper>
   		<mapper resource="sqlMap/adminSQL.xml"></mapper>
+  		<mapper resource="sqlMap/siteSettingsSQL.xml"></mapper>
+  		<mapper resource="sqlMap/formmailSQL.xml"></mapper>
   	</mappers>
   </configuration>

@@ -26,19 +26,18 @@
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>
-				- <a href='/nmanager/setup/config_manager.do'
+				- <a href='admin_share.do'
 				>공유게시판 관리</a><br />
-				- <a href='/nmanager/setup/config_manager.do'
+				- <a href='admin_review.do'
 				>후기게시판 관리</a><br />
-				- <a href='/nmanager/setup/config_m6anager.do'
+				- <a href='admin_relpy.do'
 				>댓글 관리 </a>
 			</dd>
 		</dl>
 	</div>
-</div>
-	<div id="contents"><h6><b>공유게시판</b></h6>
+	<div id="contents"><h6><b>후기게시판</b></h6>
 		<ul class='helpbox'>
-			<li>공유게시판의 게시글을 관리하는 곳입니다.</li>
+			<li>후기게시판의 게시글을 관리하는 곳입니다.</li>
 		</ul>
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
@@ -63,7 +62,7 @@
 			</div>	
 		</div>
 		<div class="row">
-			<h4 style="font-size: 15px;"><b>총 게시글:999</b></h4>
+			<h4 style="font-size: 15px;"><b>총 댓글:999</b></h4>
 		</div>
 		<table class="table table-hover tb_hover">
 			<thead>
@@ -78,7 +77,7 @@
 				<th class="text-center">삭제</th>
 			</tr>
 			</thead>
-			<tfoot style="border-top:0px;">
+			<tfoot style="border-top: 0px;">
 			<tr>
 				<td colspan="8" class="text-center">페이징영역</td>
 			</tr>
@@ -90,53 +89,54 @@
 				<td>123213</td>
 				<td>첫번째 게시글 제목입니다.ㅁㄴ암너ㅗ아ㅓㅁ노아ㅓㅁ노</td>
 				<td class="text-center">이정민</td>
-				<td class="text-center" style="font-size: 11px;">2021-11-26<br>16:00:00</td>
+				<td class="text-center" style="font-size: 12px;">2021-11-26<br>16:00:00</td>
 				<td class="text-center">0</td>
 				<td class="text-center"><input type="button" class="bt btn-dark" value="수정"></td>
 				<td class="text-center"><input type="button" class="bt btn-danger" value="삭제"></td>
 			</tr>
-			<tr style="vertical-align: middle;">
+               <tr style="vertical-align: middle;">
 				<td><input type="checkbox"></td>
 				<td>123213</td>
 				<td>첫번째 게시글 제목입니다.ㅁㄴ암너ㅗ아ㅓㅁ노아ㅓㅁ노</td>
 				<td class="text-center">이정민</td>
-				<td class="text-center" style="font-size: 11px;">2021-11-26<br>16:00:00</td>
+				<td class="text-center" style="font-size: 12px;">2021-11-26<br>16:00:00</td>
 				<td class="text-center">0</td>
 				<td class="text-center"><input type="button" class="bt btn-dark" value="수정"></td>
 				<td class="text-center"><input type="button" class="bt btn-danger" value="삭제"></td>
 			</tr>
-			<tr style="vertical-align: middle;">
+               <tr style="vertical-align: middle;">
 				<td><input type="checkbox"></td>
 				<td>123213</td>
 				<td>첫번째 게시글 제목입니다.ㅁㄴ암너ㅗ아ㅓㅁ노아ㅓㅁ노</td>
 				<td class="text-center">이정민</td>
-				<td class="text-center" style="font-size: 11px;">2021-11-26<br>16:00:00</td>
+				<td class="text-center" style="font-size: 12px;">2021-11-26<br>16:00:00</td>
 				<td class="text-center">0</td>
 				<td class="text-center"><input type="button" class="bt btn-dark" value="수정"></td>
 				<td class="text-center"><input type="button" class="bt btn-danger" value="삭제"></td>
 			</tr>
-			<tr style="vertical-align: middle;">
+               <tr style="vertical-align: middle;">
 				<td><input type="checkbox"></td>
 				<td>123213</td>
 				<td>첫번째 게시글 제목입니다.ㅁㄴ암너ㅗ아ㅓㅁ노아ㅓㅁ노</td>
 				<td class="text-center">이정민</td>
-				<td class="text-center" style="font-size: 11px;">2021-11-26<br>16:00:00</td>
+				<td class="text-center" style="font-size: 12px;">2021-11-26<br>16:00:00</td>
 				<td class="text-center">0</td>
 				<td class="text-center"><input type="button" class="bt btn-dark" value="수정"></td>
 				<td class="text-center"><input type="button" class="bt btn-danger" value="삭제"></td>
 			</tr>
-			<tr style="vertical-align: middle;">
+               <tr style="vertical-align: middle;">
 				<td><input type="checkbox"></td>
 				<td>123213</td>
 				<td>첫번째 게시글 제목입니다.ㅁㄴ암너ㅗ아ㅓㅁ노아ㅓㅁ노</td>
 				<td class="text-center">이정민</td>
-				<td class="text-center" style="font-size: 11px;">2021-11-26<br>16:00:00</td>
+				<td class="text-center" style="font-size: 12px;">2021-11-26<br>16:00:00</td>
 				<td class="text-center">0</td>
 				<td class="text-center"><input type="button" class="bt btn-dark" value="수정"></td>
 				<td class="text-center"><input type="button" class="bt btn-danger" value="삭제"></td>
 			</tr>
 			</tbody>
-		</table>	
+		</table>
+		</div>
 	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>

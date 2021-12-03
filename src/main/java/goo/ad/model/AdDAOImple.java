@@ -11,9 +11,4 @@ public class AdDAOImple implements AdDAO {
 		this.sqlMap = sqlMap;
 	}
 
-	public int adTest(AdDTO dto) {
-		int result = sqlMap.insert("adTest", dto);
-		return result;
-	}
-
 }
