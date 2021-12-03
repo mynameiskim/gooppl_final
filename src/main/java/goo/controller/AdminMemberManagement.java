@@ -145,4 +145,21 @@ public class AdminMemberManagement {
 		mav.setViewName("admin/member_management/admin_member_out");
 		return mav;
 	}
+	
+	@RequestMapping("/mail_form_preview_pop.do")
+	public ModelAndView mailFormPreviewPop(FormmailDTO fdto) {
+		System.out.println("mailFormPreviewPop ok");
+		System.out.println(fdto.getForm_no());
+		System.out.println(fdto.getForm_type()+"/"+fdto.getForm_title());
+		System.out.println(fdto.getForm_content());
+		ModelAndView mav = new ModelAndView();
+		FormmailDTO dto = formmailService.formType(fdto.getForm_type());
+		formmailService.formUpdate(fdto);
+		String preview = fdto.getForm_content();
+		mav.addObject("preview",preview);
+		formmailService.formUpdate(dto);
+		mav.setViewName("admin/member_management/mail_form_preview_pop");
+		return mav;
+	}
+	
 }
