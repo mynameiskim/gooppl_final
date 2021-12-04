@@ -9,6 +9,30 @@ th{
     vertical-align: middle;
 }
 </style>
+<script>
+async function fiviconUpload(){
+	const { value: file } = await Swal.fire({
+	  title: 'Select image',
+	  input: 'file',
+	  inputAttributes: {
+	    'accept': 'image/*',
+	    'aria-label': 'Upload your profile picture'
+	  }
+	})
+	
+	if (file) {
+	  const reader = new FileReader()
+	  reader.onload = (e) => {
+	    Swal.fire({
+	      title: 'Your uploaded picture',
+	      imageUrl: e.target.result,
+	      imageAlt: 'The uploaded picture'
+	    })
+	  }
+	  reader.readAsDataURL(file)
+	}
+}
+</script>
 <div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="container">
@@ -95,7 +119,7 @@ th{
                 </tr>
                 <tr>
                     <th class="tr_bg">파비콘</th>
-                    <td><input type="button" value="파비콘 업로드"  style="background-color: lightslategray; color: white;" name="favicon">
+                    <td><input type="button" value="파비콘 업로드" onclick="fiviconUpload()"  style="background-color: lightslategray; color: white;" name="favicon">
                     <div>
                         <label style="padding: 3px; font-size: 10px; color: deepskyblue;" >* 사이즈 16X16의 아이콘 이미지(확장자:ico)</label>
                     </div>

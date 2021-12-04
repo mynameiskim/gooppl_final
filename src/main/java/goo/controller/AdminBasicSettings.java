@@ -1,6 +1,7 @@
 package goo.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import goo.admin.model.AdminService;
 import goo.admin.model.AdminServiceImple;
 import goo.member.model.MemberDTO;
-import goo.siteSettings.model.SiteSettingsService;
+import goo.sitesettings.model.SiteSettingsService;
 import goo.admin.model.*;
 
 @Controller

@@ -87,38 +87,23 @@
 		     </tr>
 		  </tfoot>
 		  <tbody>
-		    <tr style="vertical-align: middle;">
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Mark</td>
-		      <td class="text-center">Otto</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center"><input type="button" class="bt btn-dark" value="삭제"></td>
-		    </tr>
-		    <tr>
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Mark</td>
-		      <td class="text-center">Otto</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center"><input type="button" class="bt btn-dark" value="삭제"></td>
-		    </tr>
-		    <tr>
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Mark</td>
-		      <td class="text-center">Otto</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center"><input type="button" class="bt btn-dark" value="삭제"></td>
-		    </tr>
-		    <tr>
-		      <th class="text-center"><input type="checkbox"></th>
-		      <td class="text-center">Mark</td>
-		      <td class="text-center">Otto</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center">@mdo</td>
-		      <td class="text-center"><input type="button" class="bt btn-dark" value="삭제"></td>
-		    </tr>
+		  	<c:if test="${empty list}">
+		  		<tr>
+		  			<td colspan="6" align="center">
+		  				<b>탈퇴한 회원이 없습니다.</b>
+		  			</td>
+		  		</tr>
+		  	</c:if>
+		  	<c:forEach var="list" items="${list}">
+		  		<tr style="vertical-align: middle;">
+		  			<td class="text-center"><input type="checkbox"></td>
+		  			<td class="text-center">${list.out_no}</td>
+		  			<td class="text-center">${list.id}</td>
+		  			<td class="text-center">${list.out_reason}</td>
+		  			<td class="text-center">${list.outdate}</td>
+		  			<td class="text-center"><input type="button" class="bt btn-dark" value="삭제"></td>
+		  		</tr>
+		  	</c:forEach>
 		  </tbody>
 		</table>
 		</div>

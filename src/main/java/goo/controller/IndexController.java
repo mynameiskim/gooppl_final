@@ -105,10 +105,15 @@ public class IndexController {
 	@RequestMapping("/createMap.do")
 	public ModelAndView newMap(
 			@RequestParam(value = "areacode", defaultValue="1") int areacode,
-			@RequestParam(value = "sigungucode", defaultValue="1") int sigungucode
-			) {
+			@RequestParam(value = "sigungucode", defaultValue="1") int sigungucode,
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		
+
+		String member_idx_s=(String)session.getAttribute("sessionMember_idx");
+		if(member_idx_s == null || member_idx_s.equals("")) {
+			mav.setViewName("redirect:/index.do");
+			mav.addObject("result","needlogin");
+		}
 		mav.addObject("member_idx", 1);
 		List<AreaDTO> arealist = areaService.areaList();
 		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
