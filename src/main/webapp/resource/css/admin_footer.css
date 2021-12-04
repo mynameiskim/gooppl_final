@@ -1,5 +1,7 @@
 @charset "UTF-8";
 footer{
+	height:300px;
 	text-align: center;
 	color: #444;
+	background-color: #f6f8fa;
 }

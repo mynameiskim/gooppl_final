@@ -44,4 +44,12 @@
   		WHERE
   			form_no = #{form_no} 
   	</update>
+  	<select id="emailTokenFormmail" parameterType="Integer" resultType="goo.formmail.model.FormmailDTO">
+  		SELECT
+  			*
+  		FROM
+  			formmail
+  		WHERE
+  			form_no = #{form_no}
+  	</select>
   </mapper>

@@ -25,6 +25,18 @@ public class OwnerServiceImple implements OwnerService {
 		OwnerDTO dto = ownerDao.ckOwnerInfo(member_idx);
 		return dto;
 	}
+	public List<OwnerDTO> allOwnerSelect() {
+		List<OwnerDTO> list = ownerDao.allOwnerSelect();
+		return list;
+	}
+	public OwnerDTO getOwnerDetail(int owner_idx) {
+		OwnerDTO dto= ownerDao.getOwnerDetail(owner_idx);
+		if(dto!=null) {
+			dto.setAd_content(dto.getAd_content().replaceAll("\n", "<br>"));
+			dto.setAddr(dto.getAddr().replaceAll("\n", "<br>"));
+		}
+		return dto;
+	}
 	
 	public int totalOwnerAppli() {
 		int count = ownerDao.totalOwnerAppli();

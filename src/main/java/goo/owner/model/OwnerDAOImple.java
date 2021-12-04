@@ -24,6 +24,15 @@ public class OwnerDAOImple implements OwnerDAO {
 		return dto;
 	}
 	
+	public List<OwnerDTO> allOwnerSelect() {
+		List<OwnerDTO> list =sqlMap.selectList("allOwnerSelect");
+		return list;
+	}
+	public OwnerDTO getOwnerDetail(int owner_idx) {
+		OwnerDTO dto = sqlMap.selectOne("selectOwnerDetail", owner_idx);
+		return dto;
+	}
+	
 	public int totalOwnerAppli() {
 		int count = sqlMap.selectOne("totalOwnerAppli");
 		if(count==0) {

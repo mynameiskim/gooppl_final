@@ -13,6 +13,9 @@ public interface MemberDAO {
 	public int kakaoJoin(Map hmp);
 	public int gooidCheck(String goo_id);
 	public int gooJoin(MemberDTO dto);
+	public int profileUpdate(Map hmp);
+	public int pwdCheck(Map hmp);
+	public int pwdChange(Map hmp);
 	public List<MemberDTO> memberList(Map map);//회원목록
 	public int totalMember();//총 회원수
 	public MemberDTO memberInfo(int member_idx); //회원 정보

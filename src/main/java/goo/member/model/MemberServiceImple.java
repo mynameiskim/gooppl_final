@@ -54,7 +54,18 @@ public class MemberServiceImple implements MemberService {
 		int count = memberDao.gooJoin(dto);
 		return count;
 	}
-	
+	public int profileUpdate(Map hmp) {
+		int count = memberDao.profileUpdate(hmp);
+		return count;
+	}
+	public int pwdCheck(Map hmp) {
+		int count = memberDao.pwdCheck(hmp);
+		return count;
+	}
+	public int pwdChange(Map hmp) {
+		int count = memberDao.pwdChange(hmp);
+		return count;
+	}
 	//-----------------------------
 		//회원목록 조회
 		public List<MemberDTO> memberList(int cp,int ls) {

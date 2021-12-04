@@ -90,6 +90,11 @@
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
         <div class="container-sm mb-5">
 
+            <!--작성 폼 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+            
+            
+            <form id="review_form" class="form-inline" name="writereview" action="writeReviewSubmit.do" method="post" enctype="multipart/form-data">
+            
             <div class="row">
                 <div class="col-md-4" style="height: 128px;">
                     <!-- 페이지 경로 -->
@@ -109,8 +114,6 @@
                 <div class="col-md-offset-1 col-md-2"></div>
             </div>
 
-            <!--작성 폼 -->
-            <form id="review_form" class="form-inline" name="writereview" action="#" method="post" enctype="multipart/form-data">
                 
                 <div class="container">
                     <div class="row justify-content-md-center">
@@ -132,7 +135,7 @@
                         <div class="row">
                             <div class='mb-3' style='width: 100%;'>
                                 <label for='formFile' class='form-label'>사진을 골라주세요!</label>
-                                <input class='form-control' type='file' id="inputMultipleImage" multiple>
+                                <input class='form-control' type='file' name="upload" id="inputMultipleImage" multiple>
                             </div>
                         </div>
                             <div class="row justify-content-md-center" id="multipleContainer" ></div> 
@@ -163,7 +166,10 @@
                 </div>
             </div>
         </form>
-
+        
+			            <!--작성 폼 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+			            
+			            
         </div>
 
         <script type="text/javascript">

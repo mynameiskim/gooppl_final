@@ -59,9 +59,9 @@
 		
 		
 	</insert>
-	
-	
-	
+	<update id="profileUpdate" parameterType="Map">
+		update member set nickname = #{nickname} where member_idx
+	</update>
 	<update id="admin_ownerAppli_typeChange" parameterType="integer">
 		UPDATE
 			MEMBER
@@ -70,5 +70,13 @@
 		WHERE
 			MEMBER_IDX = #{member_idx}
 	</update>
+	<select id="pwdCheck" parameterType="Map" resultType="Integer">
+		SELECT count(*) from member
+		WHERE member_idx=#{member_idx} and pwd = #{input_pwd_check}
+	</select>
+	<update id="pwdChange" parameterType="Map">
+		update member set pwd = #{pwd} where goo_id=#{goo_id}
+	</update>
+
 	
 </mapper>
