@@ -29,11 +29,11 @@ td{
 		<dl>
 			<dt>통계/분석</dt>
 			<dd>
-				<a href='/nmanager/setup/config_manager.do' class="active text-white"
+				<a href='/nmanager/setup/config_manager.do' style="color: white !important;"
 				>-접속자분석</a><br />
-				<a href='/nmanager/setup/config_manager.do' class="active text-white"
+				<a href='/nmanager/setup/config_manager.do' style="color: white !important;"
 				>-회원통계</a><br />
-				<a href='/nmanager/setup/config_m6anager.do' class="active text-white"
+				<a href='/nmanager/setup/config_m6anager.do' style="color: white !important;"
 				>-게시판통계 </a>
 			</dd>
 		</dl>

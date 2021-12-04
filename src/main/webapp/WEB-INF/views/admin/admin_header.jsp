@@ -30,27 +30,27 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active text-light text-opacity-75" aria-current="page" href="admin_basic_settings.do">기본설정</a>
+            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" aria-current="page" href="admin_basic_settings.do">기본설정</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-light text-opacity-75" href="admin_member_management.do">회원관리</a>
+            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;"  href="admin_member_management.do">회원관리</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-light text-opacity-75" href="admin_board_management.do">게시판관리</a>
+            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="admin_board_management.do">게시판관리</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-light text-opacity-75" href="#">광고관리</a>
+            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="#">광고관리</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-light text-opacity-75" href="admin_statistics.do">통계/분석</a>
+            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="admin_statistics.do">통계/분석</a>
           </li>
         </ul>
         <span class="navbar-text">
             <li class="li_1">
-              <a href="index.do" class="nav-link active text-light text-opacity-75">GooPPl</a>
+              <a href="index.do" class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" >GooPPl</a>
             </li>
             <li class="li_1">
-              <a href="logout.do?sessionId=${sessionScope.sessionId}" class="nav-link active text-light text-opacity-75">Logout</a>
+              <a href="logout.do?sessionId=${sessionScope.sessionId}" class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" >Logout</a>
             </li>   
           </ul>
         </span>

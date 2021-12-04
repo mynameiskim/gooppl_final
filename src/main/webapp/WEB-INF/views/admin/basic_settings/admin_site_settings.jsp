@@ -43,19 +43,19 @@ async function fiviconUpload(){
 				<c:url var="site_info_Url" value="admin_site_info.do">
 					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
 				</c:url>
-				<b><a href='${site_info_Url}' class="active text-white"
+				<b><a href='${site_info_Url}' style="color: white !important;"
 				>-사이트 기본정보</a></b><br />
-				<b><a href='admin_site_settings.do' class="active text-white"
+				<b><a href='admin_site_settings.do' style="color: white !important;"
 				>-사이트 환경설정</a></b><br />
 			</dd>
 			<dt>관리자 설정</dt>
 			<dd>
-				<b><a href='admin_settings.do' class="active text-white"
+				<b><a href='admin_settings.do' style="color: white !important;"
 					>-관리자 설정</a></b><br />
 			</dd>
 			<dt>가입약관 및 개인정보보호정책</dt>
 			<dd>
-				<b> <a href='admin_member_config.do' class="active text-white"
+				<b> <a href='admin_member_config.do' style="color: white !important;"
 				>-약관 및 개인정보보호정책</a></b><br />
 			</dd>
 		</dl>

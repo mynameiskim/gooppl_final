@@ -29,17 +29,17 @@ td{
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				 <a href="admin_member_list.do" class="active text-white"
+				 <a href="admin_member_list.do" style="color: white !important;"
 				>-회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				 <a href="admin_member_out.do" class="active text-white"
+				 <a href="admin_member_out.do" style="color: white !important;"
 					>-탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				 <a href="admin_formmail_settings.do?form_type=회원가입" class="active text-white"
+				 <a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
 				>-폼메일 관리</a><br />
 			</dd>
 		</dl>
