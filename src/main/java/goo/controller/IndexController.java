@@ -39,6 +39,13 @@ public class IndexController {
 		
 		ModelAndView mav = new ModelAndView();
 		
+		String sid=(String)session.getAttribute("sessionId");
+		if(sid==null||sid.equals("")) {
+			mav.addObject("open_login", 1);
+		}else {
+			mav.addObject("open_login", 0);
+		}
+		
 		if(login_result.equals("start")) {
 			/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 			String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -88,6 +95,7 @@ public class IndexController {
 	
 			// 네이버
 			mav.addObject("naver_url", naverAuthUrl);
+
 			//카카오
 			mav.addObject("kakao_url", kakaoUrl);
 			mav.addObject("login_result",login_result );
@@ -109,19 +117,22 @@ public class IndexController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		String member_idx_s=(String)session.getAttribute("sessionMember_idx");
-		if(member_idx_s == null || member_idx_s.equals("")) {
-			mav.setViewName("redirect:/index.do");
-			mav.addObject("result","needlogin");
-		}
-		mav.addObject("member_idx", 1);
-		List<AreaDTO> arealist = areaService.areaList();
-		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-		mav.addObject("arealist", arealist);
-		mav.addObject("sigungulist", sigungulist);
-		mav.addObject("areacode", areacode);
-		mav.addObject("sigungucode", sigungucode);
-		mav.setViewName("map/newMap");
+		String session_id=(String)session.getAttribute("sessionId");
+		/**
+		if(session_id==null||session_id.equals("")) {
+			mav.setViewName("redirect:index.do");
+		}else {
+		*/
+			mav.addObject("member_idx", 1);
+			List<AreaDTO> arealist = areaService.areaList();
+			List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+			mav.addObject("arealist", arealist);
+			mav.addObject("sigungulist", sigungulist);
+			mav.addObject("areacode", areacode);
+			mav.addObject("sigungucode", sigungucode);
+			mav.setViewName("map/newMap");
+		
+		
 		return mav;
 	}
 

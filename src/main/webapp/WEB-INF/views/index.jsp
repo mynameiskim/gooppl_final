@@ -43,7 +43,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
+					<li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
 					<li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
 
 					<c:choose>
@@ -80,7 +80,7 @@
 						여행 일자, 숙소, 가고 싶은 장소를 선택하세요!<br>쉽고 빠른 여행 일정을 만들어보세요!
 					</p>
 					<h1 class="display-5 fw-bolder text-white mb-2">나의 여행 플래너</h1>
-					<a class="btn btn-primary btn-lg" href="#about">일정만들기</a>
+					<a class="btn btn-primary btn-lg" id="createMap" href="createMap.do">일정만들기</a>
 				</div>
 			</div>
 		</div>
@@ -658,6 +658,8 @@
 					})
 			}
 		}
+		
+
 	 </script>
 	 <script>
 	 	/*인증번호 체크*/
