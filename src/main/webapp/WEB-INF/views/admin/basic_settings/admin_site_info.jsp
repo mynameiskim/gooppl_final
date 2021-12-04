@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <style>
     .tr_bg{
-   --bs-table-accent-bg: #1987541f !important;
+   --bs-table-accent-bg: #24292f; !important;
 }
 </style>
 <div id="wrap">
@@ -16,33 +16,28 @@
 				<c:url var="site_info_Url" value="admin_site_info.do">
 					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
 				</c:url>
-				- <a href='${site_info_Url}'
-				>사이트 기본정보</a><br />
-				- <a href='admin_site_settings.do'
-				>사이트 환경설정</a><br />
+				<b><a href='${site_info_Url}' class="active text-white"
+				>-사이트 기본정보</a></b><br />
+				<b><a href='admin_site_settings.do' class="active text-white"
+				>-사이트 환경설정</a></b><br />
 			</dd>
 			<dt>관리자 설정</dt>
 			<dd>
-				- <a href='admin_settings.do'
-					>관리자 설정</a><br />
+				<b><a href='admin_settings.do' class="active text-white"
+					>-관리자 설정</a></b><br />
 			</dd>
 			<dt>가입약관 및 개인정보보호정책</dt>
 			<dd>
-				- <a href='admin_member_config.do'
-				>약관 및 개인정보보호정책</a><br />
+				<b> <a href='admin_member_config.do' class="active text-white"
+				>-약관 및 개인정보보호정책</a></b><br />
 			</dd>
-			<!--  <dt>팝업관리</dt>
-			<dd>
-				- <a href='/nmanager/setup/manager_list.do'
-				>팝업관리</a><br />
-			</dd> -->
 		</dl>
 	</div>
 	<div id="contents"><h6><b>사이트 기본정보</b></h6>
 		<ul class='helpbox'>
 			<li>사이트 기본정보를 관리하는 곳입니다.</li>
 		</ul>
-        <fieldset style="border: 3px solid #dde0e5; padding: 12px 14px 10px;
+        <fieldset style="border: 3px solid #0000008c; padding: 12px 14px 10px;
 		margin-bottom: 20px;">
             <div class="row">
                 <div class="col-md-3 mb-1">
@@ -51,22 +46,22 @@
             </div>
             <table class="table table-bordered" style="font-size: 12px;">
                 <tr>
-                    <th class="tr_bg">사이트명</th>
-                    <td colspan="3">GooPPl</td>
+                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">사이트명</th>
+                    <td colspan="3" style="border: 1px solid #0000008c;">GooPPl</td>
                 </tr>
                 <tr>
-                    <th class="tr_bg">사이트 URL</th>
-                    <td colspan="3">http://test.com</td>
+                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">사이트 URL</th>
+                    <td colspan="3" style="border: 1px solid #0000008c;">http://test.com</td>
                 </tr>
                 <tr>
-                    <th class="tr_bg">관리자 이메일</th>
-                    <td colspan="3">${sessionScope.sessionId}</td>
+                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">관리자 이메일</th>
+                    <td colspan="3" style="border: 1px solid #0000008c;">${sessionScope.sessionId}</td>
                 </tr>
                 <tr>
-                    <th class="tr_bg">관리자 전화번호</th>
-                    <td>${dto.admin_tel}</td>
-                    <th class="tr_bg">관리자 핸드폰</th>
-                    <td>${dto.admin_phone}</td>
+                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">관리자 전화번호</th>
+                    <td style="border: 1px solid #0000008c;">${dto.admin_tel}</td>
+                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">관리자 핸드폰</th>
+                    <td style="border: 1px solid #0000008c;">${dto.admin_phone}</td>
                 </tr>
             </table>
         </fieldset>   

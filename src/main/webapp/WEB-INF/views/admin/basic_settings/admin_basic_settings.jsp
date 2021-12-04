@@ -21,26 +21,21 @@
 				<c:url var="site_info_Url" value="admin_site_info.do">
 					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
 				</c:url>
-				- <a href='${site_info_Url}'
-				>사이트 기본정보</a><br />
-				- <a href='admin_site_settings.do'
-				>사이트 환경설정</a><br />
+				<b><a href='${site_info_Url}' class="active text-white"
+				>-사이트 기본정보</a></b><br />
+				<b><a href='admin_site_settings.do' class="active text-white"
+				>-사이트 환경설정</a></b><br />
 			</dd>
 			<dt>관리자 설정</dt>
 			<dd>
-				- <a href='admin_settings.do'
-					>관리자 설정</a><br />
+				<b><a href='admin_settings.do' class="active text-white"
+					>-관리자 설정</a></b><br />
 			</dd>
 			<dt>가입약관 및 개인정보보호정책</dt>
 			<dd>
-				- <a href='admin_member_config.do'
-				>약관 및 개인정보보호정책</a><br />
+				<b> <a href='admin_member_config.do' class="active text-white"
+				>-약관 및 개인정보보호정책</a></b><br />
 			</dd>
-			<!--  <dt>팝업관리</dt>
-			<dd>
-				- <a href='/nmanager/setup/manager_list.do'
-				>팝업관리</a><br />
-			</dd> -->
 		</dl>
 	</div>
 	<div id="contents">
@@ -53,7 +48,7 @@
 			<h4>사이트 정보관리</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="admin_site_info.do?goo_id=${sessionScope.sessionId}"
+			<dt><a href="admin_site_info.do?goo_id=${sessionScope.sessionId}" class="active text-white"
 				>사이트 기본정보</a>
 			</dt>
 			<dd>
@@ -65,7 +60,7 @@
 		</dl>
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_site_settings.do'
+				<a href='admin_site_settings.do' class="active text-white"
 				>사이트 환경설정
 				</a>
 			</dt>
@@ -80,7 +75,7 @@
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_settings.do'
+				<a href='admin_settings.do' class="active text-white"
 				>관리자 설정
 				</a>
 			</dt>
@@ -95,7 +90,7 @@
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_member_config.do'
+				<a href='admin_member_config.do' class="active text-white"
 					>약관 및 개인정보보호정책
 				</a></dt>
 			<dd>
@@ -104,23 +99,6 @@
 				</a>
 			</dd>
 		</dl>
-		<!--  
-		<div class="section_head">
-			<h4>팝업관리</h4>
-		</div>					
-		<dl class="menu_list">
-			<dt>
-				<a href='/nmanager/setup/manager_list.do'
-					>팝업관리
-				</a>
-			</dt>
-			<dd>
-				<a href='/nmanager/setup/manager_list.do'
-					>홈페이지 공지 및 이벤트에서 활용할 수 있는 팝업창을 간단하게 제작하는 툴입니다.
-					</a>
-			</dd>
-		</dl>
-		-->
 		</div>
 	</div>
 </div>

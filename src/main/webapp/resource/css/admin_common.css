@@ -4,13 +4,19 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     padding: 0;
     border: none 0;
 }
+body{
+	height:100%;
+	background-color: #f6f8fa;
+}
 #wrap {
     position: relative;
     width: 100%;
+    background-color: #24292f;
 }
 #container {
     overflow: hidden;
     min-width: 1031px;
+    background-color: #f6f8fa;
 }
 #aside{
 	text-align: left;
@@ -20,6 +26,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     overflow: hidden;
     float: left;
     padding: 30px 0 0;
+   
 }
 #contents {
     min-width: 800px;
@@ -43,8 +50,8 @@ h6{
     float: left;
 }
 #aside dl{
-    border-top: solid 2px #e3e3e3;
-    border-bottom: solid 2px #e3e3e3;
+    border-top: solid 2px #0000008c;
+    border-bottom: solid 2px #0000008c;
     padding: 4px 5px 15px;
     font-size: 11px;
 }
@@ -53,14 +60,14 @@ h6{
     padding: 12px -1px 4px 18px;
 }
 #aside dl dd {
-    background: #1987541f;
+    background: #24292f;
     line-height: 16px;
     letter-spacing: -0.1em;
     padding: 5px 0 5px 18px;
 }
 ul.helpbox {
     overflow: hidden;
-    border: solid 3px #dde0e5;
+    border: solid 3px #0000008c;
     padding: 12px 14px 10px;
     margin-bottom: 20px;
     clear: both;
@@ -133,21 +140,21 @@ ul.helpbox li {
 .menu_list{
 	margin-bottom:0px;
     overflow: hidden;
-    border-top: solid 1px #ddd;
+    border-top: solid 1px #0000008c;
 }
 .menu_list dt{
     float: left;
     width: 20%;
     height: 45px;
-    background: #1987541f;
-    border-bottom: solid 1px #ddd;
+    background: #24292f;
+    border-bottom: solid 1px #0000008c;
     padding: 9px 0 0;
 }
 .menu_list dd{
     float: left;
     width: 80%;
     height: 45px;
-    border-bottom: solid 1px #ddd;
+    border-bottom: solid 1px #0000008c;
     padding: 8px 0 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -168,5 +175,13 @@ ul.navi li.home a {
 a {
     display: inline-block;
     text-decoration: none !important;
-    color: #555 !important;
+}
+a_hover{
+	color: #0000008c !important;
+}
+a_link{
+	color: #0000008c !important;
+}
+a_visited{
+	color: #0000008c !important;
 }

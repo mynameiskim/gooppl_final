@@ -8,12 +8,12 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-.tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
-	border-top:none !important;
-}
 .tr_bg{
-	background-color: #1987541f !important;;
+   --bs-table-accent-bg: #24292f !important;
+}
+.tb_hover{
+	--bs-table-hover-bg: lightgray !important;
+	border-top:none !important;
 }
 caption{
 	display:none;
@@ -29,18 +29,18 @@ caption{
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				- <a href="admin_member_list.do"
-				>회원목록</a><br />
+				 <a href="admin_member_list.do" class="active text-white"
+				>-회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				- <a href="admin_member_out.do"
-					>탈퇴회원목록</a><br />
+				 <a href="admin_member_out.do" class="active text-white"
+					>-탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				- <a href="admin_formmail_settings.do?form_type=회원가입"
-				>폼메일 관리</a><br />
+				 <a href="admin_formmail_settings.do?form_type=회원가입" class="active text-white"
+				>-폼메일 관리</a><br />
 			</dd>
 		</dl>
 	</div>
@@ -131,7 +131,7 @@ function formmailUpdate(form_no){
 			<colgroup><col width="130"><col width="*"></colgroup>
 			<thead style="border-top:none !important;">
 				<tr>
-					<th class="text-center tr_bg">폼메일</th>
+					<th class="text-center tr_bg active text-white">폼메일</th>
 					<td>
 					<select id='form_type' name='form_type' onChange='changeCode(this);' >
 						<c:forEach var="list" items="${list}">
@@ -141,7 +141,7 @@ function formmailUpdate(form_no){
 					</td>
 				</tr>
 				<tr>
-					<th class="text-center tr_bg">메일 제목</th>
+					<th class="text-center tr_bg active text-white">메일 제목</th>
 					<td>
 						<input id="form_title" class="text_input" style="width:98%" value="${fdto.form_title}" maxlength="100">
 					</td>
@@ -157,8 +157,8 @@ function formmailUpdate(form_no){
 			<tfoot style="border-top:0px;">
 				<tr>
 					<td colspan="2" class="text-center">
-					<button class="btn btn-secondary" type="button" onClick="openPreview(${fdto.form_no})">미리보기</button>
-					<button class="btn btn-secondary" type="button" onClick="formmailUpdate(${fdto.form_no})">확인</button>
+					<button class="btn btn-dark" style="border-radius: 3px;" type="button" onClick="openPreview(${fdto.form_no})">미리보기</button>
+					<button class="btn btn-dark" style="border-radius: 3px;" type="button" onClick="formmailUpdate(${fdto.form_no})">확인</button>
 					</td>
 				</tr>
 			</tfoot>
