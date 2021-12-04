@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="goo.admin">
-   	<select id="getSiteSettings" resultType="goo.sitSettings.model.SiteSettingsDTO">
+   	<select id="getSiteSettings" resultType="goo.siteSettings.model.SiteSettingsDTO">
   		SELECT 
   			*
   		FROM 
