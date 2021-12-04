@@ -13,10 +13,10 @@ td{
     border: 1px solid #e3e3e3 !important;
 }
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
 }
 .tr_bg{
-	--bs-table-accent-bg: #1987541f !important;
+       --bs-table-accent-bg: #24292f !important;
 }
 </style>
 </head>
@@ -29,18 +29,18 @@ td{
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				- <a href="admin_member_list.do"
-				>회원목록</a><br />
+				 <a href="admin_member_list.do" style="color: white !important;"
+				>-회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				- <a href="admin_member_out.do"
-					>탈퇴회원목록</a><br />
+				 <a href="admin_member_out.do" style="color: white !important;"
+					>-탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				- <a href="admin_formmail_settings.do?form_type=회원가입"
-				>폼메일 관리</a><br />
+				 <a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
+				>-폼메일 관리</a><br />
 			</dd>
 		</dl>
 	</div>

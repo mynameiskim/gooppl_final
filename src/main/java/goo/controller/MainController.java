@@ -1,4 +1,4 @@
-package goo.controller;
+﻿package goo.controller;
 
 
 
@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import goo.formmail.model.FormmailDTO;
+import goo.formmail.model.FormmailService;
 import goo.member.model.MemberService;
 
 @Controller
@@ -29,7 +31,10 @@ public class MainController {
 	private JavaMailSender mailSender;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private FormmailService formmailService;
 	
+	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	
 	@RequestMapping("/mypage.do")
 	public String mypage() {
@@ -86,109 +91,25 @@ public class MainController {
 	@ResponseBody
 	public String mailCheckGET(String email,HttpSession session) throws Exception{
 		
+		FormmailDTO fdto = formmailService.emailTokenFormmail(EMAIL_AUTH_FORMMAIL_NO);
 		System.out.println("이메일 데이터 전송확인");
 		System.out.println("인증번호 : " + email);
-		
 		String emailToken = RandomStringUtils.randomAlphanumeric(10);
 		System.out.println(emailToken);
 		
 		/* 이메일 보내기 */
         String setFrom = "w12310@naver.com";
         String toMail = email;
-        String title = "GooPPl 회원가입 인증 이메일 입니다.";
-        String content = 
-                "<center>\r\n"
-                + "		<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"\r\n"
-                + "			style=\"margin: 0; padding: 0; width: 100%; height: 100%;\"\r\n"
-                + "			bgcolor=\"#ffffff\">\r\n"
-                + "			<tbody>\r\n"
-                + "				<tr>\r\n"
-                + "					<td align=\"center\" valign=\"top\"\r\n"
-                + "						style=\"margin: 0; padding: 0; width: 100%; height: 100%;\">\r\n"
-                + "						<table width=\"775\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n"
-                + "							<tbody>\r\n"
-                + "								<tr>\r\n"
-                + "									<td\r\n"
-                + "										style=\"width: 775px; min-width: 775px; font-size: 0pt; line-height: 0pt; padding: 0; margin: 0; font-weight: normal;\">\r\n"
-                + "										<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n"
-                + "											<!-- Main -->\r\n"
-                + "											<tbody>\r\n"
-                + "												<tr>\r\n"
-                + "													<td bgcolor=\"#212429\" style=\"padding: 80px;\">\r\n"
-                + "														<table width=\"100%\" border=\"0\" cellspacing=\"0\"\r\n"
-                + "															cellpadding=\"0\">\r\n"
-                + "															<!-- Logo -->\r\n"
-                + "															<tbody>\r\n"
-                + "																<!-- All Content Exists within this table column -->\r\n"
-                + "																<tr>\r\n"
-                + "																	<td>\r\n"
-                + "																		<table width=\"100%\" border=\"0\" cellspacing=\"0\"\r\n"
-                + "																			cellpadding=\"0\">\r\n"
-                + "																			<tbody>\r\n"
-                + "																				<tr>\r\n"
-                + "																					<td\r\n"
-                + "																						style=\"font-size: 36px; line-height: 42px; font-family: 'Motiva Sans', Helvetica, Arial, sans-serif; text-align: left; padding-bottom: 30px; color: #bfbfbf; font-weight: bold;\"><span\r\n"
-                + "																						style=\"color: #77b9ee;\">GooPPl</span></td>\r\n"
-                + "																				</tr>\r\n"
-                + "																			</tbody>\r\n"
-                + "																		</table>\r\n"
-                + "																		<table width=\"100%\" border=\"0\" cellspacing=\"0\"\r\n"
-                + "																			cellpadding=\"0\">\r\n"
-                + "																			<tbody>\r\n"
-                + "																				<tr>\r\n"
-                + "																					<td\r\n"
-                + "																						style=\"font-size: 18px; line-height: 25px; font-family: 'Motiva Sans', Helvetica, Arial, sans-serif; text-align: left; color: #dbdbdb; padding-bottom: 30px;\">\r\n"
-                + "																						해당 인증번호를 인증번호 확인란에 기입하여 주세요.</td>\r\n"
-                + "																				</tr>\r\n"
-                + "																			</tbody>\r\n"
-                + "																		</table>\r\n"
-                + "																		<table width=\"100%\" border=\"0\" cellspacing=\"0\"\r\n"
-                + "																			cellpadding=\"0\">\r\n"
-                + "																			<tbody>\r\n"
-                + "																				<tr>\r\n"
-                + "																					<td style=\"padding-bottom: 70px;\">\r\n"
-                + "																						<table width=\"100%\" border=\"0\" cellspacing=\"0\"\r\n"
-                + "																							cellpadding=\"0\" bgcolor=\"#17191c\">\r\n"
-                + "																							<tbody>\r\n"
-                + "																								<tr>\r\n"
-                + "																									<td\r\n"
-                + "																										style=\"padding-top: 30px; padding-bottom: 30px; padding-left: 56px; padding-right: 56px;\">\r\n"
-                + "																										<table width=\"100%\" border=\"0\" cellspacing=\"0\"\r\n"
-                + "																											cellpadding=\"0\">\r\n"
-                + "																											<tbody>\r\n"
-                + "																												<tr>\r\n"
-                + "																													<td\r\n"
-                + "																														style=\"font-size: 48px; line-height: 52px; font-family: 'Motiva Sans', Helvetica, Arial, sans-serif; color: #3a9aed; font-weight: bold; text-align: center;\">\r\n"
-                + "																														"+emailToken+"</td>\r\n"
-                + "																												</tr>\r\n"
-                + "																											</tbody>\r\n"
-                + "																										</table>\r\n"
-                + "																									</td>\r\n"
-                + "																								</tr>\r\n"
-                + "																							</tbody>\r\n"
-                + "																						</table>\r\n"
-                + "																					</td>\r\n"
-                + "																				</tr>\r\n"
-                + "																			</tbody>\r\n"
-                + "																		</table>\r\n"
-                + "																	</td>\r\n"
-                + "																</tr>\r\n"
-                + "															</tbody>\r\n"
-                + "														</table>\r\n"
-                + "													</td>	\r\n"
-                + "												</tr>\r\n"
-                + "											</tbody>\r\n"
-                + "										</table>\r\n"
-                + "									</td>\r\n"
-                + "								</tr>\r\n"
-                + "							</tbody>\r\n"
-                + "						</table>\r\n"
-                + "					</td>\r\n"
-                + "				</tr>\r\n"
-                + "				<!-- END Footer -->\r\n"
-                + "			</tbody>\r\n"
-                + "		</table>\r\n"
-                + "	</center>";
+        String title = fdto.getForm_title();
+        String content = fdto.getForm_content();
+        content = content.replace("{{EMAILTOKEN}}", emailToken);
+                
+		/* 이메일 보내기 */
+        /*
+        String setFrom = "w12310@naver.com";
+        String toMail = email;
+        String title = "회원가입 인증 이메일 입니다.";
+        
         
         try {
             

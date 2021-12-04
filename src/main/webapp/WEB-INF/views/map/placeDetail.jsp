@@ -13,23 +13,14 @@
 	top: 10%;
 	left: 22%;
 }
-#area_txtView{
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 15px;
+#area_txtTable {
+	width:800px;
 }
-#area_txtView li{
-	float: left;
-	width: 50%;
-	padding 0 0 20 0;
-	display: table;
-	font-size: 12px;
-	font-weight: 400;
-	background:none;
+#area_txtTable th label{
+	width: 180px;
+}
+#area_txtTable td{
+	width:250px;
 }
 .wrap {position: absolute;left: 0;bottom: 10px;width: 265px;height: 110px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 10px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 .wrap * {padding: 0;margin: 0;}
@@ -227,16 +218,6 @@ function getPlaceDetail(){
 	        map.addControl(btNode1, kakao.maps.ControlPosition.BOTTOMRIGHT);
 
 	        placeMoreDetail();
-	        var area_txtView=document.getElementById('area_txtView');
-	  	     var area_txtViewStr='';
-	  	        area_txtViewStr+='<li><strong>문의 및 안내</strong><span class="mo">'+placeDetail.infocenter+'</span></li>';
-	  	        area_txtViewStr+='<li><strong>홈페이지</strong><span>'+placeDetail.homepage+'</span></li>';
-	  	        area_txtViewStr+='<li><strong>주소</strong><span>'+placeDetail.addr+'</span></li>';
-	  	        area_txtViewStr+='<li><strong>이용시간</strong><span>'+placeDetail.userdate+'</span></li>';
-	  	        area_txtViewStr+='<li><strong>휴일</strong><span>'+placeDetail.restdate+'</span></li>';
-	  	        area_txtViewStr+='<li><strong>주차</strong><span>'+placeDetail.parking+'</span></li>';
-	  	        area_txtViewStr+='<li><strong>입장료<strong><span>'+placeDetail.chkcreditcard+'</span></li>';
-	  	        area_txtView.innerHTML=area_txtViewStr;
 		}
 	}
 }
@@ -257,36 +238,73 @@ function getResultDetail(){
 	        	 var parking;
 	        	 var restdate;
 	        	 var usetime;
+	        	 
 	        	 if(items[0].getElementsByTagName('chkcreditcard').length==0){
 	        		 chkcreditcard='알 수 없음';
 	        	 }else{
 	        		 chkcreditcard=items[0].getElementsByTagName('chkcreditcard').item(0).firstChild.nodeValue;
 	 	       	 }
+	        	 
 	        	 if(items[0].getElementsByTagName('infocenter').length==0){
 	        		 infocenter='알 수 없음';
 	        	 }else{
 	        		 infocenter=items[0].getElementsByTagName('infocenter').item(0).firstChild.nodeValue;
 	 	       	 }
+	        	 
 	        	 if(items[0].getElementsByTagName('parking').length==0){
+	        		 parking='알 수 없음';
+	        	 }else if(items[0].getElementsByTagName('parking').item(0).hasChildNodes()==false){
 	        		 parking='알 수 없음';
 	        	 }else{
 	        		 parking=items[0].getElementsByTagName('parking').item(0).firstChild.nodeValue;
-	 	       	 }
+	        	 }
+	        	 
 	        	 if(items[0].getElementsByTagName('restdate').length==0){
 	        		 restdate='알 수 없음';
 	        	 }else{
 	        		 restdate=items[0].getElementsByTagName('restdate').item(0).firstChild.nodeValue;
 	 	       	 }
+	        	 
 	        	 if(items[0].getElementsByTagName('usetime').length==0){
 	        		 usetime='알 수 없음';
-	        	 }else{
-	        		 usetime=items[0].getElementsByTagName('usetime').item(0).firstChild.nodeValue;
+	        	 }else if(items[0].getElementsByTagName('usetime').item(0).hasChildNodes()==false){
+	        		 usetime='알 수 없음';
+	 	       	 }else{
+	 	       		usetime=items[0].getElementsByTagName('usetime').item(0).firstChild.nodeValue;
 	 	       	 }
+	        	 
 	        	 placeDetail.chkcreditcard=chkcreditcard;
 	        	 placeDetail.infocenter=infocenter;
 	        	 placeDetail.parking=parking;
 	        	 placeDetail.restdate=restdate;
 	        	 placeDetail.usetime=usetime;
+	        	 
+	        	 var area_txtView=document.getElementById('area_txtTable');
+		  	     var area_txtViewStr='';
+		  	     
+		  	     area_txtViewStr+='<tr>'+
+						  	     	'<th style="vertical-align: top;text-align: left;"><label>&check; 문의 및 안내</label></th>'+
+						  	     	'<td style="vertical-align: top;word-break:break-all;">'+placeDetail.infocenter+'</td>'+
+						  	     	'<th style="vertical-align: top;text-align: left;"><label>&check; 홈페이지</label></th>'+
+						  	     	'<td style="vertical-align: top;word-break:break-all;">'+placeDetail.homepage+'</td>'+
+						  	     '</tr>'+
+						  	     '<tr>'+
+						  	     	'<th style="vertical-align: top;text-align: left;"><label>&check; 주소</label></th>'+
+						  	     	'<td style="vertical-align: top;word-break:break-all;">'+placeDetail.addr+'</td>'+
+						  	     	'<th style="vertical-align: top;text-align: left;"><label>&check; 이용시간</label></th>'+
+						  	     	'<td style="vertical-align: top;word-break:break-all;">'+placeDetail.usetime+'</td>'+
+						  	     '</tr>'+		  	     
+						  	     '<tr>'+
+						  	     	'<th style="vertical-align: top;text-align: left;"><label>&check; 휴일</label></th>'+
+						  	     	'<td style="vertical-align: top;word-break:break-all;">'+placeDetail.restdate+'</td>'+
+						  	     	'<th style="vertical-align: top;text-align: left;"><label>&check; 주차</label></th>'+
+						  	     	'<td style="vertical-align: top;word-break:break-all;">'+placeDetail.parking+'</td>'+
+						  	     '</tr>'+	
+						  	     '<tr>'+
+						  	     	'<th style="vertical-align: top;text-align: left;"><label>&check; 입장료</label></th>'+
+						  	     	'<td style="vertical-align: top;word-break:break-all;">'+placeDetail.chkcreditcard+'</td>'+
+						  	     '</tr>';		  	     
+		  	        area_txtView.innerHTML=area_txtViewStr;
 	        	 
 		}
 	}
@@ -379,8 +397,10 @@ function closeOverlay() {
 		<br><br>
 		<!-- 지도를 표시할 div 입니다 -->
 		<div id="map" style="width:100%;height:250px;position: relative;"></div>
-		<ul id="area_txtView" >
-		</ul>
+		<br>
+		<div id="area_txtView">
+			<table id="area_txtTable" style="font-size: 12px;"></table>
+		</div>
 	</div>
 	<script src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=33817b3ae46352524552aa3d23525140"></script>
 </body>

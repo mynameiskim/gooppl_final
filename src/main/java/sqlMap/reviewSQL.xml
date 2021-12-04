@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.review">
+  
+  <!-- addReview -->
+  	<insert id="reviewInsert" parameterType="goo.review.model.ReviewDTO">
+  		insert into
+  			review
+  		values(
+  			review_idx.nextval,
+  			#{subject},
+  			#{nickname},
+  			#{prologue},
+  			0,
+  			sysdate,
+  			#{epilogue},
+  			#{member_idx}
+  		)
+  	</insert>
+  	<select id="totalCnt" resultType="Integer">
+  		select count(*) from review
+  	</select>
+  	<select id="reviewAllList" parameterType="Map" resultType="goo.review.model.ReviewDTO">
+		select * from
+		(select rownum as rnum,a.* from
+		(select * from review order by review_idx desc)a)b
+		where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<update id="readNum" parameterType="Integer">
+  		update review set readnum = readnum+1 where review_idx=#{review_idx}
+  	</update>
+  	<select id="reviewContent" parameterType="Integer" resultType="goo.review.model.ReviewDTO">
+  		select
+  		*
+  		from
+  		review
+  		where
+  		review_idx=#{review_idx}
+  	</select>
+  </mapper>

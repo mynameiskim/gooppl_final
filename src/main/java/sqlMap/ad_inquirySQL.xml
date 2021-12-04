@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goo.ad_inquery">
+	<insert id="adInquiry" parameterType="goo.ad_inquery.model.Ad_inquiryDTO">
+	insert into
+		ad_inquiry
+	values(
+		ad_inquiry_idx.nextval,
+		#{owner_idx},
+		#{email},
+		#{inquiry_type},
+		#{inquiry_content},
+		#{inquiry_state},
+		#{ad_period},
+		#{reason},
+		sysdate
+	)
+	</insert>
+</mapper>

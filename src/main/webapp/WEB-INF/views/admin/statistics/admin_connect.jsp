@@ -13,10 +13,10 @@ td{
     border: 1px solid #e3e3e3 !important;
 }
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
 }
 .tr_bg{
-	--bs-table-accent-bg: #1987541f !important;
+       --bs-table-accent-bg: #24292f !important;
 }
 </style>
 </head>
@@ -29,12 +29,12 @@ td{
 		<dl>
 			<dt>통계/분석</dt>
 			<dd>
-				- <a href='/nmanager/setup/config_manager.do'
-				>접속자분석</a><br />
-				- <a href='/nmanager/setup/config_manager.do'
-				>회원통계</a><br />
-				- <a href='/nmanager/setup/config_m6anager.do'
-				>게시판통계 </a>
+				<a href='/nmanager/setup/config_manager.do' style="color: white !important;"
+				>-접속자분석</a><br />
+				<a href='/nmanager/setup/config_manager.do' style="color: white !important;"
+				>-회원통계</a><br />
+				<a href='/nmanager/setup/config_m6anager.do' style="color: white !important;"
+				>-게시판통계 </a>
 			</dd>
 		</dl>
 	</div>

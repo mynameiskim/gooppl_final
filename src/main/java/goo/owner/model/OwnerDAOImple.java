@@ -1,5 +1,7 @@
 package goo.owner.model;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class OwnerDAOImple implements OwnerDAO {
@@ -16,8 +18,17 @@ public class OwnerDAOImple implements OwnerDAO {
 		return result;
 	}
 	
-	public OwnerDTO ownerAppli(int member_idx) {
-		OwnerDTO dto = sqlMap.selectOne("ownerAppli", member_idx);
+	public OwnerDTO ckOwnerInfo(int member_idx) {
+		OwnerDTO dto = sqlMap.selectOne("ckOwnerInfo", member_idx);
+		return dto;
+	}
+	
+	public List<OwnerDTO> allOwnerSelect() {
+		List<OwnerDTO> list =sqlMap.selectList("allOwnerSelect");
+		return list;
+	}
+	public OwnerDTO getOwnerDetail(int owner_idx) {
+		OwnerDTO dto = sqlMap.selectOne("selectOwnerDetail", owner_idx);
 		return dto;
 	}
 }

@@ -59,6 +59,8 @@ public class MemberDAOImple implements MemberDAO {
 		int count = sqlMap.insert("gooJoin",dto);
 		return count;
 	}
+	
+	
 	public int pwdCheck(Map hmp) {
 		int count = sqlMap.selectOne("pwdCheck",hmp);
 		return count;
@@ -68,6 +70,7 @@ public class MemberDAOImple implements MemberDAO {
 		int count = sqlMap.update("pwdChange",hmp);
 		return count;
 	}
+
 	
 	public int ownerAppli(int member_idx) {
 		int result = sqlMap.selectOne("ownerAppli", member_idx);

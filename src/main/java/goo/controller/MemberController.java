@@ -2,10 +2,12 @@
 
 import java.time.LocalDate;
 
-
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import goo.admin.model.AdminService;
+import goo.formmail.model.FormmailDTO;
+import goo.formmail.model.FormmailService;
 import goo.member.model.MemberDTO;
 import goo.member.model.MemberService;
 
@@ -24,7 +28,12 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
     private AdminService adminService;
+	@Autowired
+	private FormmailService formmailService;
+	@Autowired
+	private JavaMailSender mailSender;
 	
+	private static final int EMAIL_JOIN_FORMMAIL_NO = 1;
 
 		   @RequestMapping(value= "/login.do",method = RequestMethod.POST)
 	   public ModelAndView login(@ModelAttribute("dto") MemberDTO dto,HttpSession session) {
@@ -80,6 +89,30 @@ public class MemberController {
 			session.setAttribute("sessionId",dto.getGoo_id());
 			session.setAttribute("sessionMemberType",dto.getMember_type());
 			session.setAttribute("sessionJoinType","goo");
+			
+			FormmailDTO fdto = formmailService.emailTokenFormmail(EMAIL_JOIN_FORMMAIL_NO);
+			/* 이메일 보내기 */
+	        String setFrom = "w12310@naver.com";
+	        String toMail = dto.getGoo_id();
+	        String title = fdto.getForm_title();
+	        String content = fdto.getForm_content();
+	        title = title.replace("{{NICKNAME}}", dto.getNickname());
+	        content = content.replace("{{NICKNAME}}", dto.getNickname());
+	        
+	        try {
+	            
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+	            helper.setFrom(setFrom);
+	            helper.setTo(toMail);
+	            helper.setSubject(title);
+	            helper.setText(content,true);
+	            mailSender.send(message);
+	            
+	        }catch(Exception e) {
+	            e.printStackTrace();
+	        }
+			
 			mav.addObject("join_result","ok");
 			mav.setViewName("redirect:/index.do");
 		}

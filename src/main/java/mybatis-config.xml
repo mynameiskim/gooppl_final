@@ -12,8 +12,11 @@
   		<mapper resource="sqlMap/placedetailSQL.xml"></mapper>
   		<mapper resource="sqlMap/ownerSQL.xml"></mapper>
   		<mapper resource="sqlMap/adSQL.xml"></mapper>
+  		<mapper resource="sqlMap/ad_inquirySQL.xml"></mapper>
   		<mapper resource="sqlMap/adminSQL.xml"></mapper>
-  		<mapper resource="sqlMap/siteSettingsSQL.xml"></mapper>
+		<mapper resource="sqlMap/reviewSQL.xml"></mapper>
+  		<mapper resource="sqlMap/sitesettingsSQL.xml"></mapper>
   		<mapper resource="sqlMap/formmailSQL.xml"></mapper>
+  		<mapper resource="sqlMap/member_outSQL.xml"></mapper>
   	</mappers>
   </configuration>
