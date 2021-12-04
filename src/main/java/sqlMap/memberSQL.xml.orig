@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -44,6 +44,7 @@
 			default
 			)
 	</insert>
+<<<<<<< HEAD
 	<insert id="gooJoin" parameterType="goo.member.model.MemberDTO">
 		insert into member values(
 			member_idx.nextval,
@@ -59,14 +60,7 @@
 		
 		
 	</insert>
-	<update id="profileUpdate" parameterType="Map">
-		update member set nickname = #{nickname} where member_idx=#{member_idx}
-	</update>
-	<select id="pwdCheck" parameterType="Map" resultType="Integer">
-		SELECT count(*) from member
-		WHERE member_idx=#{member_idx} and pwd = #{input_pwd_check}
-	</select>
-	<update id="pwdChange" parameterType="Map">
-		update member set pwd = #{pwd} where goo_id=#{goo_id}
-	</update>
+=======
+	
+>>>>>>> 2c3711ab60b465ddaf07c5345983586570faf823
 </mapper>

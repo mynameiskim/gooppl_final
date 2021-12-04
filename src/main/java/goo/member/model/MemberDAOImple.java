@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class MemberDAOImple implements MemberDAO {
@@ -56,12 +58,24 @@ public class MemberDAOImple implements MemberDAO {
 	public int gooJoin(MemberDTO dto) {
 		int count = sqlMap.insert("gooJoin",dto);
 		return count;
+	}
+	public int pwdCheck(Map hmp) {
+		int count = sqlMap.selectOne("pwdCheck",hmp);
+		return count;
+	}
 	
-	
+	public int pwdChange(Map hmp) {
+		int count = sqlMap.update("pwdChange",hmp);
+		return count;
+	}
 	
 	public int ownerAppli(int member_idx) {
 		int result = sqlMap.selectOne("ownerAppli", member_idx);
 		return result;
+	}
+	public int profileUpdate(Map hmp) {
+		int count = sqlMap.update("profileUpdate",hmp);
+		return count;
 	}
 	
 	//--------------------------
