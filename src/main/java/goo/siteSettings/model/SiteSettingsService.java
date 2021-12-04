@@ -1,4 +1,4 @@
-package goo.sitesettings.model;
+package goo.siteSettings.model;
 
 public interface SiteSettingsService {
 
