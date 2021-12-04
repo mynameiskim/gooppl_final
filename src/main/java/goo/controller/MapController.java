@@ -57,6 +57,26 @@ public class MapController {
 		return "map/newMape";
 	}
 	
+	@RequestMapping("/createMap2.do")
+	public ModelAndView newMap(
+			@RequestParam(value = "areacode", defaultValue="1") int areacode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode
+			) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("member_idx", 1);
+		List<AreaDTO> arealist = areaService.areaList();
+		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+		mav.addObject("arealist", arealist);
+		mav.addObject("sigungulist", sigungulist);
+		mav.addObject("adlist", adlist);
+		mav.addObject("areacode", areacode);
+		mav.addObject("sigungucode", sigungucode);
+		mav.setViewName("map/newMapAdTest");
+		return mav;
+	}
+	
 	@RequestMapping("/addSigunguTable.do")
 	public ModelAndView addSigunguTable(
 			@RequestParam("areacode") int areacode,
