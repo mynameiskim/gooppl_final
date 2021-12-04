@@ -1,11 +1,14 @@
-package goo.controller;
+﻿package goo.controller;
 
 
 
+
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,7 +16,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
@@ -36,6 +41,51 @@ public class MainController {
 		return "member/mypage";
 	}
 	
+	@RequestMapping("/newPwd.do")
+	public ModelAndView goupdatePwd(@RequestParam("goo_id")String goo_id) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("goo_id",goo_id);
+		mav.setViewName("member/newPwd");
+		return mav;
+	}
+	@RequestMapping(value="/pwdChange.do",method=RequestMethod.POST)
+	@ResponseBody
+	public int pwdChange(@RequestParam("pwd")String pwd,@RequestParam("goo_id")String goo_id) {
+		Map hmp = new HashedMap();
+		hmp.put("pwd", pwd);
+		hmp.put("goo_id",goo_id);
+		int result = memberService.pwdChange(hmp);
+		return result;
+		
+	}
+	
+	
+	@RequestMapping(value="/pwdCheck.do",method=RequestMethod.POST)
+	@ResponseBody
+	public int pwdCheck(String input_pwd_check,HttpSession session) {
+		int sessionMember_idx = (Integer) session.getAttribute("sessionMember_idx");
+		Map hmp = new HashedMap();
+		hmp.put("member_idx", sessionMember_idx);
+		hmp.put("input_pwd_check", input_pwd_check);
+		int result = memberService.pwdCheck(hmp);
+		
+		return result;
+	}
+	@RequestMapping(value="/profileUpdate.do",method=RequestMethod.GET)
+	@ResponseBody
+	public int profileUpdate(String nickname,HttpSession session)throws Exception {
+		
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		Map hmp = new HashedMap();
+		hmp.put("member_idx", member_idx);
+		hmp.put("nickname", nickname);
+		int result = memberService.profileUpdate(hmp);
+		session.setAttribute("sessionNickname", nickname);
+		String pro_nick = nickname.substring(0,1);
+		session.setAttribute("profileNick", pro_nick);
+		return result;
+	}
+	
 	//email 인증 관련 
 	@RequestMapping(value="/mailCheck.do",method=RequestMethod.GET)
 	@ResponseBody
@@ -54,18 +104,7 @@ public class MainController {
         String content = fdto.getForm_content();
         content = content.replace("{{EMAILTOKEN}}", emailToken);
                 
-		/* 이메일 보내기 */
-        /*
-        String setFrom = "w12310@naver.com";
-        String toMail = email;
-        String title = "회원가입 인증 이메일 입니다.";
-        String content = 
-                "GooPPl을 방문해주셔서 감사합니다." +
-                "<br><br>" + 
-                "인증 번호는 <strong>" + emailToken + "</strong>입니다." + 
-                "<br>" + 
-                "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
-        */
+		
         
         try {
             

@@ -1,4 +1,4 @@
-package goo.sitesettings.model;
+package goo.siteSettings.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

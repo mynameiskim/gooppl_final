@@ -86,19 +86,20 @@
                                 background-color: #717171;
                                 color: #fff;
                                 margin: 0px auto;
+                                font-size:25px;
                                 font-weight: 700;">${profileNick}
                     </div>
                 </div>
             </div>
             <div class="row justify-content-md-center">
-                <div class="col col-lg-2 mb-4">
+                <div class="col col-lg-4 mb-4">
                     <h4 class="display-6 fw-bolder text-center">${sessionScope.sessionNickname}</h1>
                 </div>
             </div>
             <div class="row justify-content-md-center">
                 <div class="col col-lg-3 text-center mb-5">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
+                        data-bs-target="#staticBackdrop" id="profile_modal_bt">
                         프로필수정
                     </button>
                     <c:if test="${sessionScope.sessionMemberType=='M'}">
@@ -120,7 +121,7 @@
             </div>
         </div>
     </section> 
-    <!--모달-->
+    <!--프로필 수정 모달-->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -143,7 +144,7 @@
                                         color: #fff;
                                         margin: 0px auto;
                                         font-weight: 700;
-                                        font-size: 1.5rem;
+                                        font-size: 2.0rem;
                                         
                                         "
                                         >${profileNick}
@@ -153,7 +154,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-md-center">
-                        <div class="col-md-5 text-center">
+                        <div class="col-md-10 text-center">
                             <h6 class="fw-bolder text-center" style="font-size: 18px;">${sessionScope.sessionNickname}
                                 <a class="mx-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-pen"></i></a>
                             </h6>
@@ -162,7 +163,7 @@
                     <div class="collapse" id="collapseExample">
                         <div class="row justify-content-md-center mb-3">
                             <div class="col-md-6 text-center">
-                                <input type="text" class="form-control" placeholder="수정할 닉네임을 입력하세요">
+                                <input type="text" class="form-control" placeholder="수정할 닉네임을 입력하세요" id="update_nickname">
                             </div>
                         </div>
                     </div>
@@ -171,6 +172,8 @@
                         	<c:choose>
                             	<c:when test="${sessionScope.sessionJoinType=='goo'}">
                           		  <p class="mb-2"><i class="fa fa-envelope mr-2"></i> ${sessionScope.sessionId}</p>
+                          		  <p><a href="#" role="button"
+										data-bs-toggle="modal" data-bs-target="#pwdCheckModal">비밀번호 변경</a></p>
                         		</c:when>
                         		<c:when test="${sessionScope.sessionJoinType=='naver'}">
                         			 <p class="mb-2"><img width="80%" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></p>
@@ -184,12 +187,54 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-primary">수정하기</button>
+                    <button type="button" class="btn btn-primary" id="update_profile_bt">수정하기</button>
                 </div>
             </div>
         </div>
     </div>
-    <!--모달 끝-->
+    <!--프로필 수정 모달 끝-->
+    <!-- 비밀번호 확인 모달 -->
+    <div class="modal fade" id="pwdCheckModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary mb-4">
+                    <h5 class="modal-title" id="staticBackdropLabel">비밀번호 확인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <br>
+                <div class="modal-body p-2 pt-0">
+                    <div class="row justify-content-md-center mb-2">
+                        <div class="col-md-10 mb-2 text-center">
+                            <h6 class="fw-bolder text-center" style="font-size:25px;">현재 비밀번호를 입력해주세요.</h6>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <form class="needs-validation" id="pwd_check" name="pwd_check" action="#" 
+						method="post" enctype="application/x-www-form-urlencoded" novalidate>
+	                        <div class="row justify-content-md-center mb-2">
+	                        	<div class="col-md-8 text-center mb-2">
+		                        	<input type="password" class="form-control pwds" name="input_pwd_check" id="input_pwd_check" placeholder="비밀번호 입력" value="" required pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}">
+							    </div>
+	                        </div>
+	                        <div class="row justify-content-md-center mb-5">
+	                        	<div class="col-md-8 text-center">
+							    	<button style="width: 100%" class="btn btn-primary" type="button" id="pwd_check_bt" value="n">확인</button>
+							    </div>
+	                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!-- 비밀번호 확인 모달 끝 -->
+    <!-- 비밀번호 변경 모달 -->
+    
+    
+    
+    <!-- 비밀번호 변경 모달 끝 -->
     <section>
         <!--일정 영역-->
         <c:if test="${sessionScope.sessionMemberType=='O'}">
@@ -403,6 +448,82 @@
             </div>
         </div>
     </section>
+    <script>
+    $("#update_profile_bt").click(function(){
+	       var nickname = $("#update_nickname").val();//수정할 닉네임
+	       if(""==nickname){
+	    	   
+	       }else{
+	       $.ajax({
+	              type:"GET",
+	              url:"profileUpdate.do",
+	              data:{"nickname":nickname},
+	              success:function(data){
+	            	  if(data==1){
+	            	  Swal.fire({
+						  title: '프로필 수정완료',
+						  icon: 'success',
+						  timer: 1500,
+						  allowOutsideClick:false
+	            	  }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.reload();
+					    	}
+					    })
+	            	  setTimeout(function(){location.reload()},1510);
+	            	  }else{
+	            		  Swal.fire({
+							  title: '프로필 수정실패',
+							  icon: 'error',
+							  confirmButtonText: '확인'
+							})  
+	            	  }
+	              }        
+	          });
+	       }		       
+	    });    
+    
+    </script>
+    <!-- 비밀번호 체크 확인  -->
+    <script>
+    $('#pwd_check_bt').click(function(){
+    	var input_pwd_check = $('#input_pwd_check').val();
+    	if(input_pwd_check==""||input_pwd_check==null){
+    		Swal.fire({
+				  title: '비밀번호를 입력해주세요',
+				  icon: 'warning',
+				  confirmButtonText: '확인'
+				})  
+    	}else{
+    		$.ajax({
+	              type:"POST",
+	              url:"pwdCheck.do",
+	              data:{"input_pwd_check":input_pwd_check},
+	              success:function(data){
+	            	  if(data==1){
+		            	  Swal.fire({
+							  title: '확인되었습니다.',
+							  icon: 'success',
+							  allowOutsideClick:false
+		            	  }).then((result) => {
+						    	if (result.isConfirmed) {
+						    		location.reload();
+						    		window.open('newPwd.do?goo_id=${sessionScope.sessionId}','_blank');
+						    	}
+						    })
+	            	  }else{
+	            		  Swal.fire({
+							  title: '비밀번호가 다릅니다.',
+							  icon: 'warning',
+							  confirmButtonText: '확인'
+							})  
+	            	  }
+	              }        
+	          });
+	       }		    
+    }); 
+    </script>
+    <!-- 비밀번호 체크 확인 끝 -->
     <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
         <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
     </footer>
