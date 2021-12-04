@@ -7,10 +7,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
     .tb_hover{
-       --bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
     }
     .tr_bg{
-       --bs-table-accent-bg: #1987541f !important;
+       --bs-table-accent-bg: #24292f !important;
     }
     th{
         vertical-align: middle;
@@ -29,26 +29,21 @@
 				<c:url var="site_info_Url" value="admin_site_info.do">
 					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
 				</c:url>
-				- <a href='${site_info_Url}'
-				>사이트 기본정보</a><br />
-				- <a href='admin_site_settings.do'
-				>사이트 환경설정</a><br />
+				<b><a href='${site_info_Url}' class="active text-white"
+				>-사이트 기본정보</a></b><br />
+				<b><a href='admin_site_settings.do' class="active text-white"
+				>-사이트 환경설정</a></b><br />
 			</dd>
 			<dt>관리자 설정</dt>
 			<dd>
-				- <a href='admin_settings.do'
-					>관리자 설정</a><br />
+				<b><a href='admin_settings.do' class="active text-white"
+					>-관리자 설정</a></b><br />
 			</dd>
 			<dt>가입약관 및 개인정보보호정책</dt>
 			<dd>
-				- <a href='admin_member_config.do'
-				>약관 및 개인정보보호정책</a><br />
+				<b> <a href='admin_member_config.do' class="active text-white"
+				>-약관 및 개인정보보호정책</a></b><br />
 			</dd>
-			<!--  <dt>팝업관리</dt>
-			<dd>
-				- <a href='/nmanager/setup/manager_list.do'
-				>팝업관리</a><br />
-			</dd> -->
 		</dl>
 	</div>
 	<div id="contents"><h6><b>가입약관 및 개인정보보호정책</b></h6>
@@ -56,7 +51,7 @@
 			<li>회원가입시 약관동의 페이지에 나오는 가입약관 및 개인정보 보호정책 내용을 관리합니다.</li>
 		</ul>
         <table class="table table-hover tb_hover">
-            <tbody style="border-top: 2px solid #e3e3e3;	">
+            <tbody style="border-top: 2px solid #0000008c;	border-bottom: 2px solid #0000008c;">
             <tr>
                 <th>가입약관</th>
                 <td><textarea cols="100" rows="10" style="resize: none;" readonly="readonly">임의로 작성한 서비스 이용약관

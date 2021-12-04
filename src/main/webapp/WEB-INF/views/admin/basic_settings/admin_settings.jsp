@@ -8,8 +8,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-.tr_bg{
-   --bs-table-accent-bg: #1987541f !important;
+    .tr_bg{
+   --bs-table-accent-bg: #24292f !important;
 }
 .f_tab_th{
     text-align: center;
@@ -21,13 +21,13 @@ tr{
     border:1px solid lightgray;
 }
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+	--bs-table-hover-bg: lightgray !important;
 }
 </style>
 <script>
 
 function addAdmin(){
-	open('admin_insert.do','admin_insert','width=600px,height=580px,top=300,left=800');
+	open('admin_insert.do','admin_insert','width=600px,height=500px,top=300,left=800');
 }
 
 function adminDetails(index,size){
@@ -152,45 +152,40 @@ function adminDelete(index){
 				<c:url var="site_info_Url" value="admin_site_info.do">
 					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
 				</c:url>
-				- <a href='${site_info_Url}'
-				>사이트 기본정보</a><br />
-				- <a href='admin_site_settings.do'
-				>사이트 환경설정</a><br />
+				<b><a href='${site_info_Url}' class="active text-white"
+				>-사이트 기본정보</a></b><br />
+				<b><a href='admin_site_settings.do' class="active text-white"
+				>-사이트 환경설정</a></b><br />
 			</dd>
 			<dt>관리자 설정</dt>
 			<dd>
-				- <a href='admin_settings.do'
-					>관리자 설정</a><br />
+				<b><a href='admin_settings.do' class="active text-white"
+					>-관리자 설정</a></b><br />
 			</dd>
 			<dt>가입약관 및 개인정보보호정책</dt>
 			<dd>
-				- <a href='admin_member_config.do'
-				>약관 및 개인정보보호정책</a><br />
+				<b> <a href='admin_member_config.do' class="active text-white"
+				>-약관 및 개인정보보호정책</a></b><br />
 			</dd>
-			<!--  <dt>팝업관리</dt>
-			<dd>
-				- <a href='/nmanager/setup/manager_list.do'
-				>팝업관리</a><br />
-			</dd> -->
 		</dl>
 	</div>
 	<div id="contents"><h6><b>관리자 설정</b></h6>
 		<ul class='helpbox'>
 			<li>홈페이지 관리자에 접속 할 수 있는 관리자 정보를 수정할 수 메뉴입니다.</li>
 		</ul>
-        <fieldset style="border:0px solid #dde0e5; padding: 12px 14px 10px;
+        <fieldset style="border:0px solid #0000008c; padding: 12px 14px 10px;
 		margin-bottom: 5px;">
         <table class="table table-hover tb_hover">
         		<thead>
-                <tr class="tr_bg">
-                	<th class="f_tab_th">번호</th>
-                	<th class="f_tab_th">회원유형</th>
-                	<th class="f_tab_th">회원번호</th>
-                	<th class="f_tab_th">이름</th>
-                    <th class="f_tab_th">아이디</th>
-                    <th class="f_tab_th">최근 접속일</th>
-                    <th class="f_tab_th">등록일</th>
-                    <th class="f_tab_th" style="width: 200px;">기능</th>
+                <tr class="tr_bg active text-white text-opacity-75">
+                	<th class="f_tab_th" style="width:5%;">번호</th>
+                	<th class="f_tab_th" style="width:8%;">회원유형</th>
+                	<th class="f_tab_th" style="width:8%;">회원번호</th>
+                	<th class="f_tab_th" style="width:8%;">이름</th>
+                    <th class="f_tab_th" style="width:17%;">아이디</th>
+                    <th class="f_tab_th" style="width:17%;">최근 접속일</th>
+                    <th class="f_tab_th" style="width:17%;">등록일</th>
+                    <th class="f_tab_th" style="width:20%;">기능</th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -210,27 +205,27 @@ function adminDelete(index){
                 </c:if>
                 <c:forEach var="list1" items="${list1}" varStatus="status">
                 <tr>
-                	<td class="f_tab_td">${(cp-1)*listSize+status.index+1}</td>
-                	<td class="f_tab_td">${list1.member_type}</td>
-                	<td class="f_tab_td">${list1.member_idx}
+                	<td class="f_tab_td" style="width:5%;">${(cp-1)*listSize+status.index+1}</td>
+                	<td class="f_tab_td" style="width:8%;">${list1.member_type}</td>
+                	<td class="f_tab_td" style="width:8%;">${list1.member_idx}
                 	<input id="member_idx${status.index}" type="hidden" value="${list1.member_idx}">
                 	</td>
-                    <td class="f_tab_td">${list1.nickname}</td>
-                    <td class="f_tab_td">${list1.goo_id}
+                    <td class="f_tab_td" style="width:8%;">${list1.nickname}</td>
+                    <td class="f_tab_td" style="width:17%;">${list1.goo_id}
                     <input id="goo_id${status.index}" type="hidden" value="${list1.goo_id}">
                     </td>
-                    <td class="f_tab_td">${list2[status.index].last_connection_date}</td>
-                    <td class="f_tab_td">${list1.join_date}</td>
-                    <td class="f_tab_td">
-                    <input id="btn${status.index}" class="bt btn-secondary" type="button" onclick="adminDetails(${status.index},${size})" value="상세보기">
-                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="adminDelete(${status.index})" value="삭제">
+                    <td class="f_tab_td" style="width:17%;">${list2[status.index].last_connection_date}</td>
+                    <td class="f_tab_td" style="width:17%;">${list1.join_date}</td>
+                    <td class="f_tab_td" style="width:20%;">
+                    <input id="btn${status.index}" class="bt btn-secondary" style="border-radius: 3px;" type="button" onclick="adminDetails(${status.index},${size})" value="상세보기">
+                    <input id="delete_btn${status.index}" class="bt btn-danger" style="border-radius: 3px;" type="button" onclick="adminDelete(${status.index})" value="삭제">
                     </td>
                 </tr>
                 </c:forEach>
                 </tbody>
         </table>
         </fieldset>
-        <div><button type="button" class="bt btn-secondary" style="margin-left:5px; margin-bottom:10px;" onclick="addAdmin()">관리자 등록</button></div>
+        <div><button type="button" class="bt btn-dark" style="margin-left:5px; border-radius: 3px; margin-bottom:10px;" onclick="addAdmin()">관리자 등록</button></div>
         <div id="di"></div>
 		</div>
 	</div>

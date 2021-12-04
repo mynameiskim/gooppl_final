@@ -13,10 +13,10 @@ td{
     border: 1px solid #e3e3e3 !important;
 }
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
 }
 .tr_bg{
-	--bs-table-accent-bg: #1987541f !important;
+       --bs-table-accent-bg: #24292f !important;
 }
 </style>
 </head>

@@ -9,10 +9,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
 }
 .tr_bg{
-	background-color: #1987541f;
+       --bs-table-accent-bg: #24292f !important;
 }
 </style>
 </head>
@@ -25,18 +25,18 @@
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				- <a href="admin_member_list.do"
-				>회원목록</a><br />
+				 <a href="admin_member_list.do" class="active text-white"
+				>-회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				- <a href="admin_member_out.do"
-					>탈퇴회원목록</a><br />
+				 <a href="admin_member_out.do" class="active text-white"
+					>-탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				- <a href="admin_formmail_settings.do?form_type=회원가입"
-				>폼메일 관리</a><br />
+				 <a href="admin_formmail_settings.do?form_type=회원가입" class="active text-white"
+				>-폼메일 관리</a><br />
 			</dd>
 		</dl>
 	</div>
@@ -64,7 +64,7 @@
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
 				<div class="col-md-5 text-center">
-					<input type="button" class="bt btn-primary" value="검색하기" >
+					<input type="button" class="bt btn-dark" style="border-radius: 3px;" value="검색하기" >
 				</div>	
 			</div>
 			<div class="row">
@@ -73,12 +73,12 @@
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
-					<th class="text-center"><input type="checkbox"></th>
-                    <th class="text-center">번호</th>
-					<th class="text-center">아이디</th>
-					<th class="text-center">탈퇴사유</th>
-					<th class="text-center">탈퇴일</th>
-					<th class="text-center">삭제</th>
+					<th class="text-cente active text-white text-opacity-75r"  style="width:5%;"><input type="checkbox"></th>
+                    <th class="text-center active text-white text-opacity-75"  style="width:5%;">번호</th>
+					<th class="text-center active text-white text-opacity-75"  style="width:20%;">아이디</th>
+					<th class="text-center active text-white text-opacity-75"  style="width:35%;">탈퇴사유</th>
+					<th class="text-center active text-white text-opacity-75"  style="width:25%;">탈퇴일</th>
+					<th class="text-center active text-white text-opacity-75"  style="width:10%;">삭제</th>
 				</tr>
 		</thead>
 			<tfoot style="border-top: 0px">
@@ -96,12 +96,12 @@
 		  	</c:if>
 		  	<c:forEach var="list" items="${list}">
 		  		<tr style="vertical-align: middle;">
-		  			<td class="text-center"><input type="checkbox"></td>
-		  			<td class="text-center">${list.out_no}</td>
-		  			<td class="text-center">${list.id}</td>
-		  			<td class="text-center">${list.out_reason}</td>
-		  			<td class="text-center">${list.outdate}</td>
-		  			<td class="text-center"><input type="button" class="bt btn-dark" value="삭제"></td>
+		  			<td class="text-center"  style="width:5%;"><input type="checkbox"></td>
+		  			<td class="text-center"  style="width:5%;">${list.out_no}</td>
+		  			<td class="text-center"  style="width:20%;">${list.id}</td>
+		  			<td class="text-center"  style="width:35%;">${list.out_reason}</td>
+		  			<td class="text-center"  style="width:25%;">${list.outdate}</td>
+		  			<td class="text-center"  style="width:10%;"><input type="button" style="border-radius: 3px;" class="bt btn-danger" value="삭제"></td>
 		  		</tr>
 		  	</c:forEach>
 		  </tbody>
