@@ -17,4 +17,10 @@ public class MemberOutDAOImple implements MemberOutDAO {
 		List<MemberOutDTO> list = sqlMap.selectList("memberOutList");
 		return list;
 	}
+	
+	public int totalMemberOut() {
+		int totalMemberOut = sqlMap.selectOne("totalMemberOut");
+		return totalMemberOut;
+	}
+	
 }

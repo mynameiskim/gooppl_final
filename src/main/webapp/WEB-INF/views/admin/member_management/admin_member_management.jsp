@@ -53,11 +53,11 @@ td{
 			<h4>회원목록</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="admin_member_list.do"
+			<dt><a href="admin_member_list.do" style="color: white !important;"
 				>회원목록</a>
 			</dt>
 			<dd>
-				<a href="admin_member_list.do"
+				<a href="admin_member_list.do" 
 				>사이트에 가입한 회원들을 일괄 관리합니다.
 				</a>
 			</dd>
@@ -67,7 +67,7 @@ td{
 		</div>
 		<dl class="menu_list">
 			<dt>
-				<a href="admin_member_out.do"
+				<a href="admin_member_out.do" style="color: white !important;"
 				>탈퇴회원목록
 				</a>
 			</dt>
@@ -82,7 +82,7 @@ td{
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href="admin_formmail_settings.do?form_type=회원가입"
+				<a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
 				>폼메일 관리
 				</a>
 			</dt>

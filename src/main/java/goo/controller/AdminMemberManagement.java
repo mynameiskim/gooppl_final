@@ -54,6 +54,19 @@ public class AdminMemberManagement {
 		return mav;
 	}
 	
+
+	@RequestMapping("/admin_member_out.do")
+	public ModelAndView memberOutList(@RequestParam(value = "cp",defaultValue = "1")int cp) {
+		int listSize=5;
+		int pageSize=5;
+		int totalMemberOut = memberService.totalMemberOut();
+		List<MemberOutDTO> list = memberOutService.memberOutList();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("admin/member_management/admin_member_out");
+		return mav;
+	}
+	
 	@RequestMapping("/member_info.do")
 	public ModelAndView memberInfo(@RequestParam("member_idx")int member_idx) {
 		MemberDTO mdto = memberService.memberInfo(member_idx);
@@ -141,15 +154,6 @@ public class AdminMemberManagement {
 		}
 		map.put("code", code);
 		return map;
-	}
-	
-	@RequestMapping("/admin_member_out.do")
-	public ModelAndView memberOutList() {
-		List<MemberOutDTO> list = memberOutService.memberOutList();
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
-		mav.setViewName("admin/member_management/admin_member_out");
-		return mav;
 	}
 	
 	@RequestMapping("/mail_form_preview_pop.do")

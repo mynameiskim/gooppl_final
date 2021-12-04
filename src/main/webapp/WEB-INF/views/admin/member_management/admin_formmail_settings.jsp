@@ -171,13 +171,17 @@ function formmailUpdate(form_no){
 	
 			<div class="replacement">
 				<h2>※ 치환코드<span>(내용 중 프로그램으로 된 정보를 뿌려줄때 아래와 같이 코드를 삽입합니다.)</span></h2>
+				<p>회원가입</p>
+				<ul>
+					<li><span>{{NICKNAME}}</span> : 닉네임</li>
+				</ul>
 				<p>이메일 인증</p>
 				<ul>
 					<li><span>{{EMAILTOKEN}}</span> : 인증번호</li>
 				</ul>
-				<p>회원가입</p>
+				<p>비밀번호 찾기</p>
 				<ul>
-					<li><span>{{NICKNAME}}</span> : 닉네임</li>
+					<li><span>{{GOO_ID}}</span> : 닉네임</li>
 				</ul>
 			</div>
 		</div>
