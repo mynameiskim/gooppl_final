@@ -63,6 +63,7 @@ public class MemberDAOImple implements MemberDAO {
 		return result;
 	}
 	
+	
 	//--------------------------
 		//회원목록 조회
 		public List<MemberDTO> memberList(Map map) {
@@ -82,4 +83,9 @@ public class MemberDAOImple implements MemberDAO {
 			MemberDTO mdto = sqlMap.selectOne("memberInfo", member_idx);
 			return mdto;
 		}
+		
+	public int admin_ownerAppli_typeChange(int member_idx) {
+		int result = sqlMap.update("admin_ownerAppli_typeChange", member_idx);
+		return result;
+	}
 }

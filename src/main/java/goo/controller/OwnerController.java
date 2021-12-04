@@ -91,7 +91,11 @@ public class OwnerController {
 		System.out.println("정보등록 진입");
 		String firstimg = copyInto(dto.getMember_idx(), dto.getUpload());
 		dto.setFirstimg(firstimg);
-		dto.setState("승인");
+		dto.setState("대기");
+		System.out.println("광고 정보 수정 전:"+dto.getAd_content());
+		dto.setAd_content(dto.getAd_content().replaceAll("<br>","\r\n"));
+		dto.setAd_content(dto.getAd_content().replaceAll("<br/>","\r\n"));
+		System.out.println("광고 정보 수정 후:"+dto.getAd_content());
 		System.out.println("db 등록 전");
 		int result = ownerService.addOwnerInfo(dto);
 		System.out.println("db 등록 후");

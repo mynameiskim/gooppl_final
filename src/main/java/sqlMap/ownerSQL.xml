@@ -43,6 +43,14 @@
   		WHERE
   			STATE = '대기'
   	</select>
+  	<select id="totalOwner" resultType="integer">
+  		SELECT
+  			count(*)
+  		FROM
+  			OWNER_INFO
+  		WHERE
+  			STATE = '승인'
+  	</select>
   	<select id="allOwnerAppliInfo" parameterType="Map" resultType="goo.owner.model.OwnerDTO">
   		SELECT * FROM	
 			(SELECT rownum AS rnum, a.* FROM
@@ -56,5 +64,32 @@
 			owner_info
 		where
 			owner_idx=#{owner_idx}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<update id="admin_ownerAppli_ok" parameterType="integer">
+		UPDATE
+			OWNER_INFO
+		SET
+			state = '승인'
+		WHERE
+			owner_idx = #{owner_idx}
+	</update>
+	<delete id="admin_ownerAppli_del" parameterType="integer">
+		DELETE FROM
+			OWNER_INFO
+		WHERE
+			owner_idx = #{owner_idx}
+	</delete>
+	<select id="admin_allOwner" parameterType="Map" resultType="goo.owner.model.OwnerDTO">
+		SELECT * FROM	
+			(SELECT rownum AS rnum, a.* FROM
+			(SELECT * FROM OWNER_INFO WHERE state = '승인' ORDER BY OWNER_IDX ASC)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
 	</select>
 </mapper>

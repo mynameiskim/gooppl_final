@@ -77,4 +77,8 @@ public class MemberServiceImple implements MemberService {
 			return mdto;
 		}
 	
+	public int admin_ownerAppli_typeChange(int member_idx) {
+		int result = memberDao.admin_ownerAppli_typeChange(member_idx);
+		return result;
+	}
 }

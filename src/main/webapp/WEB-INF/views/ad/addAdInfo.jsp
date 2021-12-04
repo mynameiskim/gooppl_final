@@ -163,10 +163,12 @@
                                        x.value=result.x;
                                        y.value=result.y;
                                        
+                                       
+                                       
                                       /*  document.adForm.mapx.value=result.y;
                                        document.adForm.mapy.value=result.x; */
-                                       //console.log('x의 값:'+x.value);
-                                       //console.log('y의 값:'+y.value);
+                                       console.log('x의 값:'+x.value);
+                                       console.log('y의 값:'+y.value);
                                        
                                        var real_y = parseFloat(result.y)+0.0001;
                                        
@@ -249,7 +251,7 @@
 
                             <div class="col-md-4 form-group">
                                 <label for="business_tel" class="form-label">업체 전화번호</label>
-                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required>
+                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" placeholder="ex)02-123-4567" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required>
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="name" class="form-label">이름</label>

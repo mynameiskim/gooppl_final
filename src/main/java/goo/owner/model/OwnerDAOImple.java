@@ -32,6 +32,11 @@ public class OwnerDAOImple implements OwnerDAO {
 		return count;
 	}
 	
+	public int totalOwner() {
+		int count = sqlMap.selectOne("totalOwner");
+		return count;
+	}
+	
 	public List<OwnerDTO> allOwnerAppliInfo(Map map) {
 		System.out.println("모든 광고주 요청 데이터 뽑기");
 		List<OwnerDTO> list = sqlMap.selectList("allOwnerAppliInfo", map);
@@ -42,5 +47,20 @@ public class OwnerDAOImple implements OwnerDAO {
 	public OwnerDTO ownerInfo(int owner_idx) {
 		OwnerDTO dto = sqlMap.selectOne("ownerInfo",owner_idx);
 		return dto;
+	}
+	
+	public int admin_ownerAppli_ok(int owner_idx) {
+		int result = sqlMap.update("admin_ownerAppli_ok", owner_idx);
+		return result;
+	}
+	
+	public int admin_ownerAppli_del(int owner_idx) {
+		int result = sqlMap.delete("admin_ownerAppli_del", owner_idx);
+		return result;
+	}
+	
+	public List<OwnerDTO> admin_allOwner(Map map) {
+		List<OwnerDTO> list = sqlMap.selectList("admin_allOwner", map);
+		return list;
 	}
 }

@@ -60,4 +60,15 @@
 		
 	</insert>
 	
+	
+	
+	<update id="admin_ownerAppli_typeChange" parameterType="integer">
+		UPDATE
+			MEMBER
+		SET
+			MEMBER_TYPE = 'O'
+		WHERE
+			MEMBER_IDX = #{member_idx}
+	</update>
+	
 </mapper>
