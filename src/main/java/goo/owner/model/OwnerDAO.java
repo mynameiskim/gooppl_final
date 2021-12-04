@@ -8,5 +8,5 @@ public interface OwnerDAO {
 	public OwnerDTO ckOwnerInfo(int member_idx);
 	public int totalOwnerAppli();
 	public List<OwnerDTO> allOwnerAppliInfo(Map map);
-	public OwnerDTO ownerInfo(int member_idx);
+	public OwnerDTO ownerInfo(int owner_idx);
 }

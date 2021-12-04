@@ -39,8 +39,8 @@ public class OwnerDAOImple implements OwnerDAO {
 		return list;
 	}
 	
-	public OwnerDTO ownerInfo(int member_idx) {
-		OwnerDTO dto = sqlMap.selectOne("ownerInfo",member_idx);
-		return null;
+	public OwnerDTO ownerInfo(int owner_idx) {
+		OwnerDTO dto = sqlMap.selectOne("ownerInfo",owner_idx);
+		return dto;
 	}
 }

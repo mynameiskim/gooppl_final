@@ -55,6 +55,6 @@
 		from
 			owner_info
 		where
-			member_idx=#{member_idx}
+			owner_idx=#{owner_idx}
 	</select>
 </mapper>

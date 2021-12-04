@@ -8,5 +8,5 @@ public interface OwnerService {
 	public OwnerDTO ckOwnerInfo(int member_idx);
 	public int totalOwnerAppli();
 	public List<OwnerDTO> allOwnerAppliInfo(int cp, int ls);
-	public OwnerDTO ownerInfo(int member_idx);
+	public OwnerDTO ownerInfo(int owner_idx);
 }

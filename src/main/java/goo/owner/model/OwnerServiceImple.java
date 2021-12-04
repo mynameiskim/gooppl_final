@@ -41,8 +41,8 @@ public class OwnerServiceImple implements OwnerService {
 		return list;
 	}
 	
-	public OwnerDTO ownerInfo(int member_idx) {
-		OwnerDTO dto = ownerDao.ownerInfo(member_idx);
+	public OwnerDTO ownerInfo(int owner_idx) {
+		OwnerDTO dto = ownerDao.ownerInfo(owner_idx);
 		return dto;
 	}
 }
