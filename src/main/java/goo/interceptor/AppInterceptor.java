@@ -3,6 +3,7 @@ package goo.interceptor;
 import javax.servlet.http.HttpServletRequest;
 
 
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -11,8 +12,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import goo.sitesettings.model.SiteSettingsDTO;
-import goo.sitesettings.model.SiteSettingsService;
+import goo.siteSettings.model.SiteSettingsDTO;
+import goo.siteSettings.model.SiteSettingsService;
 
 public class AppInterceptor extends HandlerInterceptorAdapter {
 	

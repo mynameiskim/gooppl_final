@@ -104,12 +104,7 @@ public class MainController {
         String content = fdto.getForm_content();
         content = content.replace("{{EMAILTOKEN}}", emailToken);
                 
-		/* 이메일 보내기 */
-        /*
-        String setFrom = "w12310@naver.com";
-        String toMail = email;
-        String title = "회원가입 인증 이메일 입니다.";
-        
+		
         
         try {
             

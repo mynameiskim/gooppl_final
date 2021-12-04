@@ -82,6 +82,7 @@ public class MemberController {
 		System.out.println("컨트롤러 ok"+dto.getGoo_id());
 		ModelAndView mav = new ModelAndView();
 		int result = memberService.gooJoin(dto);
+		
 		if(result>0) {
 			String pro_nick = dto.getNickname().substring(0,1);
 			session.setAttribute("sessionNickname", dto.getNickname());
