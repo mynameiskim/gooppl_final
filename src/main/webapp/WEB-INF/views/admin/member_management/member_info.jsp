@@ -65,7 +65,7 @@ function memberUpdate(member_idx,nickname){
 </head>
 <body>
 <div id="di2">
-<fieldset style="border: 3px solid #1987541f; padding: 12px 14px 10px;
+<fieldset style="border: 3px solid #0000008c; padding: 12px 14px 10px;
 		margin-bottom: 20px;">
 	<div class="row">
 	    <div class="col-md-3 mb-1">
@@ -75,33 +75,33 @@ function memberUpdate(member_idx,nickname){
 	<form name="member_update" action="member_update.do">
 	<table class="table table-bordered" style="font-size: 13px;">
 	    <tr>
-	        <th class="tr_bg">회원번호</th>
-	        <td>${mdto.member_idx}
+	        <th class="tr_bg active text-white">회원번호</th>
+	        <td style="width:25%;">${mdto.member_idx}
 	        <input type="hidden" name="member_idx" value="${mdto.member_idx}">
 	        </td>
-	        <th class="tr_bg">회원유형</th>
-	        <td>${mdto.member_type}</td>
+	        <th class="tr_bg active text-white">회원유형</th>
+	        <td style="width:25%;">${mdto.member_type}</td>
 	    </tr>
 	    <tr>
-	    	<th class="tr_bg">구플 아이디</th>
-	        <td>${mdto.goo_id}</td>
-	        <th class="tr_bg">네이버 아이디</th>
-	        <td>${mdto.naver_id}</td>
+	    	<th class="tr_bg active text-white">구플 아이디</th>
+	        <td style="width:25%;">${mdto.goo_id}</td>
+	        <th class="tr_bg active text-white">네이버 아이디</th>
+	        <td style="width:25%;">${mdto.naver_id}</td>
 	    </tr>
 	    <tr>
-	    	<th class="tr_bg">카카오 아이디</th>
-	        <td>${mdto.kakao_id}</td>
-	    	<th class="tr_bg">닉네임</th>
-	        <td><input type="text" value="${mdto.nickname}" name="nickname" required="required"></td>
+	    	<th class="tr_bg active text-white">카카오 아이디</th>
+	        <td style="width:25%;">${mdto.kakao_id}</td>
+	    	<th class="tr_bg active text-white">닉네임</th>
+	        <td style="width:25%;"><input type="text" value="${mdto.nickname}" name="nickname" required="required"></td>
 	        
 	    </tr>
 	    <tr>
-	        <th class="tr_bg">회원가입일</th>
-	        <td colspan="3">${mdto.join_date}</td>
+	        <th class="tr_bg active text-white">회원가입일</th>
+	        <td colspan="3" style="width:25%;">${mdto.join_date}</td>
 	    </tr>
 	    <tr>
         	<td colspan="4" style="text-align: center;">
-                <input class="bt btn-dark" type="submit" value="회원정보 수정" >
+                <input class="bt btn-secondary" type="submit" style="border-radius: 3px;" value="회원정보 수정" >
             </td>
         </tr>
     </table>

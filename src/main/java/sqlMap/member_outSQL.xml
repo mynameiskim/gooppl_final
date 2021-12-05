@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.member_out">
+  	<select id="memberOutList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member_out ORDER BY out_no desc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="totalMemberOut" resultType="Integer">
+  		SELECT
+  			COUNT(*)
+  		FROM
+  			member_out
+  	</select>
+  	<delete id="memberOutDelete" parameterType="Integer">
+  		DELETE FROM
+  			member_out
+  		WHERE 
+  			out_no = #{out_no}
+  	</delete>
+  </mapper>

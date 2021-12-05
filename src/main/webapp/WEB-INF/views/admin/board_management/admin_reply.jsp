@@ -9,10 +9,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
 }
 .tr_bg{
-	background-color: #1987541f;
+       --bs-table-accent-bg: #24292f !important;
 }
 </style>
 </head>
@@ -25,12 +25,12 @@
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>
-				- <a href='admin_share.do'
-				>공유게시판 관리</a><br />
-				- <a href='admin_review.do'
-				>후기게시판 관리</a><br />
-				- <a href='admin_relpy.do'
-				>댓글 관리 </a>
+				 <a href='admin_share.do' style="color: white !important;"
+				>-공유게시판 관리</a><br />
+				 <a href='admin_review.do' style="color: white !important;"
+				>-후기게시판 관리</a><br />
+				 <a href='admin_relpy.do' style="color: white !important;"
+				>-댓글 관리 </a>
 			</dd>
 		</dl>
 	</div>

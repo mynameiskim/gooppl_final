@@ -70,6 +70,10 @@
 	<bean id="formmailDao" class="goo.formmail.model.FormmailDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="memberOutDao" class="goo.memberout.model.MemberOutDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	
 	
 	<!-- service -->	
    <bean id="memberService" class="goo.member.model.MemberServiceImple">
@@ -110,5 +114,8 @@
 	</bean>
 	<bean id="formmailService" class="goo.formmail.model.FormmailServiceImple">
 		<constructor-arg ref="formmailDao"></constructor-arg>
+	</bean>
+	<bean id="memberOutService" class="goo.memberout.model.MemberOutServiceImple">
+		<constructor-arg ref="memberOutDao"></constructor-arg>
 	</bean>
 </beans>

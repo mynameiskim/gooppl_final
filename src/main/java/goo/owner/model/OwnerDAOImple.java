@@ -1,6 +1,7 @@
 package goo.owner.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -30,5 +31,45 @@ public class OwnerDAOImple implements OwnerDAO {
 	public OwnerDTO getOwnerDetail(int owner_idx) {
 		OwnerDTO dto = sqlMap.selectOne("selectOwnerDetail", owner_idx);
 		return dto;
+	}
+	
+	public int totalOwnerAppli() {
+		int count = sqlMap.selectOne("totalOwnerAppli");
+		if(count==0) {
+			count = 1;
+		}
+		return count;
+	}
+	
+	public int totalOwner() {
+		int count = sqlMap.selectOne("totalOwner");
+		return count;
+	}
+	
+	public List<OwnerDTO> allOwnerAppliInfo(Map map) {
+		System.out.println("모든 광고주 요청 데이터 뽑기");
+		List<OwnerDTO> list = sqlMap.selectList("allOwnerAppliInfo", map);
+		System.out.println("광고주 요청 SQL통과");
+		return list;
+	}
+	
+	public OwnerDTO ownerInfo(int owner_idx) {
+		OwnerDTO dto = sqlMap.selectOne("ownerInfo",owner_idx);
+		return dto;
+	}
+	
+	public int admin_ownerAppli_ok(int owner_idx) {
+		int result = sqlMap.update("admin_ownerAppli_ok", owner_idx);
+		return result;
+	}
+	
+	public int admin_ownerAppli_del(int owner_idx) {
+		int result = sqlMap.delete("admin_ownerAppli_del", owner_idx);
+		return result;
+	}
+	
+	public List<OwnerDTO> admin_allOwner(Map map) {
+		List<OwnerDTO> list = sqlMap.selectList("admin_allOwner", map);
+		return list;
 	}
 }

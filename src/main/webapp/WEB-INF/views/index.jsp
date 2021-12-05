@@ -92,7 +92,7 @@
 				<div class="col-md-10 col-lg-8 mx-auto text-center">
 					<i class="fas fa-map-marked-alt fa-2x mb-2 text-black-50"></i>
 					<h2 class="text-black-50 mb-5">어디로 갈까?</h2>
-					<h6 class="text-black-50 mb-5">추천하는 여행지 카드를 선택하여 일정을 만들어보세요.</h6>
+					<h5 class="text-black-50 mb-5">추천하는 여행지 카드를 선택하여 일정을 만들어보세요.</h6>
 					</div>
 				</div>
 			</div>
@@ -363,7 +363,7 @@
 		</div>
 	</section>
 	<!-- Contact-->
-	<section class="contact-section bg-primary align-items-center">
+	<section class="contact-section bg-light align-items-center">
 		<div class="container px-4 px-lg-5">
 			<div class="row gx-4 gx-lg-5 justify-content-md-center">
 				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
@@ -400,11 +400,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="social d-flex justify-content-center">
-				<a class="mx-2" href="#!"><i class="fab fa-twitter"></i></a> <a
-					class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a> <a
-					class="mx-2" href="#!"><i class="fab fa-github"></i></a>
 			</div>
 		</div>
 	</section>
@@ -473,7 +468,8 @@
 								<label for="exampleInputPassword1" class="form-label">비밀번호</label>
 								<input type="password" class="form-control" name="pwd">
 								<div id="emailHelp" class="form-text">
-									<a href=#>비밀번호가 기억나지 않으신가요?</a>
+									 <a href="#" role="button"
+										data-bs-toggle="modal" data-bs-target="#idCheckModal">비밀번호가 기억나지 않으신가요?</a>
 								</div>
 							</div>
 							<div class="mb-3 form-check">
@@ -581,10 +577,42 @@
 		</div>
 	</div>
 	<!--조인 모달 끝-->
+	<!-- 비밀번호 찾기 모달 시작 ---------------------------------------------------------------------------------------->
+	<div class="modal fade" id="idCheckModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+					<h5 class="modal-title">비밀번호 찾기</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+                <br>
+                <div class="modal-body p-2 pt-0">
+                    <div class="row justify-content-md-center mb-3">
+                        <div class="col-md-10 mb-2">
+                            <label for="email">이메일</label> 
+							<div class="input-group mb-1">
+							  <input type="text" name="goo_id_pwdfind" id="goo_id_pwdfind" class="form-control" placeholder="goo@gmail.com" aria-label="goo@gmail.com" aria-describedby="idCheck" required>
+							</div>
+                        </div>
+                        <div class="col-md-10 mb-2">
+                            <h6 style="font-size:14px;">회원가입시 등록하셨던 이메일 주소를 입력해주세요</h6> 
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center mb-5">
+                      <div class="col-md-10 text-center">
+				    	<button style="width: 100%" class="btn btn-primary" type="button" id="pwdfind_bt" value="n">메일받기</button>
+				      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!--  비밀번호 찾기 모달 끝------------------------------------------------------------------------------------------- -->
 	<!-- Footer-->
-	<footer class="footer bg-primary small text-center text-white-50">
-		<div class="container px-4 px-lg-5">Copyright &copy; Your
-			Website 2021</div>
+	<footer class="footer bg-light small text-center">
+		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
 	</footer>
 	<!-- 이메일 인증 관련 -->
 
@@ -706,7 +734,11 @@
 	              	$('#made_token').val(data);
 	              }        
 	          });
-	       Swal.fire('입력하신 email로 인증번호를 전송하였습니다.');
+	       Swal.fire({
+				  title: '입력하신 Email로 인증번호를 전송하였습니다.',
+				  icon: 'success',
+				  confirmButtonText: '확인'
+				})
 	       $('#goo_id').attr('readonly','readonly');
 	       $('#token_button').css('display','none');
 	       $('#token_check').css('display','');
@@ -715,7 +747,7 @@
 	       
 	    });
 	    
-	    /* 아이디체크 */
+	    /* 회원가입 아이디체크 */
 		 $("#idCheck").click(function(){
 			 var email = $("#goo_id").val();        // 입력한 이메일
 			 var reg=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -730,20 +762,73 @@
 			            data:{"email":email},
 			            success:function(data){
 			                if(data==0){//사용 가능한 아이디 라면 
-			                	Swal.fire('사용 가능한 email 입니다.')
-			                	$('#token_div').css('display','');
+			                	 Swal.fire({
+									  title: '사용가능한 Email입니다.',
+									  icon: 'success',
+									  confirmButtonText: '확인'
+									});
+			                	 $('#token_div').css('display','');
+			                	
 			                    
 			                }else{//사용 가능한 아이디가 아니라면 
-			                	Swal.fire('사용중인 email 입니다.')
-			                	$('#token_div').css('display','none');
+			                	 Swal.fire({
+									  title: '사용중인 Email입니다.',
+									  icon: 'warning',
+									  confirmButtonText: '확인'
+									});
+			                	 $('#token_div').css('display','none');
+			                	$('#mail_token_pwdfind_label').css('display','none');
 			                }
 			            }
 			     });
 		       } 
 		 });
     </script>
+    <!-- 비밀번호 찾기 스크립트===================================================-->
+    <script>
+    /*비밀번호 찾기*/
+    $("#pwdfind_bt").click(function(){
+    	var email = $("#goo_id_pwdfind").val();
+    	var reg=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		 if(email==''){
+	    	   Swal.fire('이메일을 입력해주세요');
+	   	 }else if(!reg.test(email)){
+	   		 Swal.fire('이메일 형식을 확인해주세요.<br>ex)gooppl@naver.com');
+		 }else{
+			 $.ajax({
+		            method:"GET",
+		            url:"pwdFind.do",
+		            data:{"email":email},
+		            success:function(data){
+		                if(data==1){//사용 가능한 아이디 라면 
+		                	 Swal.fire({
+								  title: '메일을 확인해주세요.',
+								  icon: 'success',
+								  confirmButtonText: '확인',
+								  allowOutsideClick:false
+								}).then((result) => {
+							    	if (result.isConfirmed) {
+							    		location.reload();
+							    	}
+							    })
+		                    
+		                }else{
+		                	 Swal.fire({
+								  title: '회원가입이 안된<br>이메일입니다.',
+								  icon: 'warning',
+								  confirmButtonText: '확인'
+								});
+		                }
+		            }
+		     });
+	       } 
+    	
+    });
+    
+    
+    
+    </script>
 	<script>
-	
     window.addEventListener('load', () => {
       $('#joinbt').attr('disabled','disabled');
       const forms = document.getElementsByClassName('needs-validation');

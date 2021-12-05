@@ -184,10 +184,10 @@ td{
     border: 1px solid #e3e3e3 !important;
 }
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
 }
 .tr_bg{
-	--bs-table-accent-bg: #1987541f !important;
+       --bs-table-accent-bg: #24292f !important;
 }
 </style>
 </head>
@@ -200,17 +200,17 @@ td{
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>
-				- <a href='admin_share.do'
-				>공유게시판 관리</a><br />
-				- <a href='admin_review.do'
-				>후기게시판 관리</a><br />
-				- <a href='admin_relpy.do'
-				>댓글 관리 </a>
+				 <a href='admin_share.do' style="color: white !important;"
+				>-공유게시판 관리</a><br />
+				 <a href='admin_review.do' style="color: white !important;"
+				>-후기게시판 관리</a><br />
+				 <a href='admin_relpy.do' style="color: white !important;"
+				>-댓글 관리 </a>
 			</dd>
 		</dl>
 	</div>
 	<div id="contents">
-		<h6><b>게시판관리</b></h6>
+		<h6><b >게시판관리</b></h6>
 			<ul class='helpbox'>
 				<li>회원들의 게시글과 댓글을 관리하는 메뉴입니다.</li>
 			</ul>
@@ -218,7 +218,7 @@ td{
 			<h4>공유게시판 관리</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="admin_share.do"
+			<dt><a href="admin_share.do" class="active text-white"
 				>공유게시판 관리</a>
 			</dt>
 			<dd>
@@ -232,7 +232,7 @@ td{
 		</div>
 		<dl class="menu_list">
 			<dt>
-				<a href="admin_review.do"
+				<a href="admin_review.do" class="active text-white"
 				>후기게시판 관리
 				</a>
 			</dt>
@@ -247,7 +247,7 @@ td{
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href="admin_relpy.do"
+				<a href="admin_relpy.do" class="active text-white"
 				>댓글 관리
 				</a>
 			</dt>

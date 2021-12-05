@@ -15,6 +15,9 @@ import goo.admin.model.AdminService;
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
 import goo.member.model.*;
+import goo.memberout.model.MemberOutDAO;
+import goo.memberout.model.MemberOutDTO;
+import goo.memberout.model.MemberOutService;
 
 @Controller
 public class AdminMemberManagement {
@@ -25,6 +28,10 @@ public class AdminMemberManagement {
 	private FormmailService formmailService;
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private MemberOutService memberOutService;
+	@Autowired
+	private MemberOutDAO memberOutDao;
 	
 	@RequestMapping("/admin_member_management.do")
 	public String memberManagement() {
@@ -50,6 +57,24 @@ public class AdminMemberManagement {
 		return mav;
 	}
 	
+
+	@RequestMapping("/admin_member_out.do")
+	public ModelAndView memberOutList(@RequestParam(value = "cp",defaultValue = "1")int cp) {
+		int listSize=5;
+		int pageSize=5;
+		int totalMemberOut = memberOutDao.totalMemberOut();
+		List<MemberOutDTO> list = memberOutService.memberOutList(cp,listSize);
+		String pageStr=goo.page.PageModule.makePage("admin_member_out.do", totalMemberOut, listSize, pageSize, cp);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cp", cp);
+		mav.addObject("listSize", listSize);
+		mav.addObject("list", list);
+		mav.addObject("pageStr", pageStr);
+		mav.addObject("totalMemberOut", totalMemberOut);
+		mav.setViewName("admin/member_management/admin_member_out");
+		return mav;
+	}
+	
 	@RequestMapping("/member_info.do")
 	public ModelAndView memberInfo(@RequestParam("member_idx")int member_idx) {
 		MemberDTO mdto = memberService.memberInfo(member_idx);
@@ -57,6 +82,28 @@ public class AdminMemberManagement {
 		mav.addObject("mdto", mdto);
 		mav.setViewName("admin/member_management/member_info");
 		return mav;
+	}
+	
+	@RequestMapping("/member_out_delete.do")
+	@ResponseBody
+	public Map<String, Object> memberOutDelete(@RequestParam("out_no")int out_no){
+		System.out.println("memberOutDelete ok");
+		int result = memberOutDao.memberOutDelete(out_no);
+		int code = 0;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(result>0) {
+			System.out.println("삭제성공 ok");
+			map.put("msg", out_no+"번째 탈퇴회원 정보를 삭제했습니다.");
+			code = 1;
+		}else {
+			System.out.println("삭제실패 ok");
+			map.put("msg", "ERROR");
+			code = 0;
+		}
+		
+		map.put("code", code);
+		return map;
 	}
 	
 	//회원 삭제
@@ -137,13 +184,6 @@ public class AdminMemberManagement {
 		}
 		map.put("code", code);
 		return map;
-	}
-	
-	@RequestMapping("/admin_member_out.do")
-	public ModelAndView memberOut() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/member_management/admin_member_out");
-		return mav;
 	}
 	
 	@RequestMapping("/mail_form_preview_pop.do")
