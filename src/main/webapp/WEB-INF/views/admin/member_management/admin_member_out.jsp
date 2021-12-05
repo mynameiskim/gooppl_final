@@ -132,9 +132,8 @@ function memberOutDelete(index){
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
-					<th class="text-cente active text-white text-opacity-75r"  style="width:3%;"></th>
-                    <th class="text-center active text-white text-opacity-75"  style="width:5%;">번호</th>
-                    <th class="text-center active text-white text-opacity-75"  style="width:7%;">탈퇴번호</th>
+					<th class="text-cente active text-white text-opacity-75r"  style="width:5%;"></th>
+                    <th class="text-center active text-white text-opacity-75"  style="width:10%;">번호</th>
 					<th class="text-center active text-white text-opacity-75"  style="width:25%;">아이디</th>
 					<th class="text-center active text-white text-opacity-75"  style="width:25%;">탈퇴사유</th>
 					<th class="text-center active text-white text-opacity-75"  style="width:25%;">탈퇴일</th>
@@ -156,9 +155,8 @@ function memberOutDelete(index){
 		  	</c:if>
 		  	<c:forEach var="list" items="${list}" varStatus="status">
 		  		<tr style="vertical-align: middle;">
-		  			<td class="text-center"  style="width:3%;"><input type="checkbox"></td>
-		  			<td class="text-center"  style="width:5%;">${(cp-1)*listSize+status.index+1}</td>
-		  			<td class="text-center"  style="width:7%;">${list.out_no}
+		  			<td class="text-center"  style="width:5%;"><input type="checkbox"></td>
+		  			<td class="text-center"  style="width:10%;">${(cp-1)*listSize+status.index+1}
 		  				<input id="out_no${status.index}" type="hidden" value="${list.out_no}">
 		  			</td>
 		  			<td class="text-center"  style="width:25%;">${list.id}</td>
