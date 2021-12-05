@@ -35,9 +35,15 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value = "/index.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView login(Model model, HttpSession session,@RequestParam(value= "login_result",defaultValue="start") String login_result,@RequestParam(value= "join_result",defaultValue="") String join_result) {
+	public ModelAndView login(Model model, HttpSession session,@RequestParam(value= "login_result",defaultValue="start") String login_result,@RequestParam(value= "join_result",defaultValue="") String join_result, @RequestParam(value = "open_login", defaultValue = "0")int open_login) {
 		
 		ModelAndView mav = new ModelAndView();
+		
+		if(open_login==1) {
+			mav.addObject("open_login", 1);
+		}else {
+			mav.addObject("open_login", 0);
+		}
 		
 		if(login_result.equals("start")) {
 			/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
@@ -88,6 +94,7 @@ public class IndexController {
 	
 			// 네이버
 			mav.addObject("naver_url", naverAuthUrl);
+
 			//카카오
 			mav.addObject("kakao_url", kakaoUrl);
 			mav.addObject("login_result",login_result );
@@ -109,20 +116,24 @@ public class IndexController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		String member_idx_s=(String)session.getAttribute("sessionMember_idx");
-		if(member_idx_s == null || member_idx_s.equals("")) {
-			mav.setViewName("redirect:/index.do");
-			mav.addObject("result","needlogin");
+		String session_id=(String)session.getAttribute("sessionNickname");
+		System.out.println(session_id);
+		if(session_id==null||session_id.equals("")) {
+			mav.addObject("open_login", 1);
+			mav.setViewName("redirect:index.do");
+		}else {	
+			System.out.println(session_id);
+			mav.addObject("open_login", 0);
+			mav.addObject("member_idx", 1);
+			List<AreaDTO> arealist = areaService.areaList();
+			List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+			mav.addObject("arealist", arealist);
+			mav.addObject("sigungulist", sigungulist);
+			mav.addObject("areacode", areacode);
+			mav.addObject("sigungucode", sigungucode);
+			mav.setViewName("map/newMap");
 		}
-		mav.addObject("member_idx", 1);
-		List<AreaDTO> arealist = areaService.areaList();
-		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-		mav.addObject("arealist", arealist);
-		mav.addObject("sigungulist", sigungulist);
-		mav.addObject("areacode", areacode);
-		mav.addObject("sigungucode", sigungucode);
-		mav.setViewName("map/newMap");
 		return mav;
 	}
-
+	
 }

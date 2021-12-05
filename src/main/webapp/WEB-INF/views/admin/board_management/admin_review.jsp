@@ -26,11 +26,11 @@
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>
-				 <a href='admin_share.do' class="active text-white"
+				 <a href='admin_share.do' style="color: white !important;"
 				>-공유게시판 관리</a><br />
-				 <a href='admin_review.do' class="active text-white"
+				 <a href='admin_review.do' style="color: white !important;"
 				>-후기게시판 관리</a><br />
-				 <a href='admin_relpy.do' class="active text-white"
+				 <a href='admin_relpy.do' style="color: white !important;"
 				>-댓글 관리 </a>
 			</dd>
 		</dl>

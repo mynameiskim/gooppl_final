@@ -97,7 +97,7 @@ function memberUpdate(member_idx,nickname){
 	    </tr>
 	    <tr>
 	        <th class="tr_bg active text-white">회원가입일</th>
-	        <td colspan="3">${mdto.join_date}</td>
+	        <td colspan="3" style="width:25%;">${mdto.join_date}</td>
 	    </tr>
 	    <tr>
         	<td colspan="4" style="text-align: center;">

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>새 지도</title>
+<title>일정만들기</title>
     <link rel="icon" type="image/x-icon" href="resource/assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -506,8 +506,10 @@ function show(){
 	var sigungucodeSelector=document.getElementById('sigungucode');
 	var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
 	var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
-	if(areacode==''||sigungucode==''){
-		window.alert('검색할 지역을 선택해주세요.');
+	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
+		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
+		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId=12&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
 		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
@@ -535,7 +537,9 @@ function showResult(){
              if(item.getElementsByTagName('title').length==0){
  	       		 title='0';
  	       	 }else{
- 	       		 title=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
+ 	       		 title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
+ 	       		 title=title_s.split('(');
+ 	       		 title=title[0];
  	       	 }
  	       	 
  	       	 if(item.getElementsByTagName('addr1').length==0){
@@ -961,7 +965,7 @@ function addEventListeners() {
 	}
 </script>
 </head>
-<body id="page-top">
+<body id="page-top" onload="show()">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
@@ -1054,10 +1058,10 @@ function addEventListeners() {
 				        </div>
 				    </div>
 		        </div>
-		        <div class="col-md-7">
+		        <div class="col-md-7" style="width: 690px;">
 		        	<div id="map" style="width:100%; height:700px;float:right;"></div>
 		        </div>
-		        <div class="col-md-2" style="text-align: center;">
+		        <div class="col-md-2" style="text-align: center; width: 300px;">
 		        	<select id="cate">
 						<option value="12">관광지</option>
 						<option value="32">숙박</option>

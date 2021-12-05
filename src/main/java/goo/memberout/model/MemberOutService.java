@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface MemberOutService {
 	
-	public List<MemberOutDTO> memberOutList();
+	public List<MemberOutDTO> memberOutList(int cp,int listSize);
 }

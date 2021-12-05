@@ -31,6 +31,7 @@ public class OwnerController {
 	      @RequestParam(value = "areacode", defaultValue="1") int areacode,
 	      @RequestParam(value = "sigungucode", defaultValue="1") int sigungucode
 	      ) {
+		System.out.println("addInfo1도착");
 	   ModelAndView mav = new ModelAndView();
 	   List<AreaDTO> arealist = areaService.areaList();
 	   List<SigunguDTO> sigungulist = sigunguService.sigunguList();
@@ -44,12 +45,16 @@ public class OwnerController {
 	/**광고주 신청 상태 확인*/
 	@RequestMapping("/ckOwnerAppli.do")
 	public ModelAndView ckOwnerAppli(@RequestParam("member_idx")int member_idx) {
+		System.out.println("ckOwnerAppli.do 들어왔다");
 		OwnerDTO dto = ownerService.ckOwnerInfo(member_idx);
 		ModelAndView mav = new ModelAndView();
 		if(dto == null) {
-			mav.setViewName("adInfo.do?member_idx="+member_idx);
+			mav.addObject("goUrl","adInfo.do?member_idx="+member_idx);
+			mav.setViewName("ad/adBridge");
 		}else {
+			System.out.println("dto 있따");
 			if(dto.getState().equals("대기")) {
+				
 				mav.addObject("msg", "관리자 승인 대기 중입니다.");
 				mav.addObject("goUrl", "mypage.do");
 				mav.setViewName("ad/adMsg");
@@ -87,7 +92,13 @@ public class OwnerController {
 		String firstimg = copyInto(dto.getMember_idx(), dto.getUpload());
 		dto.setFirstimg(firstimg);
 		dto.setState("대기");
+		System.out.println("광고 정보 수정 전:"+dto.getAd_content());
+		dto.setAd_content(dto.getAd_content().replaceAll("<br>","\r\n"));
+		dto.setAd_content(dto.getAd_content().replaceAll("<br/>","\r\n"));
+		System.out.println("광고 정보 수정 후:"+dto.getAd_content());
+		System.out.println("db 등록 전");
 		int result = ownerService.addOwnerInfo(dto);
+		System.out.println("db 등록 후");
 		String msg = result>0?"신청이 완료되었습니다.":"신청에 실패했습니다.";
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("msg", msg);
