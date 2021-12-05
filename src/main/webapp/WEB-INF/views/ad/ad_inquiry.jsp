@@ -23,16 +23,15 @@
     <script>
     	function changeInquiryType(){
     		var divNode = document.getElementById('changeType');
-    		//var fstNode = divNode.firstChild.nextSibling.nodeName;
     		var labelNode = document.getElementById('notice');
     		var textNode = labelNode.lastChild;
     		
     		
     		var contentNode1 = labelNode.nextSibling;
     		var contentNode2 = labelNode.nextSibling.nextSibling;
-    		console.log('태그1 이름'+contentNode1.nodeName);
-    		console.log('태그2 이름'+contentNode2.nodeName);
-    		console.log('라벨노드'+labelNode.nodeName);
+    		//console.log('태그1 이름'+contentNode1.nodeName);
+    		//console.log('태그2 이름'+contentNode2.nodeName);
+    		//console.log('라벨노드'+labelNode.nodeName);
     		
     		
     		var inquiry_typeValue = document.getElementById('inquiry_type').value;
