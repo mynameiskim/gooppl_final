@@ -206,6 +206,11 @@ public class MapController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("map_idx", map_idx);
 		mav.addObject("day_num", day_num);
+		List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
+		if(list.size()!=0) {
+			List<Gooppl_PlaceDetailDTO> tripdto=gooppl_placedetailService.getThisDateDetail(list);
+			mav.addObject("tripdto", tripdto);
+		}
 		mav.setViewName("map/existMap");
 		return mav;
 	}

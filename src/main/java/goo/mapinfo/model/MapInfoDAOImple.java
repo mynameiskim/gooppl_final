@@ -17,4 +17,10 @@ public class MapInfoDAOImple implements MapInfoDAO {
 		int result=sqlMap.insert("addMapInfo",dto);
 		return result;
 	}
+	
+	public List<Integer> getThisMapInfo(Map map) {
+		
+		List<Integer> list=sqlMap.selectList("getThisMapInfo", map);
+		return list;
+	}
 }
