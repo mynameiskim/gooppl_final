@@ -27,7 +27,7 @@ tr{
 <script>
 
 function addAdmin(){
-	open('admin_insert.do','admin_insert','width=600px,height=500px,top=300,left=800');
+	open('admin_insert.do','admin_insert','width=580px,height=610px,top=500,left=500');
 }
 
 function adminDetails(index,size){

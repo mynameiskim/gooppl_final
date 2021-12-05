@@ -45,7 +45,6 @@ caption{
 		</dl>
 	</div>
 	<div id="contents">
-	<div id="contents">
 		<h3>폼메일 관리</h3>
 			<ul class='helpbox'>
 				<li>여러가지 상황(회원가입축하 메일,비밀번호찾기 메일 등)에 따른 폼메일을 관리할 수 있습니다.</li>
