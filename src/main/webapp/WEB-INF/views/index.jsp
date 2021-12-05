@@ -648,6 +648,7 @@
 						  timer: 2000
 						})
 						setTimeout(function(){location.href= "index.do"},2010);
+					
 			}else if(login_result=='no'){
 				document.getElementById('login_bt').click();
 				Swal.fire({
@@ -657,9 +658,18 @@
 					  confirmButtonText: '확인'
 					})
 			}
+			
+			var open_login  = '${open_login}';
+			if(open_login==1){
+				document.getElementById('login_bt').click();
+				Swal.fire({
+					  title: 'WRONG ACCESS',
+					  text: '로그인 후 이용가능한 서비스입니다.',
+					  icon: 'warning',
+					  confirmButtonText: '확인'
+					})
+			}
 		}
-		
-
 	 </script>
 	 <script>
 	 	/*인증번호 체크*/
