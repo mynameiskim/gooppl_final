@@ -23,4 +23,9 @@ public class MapInfoDAOImple implements MapInfoDAO {
 		List<Integer> list=sqlMap.selectList("getThisMapInfo", map);
 		return list;
 	}
+	
+	public int deleteMapInfo(Map map) {
+		int result=sqlMap.delete("deleteMapInfo", map);
+		return result;
+	}
 }

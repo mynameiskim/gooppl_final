@@ -29,4 +29,12 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 		}
 		return list;
 	}
+	
+	public int getLastAreacode(int map_idx, int day_num) {
+		Map map = new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("day_num", day_num);
+		int result=gooppl_placedetailDao.getLastAreacode(map);
+		return result;
+	}
 }

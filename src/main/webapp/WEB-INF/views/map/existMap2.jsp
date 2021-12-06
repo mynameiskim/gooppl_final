@@ -112,8 +112,10 @@ var sigungucodes=[];
 var setAreacode;
 var setSigungucode;
 var setContenttype;
-var map_idx;
+var map_idx=${map_idx};
 var moveDay;
+//document.getElementById('trip_type').value=${mapdto.trip_type};
+
 
 var adContents=[];
 <c:if test="${empty adlist }">
@@ -148,6 +150,7 @@ var adContents=[];
 	};
 	adContents.push(adContent);
 </c:forEach>
+
 /**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
     $('#search_bt').click( function() {
@@ -752,13 +755,13 @@ function getResult(){
 		        	 contentid=items[0].getElementsByTagName('contentid').item(0).firstChild.nodeValue;
 	 	       	 }
 	        	 if(items[0].getElementsByTagName('title').length==0){
-	        		 title='알 수 없음';
+	        		 title='';
 	        	 }else{
 		        	 title=items[0].getElementsByTagName('title').item(0).firstChild.nodeValue;
 
 	        	 }
 	        	 if(items[0].getElementsByTagName('addr1').length==0){
-	        		 addr1='알 수 없음';
+	        		 addr1='';
 	        	 }else{
 		        	 addr=items[0].getElementsByTagName('addr1').item(0).firstChild.nodeValue;
 	        	 }
@@ -788,12 +791,12 @@ function getResult(){
 		        	 mapy=items[0].getElementsByTagName('mapy').item(0).firstChild.nodeValue;
 	        	 }
 	        	 if(items[0].getElementsByTagName('overview').length==0){
-	        		 overview='알 수 없음';
+	        		 overview='';
 	        	 }else{
 		        	 overview=items[0].getElementsByTagName('overview').item(0).firstChild.nodeValue;
 	        	 }
 	        	 if(items[0].getElementsByTagName('homepage').length==0){
-	        		 homepage='알 수 없음';
+	        		 homepage='';
 	        	 }else{
 		        	 homepage=items[0].getElementsByTagName('homepage').item(0).firstChild.nodeValue;
 	        	 }
@@ -1249,6 +1252,29 @@ function addEventListeners() {
 <script>
 var setMapx;
 var setMapy;
+document.getElementById('map_title').value='${mapdto.map_title}';
+selectedOption('people_num', '${mapdto.people_num}', 'value');
+selectedOption('trip_type', '${mapdto.trip_type}', 'value');
+function selectedOption(id, value, type){
+	var obj=document.getElementById(id);
+	for(i=0;i<obj.length;i++){
+		switch(type){
+		case 'value' : 
+			if(obj[i].value==value){
+				obj[i].selected=true;
+			}
+			break;
+		case 'text' :
+			if(obj[i].text==value){
+				obj[i].selected=true;
+			}
+			break;
+		}
+	}
+}
+document.getElementById('startDate').value='${mapdto.startdate}';
+document.getElementById('endDate').value='${mapdto.enddate}';
+createDay();
 //초기 지도 중심좌표 처리 
 var setAreacode=${areacode};
 var setSigungucode=${sigungucode};
@@ -1334,7 +1360,11 @@ function createDay() {
 			var dayBt = document.createElement('input');
 			dayBt.setAttribute('type','button');
 			dayBt.setAttribute('value','Day'+count);
-			dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			if(count==${day_num}){
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			}else{
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;background-color:#64a19d;');
+			}
 			dayBt.setAttribute('onclick','saveThisDay('+count+')');
 			var div = document.getElementById('calender');
 			dayBtDiv.appendChild(dayBt);
@@ -1369,8 +1399,8 @@ function saveThisDay(dayCount){
 }
 function moveToDay(map_title,member_idx,people_num,trip_type,starty,startm,startd,endy,endm,endd,share_ok,del_ok,dayCount){
 	moveDay=dayCount;
-	var param='map_title='+map_title+'&member_idx='+member_idx+'&people_num='+people_num+'&trip_type='+trip_type+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&share_ok='+share_ok+'&del_ok='+del_ok;
-	sendRequest('addNewMap.do', param, getResultMap, 'GET'); 
+	var param='map_idx='+${map_idx}+'&day_num='+${day_num}+'&map_title='+map_title+'&member_idx='+member_idx+'&people_num='+people_num+'&trip_type='+trip_type+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&share_ok='+share_ok+'&del_ok='+del_ok;
+	sendRequest('changeMap.do', param, getResultMap, 'GET'); 
 }
 function getResultMap(){
 	 if(XHR.readyState==4){
@@ -1384,7 +1414,7 @@ function getResultMap(){
 }
 function saveMapData(map_idx){
 	
-	var param='map_idx='+map_idx+'&day_num='+1;
+	var param='map_idx='+map_idx+'&day_num='+${day_num};
 	for(var i=0;i<listItems.length;i++){
 		var contentid=listItems[i].getElementsByClassName('contentid').item(0).value;
 		param+='&';
@@ -1442,7 +1472,7 @@ function getResultAdd2(){
 			if(placeDetails.length!=0){
 				savePlaceDetailData();
 			}else{
-				location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
+				location.href='existMap2.do?map_idx='+map_idx+'&day_num='+moveDay;
 			}
 		}
 	}

@@ -21,4 +21,14 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		int result=gooppl_mapDao.getMemberIdx(map_idx);
 		return result;
 	}
+	
+	public Gooppl_mapDTO getMapt(int map_idx) {
+		Gooppl_mapDTO dto=gooppl_mapDao.getMapt(map_idx);
+		return dto;
+	}
+	
+	public int updateMap(Gooppl_mapDTO dto) {
+		int result=gooppl_mapDao.updateMap(dto);
+		return result;
+	}
 }

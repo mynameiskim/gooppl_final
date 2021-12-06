@@ -36,4 +36,21 @@
   		where
   			contentid=#{contentid}
   	</select>
+  	<select id="getLastAreacode" parameterType="Map" resultType="Integer">
+  	SELECT 
+  		areacode 
+  	FROM 
+  		placedetail 
+  	WHERE 
+  		contentid=(SELECT 
+  					contentid 
+  				   FROM 
+  				   	mapinfo 
+  				   WHERE 
+  				   	map_idx=#{map_idx} AND day_num=#{day_num} AND route_num=(SELECT 
+  				   												max(route_num) 
+  				   											FROM 
+  				   												mapinfo 
+  				   											WHERE map_idx=#{map_idx} AND day_num=#{day_num}))
+  	</select>
   </mapper>

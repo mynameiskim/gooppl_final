@@ -28,4 +28,12 @@ public class MapInfoServiceImple implements MapInfoService {
 		List<Integer> list=mapinfoDao.getThisMapInfo(map);
 		return list;
 	}
+	
+	public int deleteMapInfo(int map_idx, int day_num) {
+		Map map = new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("day_num", day_num);
+		int result=mapinfoDao.deleteMapInfo(map);
+		return result;
+	}
 }

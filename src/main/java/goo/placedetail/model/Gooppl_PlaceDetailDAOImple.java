@@ -1,5 +1,7 @@
 package goo.placedetail.model;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
@@ -25,5 +27,10 @@ public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 	public Gooppl_PlaceDetailDTO getThisDateDetail(int contentid) {
 		Gooppl_PlaceDetailDTO dto=sqlMap.selectOne("getThisDateDetail", contentid);
 		return dto;
+	}
+	
+	public int getLastAreacode(Map map) {
+		int result=sqlMap.selectOne("getLastAreacode", map);
+		return result;
 	}
 }

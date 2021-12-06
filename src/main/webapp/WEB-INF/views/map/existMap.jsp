@@ -9,10 +9,10 @@
 <script>
 function checkGetTripInfo(){
 	var contents=[];
-	<c:if test="${empty tripdto }">
+	<c:if test="${empty tripList }">
 		console.log('없음.');
 	</c:if>
-	<c:forEach var="tripdto" items="${tripdto }">
+	<c:forEach var="tripdto" items="${tripList }">
 		var tripcontentid=${tripdto.contentid };
 		var triptitle='${tripdto.title }';
 		var tripaddr='${tripdto.addr }';

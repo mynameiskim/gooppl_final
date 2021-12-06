@@ -6,4 +6,5 @@ public interface MapInfoDAO {
 
 	public int addMapInfo(MapInfoDTO dto);
 	public List<Integer> getThisMapInfo(Map map);
+	public int deleteMapInfo(Map map);
 }

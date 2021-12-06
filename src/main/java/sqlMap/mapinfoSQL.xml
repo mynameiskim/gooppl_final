@@ -23,4 +23,10 @@
   		order by
   			route_num asc
   	</select>
+  	<delete id="deleteMapInfo" parameterType="Map">
+  		delete from
+  			mapinfo
+  		where 
+  			map_idx=#{map_idx} and day_num=#{day_num}
+  	</delete>
   </mapper>
