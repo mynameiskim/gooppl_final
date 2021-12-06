@@ -20,6 +20,7 @@ public class MemberOutDAOImple implements MemberOutDAO {
 	}
 	public int insertMemberOut(Map hmp) {
 		int count = sqlMap.insert("insertMemberOut", hmp);
+		return count;
 	}
 	public int totalMemberOut() {
 		int count = sqlMap.selectOne("totalMemberOut");
