@@ -1,6 +1,9 @@
 package goo.controller;
 
 import java.util.*;
+
+import javax.servlet.http.HttpSession;
+
 import java.sql.*;
 import java.sql.Date;
 
@@ -201,17 +204,34 @@ public class MapController {
 	@RequestMapping("/existMap.do")
 	public ModelAndView moveExistMap(
 			@RequestParam("map_idx") int map_idx,
-			@RequestParam("day_num") int day_num
-			) {
+			@RequestParam("day_num") int day_num,
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("map_idx", map_idx);
-		mav.addObject("day_num", day_num);
-		List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
-		if(list.size()!=0) {
-			List<Gooppl_PlaceDetailDTO> tripdto=gooppl_placedetailService.getThisDateDetail(list);
-			mav.addObject("tripdto", tripdto);
+		String session_Nickname=(String)session.getAttribute("sessionNickname");
+		System.out.println(session_Nickname);
+		if(session_Nickname==null||session_Nickname.equals("")) {
+			mav.addObject("open_login", 1);
+			mav.setViewName("redirect:index.do");
+		}else {	
+			int enroll_idx=(Integer)session.getAttribute("sessionMember_idx");
+			int map_member_idx=gooppl_mapService.getMemberIdx(map_idx);
+			if(enroll_idx!=map_member_idx) {
+				mav.addObject("msg", "접근 권한이 없습니다.");
+				mav.addObject("goPage", "index.do");
+				mav.setViewName("map/mapMove");
+			}else {
+				mav.addObject("open_login", 0);
+				mav.addObject("member_idx", map_member_idx);
+				mav.addObject("map_idx", map_idx);
+				mav.addObject("day_num", day_num);
+				List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
+				if(list.size()!=0) {
+					List<Gooppl_PlaceDetailDTO> tripdto=gooppl_placedetailService.getThisDateDetail(list);
+					mav.addObject("tripdto", tripdto);
+				}
+				mav.setViewName("map/existMap");
+			}
 		}
-		mav.setViewName("map/existMap");
 		return mav;
 	}
 }

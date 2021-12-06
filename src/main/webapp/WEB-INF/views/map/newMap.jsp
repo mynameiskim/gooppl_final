@@ -109,8 +109,45 @@ table{
 var member_idx=${member_idx}
 var areacodes=[];
 var sigungucodes=[];
+var setAreacode;
+var setSigungucode;
+var setContenttype;
 var map_idx;
 var moveDay;
+
+var adContents=[];
+<c:if test="${empty adlist }">
+	console.log('없음.');
+</c:if>
+<c:forEach var="addto" items="${adlist }">
+	var ad_idx=${addto.owner_idx };
+	var adtitle='[AD] ${addto.title }';
+	var adaddr='${addto.addr }';
+	var adareacode=${addto.areacode };
+	var adsigungucode=${addto.sigungucode };
+	var admapx=${addto.mapx };
+	var admapy=${addto.mapy };
+	var adoverview='${addto.ad_content }';
+	var adreadnum=1;
+	var adhomepage='${addto.business_tel }';
+	var adimg='${addto.firstimg }';
+	var adcontenttype=${addto.contenttype };
+	var adContent={
+		contentid:ad_idx,
+		title:adtitle,
+		addr:adaddr,
+		areacode:adareacode,
+		sigungucode:adsigungucode,
+		mapx:admapx,
+		mapy:admapy,
+		overview:adoverview,
+		readnum:adreadnum,
+		homepage:adhomepage,
+		image:adimg,
+		contenttype:adcontenttype
+	};
+	adContents.push(adContent);
+</c:forEach>
 /**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
     $('#search_bt').click( function() {
@@ -482,7 +519,7 @@ function changeAreacode(){
 		var optionNode=optionNodes[i];
 		optionNode.style.display='none';
 	}
-	sigunguSelector.value='';
+	sigunguSelector.value='0';
 	var areaSelector=document.getElementById('areacode');
 	var areacodeVal=areaSelector.options[areaSelector.selectedIndex].value;
 	var areacodeText=areaSelector.options[areaSelector.selectedIndex].text;
@@ -506,13 +543,18 @@ function show(){
 	var sigungucodeSelector=document.getElementById('sigungucode');
 	var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
 	var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
+	var contenttype=document.getElementById('cate').value;
+	sigungucode=sigungucode==0?'':sigungucode;
+	setAreacode=areacode;
+	setSigungucode=sigungucode;
+	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
 		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId=12&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
 		sendRequest(url, param, showResult, 'GET');   
 	}
 }
@@ -524,6 +566,85 @@ function showResult(){
          var items = doc.getElementsByTagName('item');
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
+         if(adContents.length!=0){
+      		for(var i=0;i<adContents.length;i++){
+      			if(setSigungucode==''){
+      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
+      					var title=adContents[i].title;
+      					var contentid=adContents[i].contentid;
+      					var addr=adContents[i].addr;
+      					var image=adContents[i].image;
+      					var mapx=adContents[i].mapx;
+      					var mapy=adContents[i].mapy;
+      					
+      					var trNode = document.createElement('tr');
+      		             var tdNode2 = document.createElement('td');
+      		             var tdTextNode2 = document.createTextNode(title);
+      		             var tdNode3 = document.createElement('td');
+      		             var tdTextNode3 = document.createTextNode(addr);
+      		             var tdNode4 = document.createElement('td');
+      		            
+      		             var imgNode = document.createElement('img');
+      		             imgNode.setAttribute('src', image);
+      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+      		          
+      		             var tdNode5 = document.createElement('td');
+      		             var addBt = document.createElement('input');
+      		             addBt.setAttribute('type','button');
+      		             addBt.setAttribute('value','+');
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             table.appendChild(trNode);
+      		             trNode.appendChild(tdNode2);
+      		             trNode.appendChild(tdNode3);
+      		             trNode.appendChild(tdNode4);
+      		             trNode.appendChild(tdNode5);
+      		             tdNode2.appendChild(tdTextNode2);
+      		             tdNode3.appendChild(tdTextNode3);
+      		             tdNode4.appendChild(imgNode);
+      		             tdNode5.appendChild(addBt);
+      		             console.log(trNode);
+      				}
+      			}else{
+      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
+      					var title=adContents[i].title;
+      					var contentid=adContents[i].contentid;
+      					var addr=adContents[i].addr;
+      					var image=adContents[i].image;
+      					var mapx=adContents[i].mapx;
+      					var mapy=adContents[i].mapy;
+      					
+      					var trNode = document.createElement('tr');
+      		             var tdNode2 = document.createElement('td');
+      		             var tdTextNode2 = document.createTextNode(title);
+      		             var tdNode3 = document.createElement('td');
+      		             var tdTextNode3 = document.createTextNode(addr);
+      		             var tdNode4 = document.createElement('td');
+      		            
+      		             var imgNode = document.createElement('img');
+      		             imgNode.setAttribute('src', image);
+      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+      		          
+      		             var tdNode5 = document.createElement('td');
+      		             var addBt = document.createElement('input');
+      		             addBt.setAttribute('type','button');
+      		             addBt.setAttribute('value','+');
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             
+      		             table.appendChild(trNode);
+      		             trNode.appendChild(tdNode2);
+      		             trNode.appendChild(tdNode3);
+      		             trNode.appendChild(tdNode4);
+      		             trNode.appendChild(tdNode5);
+      		             tdNode2.appendChild(tdTextNode2);
+      		             tdNode3.appendChild(tdTextNode3);
+      		             tdNode4.appendChild(imgNode);
+      		             tdNode5.appendChild(addBt);
+      		             
+      		             
+      				}
+      			}
+      		}
+      	}
          for(var i=0;i<items.length;i++){
              var item = items[i];
              var count=i+1;
@@ -598,10 +719,15 @@ function showResult(){
       }
    }
 }
+
 function placeDetailInfo(contentid){
-	var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-	var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
-	sendRequest(url, param, getResult, 'GET'); 
+	if(contentid<1000){
+		saveAdDetail(contentid);
+	}else{
+		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
+		var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		sendRequest(url, param, getResult, 'GET'); 
+	}
 }
 function getResult(){
 	 if(XHR.readyState==4){
@@ -695,7 +821,38 @@ function getResult(){
 	 }
 }
 
-
+function saveAdDetail(contentid){
+	for(var i=0;i<adContents.length;i++){
+		if(adContents[i].contentid==contentid){
+			var title=adContents[i].title.substr(5, adContents[i].title.length);
+			var addr=adContents[i].addr;
+			var areacode=adContents[i].areacode;
+			var sigungucode=adContents[i].sigungucode;
+			var contenttype=adContents[i].contenttype;
+			var mapx=adContents[i].mapx;
+			var mapy=adContents[i].mapy;
+			var overview=adContents[i].overview;
+			var homepage=adContents[i].homepage;
+			var image=adContents[i].image;
+			
+			 var placeDetail={
+		     	 	contentid:contentid,
+		     	 	title:title,
+		     	 	addr:addr,
+		     	 	areacode:areacode,
+		     	 	sigungucode:sigungucode,
+		     	 	contenttype:contenttype,
+		     	 	mapx:mapx,
+		     	 	mapy:mapy,
+		     	 	overview:overview,
+		     	 	homepage:homepage,
+		     	 	firstimage:image,
+		     	 };
+			 console.log(placeDetail);
+	     	 placeDetails.push(placeDetail);
+		}
+	}
+}
 var count2 = 0;
 var listItems=[];
 var placeDetails=[];
@@ -1012,6 +1169,7 @@ function addEventListeners() {
 						</c:forEach>
         			</select>
         			<select name="sigungucode" id="sigungucode">
+        				<option value="0">==전체==</option>
 						<c:forEach var="sigungudto" items="${sigungulist }">
 							<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
 						</c:forEach>

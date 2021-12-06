@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import goo.area.model.*;
 import goo.kakao.KakaoApi;
 import goo.naver.NaverLoginBO;
+import goo.owner.model.OwnerDTO;
+import goo.owner.model.OwnerService;
 import goo.sigungu.model.*;
 
 @Controller
@@ -28,6 +30,8 @@ public class IndexController {
 	private AreaService areaService;
 	@Autowired
 	private SigunguService sigunguService;
+	@Autowired
+	private OwnerService ownerService;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -112,23 +116,25 @@ public class IndexController {
 	@RequestMapping("/createMap.do")
 	public ModelAndView newMap(
 			@RequestParam(value = "areacode", defaultValue="1") int areacode,
-			@RequestParam(value = "sigungucode", defaultValue="1") int sigungucode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		String session_id=(String)session.getAttribute("sessionNickname");
-		System.out.println(session_id);
-		if(session_id==null||session_id.equals("")) {
+		String session_Nickname=(String)session.getAttribute("sessionNickname");
+		System.out.println(session_Nickname);
+		if(session_Nickname==null||session_Nickname.equals("")) {
 			mav.addObject("open_login", 1);
 			mav.setViewName("redirect:index.do");
 		}else {	
-			System.out.println(session_id);
+			int session_idx=(Integer)session.getAttribute("sessionMember_idx");
 			mav.addObject("open_login", 0);
-			mav.addObject("member_idx", 1);
+			mav.addObject("member_idx", session_idx);
 			List<AreaDTO> arealist = areaService.areaList();
 			List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+			List<OwnerDTO> adlist = ownerService.allOwnerSelect();
 			mav.addObject("arealist", arealist);
 			mav.addObject("sigungulist", sigungulist);
+			mav.addObject("adlist", adlist);
 			mav.addObject("areacode", areacode);
 			mav.addObject("sigungucode", sigungucode);
 			mav.setViewName("map/newMap");

@@ -104,7 +104,40 @@ var areacodes=[];
 var sigungucodes=[];
 var map_idx;
 var moveDay;
+
 var adContents=[];
+<c:if test="${empty adlist }">
+	console.log('없음.');
+</c:if>
+<c:forEach var="addto" items="${adlist }">
+	var ad_idx=${addto.owner_idx };
+	var adtitle='[AD] ${addto.title }';
+	var adaddr='${addto.addr }';
+	var adareacode=${addto.areacode };
+	var adsigungucode=${addto.sigungucode };
+	var admapx=${addto.mapx };
+	var admapy=${addto.mapy };
+	var adoverview='${addto.ad_content }';
+	var adreadnum=1;
+	var adhomepage=${addto.business_tel };
+	var adimg='${addto.firstimg }';
+	var adcontenttype=${addto.contenttype };
+	var adContent={
+		contentid:ad_idx,
+		title:adtitle,
+		addr:adaddr,
+		areacode:adareacode,
+		sigungucode:adsigungucode,
+		mapx:admapx,
+		mapy:admapy,
+		overview:adoverview,
+		readnum:adreadnum,
+		homepage:adhomepage,
+		image:adimg,
+		contenttype:adcontenttype
+	};
+	adContents.push(adContent);
+</c:forEach>
 /**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
     $('#search_bt').click( function() {
@@ -1068,72 +1101,6 @@ function addEventListeners() {
 </script>
 </head>
 <body id="page-top">
-<!-- 광고 정보 가져오기 : 숨겨진 테이블 -->
-<div id="adInfo" style="display:none;">
-	<table id="adSite">
-		<c:if test="${empty adlist }">
-			<tr class="noContent">
-				<td colspan="5" align="center">
-				등록된 광고가 없습니다.
-				</td>
-			</tr>
-		</c:if>
-		<c:forEach var="addto" items="${adlist }">
-			<tr>
-				<td class="adlist">
-					<span class="ad_idx">${addto.owner_idx }</span>
-					<span class="adtitle">${addto.title }</span>
-					<span class="adaddr">${addto.addr }</span>
-					<span class="adareacode">${addto.areacode }</span>
-					<span class="adsigungucode">${addto.sigungucode }</span>
-					<span class="admapx">${addto.mapx }</span>
-					<span class="admapy">${addto.mapy }</span>
-					<span class="adoverview">${addto.ad_content }</span>
-					<span class="adreadnum">1</span>
-					<span class="adhomepage">${addto.business_tel }</span>
-					<span class="adimg">${addto.firstimg }</span>
-					<span class="adcontenttype">${addto.contenttype }</span>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-</div>
-<script>
-var table=document.getElementById('adSite');
-var datay_n=document.getElementsByClassName('noContent')[0];
-if(datay_n!='undefined'){
-	var adList=table.getElementsByClassName('adlist');
-	for(var i=0;i<adList.length;i++){
-		var ad_idx=adList[i].getElementsByClassName('ad_idx')[0].firstChild.nodeValue;
-		var adtitle='[AD] '+adList[i].getElementsByClassName('adtitle')[0].firstChild.nodeValue;
-		var adaddr=adList[i].getElementsByClassName('adaddr')[0].firstChild.nodeValue;
-		var adareacode=adList[i].getElementsByClassName('adareacode')[0].firstChild.nodeValue;
-		var adsigungucode=adList[i].getElementsByClassName('adsigungucode')[0].firstChild.nodeValue;
-		var admapx=adList[i].getElementsByClassName('admapx')[0].firstChild.nodeValue;
-		var admapy=adList[i].getElementsByClassName('admapy')[0].firstChild.nodeValue;
-		var adoverview=adList[i].getElementsByClassName('adoverview')[0].firstChild.nodeValue;
-		var adreadnum=adList[i].getElementsByClassName('adreadnum')[0].firstChild.nodeValue;
-		var adhomepage=adList[i].getElementsByClassName('adhomepage')[0].firstChild.nodeValue;
-		var adimg=adList[i].getElementsByClassName('adimg')[0].firstChild.nodeValue;
-		var adcontenttype=adList[i].getElementsByClassName('adcontenttype')[0].firstChild.nodeValue;
-		var adContent={
-			contentid:ad_idx,
-			title:adtitle,
-			addr:adaddr,
-			areacode:adareacode,
-			sigungucode:adsigungucode,
-			mapx:admapx,
-			mapy:admapy,
-			overview:adoverview,
-			readnum:adreadnum,
-			homepage:adhomepage,
-			image:adimg,
-			contenttype:adcontenttype,
-		};
-		adContents.push(adContent);
-	}
-}
-</script>
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">

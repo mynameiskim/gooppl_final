@@ -25,4 +25,12 @@
   		from 
   			mapt
   	</select>
+  	<select id="getMemberIdx" resultType="Integer">
+  		select
+  			member_idx
+  		from 
+  			mapt
+  		where
+  			map_idx=#{map_idx}
+  	</select>
   </mapper>
