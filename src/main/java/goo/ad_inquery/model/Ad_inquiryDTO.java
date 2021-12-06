@@ -6,6 +6,7 @@ public class Ad_inquiryDTO {
 
 	private int inquiry_idx;
 	private int owner_idx;
+	private int member_idx;
 	private String email;
 	private String inquiry_type;
 	private String inquiry_content;
@@ -18,11 +19,12 @@ public class Ad_inquiryDTO {
 		super();
 	}
 
-	public Ad_inquiryDTO(int inquiry_idx, int owner_idx, String email, String inquiry_type, String inquiry_content,
+	public Ad_inquiryDTO(int inquiry_idx, int owner_idx, int member_idx, String email, String inquiry_type, String inquiry_content,
 			String inquiry_state, int ad_period, String reason, Date writeDate) {
 		super();
 		this.inquiry_idx = inquiry_idx;
 		this.owner_idx = owner_idx;
+		this.member_idx = member_idx;
 		this.email = email;
 		this.inquiry_type = inquiry_type;
 		this.inquiry_content = inquiry_content;
@@ -46,6 +48,14 @@ public class Ad_inquiryDTO {
 
 	public void setOwner_idx(int owner_idx) {
 		this.owner_idx = owner_idx;
+	}
+	
+	public int getMember_idx() {
+		return member_idx;
+	}
+
+	public void setMember_idx(int member_idx) {
+		this.member_idx = member_idx;
 	}
 
 	public String getEmail() {

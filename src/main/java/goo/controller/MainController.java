@@ -37,7 +37,8 @@ public class MainController {
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	
 	@RequestMapping("/mypage.do")
-	public String mypage() {
+	public String mypage(HttpSession session) {
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
 		return "member/mypage";
 	}
 	

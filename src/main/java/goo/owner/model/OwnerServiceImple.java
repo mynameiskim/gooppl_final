@@ -82,4 +82,9 @@ public class OwnerServiceImple implements OwnerService {
 		List<OwnerDTO> list = ownerDao.admin_allOwner(map);
 		return list;
 	}
+	
+	public int admin_ownerUpdate(OwnerDTO dto) {
+		int result = ownerDao.admin_ownerUpdate(dto);
+		return result;
+	}
 }
