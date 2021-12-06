@@ -21,4 +21,9 @@ public class MapInfoServiceImple implements MapInfoService {
 		}
 		return result;
 	}
+	
+	public List<MapInfoDTO> mapInfoList(Map map) {
+		List<MapInfoDTO> list = mapinfoDao.mapInfoList(map);
+		return list;
+	}
 }

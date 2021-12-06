@@ -117,14 +117,15 @@ public class IndexController {
 		ModelAndView mav = new ModelAndView();
 
 		String session_id=(String)session.getAttribute("sessionNickname");
-		System.out.println(session_id);
+
 		if(session_id==null||session_id.equals("")) {
 			mav.addObject("open_login", 1);
 			mav.setViewName("redirect:index.do");
 		}else {	
-			System.out.println(session_id);
+			int sessionMember_idx = (Integer)session.getAttribute("sessionMember_idx");
+			
 			mav.addObject("open_login", 0);
-			mav.addObject("member_idx", 1);
+			mav.addObject("member_idx", sessionMember_idx);
 			List<AreaDTO> arealist = areaService.areaList();
 			List<SigunguDTO> sigungulist = sigunguService.sigunguList();
 			mav.addObject("arealist", arealist);

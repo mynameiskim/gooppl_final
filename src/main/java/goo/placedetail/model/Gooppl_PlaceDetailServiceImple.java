@@ -18,5 +18,10 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 		int result=gooppl_placedetailDao.addPlaceDetail(dto);
 		return result;
 	}
+	
+	public List<Gooppl_PlaceDetailDTO> placeDetailList(int contentid) {
+		List<Gooppl_PlaceDetailDTO> list = gooppl_placedetailDao.placeDetailList(contentid);
+		return list;
+	}
 
 }

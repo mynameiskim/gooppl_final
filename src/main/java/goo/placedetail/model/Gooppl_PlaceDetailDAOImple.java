@@ -1,5 +1,7 @@
 package goo.placedetail.model;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
@@ -20,6 +22,11 @@ public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 			result=0;
 		}
 		return result;
+	}
+	
+	public List<Gooppl_PlaceDetailDTO> placeDetailList(int contentid) {
+		List<Gooppl_PlaceDetailDTO> list = sqlMap.selectList("detailList");
+		return list;
 	}
 
 }

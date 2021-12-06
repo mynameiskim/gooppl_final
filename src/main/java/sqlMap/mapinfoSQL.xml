@@ -13,4 +13,7 @@
   			#{contentid}
   		)
   	</insert>
+  	<select id="getMapInfo" parameterType="Map" resultType="goo.mapinfo.model.MapInfoDTO">
+  		SELECT * FROM MAPINFO WHERE MAP_IDX = #{map_idx} AND DAY_NUM= #{day_num} ORDER BY ROUTE_NUM asc 
+  	</select>
   </mapper>
