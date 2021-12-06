@@ -82,7 +82,7 @@
                           <div class="col-md-6">
                            <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required>
                                <option value="" selected disabled>지역선택</option>
-                               <c:forEach var="areadto" items="${arealist }">
+                               <c:forEach var="areadto" items="${arealist}">
                            <option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
                         </c:forEach>
                            </select>  

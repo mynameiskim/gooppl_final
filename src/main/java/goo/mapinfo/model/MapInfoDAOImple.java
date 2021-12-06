@@ -1,4 +1,4 @@
-package goo.mapinfo.model;
+﻿package goo.mapinfo.model;
 
 import java.util.*;
 
@@ -18,6 +18,10 @@ public class MapInfoDAOImple implements MapInfoDAO {
 		return result;
 	}
 	
+	public List<MapInfoDTO> mapInfoList(Map map) {
+		List<MapInfoDTO> list = sqlMap.selectList("getMapInfo",map);
+		return list;
+	}
 	public List<Integer> getThisMapInfo(Map map) {
 		
 		List<Integer> list=sqlMap.selectList("getThisMapInfo", map);

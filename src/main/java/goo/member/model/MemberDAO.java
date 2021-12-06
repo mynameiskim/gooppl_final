@@ -16,6 +16,7 @@ public interface MemberDAO {
 	public int profileUpdate(Map hmp);
 	public int pwdCheck(Map hmp);
 	public int pwdChange(Map hmp);
+	public int memberOut(int member_idx);
 	public List<MemberDTO> memberList(Map map);//회원목록
 	public int totalMember();//총 회원수
 	public MemberDTO memberInfo(int member_idx); //회원 정보

@@ -1,16 +1,22 @@
-package goo.controller;
+﻿package goo.controller;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.sql.*;
 import java.sql.Date;
 
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import goo.area.model.AreaDTO;
@@ -40,6 +46,9 @@ public class MapController {
 	private Gooppl_PlaceDetailService gooppl_placedetailService;
 	@Autowired
 	private OwnerService ownerService;
+	
+	@Autowired
+	private SqlSession sqlSession;
 	
 	@RequestMapping("/sigungu.do")
 	public String sigungu() {
@@ -203,10 +212,31 @@ public class MapController {
 	
 	@RequestMapping("/existMap.do")
 	public ModelAndView moveExistMap(
+			@RequestParam(value = "areacode", defaultValue="1") int areacode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode,
 			@RequestParam("map_idx") int map_idx,
 			@RequestParam("day_num") int day_num,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+
+		int sessionMember_idx = (Integer)session.getAttribute("sessionMember_idx");
+		
+		mav.addObject("member_idx", sessionMember_idx);
+		List<AreaDTO> arealist = areaService.areaList();
+		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+		
+		Map map=new HashedMap();
+
+		map.put("map_idx", map_idx);
+		map.put("day_num", day_num);
+		List<MapInfoDTO> mapinfolist = mapinfoService.mapInfoList(map);
+
+		mav.addObject("mapinfolist", mapinfolist);
+		mav.addObject("arealist", arealist);
+		mav.addObject("sigungulist", sigungulist);
+		mav.addObject("areacode", areacode);
+		mav.addObject("sigungucode", sigungucode);
+
 		String session_Nickname=(String)session.getAttribute("sessionNickname");
 		System.out.println(session_Nickname);
 		if(session_Nickname==null||session_Nickname.equals("")) {
@@ -317,4 +347,46 @@ public class MapController {
 		mav.setViewName("map/mapMsg");
 		return mav;
 	}
+	/**
+	@RequestMapping("/loadPlaceDetail.do")
+	@ResponseBody
+	public ModelAndView loadPlaceDetail(@RequestParam("contentid")int contentid) {
+		ModelAndView mav = new ModelAndView();
+		List<Gooppl_PlaceDetailDTO> placedetail = gooppl_placedetailService.placeDetailList(contentid);
+		mav.addObject("placedetail", placedetail);
+		return mav;
+	}
+	*/
+	
+	@RequestMapping(value = "/loadPlaceDetail.do", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap <String, Object> loadPlaceDetail2(HttpServletRequest request) {
+		HashMap<String, Object> result = new HashMap <String,Object>();
+		
+		String contentidid_s = request.getParameter("contentid");
+		
+		int contentid=Integer.parseInt(contentidid_s);
+		
+		List<Gooppl_PlaceDetailDTO> placedetail = sqlSession.selectList("detailList", contentid);
+		
+		if ( placedetail.isEmpty() ) {
+			String Msg = "이력이 없습니다.";
+			String Code = "1";
+			
+			result.put("Msg", Msg);
+			result.put("Code", Code);
+			
+			return result;
+		} else {
+			String Msg = "성공";
+			String Code = "0";
+			
+			result.put("Msg", Msg);
+			result.put("Code", Code);
+			result.put("data", placedetail);
+			
+			return result;
+		}
+	}
+	
 }

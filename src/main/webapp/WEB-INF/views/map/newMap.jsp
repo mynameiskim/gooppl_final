@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -270,7 +270,7 @@ $(function() {
     	       
     	    
     	    /*
-    		var savedList = document.getElementById('savedList');
+     		var savedList = document.getElementById('savedList');
     		var listitem = savedList.innerHTML;
 
     	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
@@ -550,7 +550,7 @@ function show(){
 	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId=12&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
@@ -704,6 +704,7 @@ function showResult(){
              addBt.setAttribute('type','button');
              addBt.setAttribute('value','+');
              addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+             addBt.className = 'add_Bt';
              
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
@@ -866,10 +867,11 @@ var titles = [];
 var images = [];
 var addrs = [];
 var contentids = [];
+
+
+  
 /**추가 버튼 누른후 마커생성*/
 function makeMarker(contentid, mapy, mapx, title, image, addr){
-	//alert(mapy+'\n'+mapx+'\n'+title+'\n'+image);
-	
 	placeDetailInfo(contentid);
 	
     mapys.push(mapy);
@@ -1029,7 +1031,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
 	*/
 	
     listItems.push(listitem);
-	
+
     addEventListeners();
     
 }
@@ -1442,7 +1444,7 @@ function getResultAdd2(){
 			if(placeDetails.length!=0){
 				savePlaceDetailData();
 			}else{
-				location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
+				location.href='existMap.do?map_idx='+map_idx+'&day_num='+1;
 			}
 		}
 	}
