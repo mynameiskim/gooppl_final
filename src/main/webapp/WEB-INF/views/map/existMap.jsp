@@ -109,8 +109,48 @@ table{
 var member_idx=${member_idx}
 var areacodes=[];
 var sigungucodes=[];
-var map_idx;
+var map_idx=${map_idx};
 var moveDay;
+var setAreacode;
+var setSigungucode;
+var setContenttype;
+
+
+//전체 광고 리스트
+var adContents=[];
+<c:if test="${empty adlist }">
+	console.log('없음.');
+</c:if>
+<c:forEach var="addto" items="${adlist }">
+	var ad_idx=${addto.owner_idx };
+	var adtitle='[AD] ${addto.title }';
+	var adaddr='${addto.addr }';
+	var adareacode=${addto.areacode };
+	var adsigungucode=${addto.sigungucode };
+	var admapx=${addto.mapx };
+	var admapy=${addto.mapy };
+	var adoverview='${addto.ad_content }';
+	var adreadnum=1;
+	var adhomepage='${addto.business_tel }';
+	var adimg='${addto.firstimg }';
+	var adcontenttype=${addto.contenttype };
+	var adContent={
+		contentid:ad_idx,
+		title:adtitle,
+		addr:adaddr,
+		areacode:adareacode,
+		sigungucode:adsigungucode,
+		mapx:admapx,
+		mapy:admapy,
+		overview:adoverview,
+		readnum:adreadnum,
+		homepage:adhomepage,
+		image:adimg,
+		contenttype:adcontenttype
+	};
+	adContents.push(adContent);
+</c:forEach>
+
 
 /**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
@@ -481,7 +521,7 @@ function changeAreacode(){
 		var optionNode=optionNodes[i];
 		optionNode.style.display='none';
 	}
-	sigunguSelector.value='';
+	sigunguSelector.value='0';
 	var areaSelector=document.getElementById('areacode');
 	var areacodeVal=areaSelector.options[areaSelector.selectedIndex].value;
 	var areacodeText=areaSelector.options[areaSelector.selectedIndex].text;
@@ -505,9 +545,14 @@ function show(){
 	var sigungucodeSelector=document.getElementById('sigungucode');
 	var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
 	var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
+	var contenttype=document.getElementById('cate').value;
+	sigungucode=sigungucode==0?'':sigungucode;
+	setAreacode=areacode;
+	setSigungucode=sigungucode;
+	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
@@ -524,6 +569,85 @@ function showResult(){
          var items = doc.getElementsByTagName('item');
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
+         if(adContents.length!=0){
+       		for(var i=0;i<adContents.length;i++){
+       			if(setSigungucode==''){
+       				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
+       					var title=adContents[i].title;
+       					var contentid=adContents[i].contentid;
+       					var addr=adContents[i].addr;
+       					var image=adContents[i].image;
+       					var mapx=adContents[i].mapx;
+       					var mapy=adContents[i].mapy;
+       					
+       					var trNode = document.createElement('tr');
+       		             var tdNode2 = document.createElement('td');
+       		             var tdTextNode2 = document.createTextNode(title);
+       		             var tdNode3 = document.createElement('td');
+       		             var tdTextNode3 = document.createTextNode(addr);
+       		             var tdNode4 = document.createElement('td');
+       		            
+       		             var imgNode = document.createElement('img');
+       		             imgNode.setAttribute('src', image);
+       		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+       		          
+       		             var tdNode5 = document.createElement('td');
+       		             var addBt = document.createElement('input');
+       		             addBt.setAttribute('type','button');
+       		             addBt.setAttribute('value','+');
+       		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",1)');
+       		             table.appendChild(trNode);
+       		             trNode.appendChild(tdNode2);
+       		             trNode.appendChild(tdNode3);
+       		             trNode.appendChild(tdNode4);
+       		             trNode.appendChild(tdNode5);
+       		             tdNode2.appendChild(tdTextNode2);
+       		             tdNode3.appendChild(tdTextNode3);
+       		             tdNode4.appendChild(imgNode);
+       		             tdNode5.appendChild(addBt);
+       		             console.log(trNode);
+       				}
+       			}else{
+       				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
+       					var title=adContents[i].title;
+       					var contentid=adContents[i].contentid;
+       					var addr=adContents[i].addr;
+       					var image=adContents[i].image;
+       					var mapx=adContents[i].mapx;
+       					var mapy=adContents[i].mapy;
+       					
+       					var trNode = document.createElement('tr');
+       		             var tdNode2 = document.createElement('td');
+       		             var tdTextNode2 = document.createTextNode(title);
+       		             var tdNode3 = document.createElement('td');
+       		             var tdTextNode3 = document.createTextNode(addr);
+       		             var tdNode4 = document.createElement('td');
+       		            
+       		             var imgNode = document.createElement('img');
+       		             imgNode.setAttribute('src', image);
+       		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+       		          
+       		             var tdNode5 = document.createElement('td');
+       		             var addBt = document.createElement('input');
+       		             addBt.setAttribute('type','button');
+       		             addBt.setAttribute('value','+');
+       		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+       		             
+       		             table.appendChild(trNode);
+       		             trNode.appendChild(tdNode2);
+       		             trNode.appendChild(tdNode3);
+       		             trNode.appendChild(tdNode4);
+       		             trNode.appendChild(tdNode5);
+       		             tdNode2.appendChild(tdTextNode2);
+       		             tdNode3.appendChild(tdTextNode3);
+       		             tdNode4.appendChild(imgNode);
+       		             tdNode5.appendChild(addBt);
+       		             
+       		             
+       				}
+       			}
+       		}
+       	}
          for(var i=0;i<items.length;i++){
              var item = items[i];
              var count=i+1;
@@ -601,16 +725,24 @@ function showResult(){
          
          /**onload시에 createMap에서 저장된 contentid 가져옴*/
 		 var contentids2 = [];
-		 
-		 <c:forEach items="${mapinfolist}" var="item1">
-		  
-		 	contentids2.push("${item1.contentid}");
-		  
-		 </c:forEach>
-		
-		 for (var i = 0; i < contentids2.length; i++) {
+		 <c:if test="${empty tripList }">
+			console.log('없음.');
+		</c:if>
+		 <c:forEach items="${tripList}" var="tripdto">
+			var title = '${tripdto.title}';
+			var addr = '${tripdto.addr}';
+	   		var mapy = ${tripdto.mapy};
+	   		var mapx = ${tripdto.mapx};
+	   		var	image = '${tripdto.firstimage}';
+	   		var contentid = ${tripdto.contentid}; 
+	   		if(contentid<1000){
+	   			title='[AD] '+title;
+	   		}
+	   		makeMarker(contentid, mapy, mapx, title, image, addr, 0);
+		</c:forEach>
+		 /*for (var i = 0; i < contentids2.length; i++) {
 		 	Info(contentids2[i]);
-		 }
+		 }**/
 		 
       }
    }
@@ -628,14 +760,20 @@ function Info(contentid) {
         },
         success: function(data){
            if (data.Code == 0 ) {
+        	   console.log(data.data.length);
+        	   var title = data.data[0].title;
+       			var addr = data.data[0].addr;
+	       		var mapy = data.data[0].mapy;
+	       		var mapx = data.data[0].mapx;
+	       		var	image = data.data[0].firstimage;
+	       		var contentid = data.data[0].contentid;   
+	       		if(contentid<1000){
+	       			title='[AD] '+title;
+	       		}
+	       		makeMarker(contentid, mapy, mapx, title, image, addr);
 	        	for (i=0; i<data.data.length; i++ ) {
-	        		var title = data.data[i].title;
-	        		var addr = data.data[i].addr;
-	        		var mapy = data.data[i].mapy;
-	        		var mapx = data.data[i].mapx;
-	        		var	image = data.data[i].firstimage;
-	        		var contentid = data.data[i].contentid;    		
-	   	                   	  
+	        		
+	   	                  	  
 	                mapys.push(mapy);
 	                mapxs.push(mapx);
 	                titles.push(title);
@@ -772,6 +910,7 @@ function Info(contentid) {
 	                listItems.push(listitem);
 
 	                addEventListeners();
+	                
 	            }
            } else {
         	   alert(data.Msg);
@@ -786,10 +925,46 @@ function Info(contentid) {
 
 
 function placeDetailInfo(contentid){
-	var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-	var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
-	sendRequest(url, param, getResult, 'GET'); 
+	if(contentid<1000){
+		saveAdDetail(contentid);
+	}else{
+		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
+		var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		sendRequest(url, param, getResult, 'GET'); 
+	}
 }
+function saveAdDetail(contentid){
+	for(var i=0;i<adContents.length;i++){
+		if(adContents[i].contentid==contentid){
+			var title=adContents[i].title.substr(5, adContents[i].title.length);
+			var addr=adContents[i].addr;
+			var areacode=adContents[i].areacode;
+			var sigungucode=adContents[i].sigungucode;
+			var contenttype=adContents[i].contenttype;
+			var mapx=adContents[i].mapx;
+			var mapy=adContents[i].mapy;
+			var overview=adContents[i].overview;
+			var homepage=adContents[i].homepage;
+			var image=adContents[i].image;
+			
+			 var placeDetail={
+		     	 	contentid:contentid,
+		     	 	title:title,
+		     	 	addr:addr,
+		     	 	areacode:areacode,
+		     	 	sigungucode:sigungucode,
+		     	 	contenttype:contenttype,
+		     	 	mapx:mapx,
+		     	 	mapy:mapy,
+		     	 	overview:overview,
+		     	 	homepage:homepage,
+		     	 	firstimage:image
+		     	 };
+	     	 placeDetails.push(placeDetail);
+		}
+	}
+}
+
 function getResult(){
 	 if(XHR.readyState==4){
 	      if(XHR.status==200){
@@ -876,7 +1051,7 @@ function getResult(){
 	        	 	homepage:homepage,
 	        	 	firstimage:firstimage
 	        	 };        	 
-
+				console.log(placeDetail);
 	        	 placeDetails.push(placeDetail);
 				
 	         }
@@ -899,8 +1074,11 @@ var addrs = [];
 var contentids = [];
   
 /**추가 버튼 누른후 마커생성*/
-function makeMarker(contentid, mapy, mapx, title, image, addr){
-	placeDetailInfo(contentid);
+function makeMarker(contentid, mapy, mapx, title, image, addr, state){
+	
+	if(state!=0){
+		placeDetailInfo(contentid);
+	}
 	
     mapys.push(mapy);
     mapxs.push(mapx);
@@ -1151,42 +1329,6 @@ function addEventListeners() {
 		}
 	}
 </script>
-<script>
-function checkGetTripInfo(){
-	var contents=[];
-	<c:if test="${empty tripList }">
-		console.log('없음.');
-	</c:if>
-	<c:forEach var="tripdto" items="${tripList }">
-		var tripcontentid=${tripdto.contentid };
-		var triptitle='${tripdto.title }';
-		var tripaddr='${tripdto.addr }';
-		var tripareacode=${tripdto.areacode };
-		var tripsigungucode=${tripdto.sigungucode };
-		var tripmapx=${tripdto.mapx };
-		var tripmapy=${tripdto.mapy };
-		var tripoverview='${tripdto.overview }';
-		var tripreadnum=${tripdto.readnum };
-		var triphomepage='${tripdto.homepage }';
-		var tripimg='${tripdto.firstimage }';
-		var content={
-			contentid:tripcontentid,
-			title:triptitle,
-			addr:tripaddr,
-			areacode:tripareacode,
-			sigungucode:tripsigungucode,
-			mapx:tripmapx,
-			mapy:tripmapy,
-			overview:tripoverview,
-			readnum:tripreadnum,
-			homepage:triphomepage,
-			img:tripimg
-		};
-		contents.push(content);
-	</c:forEach>
-	console.log(contents);
-}
-</script>
 </head>
 <body id="page-top" onload="show()">
     <!-- Navigation-->
@@ -1326,6 +1468,29 @@ function checkGetTripInfo(){
 <script>
 var setMapx;
 var setMapy;
+document.getElementById('map_title').value='${mapdto.map_title}';
+selectedOption('people_num', '${mapdto.people_num}', 'value');
+selectedOption('trip_type', '${mapdto.trip_type}', 'value');
+function selectedOption(id, value, type){
+	var obj=document.getElementById(id);
+	for(i=0;i<obj.length;i++){
+		switch(type){
+		case 'value' : 
+			if(obj[i].value==value){
+				obj[i].selected=true;
+			}
+			break;
+		case 'text' :
+			if(obj[i].text==value){
+				obj[i].selected=true;
+			}
+			break;
+		}
+	}
+}
+document.getElementById('startDate').value='${mapdto.startdate}';
+document.getElementById('endDate').value='${mapdto.enddate}';
+createDay();
 //초기 지도 중심좌표 처리 
 var setAreacode=${areacode};
 var setSigungucode=${sigungucode};
@@ -1411,7 +1576,11 @@ function createDay() {
 			var dayBt = document.createElement('input');
 			dayBt.setAttribute('type','button');
 			dayBt.setAttribute('value','Day'+count);
-			dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			if(count==${day_num}){
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			}else{
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;background-color:#64a19d;');
+			}
 			dayBt.setAttribute('onclick','saveThisDay('+count+')');
 			var div = document.getElementById('calender');
 			dayBtDiv.appendChild(dayBt);
@@ -1446,8 +1615,8 @@ function saveThisDay(dayCount){
 }
 function moveToDay(map_title,member_idx,people_num,trip_type,starty,startm,startd,endy,endm,endd,share_ok,del_ok,dayCount){
 	moveDay=dayCount;
-	var param='map_title='+map_title+'&member_idx='+member_idx+'&people_num='+people_num+'&trip_type='+trip_type+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&share_ok='+share_ok+'&del_ok='+del_ok;
-	sendRequest('addNewMap.do', param, getResultMap, 'GET'); 
+	var param='map_idx='+${map_idx}+'&day_num='+${day_num}+'&map_title='+map_title+'&member_idx='+member_idx+'&people_num='+people_num+'&trip_type='+trip_type+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&share_ok='+share_ok+'&del_ok='+del_ok;
+	sendRequest('changeMap.do', param, getResultMap, 'GET'); 
 }
 function getResultMap(){
 	 if(XHR.readyState==4){
@@ -1461,7 +1630,7 @@ function getResultMap(){
 }
 function saveMapData(map_idx){
 	
-	var param='map_idx='+map_idx+'&day_num='+1;
+	var param='map_idx='+map_idx+'&day_num='+${day_num};
 	for(var i=0;i<listItems.length;i++){
 		var contentid=listItems[i].getElementsByClassName('contentid').item(0).value;
 		param+='&';
@@ -1479,36 +1648,41 @@ function getResultAdd(){
 	}
 }
 function savePlaceDetailData(){
-	var param='map_idx='+map_idx;
-	var contentid=placeDetails[0].contentid;
-	param+='&contentid='+contentid;
-	var title=placeDetails[0].title;
-	param+='&title='+title;
-	var addr=placeDetails[0].addr;
-	param+='&addr='+addr;
-	var areacode=placeDetails[0].areacode;
-	param+='&areacode='+areacode;
-	var sigungucode=placeDetails[0].sigungucode;
-	param+='&sigungucode='+sigungucode;
-	var mapx=placeDetails[0].mapx;
-	param+='&mapx='+mapx;
-	var mapy=placeDetails[0].mapy;
-	param+='&mapy='+mapy;
-	var overview=placeDetails[0].overview;
-	if(overview.length>900){
-		overview=overview.substr(0, 900)+'...';
+	if(placeDetails.length!=0){
+		var param='map_idx='+map_idx;
+		var contentid=placeDetails[0].contentid;
+		param+='&contentid='+contentid;
+		var title=placeDetails[0].title;
+		param+='&title='+title;
+		var addr=placeDetails[0].addr;
+		param+='&addr='+addr;
+		var areacode=placeDetails[0].areacode;
+		param+='&areacode='+areacode;
+		var sigungucode=placeDetails[0].sigungucode;
+		param+='&sigungucode='+sigungucode;
+		var mapx=placeDetails[0].mapx;
+		param+='&mapx='+mapx;
+		var mapy=placeDetails[0].mapy;
+		param+='&mapy='+mapy;
+		var overview=placeDetails[0].overview;
+		if(overview.length>900){
+			overview=overview.substr(0, 900)+'...';
+		}
+		overview=encodeURI(decodeURI(overview));
+		param+='&overview='+overview;
+		var readnum=1;
+		param+='&readnum='+readnum;
+		var homepage=placeDetails[0].homepage;
+		homepage=encodeURI(decodeURI(homepage));
+		param+='&homepage='+homepage;
+		var firstimage=placeDetails[0].firstimage;
+		param+='&firstimage='+firstimage;
+		console.log(param);
+		sendRequest('savePlaceDetail.do', param, getResultAdd2, 'GET');
+	}else{
+		location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
 	}
-	overview=encodeURI(decodeURI(overview));
-	param+='&overview='+overview;
-	var readnum=1;
-	param+='&readnum='+readnum;
-	var homepage=placeDetails[0].homepage;
-	homepage=encodeURI(decodeURI(homepage));
-	param+='&homepage='+homepage;
-	var firstimage=placeDetails[0].firstimage;
-	param+='&firstimage='+firstimage;
-	console.log(param);
-	sendRequest('savePlaceDetail.do', param, getResultAdd2, 'GET');
+	
 }
 function getResultAdd2(){
 	if(XHR.readyState==4){

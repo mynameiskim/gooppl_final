@@ -218,25 +218,6 @@ public class MapController {
 			@RequestParam("day_num") int day_num,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-
-		int sessionMember_idx = (Integer)session.getAttribute("sessionMember_idx");
-		
-		mav.addObject("member_idx", sessionMember_idx);
-		List<AreaDTO> arealist = areaService.areaList();
-		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-		
-		Map map=new HashedMap();
-
-		map.put("map_idx", map_idx);
-		map.put("day_num", day_num);
-		List<MapInfoDTO> mapinfolist = mapinfoService.mapInfoList(map);
-
-		mav.addObject("mapinfolist", mapinfolist);
-		mav.addObject("arealist", arealist);
-		mav.addObject("sigungulist", sigungulist);
-		mav.addObject("areacode", areacode);
-		mav.addObject("sigungucode", sigungucode);
-
 		String session_Nickname=(String)session.getAttribute("sessionNickname");
 		System.out.println(session_Nickname);
 		if(session_Nickname==null||session_Nickname.equals("")) {
@@ -250,14 +231,34 @@ public class MapController {
 				mav.addObject("goPage", "index.do");
 				mav.setViewName("map/mapMove");
 			}else {
+				Map map=new HashMap();
+				map.put("map_idx", map_idx);
+				map.put("day_num", day_num);
+				List<MapInfoDTO> mapinfolist = mapinfoService.mapInfoList(map);
+				mav.addObject("mapinfolist", mapinfolist);
+				Gooppl_mapDTO mapDto=gooppl_mapService.getMapt(map_idx);
+				List<AreaDTO> arealist = areaService.areaList();
+				List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+				List<OwnerDTO> adlist = ownerService.allOwnerSelect();
 				mav.addObject("open_login", 0);
 				mav.addObject("member_idx", map_member_idx);
+				mav.addObject("mapdto", mapDto);
+				mav.addObject("arealist", arealist);
+				mav.addObject("sigungulist", sigungulist);
+				mav.addObject("adlist", adlist);
+				mav.addObject("sigungucode", 0);
 				mav.addObject("map_idx", map_idx);
 				mav.addObject("day_num", day_num);
 				List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
 				if(list.size()!=0) {
 					List<Gooppl_PlaceDetailDTO> tripList=gooppl_placedetailService.getThisDateDetail(list);
 					mav.addObject("tripList", tripList);
+				}
+				if(list.size()!=0) {
+					int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num);
+					mav.addObject("areacode", lastAreacode);
+				}else {
+					mav.addObject("areacode", 1);
 				}
 				mav.setViewName("map/existMap");
 			}
