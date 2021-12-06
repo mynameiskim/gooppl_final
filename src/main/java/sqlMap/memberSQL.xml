@@ -60,7 +60,15 @@
 		
 	</insert>
 	<update id="profileUpdate" parameterType="Map">
-		update member set nickname = #{nickname} where member_idx=#{member_idx}
+		update member set nickname = #{nickname} where member_idx
+	</update>
+	<update id="admin_ownerAppli_typeChange" parameterType="integer">
+		UPDATE
+			MEMBER
+		SET
+			MEMBER_TYPE = 'O'
+		WHERE
+			MEMBER_IDX = #{member_idx}
 	</update>
 	<select id="pwdCheck" parameterType="Map" resultType="Integer">
 		SELECT count(*) from member
@@ -72,4 +80,5 @@
 	<update id="memberOut" parameterType="Integer">
 		update member set del = 'Y' where member_idx=#{member_idx}
 	</update>
+	
 </mapper>

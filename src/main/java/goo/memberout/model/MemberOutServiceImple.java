@@ -1,7 +1,10 @@
-package goo.memberout.model;
+﻿package goo.memberout.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import goo.member.model.MemberDTO;
 
 public class MemberOutServiceImple implements MemberOutService {
 	
@@ -12,8 +15,13 @@ public class MemberOutServiceImple implements MemberOutService {
 		this.memberOutDao = memberOutDao;
 	}
 
-	public List<MemberOutDTO> memberOutList() {
-		List<MemberOutDTO> list = memberOutDao.memberOutList();
+	public List<MemberOutDTO> memberOutList(int cp,int ls) {
+		int start=(cp-1)*ls+1;
+		int end=cp*ls;
+		Map map=new HashMap();
+		map.put("start", start);
+		map.put("end",end);
+		List<MemberOutDTO> list = memberOutDao.memberOutList(map);
 		return list;
 	}
 	public int insertMemberOut(Map hmp) {

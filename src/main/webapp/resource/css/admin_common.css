@@ -138,7 +138,7 @@ ul.helpbox li {
     visibility: hidden;
 }
 .menu_list{
-	margin-bottom:0px;
+	margin-bottom:-1px;
     overflow: hidden;
     border-top: solid 1px #0000008c;
 }

@@ -39,7 +39,7 @@
             <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="admin_board_management.do">게시판관리</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="#">광고관리</a>
+            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="admin_ad_management.do">광고관리</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="admin_statistics.do">통계/분석</a>

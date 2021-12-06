@@ -27,7 +27,15 @@
 	<script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
+<script>
+window.onload function(){
+	var member_type  = ${sessionScope.sessionMember_type}
+	
+	if(member_type == "O"){
+		
+	}
 
+</script>
 <body>
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">

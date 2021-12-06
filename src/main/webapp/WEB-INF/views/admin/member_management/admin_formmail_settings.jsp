@@ -45,7 +45,6 @@ caption{
 		</dl>
 	</div>
 	<div id="contents">
-	<div id="contents">
 		<h3>폼메일 관리</h3>
 			<ul class='helpbox'>
 				<li>여러가지 상황(회원가입축하 메일,비밀번호찾기 메일 등)에 따른 폼메일을 관리할 수 있습니다.</li>
@@ -171,13 +170,17 @@ function formmailUpdate(form_no){
 	
 			<div class="replacement">
 				<h2>※ 치환코드<span>(내용 중 프로그램으로 된 정보를 뿌려줄때 아래와 같이 코드를 삽입합니다.)</span></h2>
+				<p>회원가입</p>
+				<ul>
+					<li><span>{{NICKNAME}}</span> : 닉네임</li>
+				</ul>
 				<p>이메일 인증</p>
 				<ul>
 					<li><span>{{EMAILTOKEN}}</span> : 인증번호</li>
 				</ul>
-				<p>회원가입</p>
+				<p>비밀번호 찾기</p>
 				<ul>
-					<li><span>{{NICKNAME}}</span> : 닉네임</li>
+					<li><span>{{GOO_ID}}</span> : 닉네임</li>
 				</ul>
 			</div>
 		</div>

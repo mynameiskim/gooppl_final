@@ -21,5 +21,9 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		}
 		return result2;
 	}
+	public int getMemberIdx(int map_idx) {
+		int result=sqlMap.selectOne("getMemberIdx", map_idx);
+		return result;
+	}
 
 }

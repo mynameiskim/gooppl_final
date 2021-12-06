@@ -41,38 +41,6 @@
           }
        }
 
-		function insertOwnerInfo(){
-			
-			var param = 'member_idx=' + member_idx;
-			param += '&title=' + title;
-			param += '&business_number=' + business_number;
-			param += '&name=' + name;
-			param += '&email=' + email
-			param += '&business_tel=' + business_tel;
-			param += '&tel=' + tel;
-			param += '&contenttype=' + contenttype;
-			param += '&addr=' + addr;
-			param += '&detailed_addr=' + detailed_addr;
-			param += '&ad_content=' + ad_content;
-			param += '&mapx=' + mapx;
-			param += '&mapy=' + mapy;
-			param += '&areacode=' + areacode;
-			param += '&sigungucode=' + sigungucode;
-			console.log(param);
-			sendRequest('saveOwnerInfo.do', param, getResultAdd, 'GET');
-		}
-		
-		function getResultAdd(){
-			if(XHR.readyState==4){
-				if(XHR.status==200){
-					var data = XHR.responseText;
-					imgUpload();
-				}
-			}
-		}
-		
-		
-		//function imgUpload()
     </script>
     
 
@@ -114,7 +82,7 @@
                           <div class="col-md-6">
                            <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required>
                                <option value="" selected disabled>지역선택</option>
-                               <c:forEach var="areadto" items="${arealist }">
+                               <c:forEach var="areadto" items="${arealist}">
                            <option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
                         </c:forEach>
                            </select>  
@@ -192,13 +160,15 @@
                                        var x = document.getElementById('mapx');
                                        var y = document.getElementById('mapy');
                                        
-                                       x.value=result.y;
-                                       y.value=result.x;
+                                       x.value=result.x;
+                                       y.value=result.y;
+                                       
+                                       
                                        
                                       /*  document.adForm.mapx.value=result.y;
                                        document.adForm.mapy.value=result.x; */
-                                       //console.log('x의 값:'+x.value);
-                                       //console.log('y의 값:'+y.value);
+                                       console.log('x의 값:'+x.value);
+                                       console.log('y의 값:'+y.value);
                                        
                                        var real_y = parseFloat(result.y)+0.0001;
                                        
@@ -281,7 +251,7 @@
 
                             <div class="col-md-4 form-group">
                                 <label for="business_tel" class="form-label">업체 전화번호</label>
-                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required>
+                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" placeholder="ex)02-123-4567" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required>
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="name" class="form-label">이름</label>
@@ -297,7 +267,7 @@
                                 </div>
                             </div>
                             <div class="col-md-5 form-group">
-                                <label for="registration_date" class="form-label">기간</label>
+                                <label for="registration_date" class="form-label">대표사진</label>
                                 <div class="input-group has-validation">
                                     <input type="file" class="form-control form-control-sm mb-2" name="upload" required>
                                 </div>
@@ -319,7 +289,7 @@
                             <div class="col-md-12 form-group">
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="detailed_addr" name="detailed_addr"
-                                        placeholder="상세주소" aria-describedby="inputGroupPrepend" required>
+                                        placeholder="상세주소" aria-describedby="inputGroupPrepend">
                                 </div>
                             </div>
                         </div>

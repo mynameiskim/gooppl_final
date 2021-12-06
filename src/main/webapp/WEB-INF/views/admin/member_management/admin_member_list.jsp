@@ -192,9 +192,9 @@ function memberDelete(index){
 		</thead>
 			<tfoot style="border-top: 0px">
 		      <tr>
-				<td colspan="10" class="text-center text-dark">${pageStr}</td>
+				<td colspan="10" class="text-center">${pageStr}</td>
 		     </tr>
-		  </tfoot>
+		  	</tfoot>
 		  <tbody>
 		  	<c:if test="${empty list}">
 		  		<tr>
