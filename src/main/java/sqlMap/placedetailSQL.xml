@@ -28,4 +28,12 @@
   			#{firstimage}
   		)
   	</insert>
+  	<select id="getThisDateDetail" parameterType="Integer" resultType="goo.placedetail.model.Gooppl_PlaceDetailDTO">
+  		select
+  			*
+  		from 
+  			placedetail
+  		where
+  			contentid=#{contentid}
+  	</select>
   </mapper>

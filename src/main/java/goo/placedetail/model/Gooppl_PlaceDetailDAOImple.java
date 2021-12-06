@@ -22,4 +22,8 @@ public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 		return result;
 	}
 
+	public Gooppl_PlaceDetailDTO getThisDateDetail(int contentid) {
+		Gooppl_PlaceDetailDTO dto=sqlMap.selectOne("getThisDateDetail", contentid);
+		return dto;
+	}
 }

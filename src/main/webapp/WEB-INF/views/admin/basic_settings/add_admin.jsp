@@ -22,6 +22,22 @@ tr{
     border:1px solid lightgray;
 }
 </style>
+<script>
+window.addEventListener('load', () => {
+	const forms = document.getElementsByClassName('need-validation');
+	
+	Array.prototype.filter.call(forms, (form) => {
+		form.addEventListener('submit', function (event) {
+			if (form.checkValidity() === false) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		
+			form.classList.add('was-validated');
+		}, false);
+	});
+}, false);
+</script>
 </head>
 <body>
 	<div class="row">
@@ -29,46 +45,46 @@ tr{
             <h5 class="text-center">관리자 등록</h5>
         </div>
     </div>
-    <form name="admin_insert" action="admin_insert.do" method="post">
+    <form name="admin_insert" action="admin_insert.do" method="post" class="need-validation" novalidate>
     <table class="table table-bordered mg_top" style="font-size: 13px;">
     	<tr>
             <th class="tr_bg active text-white">아이디</th>
-            <td style="border: 1px solid #0000008c;"><input type="text" name="goo_id"></td>
+            <td style="border: 1px solid #0000008c;"><input class="form-control" type="text" name="goo_id" required="required"></td>
         </tr>
         <tr>
         	<th class="tr_bg active text-white">비밀번호</th>
-            <td style="border: 1px solid #0000008c;"><input type="password" name="pwd"></td>
+            <td style="border: 1px solid #0000008c;"><input class="form-control" type="password" name="pwd" required="required"></td>
         </tr>
         <tr>
         	<th class="tr_bg active text-white">이름</th>
-            <td colspan="3" style="border: 1px solid #0000008c;"><input type="text" name="nickname"></td>
+            <td colspan="3" style="border: 1px solid #0000008c;"><input class="form-control" type="text" name="nickname" required="required"></td>
         </tr>
         <tr>
             <th class="tr_bg active text-white">휴대폰</th>
-            <td style="border: 1px solid #0000008c;"><input type="tel" name="admin_phone" required="required"></td>
+            <td style="border: 1px solid #0000008c;"><input class="form-control" type="tel" name="admin_phone" required="required" required="required"></td>
         </tr>
         <tr>
         	<th class="tr_bg active text-white">전화번호</th>
-            <td style="border: 1px solid #0000008c;"><input type="tel" name="admin_tel" required="required"></td>
+            <td style="border: 1px solid #0000008c;"><input class="form-control" type="tel" name="admin_tel" required="required"></td>
         </tr>
         <tr>
        		<th class="tr_bg active text-white">우편번호</th>
-            <td style="border: 1px solid #0000008c;"><input type="text"  style="width: 50px;"> <input type="button" value="우편번호검색"></td>
+            <td style="border: 1px solid #0000008c;"><input class="form-control"  type="text"  style="width: 50px;" required="required"> <input type="button" value="우편번호검색"></td>
         </tr>
         <tr>
             <th class="tr_bg active text-white">주소</th>
             <td style="border: 1px solid #0000008c;">
                 <div>
-                    <input type="text" style="width: 300px;" name="admin_addr" required="required">
+                    <input class="form-control" type="text" style="width: 300px;" name="admin_addr" required="required">
                 </div>
                 <div>
-                    <input type="text"  style="width: 300px;">
+                    <input class="form-control" type="text"  style="width: 300px;" required="required">
                 </div>
             </td>
         </tr>
         <tr>
             <td colspan="4" class="text-center">
-                <input class="bt btn-dark" style="border-radius: 3px;" type="submit" value="등록">
+                <input id="sub" class="bt btn-dark" style="border-radius: 3px;" type="submit" value="등록">
                 <input class="bt btn-secondary"  style="border-radius: 3px;" type="reset" value="다시작성">
             </td>
         </tr>

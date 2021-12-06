@@ -13,4 +13,14 @@
   			#{contentid}
   		)
   	</insert>
+  	<select id="getThisMapInfo" parameterType="Map" resultType="Integer">
+  		select
+  			contentid
+  		from
+  			mapinfo
+  		where
+  			map_idx=#{map_idx} and day_num=#{day_num}
+  		order by
+  			route_num asc
+  	</select>
   </mapper>
