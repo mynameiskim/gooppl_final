@@ -127,7 +127,7 @@ public class IndexController {
 
 		String session_id=(String)session.getAttribute("sessionNickname");
 
-		if(session_session_id==null||session_session_id.equals("")) {
+		if(session_id==null||session_id.equals("")) {
 			mav.addObject("open_login", 1);
 			mav.setViewName("redirect:index.do");
 		}else {			
