@@ -60,7 +60,7 @@
 		
 	</insert>
 	<update id="profileUpdate" parameterType="Map">
-		update member set nickname = #{nickname} where member_idx
+		update member set nickname=#{nickname} where member_idx=#{member_idx}
 	</update>
 	<update id="admin_ownerAppli_typeChange" parameterType="integer">
 		UPDATE
