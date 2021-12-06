@@ -311,9 +311,9 @@ function appliD_Delete(index){
 			</dd>
 		</dl>
 	</div>
-	<div id="contents"><h6><b>광고주 신청 관리</b></h6>
+	<div id="contents"><h6><b>광고 신청 관리</b></h6>
 		<ul class='helpbox'>
-			<li>신청된 광고주 정보를 확인하고 승인 및 거절을 할 수 있는 메뉴입니다.</li>
+			<li>신청된 광고 정보를 확인하고 승인 및 거절을 할 수 있는 메뉴입니다.</li>
 		</ul>
         <fieldset style="border:0px solid #0000008c; padding: 12px 14px 10px;
 		margin-bottom: 5px;">
@@ -321,26 +321,18 @@ function appliD_Delete(index){
         		<thead>
                 <tr class="tr_bg active text-white text-opacity-75">
                 	<th class="f_tab_th">번호</th>
-                	<th class="f_tab_th">회원번호</th>
-                	<th class="f_tab_th">상호명</th>
-                	<th class="f_tab_th">사업자번호</th>
-                	<th class="f_tab_th">사업자명</th>
-                    <th class="f_tab_th">이메일</th>
+                	<th class="f_tab_th">광고주번호</th>
+                	<th class="f_tab_th">이메일</th>
+                	<th class="f_tab_th">광고기간</th>
+                	<th class="f_tab_th">작성일</th>
                     <th class="f_tab_th" width="220">기능</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                	<td colspan="8" align="center" class="f_tab_td">
-					${pageStr}
-					</td>
-                </tr>
-                </tfoot>
                 <tbody>
                 <c:if test="${empty list}">
                 	<tr>
                 		<td colspan="8" align="center" class="f_tab_td">
-                		<b>광고주 신청이 없습니다.</b>
+                		<b>광고 신청이 없습니다.</b>
                 		</td>
                 	</tr>
                 </c:if>
@@ -348,26 +340,31 @@ function appliD_Delete(index){
                 <tr>
                 	<td class="f_tab_td">${(cp-1)*listSize+status.index+1}</td>
                 	<td class="f_tab_td">
-	                	${list.member_idx}
+	                	${list.owner_idx}
 	                	<input id="owner_idx${status.index}" type="hidden" value="${list.owner_idx}">
-                		<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}">
                 	</td>
-                    <td class="f_tab_td">${list.title}
+                    <td class="f_tab_td">${list.email}
                     </td>
-                    <td class="f_tab_td">${list.business_number}</td>
-                	<td class="f_tab_td">${list.name}</td>
-                    <td class="f_tab_td">${list.email}</td>
+                    <td class="f_tab_td">${list.ad_period}</td>
+                	<td class="f_tab_td">${list.writeDate}</td>
                     <td class="f_tab_td" width="220">
-	                    <input id="detail_btn${status.index}" class="bt btn-secondary" type="button" onclick="appli_Details(${status.index},${size})" value="상세보기">
-	                    <input id="ok_btn${status.index}" class="bt btn-primary" type="button" onclick="appli_Ok(${status.index})" value="승인">
-	                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="appli_Delete(${status.index})" value="거절">
+	                    <input id="detail_btn${status.index}" class="bt btn-secondary" type="button" onclick="inquiry_Details(${status.index},${size})" value="상세보기">
+	                    <input id="ok_btn${status.index}" class="bt btn-primary" type="button" onclick="inquiry_Ok(${status.index})" value="승인">
+	                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="inquiry_Delete(${status.index})" value="거절">
                     </td>
                 </tr>
                 </c:forEach>
                 </tbody>
+                <tfoot>
+                <tr>
+                	<td colspan="8" align="center" class="f_tab_td">
+					${pageStr}
+					</td>
+                </tr>
+                </tfoot>
         </table>
         </fieldset>
-        <div id="ownerDiv"></div>
+        <div id="inquiryDiv"></div>
 		</div>
 	</div>
 </div>

@@ -1,4 +1,4 @@
-package goo.controller;
+﻿package goo.controller;
 
 import java.util.*;
 
@@ -15,7 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 import goo.area.model.*;
 import goo.kakao.KakaoApi;
 import goo.naver.NaverLoginBO;
+import goo.owner.model.OwnerDTO;
+import goo.owner.model.OwnerService;
 import goo.sigungu.model.*;
+import goo.start_area.model.StartAreaDAO;
+import goo.start_area.model.StartAreaDTO;
 
 @Controller
 public class IndexController {
@@ -28,6 +32,10 @@ public class IndexController {
 	private AreaService areaService;
 	@Autowired
 	private SigunguService sigunguService;
+	@Autowired
+	private StartAreaDAO startAreaDao;
+	@Autowired
+	private OwnerService ownerService;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -38,6 +46,7 @@ public class IndexController {
 	public ModelAndView login(Model model, HttpSession session,@RequestParam(value= "login_result",defaultValue="start") String login_result,@RequestParam(value= "join_result",defaultValue="") String join_result, @RequestParam(value = "open_login", defaultValue = "0")int open_login) {
 		
 		ModelAndView mav = new ModelAndView();
+		List<StartAreaDTO> dto = startAreaDao.getStartAreaInfo();
 		
 		if(open_login==1) {
 			mav.addObject("open_login", 1);
@@ -103,7 +112,7 @@ public class IndexController {
 		if(join_result.equals("ok")) {
 			mav.addObject("join_result",join_result );
 		}
-		
+		mav.addObject("dto",dto);
 		mav.setViewName("index");
 		/* 생성한 인증 URL을 View로 전달 */
 		return mav;
@@ -112,24 +121,25 @@ public class IndexController {
 	@RequestMapping("/createMap.do")
 	public ModelAndView newMap(
 			@RequestParam(value = "areacode", defaultValue="1") int areacode,
-			@RequestParam(value = "sigungucode", defaultValue="1") int sigungucode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		String session_id=(String)session.getAttribute("sessionNickname");
-
-		if(session_id==null||session_id.equals("")) {
+		String session_Nickname=(String)session.getAttribute("sessionNickname");
+		System.out.println(session_Nickname);
+		if(session_Nickname==null||session_Nickname.equals("")) {
 			mav.addObject("open_login", 1);
 			mav.setViewName("redirect:index.do");
-		}else {	
-			int sessionMember_idx = (Integer)session.getAttribute("sessionMember_idx");
-			
+		}else {			
+			int session_idx=(Integer)session.getAttribute("sessionMember_idx");
 			mav.addObject("open_login", 0);
-			mav.addObject("member_idx", sessionMember_idx);
+			mav.addObject("member_idx", session_idx);
 			List<AreaDTO> arealist = areaService.areaList();
 			List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+			List<OwnerDTO> adlist = ownerService.allOwnerSelect();
 			mav.addObject("arealist", arealist);
 			mav.addObject("sigungulist", sigungulist);
+			mav.addObject("adlist", adlist);
 			mav.addObject("areacode", areacode);
 			mav.addObject("sigungucode", sigungucode);
 			mav.setViewName("map/newMap");

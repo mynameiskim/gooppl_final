@@ -77,6 +77,8 @@
 	<update id="pwdChange" parameterType="Map">
 		update member set pwd = #{pwd} where goo_id=#{goo_id}
 	</update>
-
+	<update id="memberOut" parameterType="Integer">
+		update member set del = 'Y' where member_idx=#{member_idx}
+	</update>
 	
 </mapper>

@@ -24,4 +24,14 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 		return list;
 	}
 
+	public List<Gooppl_PlaceDetailDTO> getThisDateDetail(List<Integer> contentids) {
+		List<Gooppl_PlaceDetailDTO> list=new ArrayList();
+		for(int i=0;i<contentids.size();i++) {
+			int contentid=contentids.get(i);
+			Gooppl_PlaceDetailDTO dto=gooppl_placedetailDao.getThisDateDetail(contentid);
+			dto.setOverview(dto.getOverview().replaceAll("\n", "<br>"));
+			list.add(dto);
+		}
+		return list;
+	}
 }

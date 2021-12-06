@@ -1,4 +1,4 @@
-package goo.mapinfo.model;
+﻿package goo.mapinfo.model;
 
 import java.util.*;
 
@@ -24,6 +24,14 @@ public class MapInfoServiceImple implements MapInfoService {
 	
 	public List<MapInfoDTO> mapInfoList(Map map) {
 		List<MapInfoDTO> list = mapinfoDao.mapInfoList(map);
+		return list;
+	}
+
+	public List<Integer> getThisMapInfo(int map_idx, int day_num) {
+		Map map=new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("day_num", day_num);
+		List<Integer> list=mapinfoDao.getThisMapInfo(map);
 		return list;
 	}
 }

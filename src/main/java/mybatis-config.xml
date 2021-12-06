@@ -18,5 +18,6 @@
   		<mapper resource="sqlMap/sitesettingsSQL.xml"></mapper>
   		<mapper resource="sqlMap/formmailSQL.xml"></mapper>
   		<mapper resource="sqlMap/member_outSQL.xml"></mapper>
+  		<mapper resource="sqlMap/startAreaSQL.xml"></mapper>
   	</mappers>
   </configuration>
