@@ -9,10 +9,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+       --bs-table-hover-bg: lightgray !important;
 }
 .tr_bg{
-	background-color: #1987541f !important;
+       --bs-table-accent-bg: #24292f !important;
 }
 .tr_aling{
 	vertical-align: middle;
@@ -68,7 +68,7 @@ function memberDelete(index){
 		confirmButtonText: '삭제',
 		cancelButtonText: '취소',
 		showLoaderOnConfirm: true,
-		allowOutsideClick: () => !Swal.isLoading()
+		allowOutsideClick:false
 	}).then((result) => {
 	  if (result.isConfirmed) {
 	  		var param=document.getElementById("member_idx"+index).value;
@@ -86,7 +86,9 @@ function memberDelete(index){
 					      title: result.msg,
 					      icon:'warning',
 					      confirmButtonText: '확인',
-					      confirmButtonColor: '#d33'
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
 					    }).then((result) => {
 					    	if (result.isConfirmed) {
 					    		location.reload();
@@ -97,7 +99,9 @@ function memberDelete(index){
 					      title: result.msg,
 					      icon:'success',
 					      confirmButtonText: '확인',
-					      confirmButtonColor: '#A4C399'
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
 					    }).then((result) => {
 					    	if (result.isConfirmed) {
 					    		location.reload();
@@ -121,18 +125,18 @@ function memberDelete(index){
 		<dl>
 			<dt>회원목록</dt>
 			<dd>
-				- <a href="admin_member_list.do"
-				>회원목록</a><br />
+				 <a href="admin_member_list.do" style="color: white !important;"
+				>-회원목록</a><br />
 			</dd>
 			<dt>탈퇴회원목록</dt>
 			<dd>
-				- <a href="/final/admin_member_out.jsp"
-					>탈퇴회원목록</a><br />
+				 <a href="admin_member_out.do" style="color: white !important;"
+					>-탈퇴회원목록</a><br />
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				- <a href="admin_formmail_settings.do?form_type=회원가입"
-				>폼메일 관리</a><br />
+				 <a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
+				>-폼메일 관리</a><br />
 			</dd>
 		</dl>
 	</div>
@@ -143,8 +147,8 @@ function memberDelete(index){
 			</ul>
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
-				<th>조건 검색</th>
-				<td>
+				<th style="border: 1px solid #0000008c;">조건 검색</th>
+				<td style="border: 1px solid #0000008c;">
 					<select style="height: 22px;">
 						<option>제목</option>
 						<option>작성자</option>
@@ -154,13 +158,13 @@ function memberDelete(index){
 				</td>
 			</tr>
 			<tr>
-				<th>등록일</th>
-				<td><input type="date">~<input type="date"></td>
+				<th style="border: 1px solid #0000008c;">등록일</th>
+				<td style="border: 1px solid #0000008c;"><input type="date">~<input type="date"></td>
 			</tr>
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
 				<div class="col-md-5 text-center">
-					<input type="button" class="bt btn-primary" value="검색하기" >
+					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="검색하기" >
 				</div>	
 			</div>
 			<div class="row">
@@ -168,29 +172,29 @@ function memberDelete(index){
 					<label><b>총 회원수:${totalMember}</b> <b>검색수:</b></label>
 				</div>
 				<div class="col-md-9 mb-1" style="writing-mode: vertical-rl;">
-					<input type="button" class="bt btn-success" value="엑셀파일저장"> 
+					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="엑셀파일저장"> 
 				</div>
 			</div>
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
-					<th class="text-center"></th>
-					<th class="text-center">번호</th>
-                    <th class="text-center">회원번호</th>
-                    <th class="text-center">회원유형</th>
-                    <th class="text-center">닉네임</th>
-					<th class="text-center">구플 아이디</th>
-					<th class="text-center">네이버 아이디</th>
-					<th class="text-center">카카오 아이디</th>
-					<th class="text-center">회원가입일</th>
-					<th class="text-center">기능</th>
+					<th class="text-center active text-white text-opacity-75" style="width:2%;"></th>
+					<th class="text-center active text-white text-opacity-75" style="width:4%;">번호</th>
+                    <th class="text-center active text-white text-opacity-75" style="width:8%;">회원번호</th>
+                    <th class="text-center active text-white text-opacity-75" style="width:8%;">회원유형</th>
+                    <th class="text-center active text-white text-opacity-75" style="width:6%;">닉네임</th>
+					<th class="text-center active text-white text-opacity-75" style="width:12%;">구플 아이디</th>
+					<th class="text-center active text-white text-opacity-75" style="width:16%;">네이버 아이디</th>
+					<th class="text-center active text-white text-opacity-75" style="width:14%;">카카오 아이디</th>
+					<th class="text-center active text-white text-opacity-75" style="width:13%;">회원가입일</th>
+					<th class="text-center active text-white text-opacity-75" style="width:15%;">기능</th>
 				</tr>
 		</thead>
 			<tfoot style="border-top: 0px">
 		      <tr>
 				<td colspan="10" class="text-center">${pageStr}</td>
 		     </tr>
-		  </tfoot>
+		  	</tfoot>
 		  <tbody>
 		  	<c:if test="${empty list}">
 		  		<tr>
@@ -201,20 +205,20 @@ function memberDelete(index){
 		  	</c:if>
 		  	<c:forEach var="list" items="${list}" varStatus="status">
 		  		<tr class="tr_aling">
-			      <th class="text-center" ><input type="checkbox"></th>
-			      <td class="text-center" >${(cp-1)*listSize+status.index+1}</td>
-			      <td class="text-center" >${list.member_idx}
+			      <th class="text-center" style="width:2%;"><input type="checkbox"></th>
+			      <td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}</td>
+			      <td class="text-center" style="width:8%;">${list.member_idx}
 			      	<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}">
 			      </td>
-			      <td class="text-center" >${list.member_type}</td>
-			      <td class="text-center" >${list.nickname}</td>
-			      <td class="text-center" >${list.goo_id}</td>
-			      <td class="text-center" >${list.naver_id}</td>
-			      <td class="text-center" >${list.kakao_id}</td>
-			      <td class="text-center" >${list.join_date}</td>
-			      <td class="text-center" >
-			      <input id="btn${status.index}" type="button" class="bt btn-dark" value="상세보기" onclick="memberInfo(${status.index},${size})">
-			      <input id="delete_btn${status.index}" type="button" class="bt btn-danger" value="삭제" onclick="memberDelete(${status.index})">
+			      <td class="text-center" style="width:8%;">${list.member_type}</td>
+			      <td class="text-center" style="width:6%;">${list.nickname}</td>
+			      <td class="text-center" style="width:12%;">${list.goo_id}</td>
+			      <td class="text-center" style="width:16%;">${list.naver_id}</td>
+			      <td class="text-center" style="width:14%;">${list.kakao_id}</td>
+			      <td class="text-center" style="width:13%;">${list.join_date}</td>
+			      <td class="text-center" style="width:15%;">
+			      <input id="btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-secondary" value="상세보기" onclick="memberInfo(${status.index},${size})">
+			      <input id="delete_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="삭제" onclick="memberDelete(${status.index})">
 			      </td>
 			    </tr>
 		  	</c:forEach>

@@ -9,6 +9,7 @@
 	values(
 		ad_inquiry_idx.nextval,
 		#{owner_idx},
+		#{member_idx},
 		#{email},
 		#{inquiry_type},
 		#{inquiry_content},
@@ -18,4 +19,74 @@
 		sysdate
 	)
 	</insert>
+	<select id="admin_totalAdInquiry" resultType="integer">
+  		SELECT
+  			count(*)
+  		FROM
+  			ad_inquiry
+  		WHERE
+  			INQUIRY_TYPE = '광고신청'
+  	</select>
+  	<select id="admin_totalAdUpdateInquiry" resultType="integer">
+  		SELECT
+  			count(*)
+  		FROM
+  			ad_inquiry
+  		WHERE
+  			INQUIRY_TYPE = '광고수정'
+  	</select>
+  	<select id="admin_totalAdDelInquiry" resultType="integer">
+  		SELECT
+  			count(*)
+  		FROM
+  			ad_inquiry
+  		WHERE
+  			INQUIRY_TYPE = '광고취소'
+  	</select>
+  	<update id="admin_adInquiry_ok" parameterType="integer">
+  		UPDATE
+  			ad_inquiry
+  		SET
+  			INQUIRY_STATE = '승인'
+  		WHERE
+  			inquiry_idx = #{inquiry_idx}
+  	</update>
+  	<select id="adInquiry_Info" parameterType="integer" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
+  		SELECT
+  			*
+  		FROM
+  			ad_inquiry
+  		WHERE
+  			INQUIRY_IDX = #{inquiry_idx}
+  	</select>
+  	<update id="adInquiry_ok" parameterType="integer">
+  		UPDATE
+  			AD_INQUIRY
+  		SET
+  			INQUIRY_STATE = '광고승인'
+  		WHERE
+  			INQUIRY_IDX = #{inquiry_idx}
+  	</update>
+  	
+  	
+  	
+  	
+	<select id="admin_adInquiry" parameterType="Map" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
+		SELECT * FROM	
+			(SELECT rownum AS rnum, a.* FROM
+			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고신청' ORDER BY INQUIRY_IDX ASC)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+	</select>
+	<select id="admin_adUpdateInquiry" parameterType="Map" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
+		SELECT * FROM	
+			(SELECT rownum AS rnum, a.* FROM
+			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고수정' ORDER BY INQUIRY_IDX ASC)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+	</select>
+	<select id="admin_adDelInquiry" parameterType="Map" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
+		SELECT * FROM	
+			(SELECT rownum AS rnum, a.* FROM
+			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고취소' ORDER BY INQUIRY_IDX ASC)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+	</select>
 </mapper>

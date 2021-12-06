@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -28,4 +28,37 @@
   			#{firstimage}
   		)
   	</insert>
+  	<select id="detailList" parameterType="Integer" resultType="goo.placedetail.model.Gooppl_PlaceDetailDTO">
+  		select
+  			*
+  		from 
+  			placedetail
+  		where
+  			contentid=#{contentid}
+  	</select>
+  	<select id="getThisDateDetail" parameterType="Integer" resultType="goo.placedetail.model.Gooppl_PlaceDetailDTO">
+  		select
+  			*
+  		from 
+  			placedetail
+  		where
+  			contentid=#{contentid}
+  	</select>
+  	<select id="getLastAreacode" parameterType="Map" resultType="Integer">
+  	SELECT 
+  		areacode 
+  	FROM 
+  		placedetail 
+  	WHERE 
+  		contentid=(SELECT 
+  					contentid 
+  				   FROM 
+  				   	mapinfo 
+  				   WHERE 
+  				   	map_idx=#{map_idx} AND day_num=#{day_num} AND route_num=(SELECT 
+  				   												max(route_num) 
+  				   											FROM 
+  				   												mapinfo 
+  				   											WHERE map_idx=#{map_idx} AND day_num=#{day_num}))
+  	</select>
   </mapper>

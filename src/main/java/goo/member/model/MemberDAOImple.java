@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class MemberDAOImple implements MemberDAO {
@@ -58,10 +60,31 @@ public class MemberDAOImple implements MemberDAO {
 		return count;
 	}
 	
+	
+	public int pwdCheck(Map hmp) {
+		int count = sqlMap.selectOne("pwdCheck",hmp);
+		return count;
+	}
+	
+	public int pwdChange(Map hmp) {
+		int count = sqlMap.update("pwdChange",hmp);
+		return count;
+	}
+
+	
 	public int ownerAppli(int member_idx) {
 		int result = sqlMap.selectOne("ownerAppli", member_idx);
 		return result;
 	}
+	public int profileUpdate(Map hmp) {
+		int count = sqlMap.update("profileUpdate",hmp);
+		return count;
+	}
+	public int memberOut(int member_idx) {
+		int count = sqlMap.update("memberOut",member_idx);
+		return count;
+	}
+	
 	
 	//--------------------------
 		//회원목록 조회
@@ -82,4 +105,9 @@ public class MemberDAOImple implements MemberDAO {
 			MemberDTO mdto = sqlMap.selectOne("memberInfo", member_idx);
 			return mdto;
 		}
+		
+	public int admin_ownerAppli_typeChange(int member_idx) {
+		int result = sqlMap.update("admin_ownerAppli_typeChange", member_idx);
+		return result;
+	}
 }

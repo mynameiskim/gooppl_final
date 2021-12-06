@@ -39,4 +39,9 @@ public class FormmailDAOImple implements FormmailDAO {
 		int count = sqlMap.update("formUpdate", fdto);
 		return count;
 	}
+	
+	public FormmailDTO emailTokenFormmail(int form_no) {
+		FormmailDTO dto = sqlMap.selectOne("emailTokenFormmail",form_no);
+		return dto;
+	}
 }

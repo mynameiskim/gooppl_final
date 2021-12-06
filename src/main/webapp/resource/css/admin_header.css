@@ -9,3 +9,9 @@
 .welcome{
 	text-align: center;
 }
+.bg_c_n{
+	background-color: #24292f;
+}
+.font_white{
+	color: white !important;
+}

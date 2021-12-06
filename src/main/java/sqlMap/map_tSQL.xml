@@ -25,4 +25,34 @@
   		from 
   			mapt
   	</select>
+  	<select id="getMemberIdx" resultType="Integer">
+  		select
+  			member_idx
+  		from 
+  			mapt
+  		where
+  			map_idx=#{map_idx}
+  	</select>
+  	<select id="getMapt" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
+  	 	select
+  	 		* 
+  	 	from 
+  	 		mapt
+  	 	where
+  	 		map_idx=#{map_idx}
+  	</select>
+  	<update id="updateMap" parameterType="goo.map_t.model.Gooppl_mapDTO">
+  		update
+  			mapt
+  		set
+  			map_title=#{map_title},
+  			people_num=#{people_num},
+  			trip_type=#{trip_type},
+  			startdate=#{startdate},
+  			enddate=#{enddate},
+  			share_ok=#{share_ok},
+  			del_ok=#{del_ok}
+  		where
+  			map_idx=#{map_idx}
+  	</update>
   </mapper>

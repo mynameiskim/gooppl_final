@@ -28,6 +28,7 @@ public class Ad_InquiryController {
 			mav.addObject("goUrl","mypage.do");
 			mav.setViewName("ad/adMsg");
 		}else {
+			mav.addObject("member_idx",member_idx);
 			mav.addObject("owner_idx", dto.getOwner_idx());
 			mav.addObject("title",dto.getTitle());
 			mav.addObject("business_number", dto.getBusiness_number());

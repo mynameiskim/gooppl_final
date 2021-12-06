@@ -18,5 +18,28 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 		int result=gooppl_placedetailDao.addPlaceDetail(dto);
 		return result;
 	}
+	
+	public List<Gooppl_PlaceDetailDTO> placeDetailList(int contentid) {
+		List<Gooppl_PlaceDetailDTO> list = gooppl_placedetailDao.placeDetailList(contentid);
+		return list;
+	}
 
+	public List<Gooppl_PlaceDetailDTO> getThisDateDetail(List<Integer> contentids) {
+		List<Gooppl_PlaceDetailDTO> list=new ArrayList();
+		for(int i=0;i<contentids.size();i++) {
+			int contentid=contentids.get(i);
+			Gooppl_PlaceDetailDTO dto=gooppl_placedetailDao.getThisDateDetail(contentid);
+			dto.setOverview(dto.getOverview().replaceAll("\n", "<br>"));
+			list.add(dto);
+		}
+		return list;
+	}
+	
+	public int getLastAreacode(int map_idx, int day_num) {
+		Map map = new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("day_num", day_num);
+		int result=gooppl_placedetailDao.getLastAreacode(map);
+		return result;
+	}
 }

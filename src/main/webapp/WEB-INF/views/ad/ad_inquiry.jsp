@@ -23,16 +23,15 @@
     <script>
     	function changeInquiryType(){
     		var divNode = document.getElementById('changeType');
-    		//var fstNode = divNode.firstChild.nextSibling.nodeName;
     		var labelNode = document.getElementById('notice');
     		var textNode = labelNode.lastChild;
     		
     		
     		var contentNode1 = labelNode.nextSibling;
     		var contentNode2 = labelNode.nextSibling.nextSibling;
-    		console.log('태그1 이름'+contentNode1.nodeName);
-    		console.log('태그2 이름'+contentNode2.nodeName);
-    		console.log('라벨노드'+labelNode.nodeName);
+    		//console.log('태그1 이름'+contentNode1.nodeName);
+    		//console.log('태그2 이름'+contentNode2.nodeName);
+    		//console.log('라벨노드'+labelNode.nodeName);
     		
     		
     		var inquiry_typeValue = document.getElementById('inquiry_type').value;
@@ -160,6 +159,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h2>광고 문의</h2>
+                        <input type="hidden" name="member_idx" value="${member_idx}">
                         <input type="hidden" name="owner_idx" value="${owner_idx}">
                     </div>
                     <div class="col-md-4">
