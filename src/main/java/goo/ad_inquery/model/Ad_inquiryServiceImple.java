@@ -77,4 +77,14 @@ public class Ad_inquiryServiceImple implements Ad_inquiryService {
 		Ad_inquiryDTO dto = ad_inquiryDao.adInquiry_Info(inquiry_idx);
 		return dto;
 	}
+	
+	public String ckAdInquiry(int member_idx) {
+		String inquiry_state = ad_inquiryDao.ckAdInquiry(member_idx);
+		return inquiry_state;
+	}
+	
+	public Ad_inquiryDTO ad_paymentInfo(int member_idx) {
+		Ad_inquiryDTO dto = ad_inquiryDao.ad_paymentInfo(member_idx);
+		return dto;
+	}
 }

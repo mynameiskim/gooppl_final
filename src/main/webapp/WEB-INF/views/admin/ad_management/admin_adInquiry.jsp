@@ -61,10 +61,10 @@ function showResult(){
 }
 
 //리스트의 승인
-function appli_Ok(index){
+function adInquiry_ok(index){
 	Swal.fire({
 		title: '승인하시겠습니까?',
-		text: "해당회원은 광고주 회원으로 변경됩니다.",
+		text: "결제가 완료되면 광고가 등록됩니다.",
 		icon: 'info',
 		showCancelButton: true,
 		confirmButtonColor: '#d33',
@@ -75,13 +75,11 @@ function appli_Ok(index){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var param1=document.getElementById("owner_idx"+index).value;
-	  		var param2=document.getElementById("member_idx"+index).value;
-	  		
+	  		var param1=document.getElementById("inquiry_idx"+index).value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_ownerAppli_ok.do?owner_idx='+param1+'&member_idx='+param2,
+				url: 'adInquiry_ok.do?inquiry_idx='+param1,
 				dataType: "json",
 				error: function(result){
 					
@@ -117,7 +115,7 @@ function appli_Ok(index){
 }
 
 //리스트의 거절
-function appli_Delete(index){
+function adInquiry_Delete(index){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -171,7 +169,7 @@ function appli_Delete(index){
 }
 
 //상세보기의 승인
-function appliD_Ok(owner_idx,member_idx){
+function adInquiryD_Ok(owner_idx,member_idx){
 	Swal.fire({
 		title: '승인하시겠습니까?',
 		text: "해당회원은 광고주 회원으로 변경됩니다.",
@@ -225,7 +223,7 @@ function appliD_Ok(owner_idx,member_idx){
 }
 
 //상세보기의 거절
-function appliD_Delete(index){
+function adInquiryD_Delete(index){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -350,7 +348,7 @@ function appliD_Delete(index){
                 	<td class="f_tab_td">${list.writeDate}</td>
                     <td class="f_tab_td" width="220">
 	                    <input id="detail_btn${status.index}" class="bt btn-secondary" type="button" onclick="inquiry_Details(${status.index},${size})" value="상세보기">
-	                    <input id="ok_btn${status.index}" class="bt btn-primary" type="button" onclick="inquiry_Ok(${status.index})" value="승인">
+	                    <input id="ok_btn${status.index}" class="bt btn-primary" type="button" onclick="adInquiry_ok(${status.index})" value="승인">
 	                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="inquiry_Delete(${status.index})" value="거절">
                     </td>
                 </tr>

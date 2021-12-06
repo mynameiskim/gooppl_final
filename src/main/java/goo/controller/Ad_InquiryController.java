@@ -1,5 +1,7 @@
 package goo.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +21,8 @@ public class Ad_InquiryController {
 	
 	/**광고 문의 페이지 이동*/
 	@RequestMapping("/ad_inquiry.do")
-	public ModelAndView ad_inquiry(@RequestParam("member_idx")int member_idx,
-			@RequestParam(value = "inquiry_type", defaultValue="광고신청")String inquiry_type) {
+	public ModelAndView ad_inquiry(HttpSession session) {
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
 		OwnerDTO dto = ownerService.ckOwnerInfo(member_idx);
 		ModelAndView mav = new ModelAndView();
 		if(dto==null) {

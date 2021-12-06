@@ -28,12 +28,6 @@
 	  src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <script>
-window.onload function(){
-	var member_type  = ${sessionScope.sessionMember_type}
-	
-	if(member_type == "O"){
-		
-	}
 
 </script>
 <body>
@@ -266,8 +260,11 @@ window.onload function(){
 	                                <p class="card-text mb-4">02-9999-9999</p>
 	                                <p class="card-text mb-1">서울 은평구 통일로 885</p>
 	                                <p class="card-text mb-3">혜수스타디움 2층</p>
-	                                <button class="btn btn-info" type="button" onclick="location.href='ad_inquiry.do?member_idx=${sessionScope.sessionMember_idx}'">문의</button>
+	                                <button class="btn btn-info" type="button" onclick="location.href='ad_inquiry.do'">문의</button>
 	                                <button class="btn btn-info" type="button">수정</button>
+	                                <c:if test="${ad_inquiry_state=='광고승인'}">
+	                                	<button class="btn btn-info" type="button" onclick="location.href='user_payment.do'">결제</button>
+	                                </c:if>
 	                                <hr>
 	                                <p class="card-text">바른생각을 가진 사람들이 만드는 요리 신선한 재료와 성실한 조리로 요리를 대접합니다 가장 바른 돈까스 프랜차이즈 쑝쑝돈까스</p>
 	                            </div>
