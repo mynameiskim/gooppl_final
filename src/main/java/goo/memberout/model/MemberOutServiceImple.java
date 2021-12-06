@@ -1,4 +1,4 @@
-package goo.memberout.model;
+﻿package goo.memberout.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,5 +23,9 @@ public class MemberOutServiceImple implements MemberOutService {
 		map.put("end",end);
 		List<MemberOutDTO> list = memberOutDao.memberOutList(map);
 		return list;
+	}
+	public int insertMemberOut(Map hmp) {
+		int count = memberOutDao.insertMemberOut(hmp);
+		return count;
 	}
 }

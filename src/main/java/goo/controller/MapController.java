@@ -1,4 +1,4 @@
-package goo.controller;
+﻿package goo.controller;
 
 import java.util.*;
 
@@ -58,6 +58,26 @@ public class MapController {
 	@RequestMapping("/kyumap.do")
 	public String kyumap() {
 		return "map/kyumap";
+	}
+	
+	@RequestMapping("/createMap2.do")
+	public ModelAndView newMap(
+			@RequestParam(value = "areacode", defaultValue="1") int areacode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode
+			) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("member_idx", 1);
+		List<AreaDTO> arealist = areaService.areaList();
+		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+		mav.addObject("arealist", arealist);
+		mav.addObject("sigungulist", sigungulist);
+		mav.addObject("adlist", adlist);
+		mav.addObject("areacode", areacode);
+		mav.addObject("sigungucode", sigungucode);
+		mav.setViewName("map/newMapAdTest");
+		return mav;
 	}
 	
 	@RequestMapping("/addSigunguTable.do")
@@ -192,12 +212,13 @@ public class MapController {
 	
 	@RequestMapping("/existMap.do")
 	public ModelAndView moveExistMap(
-			@RequestParam("map_idx")int map_idx,
-			@RequestParam("day_num")int day_num,
 			@RequestParam(value = "areacode", defaultValue="1") int areacode,
-			@RequestParam(value = "sigungucode", defaultValue="1") int sigungucode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode,
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+
 		int sessionMember_idx = (Integer)session.getAttribute("sessionMember_idx");
 		
 		mav.addObject("member_idx", sessionMember_idx);
@@ -209,13 +230,38 @@ public class MapController {
 		map.put("map_idx", map_idx);
 		map.put("day_num", day_num);
 		List<MapInfoDTO> mapinfolist = mapinfoService.mapInfoList(map);
-		System.out.println(mapinfolist);
+
 		mav.addObject("mapinfolist", mapinfolist);
 		mav.addObject("arealist", arealist);
 		mav.addObject("sigungulist", sigungulist);
 		mav.addObject("areacode", areacode);
 		mav.addObject("sigungucode", sigungucode);
-		mav.setViewName("map/existMap");
+
+		String session_Nickname=(String)session.getAttribute("sessionNickname");
+		System.out.println(session_Nickname);
+		if(session_Nickname==null||session_Nickname.equals("")) {
+			mav.addObject("open_login", 1);
+			mav.setViewName("redirect:index.do");
+		}else {	
+			int enroll_idx=(Integer)session.getAttribute("sessionMember_idx");
+			int map_member_idx=gooppl_mapService.getMemberIdx(map_idx);
+			if(enroll_idx!=map_member_idx) {
+				mav.addObject("msg", "접근 권한이 없습니다.");
+				mav.addObject("goPage", "index.do");
+				mav.setViewName("map/mapMove");
+			}else {
+				mav.addObject("open_login", 0);
+				mav.addObject("member_idx", map_member_idx);
+				mav.addObject("map_idx", map_idx);
+				mav.addObject("day_num", day_num);
+				List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
+				if(list.size()!=0) {
+					List<Gooppl_PlaceDetailDTO> tripdto=gooppl_placedetailService.getThisDateDetail(list);
+					mav.addObject("tripdto", tripdto);
+				}
+				mav.setViewName("map/existMap");
+			}
+		}
 		return mav;
 	}
 	

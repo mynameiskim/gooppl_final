@@ -254,7 +254,7 @@ function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 		<c:if test="${empty adlist }">
 			<tr class="noContent">
 				<td colspan="5" align="center">
-				등록된 게시글이 없습니다.
+				등록된 광고가 없습니다.
 				</td>
 			</tr>
 		</c:if>

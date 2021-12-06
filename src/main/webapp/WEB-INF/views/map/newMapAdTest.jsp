@@ -1,11 +1,11 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일정만들기</title>
+<title>새 지도</title>
     <link rel="icon" type="image/x-icon" href="resource/assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -15,8 +15,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet"/>
-   	<link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
+    <link href="resource/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="resource/css/styles.css" rel="stylesheet" /> 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
 <style>
 select{
@@ -66,16 +66,6 @@ input[type="button"]{
 	color: white;
     box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
 }
-#del_Bt{
-	border: 0;
-	background-color: #f3969a;
-	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 80%;
-    border-radius: 5px;
-	color: white;
-    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
-}
-
 table{
 	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 80%;
@@ -93,7 +83,7 @@ table{
 .savedList li{display: flex;flex: 1;font-size: 80%;font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";}
 .savedList li:not(:last-of-type) {border-bottom: 1px solid var(--border-color);}
 .savedList li.over .draggable {background-color: #f3969a;}
-.savedList .placeinfo {margin: 0 17px 0 0;}
+.savedList .placeinfo {margin: 0 20px 0 0;}
 .draggable { cursor: pointer; display: flex; align-items: center;justify-content: space-between;padding:10px;flex: 1;margin:0px 0px;}
 .tripnum{color: white; border-radius: 5px;background:#f3969a;width:8%;display: flex;align-items: center;justify-content: center;}
 .placeinfo{width:80%;align-text: center;vertical-align:middle;display:inline;}
@@ -106,12 +96,48 @@ table{
       crossorigin="anonymous"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
-var member_idx=${member_idx}
+var member_idx=${member_idx};
+var setAreacode;
+var setSigungucode;
+var setContenttype;
 var areacodes=[];
 var sigungucodes=[];
 var map_idx;
 var moveDay;
 
+var adContents=[];
+<c:if test="${empty adlist }">
+	console.log('없음.');
+</c:if>
+<c:forEach var="addto" items="${adlist }">
+	var ad_idx=${addto.owner_idx };
+	var adtitle='[AD] ${addto.title }';
+	var adaddr='${addto.addr }';
+	var adareacode=${addto.areacode };
+	var adsigungucode=${addto.sigungucode };
+	var admapx=${addto.mapx };
+	var admapy=${addto.mapy };
+	var adoverview='${addto.ad_content }';
+	var adreadnum=1;
+	var adhomepage=${addto.business_tel };
+	var adimg='${addto.firstimg }';
+	var adcontenttype=${addto.contenttype };
+	var adContent={
+		contentid:ad_idx,
+		title:adtitle,
+		addr:adaddr,
+		areacode:adareacode,
+		sigungucode:adsigungucode,
+		mapx:admapx,
+		mapy:admapy,
+		overview:adoverview,
+		readnum:adreadnum,
+		homepage:adhomepage,
+		image:adimg,
+		contenttype:adcontenttype
+	};
+	adContents.push(adContent);
+</c:forEach>
 /**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
     $('#search_bt').click( function() {
@@ -121,7 +147,7 @@ $(function () {
 /**추가한 여행지 전체삭제*/
 $(function () {
     $('#del_Bt').click( function() {
-        $('#savedList').empty();
+        $('.savedList').empty();
         
         hideLines();
         latly.splice(0, latly.length);
@@ -234,7 +260,7 @@ $(function() {
     	       
     	    
     	    /*
-     		var savedList = document.getElementById('savedList');
+    		var savedList = document.getElementById('savedList');
     		var listitem = savedList.innerHTML;
 
     	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
@@ -267,20 +293,19 @@ $(function() {
     	    var divNode=document.createElement('div');
     	    divNode.setAttribute('class', 'draggable');
     	    divNode.setAttribute('draggable', 'true');
-    	    divNode.setAttribute('style', 'justify-content: center;');
-    	    var pNode=document.createElement('span');
+    	    var pNode=document.createElement('p');
     	    pNode.setAttribute('class', 'placeinfo');
     	    var imgNode=document.createElement('img');
     	    imgNode.setAttribute('src', images[i]);
-    	    imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
+    	    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
     	    pNode.appendChild(imgNode);
     	    var spanNode2=document.createElement('span');
     	    spanNode2.setAttribute('class', 'tripdis');
     	    var spanTextNode2=document.createTextNode(titles[i]);
-    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
+    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
     	    spanNode2.appendChild(spanTextNode2);
     	    pNode.appendChild(spanNode2);
-    	    pNode.setAttribute('style', 'display:inline; max-width: 80px;');
+    	    pNode.setAttribute('style', 'display:inline;');
     	    divNode.appendChild(pNode);
     	    var addBt = document.createElement('input');
     	    addBt.setAttribute('type','button');
@@ -307,12 +332,12 @@ $(function() {
 });
 
 /**드래그앤 드랍시 새로 생성 ---아직 안됨 미완성*/
-function newlist(){
+$(function() {
+	$(document).on("change",".listName",function(){
         $('#savedList').empty();
         hideLines();
         hideMarkers();  
         
-        /**
         latly.splice(0, latly.length);
         drawLines.splice(0, drawLines.length);
 		markers.splice(0, markers.length);
@@ -322,7 +347,10 @@ function newlist(){
         images.splice(0, images.length);
         addrs.splice(0, addrs.length);
         contentids.splice(0, contentids.length);
-        */
+        
+        for(var k=0; k<count2; k++){
+        	
+        }
         
     	for(var i=0; i<mapys.length; i++){
     		
@@ -435,20 +463,19 @@ function newlist(){
     	    var divNode=document.createElement('div');
     	    divNode.setAttribute('class', 'draggable');
     	    divNode.setAttribute('draggable', 'true');
-    	    divNode.setAttribute('style', 'justify-content: center;');
-    	    var pNode=document.createElement('span');
+    	    var pNode=document.createElement('p');
     	    pNode.setAttribute('class', 'placeinfo');
     	    var imgNode=document.createElement('img');
     	    imgNode.setAttribute('src', images[i]);
-    	    imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
+    	    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
     	    pNode.appendChild(imgNode);
     	    var spanNode2=document.createElement('span');
     	    spanNode2.setAttribute('class', 'tripdis');
     	    var spanTextNode2=document.createTextNode(titles[i]);
-    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
+    	    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
     	    spanNode2.appendChild(spanTextNode2);
     	    pNode.appendChild(spanNode2);
-    	    pNode.setAttribute('style', 'display:inline; max-width: 80px;');
+    	    pNode.setAttribute('style', 'display:inline;');
     	    divNode.appendChild(pNode);
     	    var addBt = document.createElement('input');
     	    addBt.setAttribute('type','button');
@@ -470,7 +497,10 @@ function newlist(){
     	    
     	    addEventListeners();
     	}
-}
+    });
+});
+
+
     
     
 //특별, 광역시, 도 단위 지역 이동시 처리할 함수
@@ -505,24 +535,99 @@ function show(){
 	var sigungucodeSelector=document.getElementById('sigungucode');
 	var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
 	var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
-	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
-		sendRequest(url, param, showResult, 'GET');   
-	}else{
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
-		sendRequest(url, param, showResult, 'GET');   
-	}
+	var contenttype=document.getElementById('cate').value;
+	sigungucode=sigungucode==0?'':sigungucode;
+	setAreacode=areacode;
+	setSigungucode=sigungucode;
+	setContenttype=contenttype;
+	var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
+	var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+	sendRequest(url, param, showResult, 'GET');   
 }
 function showResult(){
    if(XHR.readyState==4){
       if(XHR.status==200){
-		// alert("${mapinfolist[0].contentid}");
-		
          var doc = XHR.responseXML;
+         
          var items = doc.getElementsByTagName('item');
          var table = document.getElementById('setTable');
+     	if(adContents.length!=0){
+     		for(var i=0;i<adContents.length;i++){
+     			if(setSigungucode==''){
+     				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
+     					var title=adContents[i].title;
+     					var contentid=adContents[i].contentid;
+     					var addr=adContents[i].addr;
+     					var image=adContents[i].image;
+     					var mapx=adContents[i].mapx;
+     					var mapy=adContents[i].mapy;
+     					
+     					var trNode = document.createElement('tr');
+     		             var tdNode2 = document.createElement('td');
+     		             var tdTextNode2 = document.createTextNode(title);
+     		             var tdNode3 = document.createElement('td');
+     		             var tdTextNode3 = document.createTextNode(addr);
+     		             var tdNode4 = document.createElement('td');
+     		            
+     		             var imgNode = document.createElement('img');
+     		             imgNode.setAttribute('src', image);
+     		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+     		          
+     		             var tdNode5 = document.createElement('td');
+     		             var addBt = document.createElement('input');
+     		             addBt.setAttribute('type','button');
+     		             addBt.setAttribute('value','+');
+     		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+     		             table.appendChild(trNode);
+     		             trNode.appendChild(tdNode2);
+     		             trNode.appendChild(tdNode3);
+     		             trNode.appendChild(tdNode4);
+     		             trNode.appendChild(tdNode5);
+     		             tdNode2.appendChild(tdTextNode2);
+     		             tdNode3.appendChild(tdTextNode3);
+     		             tdNode4.appendChild(imgNode);
+     		             tdNode5.appendChild(addBt);
+     		             console.log(trNode);
+     				}
+     			}else{
+     				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
+     					var title=adContents[i].title;
+     					var contentid=adContents[i].contentid;
+     					var addr=adContents[i].addr;
+     					var image=adContents[i].image;
+     					var mapx=adContents[i].mapx;
+     					var mapy=adContents[i].mapy;
+     					
+     					var trNode = document.createElement('tr');
+     		             var tdNode2 = document.createElement('td');
+     		             var tdTextNode2 = document.createTextNode(title);
+     		             var tdNode3 = document.createElement('td');
+     		             var tdTextNode3 = document.createTextNode(addr);
+     		             var tdNode4 = document.createElement('td');
+     		            
+     		             var imgNode = document.createElement('img');
+     		             imgNode.setAttribute('src', image);
+     		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+     		          
+     		             var tdNode5 = document.createElement('td');
+     		             var addBt = document.createElement('input');
+     		             addBt.setAttribute('type','button');
+     		             addBt.setAttribute('value','+');
+     		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+     		             
+     		             table.appendChild(trNode);
+     		             trNode.appendChild(tdNode2);
+     		             trNode.appendChild(tdNode3);
+     		             trNode.appendChild(tdNode4);
+     		             trNode.appendChild(tdNode5);
+     		             tdNode2.appendChild(tdTextNode2);
+     		             tdNode3.appendChild(tdTextNode3);
+     		             tdNode4.appendChild(imgNode);
+     		             tdNode5.appendChild(addBt);
+     				}
+     			}
+     		}
+     	}
          //table.setAttribute('style','width: 20%; float: left;');
          for(var i=0;i<items.length;i++){
              var item = items[i];
@@ -537,9 +642,7 @@ function showResult(){
              if(item.getElementsByTagName('title').length==0){
  	       		 title='0';
  	       	 }else{
- 	       		 title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
- 	       		 title=title_s.split('(');
- 	       		 title=title[0];
+ 	       		 title=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
  	       	 }
  	       	 
  	       	 if(item.getElementsByTagName('addr1').length==0){
@@ -576,14 +679,13 @@ function showResult(){
             
              var imgNode = document.createElement('img');
              imgNode.setAttribute('src', image);
-             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px; ');
+             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
           
              var tdNode5 = document.createElement('td');
              var addBt = document.createElement('input');
              addBt.setAttribute('type','button');
              addBt.setAttribute('value','+');
              addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
-             addBt.className = 'add_Bt';
              
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
@@ -594,201 +696,50 @@ function showResult(){
              tdNode3.appendChild(tdTextNode3);
              tdNode4.appendChild(imgNode);
              tdNode5.appendChild(addBt);
-             
-             
           }
          
-         
-         /**onload시에 createMap에서 저장된 contentid 가져옴*/
-		 var contentids2 = [];
-		 
-		 <c:forEach items="${mapinfolist}" var="item1">
-		  
-		 	contentids2.push("${item1.contentid}");
-		  
-		 </c:forEach>
-		
-		 for (var i = 0; i < contentids2.length; i++) {
-		 	Info(contentids2[i]);
-		 }
-		 
       }
    }
 }
-
-
-/**createMap에서 가져온 contentid로 DB placedetail에 테이블 조회 후 저장된 정보 가져옴*/
-function Info(contentid) {
-	
-	$.ajax({
-        url: "loadPlaceDetail.do",
-        type: "POST",
-        data: {
-        	contentid:contentid
-        },
-        success: function(data){
-           if (data.Code == 0 ) {
-	        	for (i=0; i<data.data.length; i++ ) {
-	        		var title = data.data[i].title;
-	        		var addr = data.data[i].addr;
-	        		var mapy = data.data[i].mapy;
-	        		var mapx = data.data[i].mapx;
-	        		var	image = data.data[i].firstimage;
-	        		var contentid = data.data[i].contentid;    		
-	   	                   	  
-	                mapys.push(mapy);
-	                mapxs.push(mapx);
-	                titles.push(title);
-	                images.push(image);
-	                addrs.push(addr);
-	                contentids.push(contentid);
-	            	
-	                // 결과값으로 받은 위치를 마커로 표시합니다
-	              
-	               	var marker = new kakao.maps.Marker({
-	                    position: new kakao.maps.LatLng(mapy, mapx)
-	                });
-	                
-	                var xy = {
-	               		position: new kakao.maps.LatLng(mapy, mapx)
-	                }
-	                
-	                latly.push(xy.position);
-	                
-	                // 인포윈도우로 장소에 대한 설명을 표시합니다
-	                var infowindow = new kakao.maps.InfoWindow({
-	                    content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+title+'</th></tr>'+'<tr><td><img src="'+image+'" style="width: 100px; height: 100px;"></td><td>'+addr+'</td></tr></table>'
-	                });
-	                
-	                // 이동할 위도 경도 위치를 생성합니다 
-	                var moveLatLon = new kakao.maps.LatLng(mapy, mapx);
-	                
-	                // 지도 중심을 부드럽게 이동시킵니다
-	                // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-	                map.panTo(moveLatLon);
-	                
-	                markers.push(marker);
-	                
-	                kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-	                kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-	                
-	                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-	                kakao.maps.event.addListener(marker, 'click', function() {
-	               	 closeOverlay();
-	                    overlay.setMap(map);
-	                });
-	                
-	                var linePath;
-	                var lineLine = new daum.maps.Polyline();
-
-	                var distance;
-	             
-	                for (var i = 0; i < 1; i++) {
-	                    if (count2 != 0) {
-	                        linePath = [ latly[count2-1], latly[count2] ] //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다
-	                    }
-	                    ;
-	                    
-	                    lineLine.setPath(linePath); // 선을 그릴 라인을 세팅합니다
-	                    
-	                }
-	             
-	            	var drawLine = new daum.maps.Polyline({
-	            	    path : linePath,
-	            	    strokeWeight : 3, // 선의 두께입니다 
-	            	    strokeColor : '#db4040', // 선의 색깔입니다
-	            	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-	            	    strokeStyle : 'solid' // 선의 스타일입니다
-	            	});
-
-	                drawLines.push(drawLine);
-	                drawLine.setMap(map);
-	                
-	                // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-	                function makeOverListener(map, marker, infowindow) {
-	                    return function() {
-	                        infowindow.open(map, marker);
-	                    };
-	                }
-
-	                // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-	                function makeOutListener(infowindow) {
-	                    return function() {
-	                        infowindow.close();
-	                    };
-	                }
-
-	                // 마커를 지도에 표시합니다.
-	            	marker.setMap(map);
-	                
-	            	var savedList = document.getElementById('savedList');
-	                
-	                var listitem=document.createElement('li');
-	                listitem.setAttribute('class', 'listName');
-	                listitem.setAttribute('id', 'li'+count2);
-	                listitem.setAttribute('data-index', count2);
-	                var spanNode=document.createElement('span');
-	                spanNode.setAttribute('class', 'tripnum');
-	                var spanTextNode=document.createTextNode(count2);
-	                spanNode.appendChild(spanTextNode);
-	                spanNode.setAttribute('style', 'vertical-align:middle;text-align:center;');
-	                var divNode=document.createElement('div');
-	                divNode.setAttribute('class', 'draggable');
-	                divNode.setAttribute('draggable', 'true');
-	                divNode.setAttribute('style', 'justify-content: center;');
-	                var pNode=document.createElement('span');
-	                pNode.setAttribute('class', 'placeinfo');
-	                var imgNode=document.createElement('img');
-	                imgNode.setAttribute('src', image);
-	                imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
-	                imgNode.setAttribute('hover', '');
-	                pNode.appendChild(imgNode);
-	                var spanNode2=document.createElement('span');
-	                spanNode2.setAttribute('class', 'tripdis');
-	                var spanTextNode2=document.createTextNode(title);
-	                spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
-	                spanNode2.appendChild(spanTextNode2);
-	                pNode.appendChild(spanNode2);
-	                pNode.setAttribute('style', 'display:inline; max-width: 80px;');
-	                divNode.appendChild(pNode);
-	                var addBt = document.createElement('input');
-	                addBt.setAttribute('type','button');
-	                addBt.className='del_Bt2';
-	                addBt.id=count2;
-	                addBt.setAttribute('value','-');
-	                var hiddenNode=document.createElement('input');
-	                hiddenNode.setAttribute('type', 'hidden');
-	                hiddenNode.setAttribute('name', 'contentid');
-	                hiddenNode.setAttribute('value', contentid);
-	                hiddenNode.setAttribute('class', 'contentid');
-	                divNode.appendChild(addBt);
-	                divNode.appendChild(hiddenNode);
-	                listitem.appendChild(spanNode);
-	                listitem.appendChild(divNode);
-	                savedList.appendChild(listitem);
-	                
-	                count2++;
-	                	       
-	                listItems.push(listitem);
-
-	                addEventListeners();
-	            }
-           } else {
-        	   alert(data.Msg);
-           }
-        },
-        error: function(){
-            alert("err");
-        }
-  	});
-}
-
-
-
 function placeDetailInfo(contentid){
-	var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-	var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
-	sendRequest(url, param, getResult, 'GET'); 
+	if(contentid<1000){
+		saveAdDetail(contentid);
+	}else{
+		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
+		var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		sendRequest(url, param, getResult, 'GET'); 
+	}
+}
+function saveAdDetail(contentid){
+	for(var i=0;i<adContents.length;i++){
+		if(adContents[i].contentid==contentid){
+			var title=adContents[i].title;
+			var addr=adContents[i].addr;
+			var areacode=adContents[i].areacode;
+			var sigungucode=adContents[i].sigungucode;
+			var contenttype=adContents[i].contenttype;
+			var mapx=adContents[i].mapx;
+			var mapy=adContents[i].mapy;
+			var overview=adContents[i].overview;
+			var homepage=adContents[i].homepage;
+			var image=adContents[i].image;
+			
+			 var placeDetail={
+		     	 	contentid:contentid,
+		     	 	title:title,
+		     	 	addr:addr,
+		     	 	areacode:areacode,
+		     	 	sigungucode:sigungucode,
+		     	 	contenttype:contenttype,
+		     	 	mapx:mapx,
+		     	 	mapy:mapy,
+		     	 	overview:overview,
+		     	 	homepage:homepage,
+		     	 	firstimage:image,
+		     	 };
+	     	 placeDetails.push(placeDetail);
+		}
+	}
 }
 function getResult(){
 	 if(XHR.readyState==4){
@@ -874,19 +825,18 @@ function getResult(){
 	        	 	mapy:mapy,
 	        	 	overview:overview,
 	        	 	homepage:homepage,
-	        	 	firstimage:firstimage
-	        	 };        	 
-
+	        	 	firstimage:firstimage,
+	        	 };
 	        	 placeDetails.push(placeDetail);
-				
 	         }
 	      }
 	 }
 }
 
+
 var count2 = 0;
 var listItems=[];
-var placeDetails = [];
+var placeDetails=[];
 
 var markers = [];
 var latly = [];
@@ -897,9 +847,10 @@ var titles = [];
 var images = [];
 var addrs = [];
 var contentids = [];
-  
 /**추가 버튼 누른후 마커생성*/
 function makeMarker(contentid, mapy, mapx, title, image, addr){
+	//alert(mapy+'\n'+mapx+'\n'+title+'\n'+image);
+	
 	placeDetailInfo(contentid);
 	
     mapys.push(mapy);
@@ -1002,21 +953,19 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     var divNode=document.createElement('div');
     divNode.setAttribute('class', 'draggable');
     divNode.setAttribute('draggable', 'true');
-    divNode.setAttribute('style', 'justify-content: center;');
-    var pNode=document.createElement('span');
+    var pNode=document.createElement('p');
     pNode.setAttribute('class', 'placeinfo');
     var imgNode=document.createElement('img');
     imgNode.setAttribute('src', image);
-    imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
-    imgNode.setAttribute('hover', '');
+    imgNode.setAttribute('style', 'width: 80px; height: 80px;');
     pNode.appendChild(imgNode);
     var spanNode2=document.createElement('span');
     spanNode2.setAttribute('class', 'tripdis');
     var spanTextNode2=document.createTextNode(title);
-    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
+    spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top;');
     spanNode2.appendChild(spanTextNode2);
     pNode.appendChild(spanNode2);
-    pNode.setAttribute('style', 'display:inline; max-width: 80px;');
+    pNode.setAttribute('style', 'display:inline;');
     divNode.appendChild(pNode);
     var addBt = document.createElement('input');
     addBt.setAttribute('type','button');
@@ -1059,7 +1008,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
 	*/
 	
     listItems.push(listitem);
-
+	
     addEventListeners();
     
 }
@@ -1115,20 +1064,19 @@ function addEventListeners() {
 	  var delBtns=document.getElementsByClassName('del_Bt2');
 	  var tripnums=document.getElementsByClassName('tripnum');
 
-	  [mapys[dragStartIndex], mapys[dragEndIndex]] = [mapys[dragEndIndex], mapys[dragStartIndex]];
-	  [mapxs[dragStartIndex], mapxs[dragEndIndex]] = [mapxs[dragEndIndex], mapxs[dragStartIndex]];
-	  [titles[dragStartIndex], titles[dragEndIndex]] = [titles[dragEndIndex], titles[dragStartIndex]];
-	  [images[dragStartIndex], images[dragEndIndex]] = [images[dragEndIndex], images[dragStartIndex]];
-	  [addrs[dragStartIndex], addrs[dragEndIndex]] = [addrs[dragEndIndex], addrs[dragStartIndex]];
-	  [contentids[dragStartIndex], contentids[dragEndIndex]] = [contentids[dragEndIndex], contentids[dragStartIndex]];
-	  
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
 		  var delBtn=delBtns[i];
 		  delBtn.id=tripnum;
+		  
+		  	changeArrayOrder(mapys, 1, 3);
+		    mapxs.push(mapx);
+		    titles.push(title);
+		    images.push(image);
+		    addrs.push(addr);
+		    contentids.push(contentid);
 	  }
 	  
-	  newlist();
 	}
 	
 	//위에서 아래로 움직일 때 
@@ -1151,44 +1099,8 @@ function addEventListeners() {
 		}
 	}
 </script>
-<script>
-function checkGetTripInfo(){
-	var contents=[];
-	<c:if test="${empty tripdto }">
-		console.log('없음.');
-	</c:if>
-	<c:forEach var="tripdto" items="${tripdto }">
-		var tripcontentid=${tripdto.contentid };
-		var triptitle='${tripdto.title }';
-		var tripaddr='${tripdto.addr }';
-		var tripareacode=${tripdto.areacode };
-		var tripsigungucode=${tripdto.sigungucode };
-		var tripmapx=${tripdto.mapx };
-		var tripmapy=${tripdto.mapy };
-		var tripoverview='${tripdto.overview }';
-		var tripreadnum=${tripdto.readnum };
-		var triphomepage='${tripdto.homepage }';
-		var tripimg='${tripdto.firstimage }';
-		var content={
-			contentid:tripcontentid,
-			title:triptitle,
-			addr:tripaddr,
-			areacode:tripareacode,
-			sigungucode:tripsigungucode,
-			mapx:tripmapx,
-			mapy:tripmapy,
-			overview:tripoverview,
-			readnum:tripreadnum,
-			homepage:triphomepage,
-			img:tripimg
-		};
-		contents.push(content);
-	</c:forEach>
-	console.log(contents);
-}
-</script>
 </head>
-<body id="page-top" onload="show()">
+<body id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
@@ -1235,6 +1147,7 @@ function checkGetTripInfo(){
 						</c:forEach>
         			</select>
         			<select name="sigungucode" id="sigungucode">
+        			<option value="">==전체==</option>
 						<c:forEach var="sigungudto" items="${sigungulist }">
 							<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
 						</c:forEach>
@@ -1275,16 +1188,16 @@ function checkGetTripInfo(){
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="color: #f3969a; padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
 	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveAll()" id="save_Bt">저장하기</button>
 	                    	</div>
 				        </div>
 				    </div>
 		        </div>
-		        <div class="col-md-7" style="width: 690px;">
+		        <div class="col-md-7">
 		        	<div id="map" style="width:100%; height:700px;float:right;"></div>
 		        </div>
-		        <div class="col-md-2" style="text-align: center; width: 300px;">
+		        <div class="col-md-2" style="text-align: center;">
 		        	<select id="cate">
 						<option value="12">관광지</option>
 						<option value="32">숙박</option>
@@ -1296,7 +1209,6 @@ function checkGetTripInfo(){
 		        	<div class="row">
 	                    <div class="col-md-12" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
 	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">여행지 검색</button>
-	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" id="test1">아작스버튼</button>
 	                    </div>
 	                </div>
 					<div style="height: 584px; overflow: auto;">
@@ -1305,17 +1217,6 @@ function checkGetTripInfo(){
 								<th colspan="5">여행지를 검색해 주세요</th>
 							</tr>
 						</table>
-					</div>
-					<div>
-					<!-- TestCode
-					<table>
-						<c:forEach var="dto" items="${mapinfolist}">
-							<tr>
-								<td>${dto.contentid}</td>
-							</tr>
-						</c:forEach>
-					</table>
-					 -->
 					</div>
 		        </div>
 		    </div>

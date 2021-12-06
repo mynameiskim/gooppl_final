@@ -18,26 +18,26 @@
 		<dl>
 			<dt>광고주 관리</dt>
 			<dd>
-				- <a href='admin_ownerAppli.do'
-				>광고주 신청 관리</a><br />
-				- <a href='admin_allOwner.do'
-				>광고주 정보 관리</a>
+				<a href='admin_ownerAppli.do' style="color: white !important;"
+				>-광고주 신청 관리</a><br />
+				<a href='admin_allOwner.do' style="color: white !important;"
+				>-광고주 정보 관리</a>
 			</dd>
 			<dt>광고 문의 관리</dt>
 			<dd>
-				- <a href='admin_adAppli.do'
-				>광고 신청 관리</a><br />
-				- <a href='admin_adRevise.do'
-				>광고 수정 관리</a><br/>
-				- <a href='admin_adCancel.do'
-				>광고 취소 관리</a>
+				<a href='admin_adAppli.do' style="color: white !important;"
+				>-광고 신청 관리</a><br />
+				<a href='admin_adRevise.do' style="color: white !important;"
+				>-광고 수정 관리</a><br/>
+				<a href='admin_adCancel.do' style="color: white !important;"
+				>-광고 취소 관리</a>
 			</dd>
 			<dt>광고 상태 관리</dt>
 			<dd>
-				- <a href='admin_paymentStatus.do'
-				>결제 상태 관리</a><br />
-				- <a href='admin_adStatus.do'
-				>광고 상태 관리</a>
+				<a href='admin_paymentStatus.do' style="color: white !important;"
+				>-결제 상태 관리</a><br />
+				<a href='admin_adStatus.do' style="color: white !important;"
+				>-광고 상태 관리</a>
 			</dd>
 		</dl>
 	</div>
@@ -50,7 +50,7 @@
 			<h4>광고주 관리</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="admin_ownerAppli.do"
+			<dt><a href="admin_ownerAppli.do" style="color: white !important;"
 				>광고주 신청 관리</a>
 			</dt>
 			<dd>
@@ -61,7 +61,7 @@
 		</dl>
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_allOwner.do'
+				<a href='admin_allOwner.do' style="color: white !important;"
 				>광고주 정보 관리
 				</a>
 			</dt>
@@ -76,7 +76,7 @@
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_adAppli.do'
+				<a href='admin_adAppli.do' style="color: white !important;"
 				>광고 신청 문의
 				</a>
 			</dt>
@@ -88,7 +88,7 @@
 		</dl>
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_adRevise.do'
+				<a href='admin_adRevise.do' style="color: white !important;"
 				>광고 수정 문의
 				</a>
 			</dt>
@@ -100,7 +100,7 @@
 		</dl>
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_adCancel.do'
+				<a href='admin_adCancel.do' style="color: white !important;"
 				>광고 취소 문의
 				</a>
 			</dt>
@@ -115,7 +115,7 @@
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_paymentStatus.do'
+				<a href='admin_paymentStatus.do' style="color: white !important;"
 					>결제 상태 관리
 				</a></dt>
 			<dd>
@@ -126,7 +126,7 @@
 		</dl>
 		<dl class="menu_list">
 			<dt>
-				<a href='admin_adStatus.do'
+				<a href='admin_adStatus.do' style="color: white !important;"
 					>광고 상태 관리
 				</a></dt>
 			<dd>

@@ -72,4 +72,9 @@ public class OwnerDAOImple implements OwnerDAO {
 		List<OwnerDTO> list = sqlMap.selectList("admin_allOwner", map);
 		return list;
 	}
+	
+	public int admin_ownerUpdate(OwnerDTO dto) {
+		int result = sqlMap.update("admin_ownerUpdate", dto);
+		return result;
+	}
 }
