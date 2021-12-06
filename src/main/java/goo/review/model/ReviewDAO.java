@@ -8,4 +8,5 @@ public interface ReviewDAO {
 	public List<ReviewDTO> reviewList(Map map);
 	public ReviewDTO reviewContent(int review_idx);
 	public int getTotalCnt();
+	public int delReview(int review_idx);
 }
