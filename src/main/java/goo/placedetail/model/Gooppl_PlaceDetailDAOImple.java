@@ -1,4 +1,7 @@
-package goo.placedetail.model;
+﻿package goo.placedetail.model;
+
+import java.util.Map;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -21,9 +24,19 @@ public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 		}
 		return result;
 	}
+	
+	public List<Gooppl_PlaceDetailDTO> placeDetailList(int contentid) {
+		List<Gooppl_PlaceDetailDTO> list = sqlMap.selectList("detailList");
+		return list;
+	}
 
 	public Gooppl_PlaceDetailDTO getThisDateDetail(int contentid) {
 		Gooppl_PlaceDetailDTO dto=sqlMap.selectOne("getThisDateDetail", contentid);
 		return dto;
+	}
+	
+	public int getLastAreacode(Map map) {
+		int result=sqlMap.selectOne("getLastAreacode", map);
+		return result;
 	}
 }

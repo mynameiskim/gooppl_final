@@ -8,6 +8,7 @@ public class ReviewDTO {
 	private String subject;
 	private String nickname;
 	private String prologue;
+	private String content;
 	private int readnum;
 	private Date writedate;
 	private String epilogue;
@@ -15,18 +16,21 @@ public class ReviewDTO {
 	public ReviewDTO() {
 	
 	}
-	public ReviewDTO(int review_idx, String subject, String nickname, String prologue, int readnum, Date writedate,
-			String epilogue, int member_idx) {
+	
+	public ReviewDTO(int review_idx, String subject, String nickname, String prologue, String content, int readnum,
+			Date writedate, String epilogue, int member_idx) {
 		super();
 		this.review_idx = review_idx;
 		this.subject = subject;
 		this.nickname = nickname;
 		this.prologue = prologue;
+		this.content = content;
 		this.readnum = readnum;
 		this.writedate = writedate;
 		this.epilogue = epilogue;
 		this.member_idx = member_idx;
 	}
+
 	public int getReview_idx() {
 		return review_idx;
 	}
@@ -50,6 +54,13 @@ public class ReviewDTO {
 	}
 	public void setPrologue(String prologue) {
 		this.prologue = prologue;
+	}
+	
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public int getReadnum() {
 		return readnum;

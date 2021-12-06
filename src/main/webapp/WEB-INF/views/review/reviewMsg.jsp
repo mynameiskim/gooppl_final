@@ -2,5 +2,5 @@
     pageEncoding="UTF-8"%>
 <script>
 	window.alert('${msg}');
-	location.href='review.do';
+	location.href='reivew.do';
 </script>

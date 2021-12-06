@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.review_img">
+  	<insert id="review_imgInsert" parameterType="goo.review_img.model.review_imgDTO" >
+		  	insert into 
+		  		review_img 
+		  	values(
+		  		img_idx.nextval,
+		  		#{path},
+		  		#{path_content},
+		  		#{member_idx},
+		  		#{review_idx}
+		  		)
+  	</insert>
+  	<select id="review_imgContent">
+  		select 
+  			*
+  		from
+  			review_img 
+  		where
+  			member_idx=#{member_idx}
+  		desc img_idx	
+  	</select>
+  </mapper>

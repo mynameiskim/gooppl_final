@@ -16,12 +16,12 @@ public class ReviewServiceImple implements ReviewService {
 	public void setReviewDao(ReviewDAO reviewDao) {
 		this.reviewDao = reviewDao;
 	}
-
+/**		리뷰등록	*/
 	public int writeReview(ReviewDTO dto) {
 		int result = reviewDao.writeReview(dto);
 		return result;
 	}
-
+/**		리스트관련 메서드	*/
 	public List<ReviewDTO> reviewList(int cp, int ls) {
 		int start=(cp-1)*ls+1;
 		int end=cp*ls;
@@ -31,7 +31,7 @@ public class ReviewServiceImple implements ReviewService {
 		List<ReviewDTO> list=reviewDao.reviewList(map);
 		return list;
 	}
-
+/**		본문보기	*/
 	public ReviewDTO reviewContent(int review_idx) {
 		ReviewDTO dto=reviewDao.reviewContent(review_idx);
 		if(dto!=null) {
@@ -40,9 +40,15 @@ public class ReviewServiceImple implements ReviewService {
 		}
 		return dto;
 	}
-
+/**		총 게시물 수	*/
 	public int getTotalCnt() {
 		int count = reviewDao.getTotalCnt();
+		return count;
+	}
+	
+/**		리뷰삭제 	*/	
+	public int delReview(int review_idx) {
+		int count = reviewDao.delReview(review_idx);
 		return count;
 	}
 

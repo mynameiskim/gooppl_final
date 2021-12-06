@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -13,6 +13,9 @@
   			#{contentid}
   		)
   	</insert>
+  	<select id="getMapInfo" parameterType="Map" resultType="goo.mapinfo.model.MapInfoDTO">
+  		SELECT * FROM MAPINFO WHERE MAP_IDX = #{map_idx} AND DAY_NUM= #{day_num} ORDER BY ROUTE_NUM asc 
+	</select>
   	<select id="getThisMapInfo" parameterType="Map" resultType="Integer">
   		select
   			contentid
@@ -23,4 +26,10 @@
   		order by
   			route_num asc
   	</select>
+  	<delete id="deleteMapInfo" parameterType="Map">
+  		delete from
+  			mapinfo
+  		where 
+  			map_idx=#{map_idx} and day_num=#{day_num}
+  	</delete>
   </mapper>

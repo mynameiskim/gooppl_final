@@ -6,6 +6,34 @@
 <head>
 <meta charset="UTF-8">
 <title>관광지 데이터 게시판</title>
+<style>
+select{
+	margin-left: 5px;
+    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
+    padding: 0.5rem 0.4rem;
+    height: auto;
+    font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    border: 0;
+	border-radius: 5px;
+}
+input[type="button"]{
+	border: 0;
+	background-color: #f3969a;
+	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    border-radius: 5px;
+	color: white;
+    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
+}
+table{
+	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    align: center;
+}
+</style>
 </head>
 <link href="resource/css/styles.css" rel="stylesheet" />
 <script src="resource/js/httpRequest.js"></script>

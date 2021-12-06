@@ -8,4 +8,5 @@ public interface ReviewService {
 	public List<ReviewDTO> reviewList(int cp,int ls);
 	public ReviewDTO reviewContent(int idx);
 	public int getTotalCnt();
+	public int delReview(int review_idx);
 }

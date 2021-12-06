@@ -125,13 +125,14 @@ public class IndexController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		String session_Nickname=(String)session.getAttribute("sessionNickname");
-		System.out.println(session_Nickname);
-		if(session_Nickname==null||session_Nickname.equals("")) {
+		String session_id=(String)session.getAttribute("sessionNickname");
+
+		if(session_id==null||session_id.equals("")) {
 			mav.addObject("open_login", 1);
 			mav.setViewName("redirect:index.do");
-		}else {	
+		}else {			
 			int session_idx=(Integer)session.getAttribute("sessionMember_idx");
+
 			mav.addObject("open_login", 0);
 			mav.addObject("member_idx", session_idx);
 			List<AreaDTO> arealist = areaService.areaList();
