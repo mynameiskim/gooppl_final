@@ -10,4 +10,7 @@
   			member_out
   		ORDER BY out_no desc
   	</select>
+  	<insert id="insertMemberOut">
+  		insert into member_out values(member_out_idx.nextval,#{goo_id},#{out_reason},sysdate)
+  	</insert>
   </mapper>

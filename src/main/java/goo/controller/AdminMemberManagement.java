@@ -124,9 +124,7 @@ public class AdminMemberManagement {
 	@RequestMapping("/form_update.do")
 	@ResponseBody
 	public Map<String, Object> formUpdate(FormmailDTO fdto){
-		System.out.println(fdto.getForm_no());
-		System.out.println(fdto.getForm_type()+"/"+fdto.getForm_title());
-		System.out.println(fdto.getForm_content());
+	
 		int result = formmailService.formUpdate(fdto);
 		int code = 0;
 		

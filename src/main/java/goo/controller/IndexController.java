@@ -16,6 +16,8 @@ import goo.area.model.*;
 import goo.kakao.KakaoApi;
 import goo.naver.NaverLoginBO;
 import goo.sigungu.model.*;
+import goo.start_area.model.StartAreaDAO;
+import goo.start_area.model.StartAreaDTO;
 
 @Controller
 public class IndexController {
@@ -28,6 +30,8 @@ public class IndexController {
 	private AreaService areaService;
 	@Autowired
 	private SigunguService sigunguService;
+	@Autowired
+	private StartAreaDAO startAreaDao;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -38,6 +42,7 @@ public class IndexController {
 	public ModelAndView login(Model model, HttpSession session,@RequestParam(value= "login_result",defaultValue="start") String login_result,@RequestParam(value= "join_result",defaultValue="") String join_result) {
 		
 		ModelAndView mav = new ModelAndView();
+		List<StartAreaDTO> dto = startAreaDao.getStartAreaInfo();
 		
 		if(login_result.equals("start")) {
 			/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
@@ -96,7 +101,7 @@ public class IndexController {
 		if(join_result.equals("ok")) {
 			mav.addObject("join_result",join_result );
 		}
-		
+		mav.addObject("dto",dto);
 		mav.setViewName("index");
 		/* 생성한 인증 URL을 View로 전달 */
 		return mav;

@@ -80,6 +80,10 @@ public class MemberDAOImple implements MemberDAO {
 		int count = sqlMap.update("profileUpdate",hmp);
 		return count;
 	}
+	public int memberOut(int member_idx) {
+		int count = sqlMap.update("memberOut",member_idx);
+		return count;
+	}
 	
 	//--------------------------
 		//회원목록 조회

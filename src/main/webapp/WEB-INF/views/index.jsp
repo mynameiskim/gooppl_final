@@ -99,269 +99,58 @@
 		</div>
 		<div class="container px-5 my-5">
 			<div class="row row-cols-1 row-cols-md-4 g-4">
+			<!-- 추천카드 jstl -->
+			<c:forEach var="list" items="${dto}" varStatus="status">
 				<div class="col">
 					<div class="card h-100 cardDiv" id="card-a-div">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/jeju.jpg" class="card-img-top"
-							alt="...">
+							data-bs-target="#card${list.start_area_idx}"> <img src="${list.start_area_img }" class="card-img-top" alt="...">
 							<div class="card-body">
-								<h5 class="card-title">JEJU</h5>
-								<p class="card-text">대한민국 제주도</p>
+								<h5 class="card-title">${list.en_name}</h5>
+								<p class="card-text">${list.kr_name}</p>
 							</div>
 						</a>
 					</div>
 				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/daejeon.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">DAEJEON</h5>
-								<p class="card-text">대한민국 대전</p>
+			</c:forEach>
+			<!-- 추천카드 jstl -->
+			</div>
+		</div>
+	</section>
+		<!--추전지역 모달-->
+	<c:forEach var="list" items="${dto}" varStatus="status">
+		<div class="modal fade" id="card${list.start_area_idx}" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body p-0 pt-0">
+						<div class="card mb-1" style="max-width: 1200px;">
+							<div class="row g-0 ">
+								<div class="col-md-4">
+									<img src="${list.start_area_img }"
+										class="img-fluid rounded-start" alt="..." style="width:100%; height:100%">
+								</div>
+								<div class="col-md-8">
+									<div class="card-body" style="padding:50px 50px 10px 50px;">
+										<h6 class="card-title display-7">
+											<strong>${list.en_name}</strong>
+										</h5>
+										<h6 class="card-title">${list.kr_name}</h6>
+										<p class="card-text" style="font-size: 18px;">${list.area_description }</p>
+										<br>
+										<button type="button" class="btn btn-primary btn-lg">일정만들기</button>
+										<button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">닫기</button>
+									</div>
+								</div>
 							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/andong.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">ANDONG</h5>
-								<p class="card-text">대한민국 안동</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/busan.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">BUSAN</h5>
-								<p class="card-text">대한민국 부산</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/chuncheon.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">CHUNCHEON</h5>
-								<p class="card-text">대한민국 춘천</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/gangneung.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">GANGNEUNG</h5>
-								<p class="card-text">대한민국 강릉</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/gapyeong.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">GAPYEONG</h5>
-								<p class="card-text">대한민국 가평</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/gunsan.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">GUNSAN</h5>
-								<p class="card-text">대한민국 군산</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/incheon.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">INCHEON</h5>
-								<p class="card-text">대한민국 인천</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/jecheon.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">JECHEON</h5>
-								<p class="card-text">대한민국 제천</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/jeonju.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">JEONJU</h5>
-								<p class="card-text">대한민국 전주</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/mokpo.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">MOKPO</h5>
-								<p class="card-text">대한민국 목포</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/seoul.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">SEOUL</h5>
-								<p class="card-text">대한민국 서울</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/suwon.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">SUWON</h5>
-								<p class="card-text">대한민국 수원</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/ulleung.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">ULLEUNG</h5>
-								<p class="card-text">대한민국 울릉도</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/yeongwol.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">YEONGWOL</h5>
-								<p class="card-text">대한민국 영월</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/yeosu.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">YEOSU</h5>
-								<p class="card-text">대한민국 여수</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/jeju.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">JEJU</h5>
-								<p class="card-text">대한민국 제주도</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/busan.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">BUSAN</h5>
-								<p class="card-text">대한민국 부산</p>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
-						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop"> <img
-							src="/gooppl/resource/img/gapyeong.jpg" class="card-img-top"
-							alt="...">
-							<div class="card-body">
-								<h5 class="card-title">GAPYEONG</h5>
-								<p class="card-text">대한민국 가평</p>
-							</div>
-						</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
+	</c:forEach>
+	<!--추천 지역 모달 끝-->
 	<!-- Contact-->
 	<section class="contact-section bg-light align-items-center">
 		<div class="container px-4 px-lg-5">
@@ -395,51 +184,164 @@
 							<h4 class="text-uppercase m-0">FAQ</h4>
 							<hr class="my-4 mx-auto" />
 							<div class="small text-black-50">
-								<a href="#">문의하기</a>
+								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- #####################################FAQ################################################## -->
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-50" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="padding-right: 0px;padding-left:0px;">
+		  <div class="offcanvas-header bg-primary" style="border-bottom:1px solid lightgray;">
+		    <h3 class="offcanvas-title text-center text-white-50" id="offcanvasScrollingLabel">자주하는질문 FAQ</h3>
+		    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		  </div>
+		  <!-- ------------------------------------------------------------------------------ -->
+		  <div class="offcanvas-body">
+		    <div class="faqHeader" style="font-size: 20px; margin: 10px;">일정관련 FAQ</div>
+		    	<div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingOne1">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="false" aria-controls="panelsStayOpen-collapse1">
+				        - 일정 만들기란 무엇인가요?	 
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse1" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne1" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>'일정 만들기'란</strong> 나만의 여행 일정을 계획하는 기능으로, 내가 가고 싶은 명소들의 위치를 지도에서 보며 동선을 계획할 수 있습니다. 드래그 & 드롭하여 방문 순서를 정렬하면 자동으로 경로가 보여집니다. 방문 일자별로 명소들을 정렬하여 나만의 여행 일정을 손쉽게 만들 수 있습니다.</code>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingTwo2">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false" aria-controls="panelsStayOpen-collapse2">
+				        - 완성된 일정을 수정할 수 있나요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse2" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo2" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>내 일정은 언제든지 다시 수정할 수 있습니다.</strong>마이페이지의 '나의일정'에서 '수정'을 클릭하여 일정을 수정해 보세요.	 
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree3">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse3" aria-expanded="false" aria-controls="panelsStayOpen-collapse3">
+				        - 일정 공유란 무엇인가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse3" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree3" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>나만의 일정을 공유할수 있습니다.</strong>나의 일정을 공유하거나 다른 회원님들의 일정을 공유받음으로써 여행자들의 일정을 보고 마음에 드는 명소를 확인하여 나만의 일정을 만들어보세요
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree4">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="#panelsStayOpen-collapse4">
+				        - 여러 도시를 한 일정에 넣을 수 있나요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree4" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>가능합니다.</strong>우선 일정 만들기를 시작해 보세요. 지도에서 일정을 만드는 과정에서 다른 도시의 명소목록을 불러와 선택하여 장소들을 일정에 넣을 수 있습니다. 여러 도시의 방문 일정을 순서대로 계획하시면 됩니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree5">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="#panelsStayOpen-collapse5">
+				        - 여행지 검색 목록이란 무엇인가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree5" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>여행지 검색이란,</strong>여행지에서 명소/음식점/호텔등을 검색하여 리스트에서 선택한 장소들을 일정에 추가할수 있는 기능입니다. 
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item mb-5">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree6">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse6" aria-expanded="false" aria-controls="panelsStayOpen-collapse6">
+				        - 추천 여행지는 무엇인가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree6" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>추천 여행지는</strong>국내에서 관광명소가 많고 관광객들의 발길이 끊이지 않는 여행지들을 카드화 시켜놓아서 회원님들이 여행지역을 선정할시에 도움을 드릴수 있습니다. 
+				      </div>
+				    </div>
+				  </div>
+				  
+				</div>
+				<div class="faqHeader" style="font-size: 20px; margin: 10px;">계정관련 FAQ</div>
+		    	<div class="accordion accordion-flush" id="accordionPanelsStayOpenExample1">
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingOne7">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse7" aria-expanded="false" aria-controls="panelsStayOpen-collapse7">
+				        - 소셜 로그인이 되지 않습니다.	 
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse7" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne7" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        먼저 귀하의 브라우저가 각 소셜 페이지에 다른 사람의 아이디로 로그인 되어있는 지 확인해 보시기 바랍니다. 소셜 페이지에서 로그아웃을 한 후에 다시 시도해 주세요. 그래도 로그인이 되지 않으면 소셜페이지에서 아이디와 비밀번호를 확인해 보시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingTwo8">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse8" aria-expanded="false" aria-controls="panelsStayOpen-collapse8">
+				        - 비밀번호를 잊어버렸습니다. 
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse8" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo8" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        로그인 화면에서 '비밀번호 찾기'를 클릭하고 가입시 기입한 이메일 주소를 적어주세요. 해당 이메일로 비밀번호 변경이 가능하도록 도와드립니다.	 
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree9">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse9" aria-expanded="false" aria-controls="panelsStayOpen-collapse9">
+				        - GooPPl 회원을 탈퇴하고 싶어요.
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree9" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        로그인 후, 마이페이지 '설정'에서 프로필 수정 하단에 '회원탈퇴' 버튼이 있습니다. 구플 계정을 삭제하고 탈퇴를 원하시면 이 버튼을 클릭하면 됩니다. 탈퇴 시에는 귀하의 정보와 게시글,일정 등 모든 내용이 삭제됩니다. 신중히 고려하시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree10">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse10" aria-expanded="false" aria-controls="panelsStayOpen-collapse10">
+				        - 회원 정보를 어떻게 수정하나요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse10" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree10" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        마이페이지 '프로필수정'에서 회원 정보를 수정하실 수 있습니다. '프로필수정'에서는 닉네임, 비밀번호 변경, 및 회원탈퇴를 하실 수 있습니다. 이메일 주소의 변경을 원하실 경우에는 관리자에게 문의해 주시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree11">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse11" aria-expanded="false" aria-controls="panelsStayOpen-collapse11">
+				        - 나의 개인정보가 안전한가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse11" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree11" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        GooPPl의 <a href="#" target="_blank">'개인정보 취급방침'</a> 내용을 확인하시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+		  </div>
+		 <!-- #####################################################끝################################################# -->
 			</div>
 		</div>
 	</section>
-	<!--추전지역 모달-->
-	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-		data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-body p-0 pt-0">
-					<div class="card mb-1" style="max-width: 1200px;">
-						<div class="row g-0 ">
-							<div class="col-md-4">
-								<img src="/gooppl/resource/img/gangneung.jpg"
-									class="img-fluid rounded-start" alt="..." style="width:100%; height:100%">
-							</div>
-							<div class="col-md-8">
-								<div class="card-body" style="padding:50px 50px 10px 50px;">
-									<h6 class="card-title display-7">
-										<strong>GANGNEUNG</strong>
-									</h5>
-									<h6 class="card-title">대한민국 강릉</h6>
-									<p class="card-text" style="font-size: 18px;">은은한 커피향이 남다른
-										강원도 강릉시. 그중에도 카페거리로 유명한 안목해변은 발이 닿는 어디든 향긋한 커피 한 잔에 지평선 끝까지
-										펼쳐지는 바다 풍경은 덤으로 얻을 수 있다. 일출 명소로 유명한 정동진과 야경이 아름다운 경포대는 대표 여행
-										코스! 구름도 머물다 간다는 해발 1,100m에 위치한 강릉 안반데기 마을은 전망대에 올라 드넓게 펼쳐진
-										배추밭이 붉게 물드는 일출 전경이 일품이다..</p>
-										<br>
-									<button type="button" class="btn btn-primary btn-lg">일정만들기</button>
-									<button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">닫기</button>
-										<br>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--모달 끝-->
 	<!--로그인 모달-->
 	<div class="modal fade" id="loginmd" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginmdLabel"

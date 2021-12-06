@@ -1,6 +1,7 @@
 package goo.memberout.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class MemberOutServiceImple implements MemberOutService {
 	
@@ -14,5 +15,9 @@ public class MemberOutServiceImple implements MemberOutService {
 	public List<MemberOutDTO> memberOutList() {
 		List<MemberOutDTO> list = memberOutDao.memberOutList();
 		return list;
+	}
+	public int insertMemberOut(Map hmp) {
+		int count = memberOutDao.insertMemberOut(hmp);
+		return count;
 	}
 }

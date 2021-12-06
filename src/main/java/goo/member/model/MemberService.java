@@ -18,6 +18,7 @@ public interface MemberService {
 	public int profileUpdate(Map hmp);
 	public int pwdCheck(Map hmp);
 	public int pwdChange(Map hmp);
+	public int memberOut(int member_idx);
 	//--------------------------
 		public List<MemberDTO> memberList(int cp,int ls);//회원목록
 		public int totalMember();//총 회원수
