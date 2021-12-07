@@ -73,6 +73,9 @@
 	<bean id="memberOutDao" class="goo.memberout.model.MemberOutDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="startAreaDao" class="goo.start_area.model.StartAreaDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	<bean id="payment_infoDao" class="goo.payment_info.model.Payment_infoDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>

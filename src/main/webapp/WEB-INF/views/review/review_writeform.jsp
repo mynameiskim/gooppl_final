@@ -8,6 +8,13 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>review write form</title>
+    
+<!--     썸머노트 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<!--     썸머노트 -->
+    
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -21,6 +28,9 @@
     <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
     <script type="text/javascript" src="resource/js/jquery-3.6.0.min.js"></script>
+    <script>
+    	var jb = jQuery.noConflict();
+    </script>
     <style>
         #pagepath a {
             font-size: x-small;
@@ -63,6 +73,7 @@
             checkUnload = false;
         });
     </script>
+    
 </head >
 <body>
     <!-- Navigation-->
@@ -94,7 +105,8 @@
             
             
             <form id="review_form" class="form-inline" name="writereview" action="writeReviewSubmit.do" method="post" enctype="multipart/form-data">
-            
+            <input type="hidden" name="member_idx" value="1111">
+            <input type="hidden" name="nickname" value="홍길동">
             <div class="row">
                 <div class="col-md-4" style="height: 128px;">
                     <!-- 페이지 경로 -->
@@ -107,7 +119,7 @@
                     <!-- 	제목 -->
                     <div id="title">
                         <h5 class="display-6 fw-bolder text-center ">
-                            <input type="text" name="title" placeholder="제목을 적어주세요">
+                            <input type="text" name="subject" placeholder="제목을 적어주세요">
                         </h5>
                     </div>
                 </div>
@@ -132,13 +144,22 @@
                     <!-- 이미지 업로드 양식 -->
 
                     <div class="row img_container">
-                        <div class="row">
-                            <div class='mb-3' style='width: 100%;'>
-                                <label for='formFile' class='form-label'>사진을 골라주세요!</label>
-                                <input class='form-control' type='file' name="upload" id="inputMultipleImage" multiple>
-                            </div>
+                        <div class="row ">
+                        
+                        <textarea id="summernote" name="content"
+						rows="10" cols="100" placeholder="사진및 설명" ></textarea> <!-- textarea 밑에 script 작성하기 -->
+								<script>
+									$(document).ready(function() {
+										$('#summernote').summernote();
+									});
+									
+								</script>
                         </div>
-                            <div class="row justify-content-md-center" id="multipleContainer" ></div> 
+<!--                             <div class='mb-3' style='width: 100%;'> -->
+<!--                                 <label for='formFile' class='form-label'>사진을 골라주세요!</label> -->
+<!--                                 <input class='form-control' type='file' name="upload" id="inputMultipleImage" multiple> -->
+<!--                             </div> -->
+<!--                             <div class="row justify-content-md-center" id="multipleContainer" ></div>  -->
                              
                     </div>
 
@@ -172,81 +193,81 @@
 			            
         </div>
 
-        <script type="text/javascript">
-            /**
-             * 멀티파일 업로드
-             */
-            function readMultipleImage(input) {
-                const multipleContainer = document.getElementById('multipleContainer')
+<!--         <script type="text/javascript"> -->
+<!-- //             /** -->
+<!-- //              * 멀티파일 업로드 -->
+<!-- //              */ -->
+<!-- //             function readMultipleImage(input) { -->
+<!-- //                 const multipleContainer = document.getElementById('multipleContainer') -->
                 
-                if(input.files) {
-                    console.log(input.files)
+<!-- //                 if(input.files) { -->
+<!-- //                     console.log(input.files) -->
             
-                    const fileArr = Array.from(input.files)
+<!-- //                     const fileArr = Array.from(input.files) -->
             
-                    const $colDiv1 = document.createElement('div')
-                 //    const $colDiv2 = document.createElement('div')
+<!-- //                     const $colDiv1 = document.createElement('div') -->
+<!-- //                  //    const $colDiv2 = document.createElement('div') -->
                     
-                 //   $colDiv1.classList.add('column')
-                 //   $colDiv2.classList.add('column')
+<!-- //                  //   $colDiv1.classList.add('column') -->
+<!-- //                  //   $colDiv2.classList.add('column') -->
                     
-                    $colDiv1.classList.add('col-md-8')
-                    $colDiv1.classList.add('mb-4')
-                 //   $colDiv2.classList.add('col-md-6')
+<!-- //                     $colDiv1.classList.add('col-md-8') -->
+<!-- //                     $colDiv1.classList.add('mb-4') -->
+<!-- //                  //   $colDiv2.classList.add('col-md-6') -->
             
-                    fileArr.forEach((file, index) => {
-                        const reader = new FileReader()
+<!-- //                     fileArr.forEach((file, index) => { -->
+<!-- //                         const reader = new FileReader() -->
             
-                        const $imgDiv = document.createElement('div')   
-                        const $img = document.createElement('img')
-                        const $textarea = document.createElement('textarea')
-                    //    const $contentarea = document.createElement('div')
+<!-- //                         const $imgDiv = document.createElement('div')    -->
+<!-- //                         const $img = document.createElement('img') -->
+<!-- //                         const $textarea = document.createElement('textarea') -->
+<!-- //                     //    const $contentarea = document.createElement('div') -->
 
-                        $imgDiv.classList.add('mb-4')
-                    //    $contentarea.classList.add('editor')
-                        $img.classList.add('image')
-                        $img.classList.add('img-fluid')
-                        $img.setAttribute('width','100%')
-                        $textarea.classList.add('form-control')
-                        $textarea.setAttribute('rows','4')
-                        $textarea.setAttribute('name','imgIntro')
-                        $textarea.setAttribute('placeholder','사진에 대한 설명이나 그때 기억을 적어주세요~')
-                        $imgDiv.appendChild($img)
-                        $imgDiv.appendChild($textarea)
-                    //     $imgDiv.appendChild($contentarea)
-                        reader.onload = e => {
-                            $img.src = e.target.result
+<!-- //                         $imgDiv.classList.add('mb-4') -->
+<!-- //                     //    $contentarea.classList.add('editor') -->
+<!-- //                         $img.classList.add('image') -->
+<!-- //                         $img.classList.add('img-fluid') -->
+<!-- //                         $img.setAttribute('width','100%') -->
+<!-- //                         $textarea.classList.add('form-control') -->
+<!-- //                         $textarea.setAttribute('rows','4') -->
+<!-- //                         $textarea.setAttribute('name','path_content') -->
+<!-- //                         $textarea.setAttribute('placeholder','사진에 대한 설명이나 그때 기억을 적어주세요~') -->
+<!-- //                         $imgDiv.appendChild($img) -->
+<!-- //                         $imgDiv.appendChild($textarea) -->
+<!-- //                     //     $imgDiv.appendChild($contentarea) -->
+<!-- //                         reader.onload = e => { -->
+<!-- //                             $img.src = e.target.result -->
                             
-                           // $imgDiv.style.width = ($img.naturalWidth) * 0.2 + "px"
-                           // $imgDiv.style.height = ($img.naturalHeight) * 0.2 + "px"
-                        }
+<!-- //                            // $imgDiv.style.width = ($img.naturalWidth) * 0.2 + "px" -->
+<!-- //                            // $imgDiv.style.height = ($img.naturalHeight) * 0.2 + "px" -->
+<!-- //                         } -->
                         
-                        console.log(file.name)
-                        $colDiv1.appendChild($imgDiv)
+<!-- //                         console.log(file.name) -->
+<!-- //                         $colDiv1.appendChild($imgDiv) -->
                         
-                       /* if(index % 2 == 0) {
-                        } else {
-                            $colDiv2.appendChild($imgDiv)
-                        }*/
+<!-- //                        /* if(index % 2 == 0) { -->
+<!-- //                         } else { -->
+<!-- //                             $colDiv2.appendChild($imgDiv) -->
+<!-- //                         }*/ -->
                         
-                        reader.readAsDataURL(file)
-                    })
-                    multipleContainer.appendChild($colDiv1)
-                  //  multipleContainer.appendChild($colDiv2)
-                }
-            }
-            // 이벤트 리스너
-            document.getElementById('inputMultipleImage').addEventListener('change', (e) => {
-                readMultipleImage(e.target);
+<!-- //                         reader.readAsDataURL(file) -->
+<!-- //                     }) -->
+<!-- //                     multipleContainer.appendChild($colDiv1) -->
+<!-- //                   //  multipleContainer.appendChild($colDiv2) -->
+<!-- //                 } -->
+<!-- //             } -->
+<!-- //             // 이벤트 리스너 -->
+<!-- //             document.getElementById('inputMultipleImage').addEventListener('change', (e) => { -->
+<!-- //                 readMultipleImage(e.target); -->
 
-            })
-            </script>
+<!-- //             }) -->
+<!--             </script> -->
 
     </section>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
+    <script src="resource/js/scripts.js"></script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

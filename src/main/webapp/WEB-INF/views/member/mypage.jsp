@@ -126,7 +126,7 @@
     <!--프로필 수정 모달-->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" >
             <div class="modal-content">
                 <div class="modal-header bg-primary mb-4">
                     <h5 class="modal-title" id="staticBackdropLabel">프로필 수정</h5>
@@ -174,8 +174,10 @@
                         	<c:choose>
                             	<c:when test="${sessionScope.sessionJoinType=='goo'}">
                           		  <p class="mb-2"><i class="fa fa-envelope mr-2"></i> ${sessionScope.sessionId}</p>
-                          		  <p><a href="#" role="button"
-										data-bs-toggle="modal" data-bs-target="#pwdCheckModal">비밀번호 변경</a></p>
+                          		  <p>
+                          		  <a href="" role="button" data-bs-toggle="modal" data-bs-target="#pwdCheckModal" style="text-decoration: none;">비밀번호변경</a>
+                          		  <a href="memberOut.do" style="text-decoration: none;">회원탈퇴</a></p>
+								  	
                         		</c:when>
                         		<c:when test="${sessionScope.sessionJoinType=='naver'}">
                         			 <p class="mb-2"><img width="80%" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></p>
@@ -241,8 +243,8 @@
         <!--일정 영역-->
         <c:if test="${sessionScope.sessionMemberType=='O'}">
         	<div class="container-sm mb-5" style="padding:3rem 0;">
-        		<div class="row justify-content-md-center">
-        			<div class="row">
+        		<div class="row justify-content-md-center mb-4">
+        			<div class="row mb-4">
         				<div class="col-md-2 text-center">
         					<h5 class="fw-bolder mb-2 text-center">나의 업장</h5>
         				</div>
@@ -275,49 +277,37 @@
         	</div>
         </c:if>
         <div class="container-sm mb-5" style="padding: 5rem 0;">
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center mb-5">
                 <div class="row">
                     <div class="col-md-2 text-center">
-                        <h5 class="fw-bolder mb-2 text-center">나의 일정</h5>
+                        <h4 class="fw-bolder mb-2 text-center">나의 일정</h4>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="card text-center" style="max-width: 860px;">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <img src="/gooppl/resource/img/gapyeong.jpg" class="img-fluid rounded-start" alt="...">
+            <div class="row row-cols-1 row-cols-md-1 justify-content-md-center mb-4">
+                <div class="card" style="max-width: 1024px; padding-left:0px;padding-right:0px;">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <img src="/gooppl/resource/img/gapyeong.jpg" class="img-fluid rounded-start" alt="..." style="width:100%;">
                         </div>
-                        <div class="col-md-3">
-                            <div class="card-body align-items-center">
-                                <h4 class="card-title">GaPyeong</h4>
-                                <h6 class="card-text" style="font-size:12px;">대한민국 가평</h6>
-                                <div class="card-text mb-4" style="display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                            width: 50px;
-                                            height: 50px;
-                                            border-radius: 50%;
-                                            background-color: #717171;
-                                            color: #fff;
-                                            margin: 0px auto;
-                                            font-weight: 700;">H
+                        <div class="col-md-8">
+                            <div class="card-body align-items-center"  style="font-size:24px;">
+                                <div class="col-md-12 mb-3">
+	                                	<label class="fw-bolder" style="font-size:36px;">GAPYEONG </label>
+	                                	<label class="fw-bolder" style="font-size:20px;">대한민국 가평</label>
                                 </div>
-                                <p class="card-text"><small class="text-muted">Day-50</small></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card-body">
-                                <div class="cardDiv">
-                                    <div class="row mb-2">
-                                        <div class="col-md-3" style="color: cadetblue;">
-                                            여행명
-                                        </div>
-                                        <div class="col-md-9">
-                                            신나는 가평 여행
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
+                                <div class="col-md-12 fw-bolder mb-2">
+                                        <div class="row">
+	                                        <div class="col-md-3" style="color: cadetblue;">
+	                                            여행명
+	                                        </div>
+	                                        <div class="col-md-9">
+	                                            신나는 가평 여행
+	                                        </div>
+	                                    </div>    
+                                </div>
+                                <div class="col-md-12 fw-bolder mb-2">        
+                                    <div class="row">
                                         <div class="col-md-3" style="color: cadetblue;">
                                             여행일자
                                         </div>
@@ -325,7 +315,9 @@
                                             2021-11-20 - 2021-11-21
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
+                                </div>
+                                <div class="col-md-12 fw-bolder mb-2">
+                                    <div class="row">
                                         <div class="col-md-3" style="color: cadetblue;">
                                             여행유형
                                         </div>
@@ -333,7 +325,9 @@
                                             커플끼리
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                </div>
+                                <div class="col-md-12 fw-bolder mb-4">
+                                    <div class="row">
                                         <div class="col-md-3" style="color: cadetblue;">
                                             방문장소
                                         </div>
@@ -341,76 +335,129 @@
                                             12곳
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
+                                </div>
+                                <div class="col-md-12 fw-bolder">    
+                                    <div class="row justify-content-md-center mb-2">
+                                        <div class="col-md-3 col-sm-3">
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">공유</button>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3 col-sm-3">
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">수정</button>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3 col-sm-3">
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">삭제</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div>    
+	                            </div>    
                             </div>
                         </div>
+                        
+                    </div>
+                </div>
+                <div class="row justify-content-md-center mb-4">
+                <div class="col-md-3 ">
+                	<div class="col-md-8" style="margin:0px auto;">
+	                    <ul class="pagination">
+	                        <li class="page-item disabled">
+	                            <a class="page-link" href="#">&laquo;</a>
+	                        </li>
+	                        <li class="page-item active">
+	                            <a class="page-link" href="#">1</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">2</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">3</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">4</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">&raquo;</a>
+	                        </li>
+	                    </ul>
                     </div>
                 </div>
             </div>
-
+            </div>
+			
         </div>
         <!--후기 영역 -->
         <div class="container-sm mb-5" style="padding: 5rem 0;">
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center mb-5">
                 <div class="row">
                     <div class="col-md-2 text-center">
-                        <h5 class="fw-bolder mb-2 text-center">나의 리뷰</h5>
+                        <h4 class="fw-bolder mb-2 text-center">나의 리뷰</h4>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0 ">
-                        <div class="col-md-4">
-                            <img src="/gooppl/resource/img/daejeon.jpg" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">너무 재밌었습니다~</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           	<div class="row row-cols-1 row-cols-md-4 g-4 justify-content-md-center mb-4">
+			  <div class="col">
+			    <div class="card h-100">
+			      <img src="/gooppl/resource/img/suwon.jpg" class="card-img-top" alt="...">
+			      <div class="card-body">
+			        <h5 class="card-title">Card title</h5>
+			        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			      </div>
+			      <div class="card-footer">
+					<button class="btn btn-primary" type="button">수정</button>
+					<button class="btn btn-primary" type="button">삭제</button>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col">
+			    <div class="card h-100">
+			      <img src="/gooppl/resource/img/yeosu.jpg" class="card-img-top" alt="...">
+			      <div class="card-body">
+			        <h5 class="card-title">Card title</h5>
+			        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+			      </div>
+			      <div class="card-footer">
+			        <button class="btn btn-primary" type="button">수정</button>
+					<button class="btn btn-primary" type="button">삭제</button>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col">
+			    <div class="card h-100">
+			      <img src="/gooppl/resource/img/chuncheon.jpg" class="card-img-top" alt="...">
+			      <div class="card-body">
+			        <h5 class="card-title">Card title</h5>
+			        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+			      </div>
+			      <div class="card-footer">
+			        <button class="btn btn-primary" type="button">수정</button>
+					<button class="btn btn-primary" type="button">삭제</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
             <div class="row justify-content-md-center">
                 <div class="col-md-3 ">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">&laquo;</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">5</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">&raquo;</a>
-                        </li>
-                    </ul>
+                	<div class="col-md-8" style="margin:0px auto;">
+	                    <ul class="pagination">
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">&laquo;</a>
+	                        </li>
+	                        <li class="page-item active">
+	                            <a class="page-link" href="#">1</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">2</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">3</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">4</a>
+	                        </li>
+	                        <li class="page-item">
+	                            <a class="page-link" href="#">&raquo;</a>
+	                        </li>
+	                    </ul>
+	                </div>
                 </div>
             </div>
         </div>

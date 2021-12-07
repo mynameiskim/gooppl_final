@@ -66,6 +66,11 @@ public class MemberServiceImple implements MemberService {
 		int count = memberDao.pwdChange(hmp);
 		return count;
 	}
+	public int memberOut(int member_idx) {
+		int count = memberDao.memberOut(member_idx);
+		return count;
+	}
+	
 	//-----------------------------
 		//회원목록 조회
 		public List<MemberDTO> memberList(int cp,int ls) {

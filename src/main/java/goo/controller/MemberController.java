@@ -1,10 +1,12 @@
 ﻿package goo.controller;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,6 +23,7 @@ import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
 import goo.member.model.MemberDTO;
 import goo.member.model.MemberService;
+import goo.memberout.model.MemberOutService;
 
 @Controller
 public class MemberController {
@@ -32,6 +35,8 @@ public class MemberController {
 	private FormmailService formmailService;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired 
+	private MemberOutService memberOutService;
 	
 	private static final int EMAIL_JOIN_FORMMAIL_NO = 1;
 
@@ -72,8 +77,6 @@ public class MemberController {
 	@ResponseBody
 	public String idCheck(String email) throws Exception{
 		int result = memberService.gooidCheck(email);
-		System.out.println(email);
-		System.out.println(result);
 		return Integer.toString(result);
 	}
 	
@@ -82,13 +85,15 @@ public class MemberController {
 		System.out.println("컨트롤러 ok"+dto.getGoo_id());
 		ModelAndView mav = new ModelAndView();
 		int result = memberService.gooJoin(dto);
+		MemberDTO dtos = memberService.getMemberInfo(dto.getGoo_id());
 		
 		if(result>0) {
-			String pro_nick = dto.getNickname().substring(0,1);
-			session.setAttribute("sessionNickname", dto.getNickname());
+			String pro_nick = dtos.getNickname().substring(0,1);
+			session.setAttribute("sessionNickname", dtos.getNickname());
 			session.setAttribute("profileNick", pro_nick);
-			session.setAttribute("sessionId",dto.getGoo_id());
-			session.setAttribute("sessionMemberType",dto.getMember_type());
+			session.setAttribute("sessionId",dtos.getGoo_id());
+			session.setAttribute("sessionMemberType",dtos.getMember_type());
+			session.setAttribute("sessionMember_idx", dtos.getMember_idx());
 			session.setAttribute("sessionJoinType","goo");
 			
 			FormmailDTO fdto = formmailService.emailTokenFormmail(EMAIL_JOIN_FORMMAIL_NO);
@@ -120,7 +125,34 @@ public class MemberController {
 		return mav;
 	}
 	
-
+	@RequestMapping(value="/memberOut.do",method = RequestMethod.GET)
+	public String goMemberOutPage() {
+		return "member/memberOut";
+	}
+	
+	@RequestMapping(value="/memberOut.do",method=RequestMethod.POST)
+	@ResponseBody
+	public int memberOut(String pwd,String out_reason,HttpSession session) {
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		String goo_id = (String) session.getAttribute("sessionId");
+		Map hmp = new HashedMap();
+		hmp.put("member_idx", member_idx);
+		hmp.put("input_pwd_check", pwd);
+		hmp.put("goo_id", goo_id); 
+		hmp.put("out_reason", out_reason);
+		int pwdCheck_result = memberService.pwdCheck(hmp);
+		
+		if(pwdCheck_result>0) {
+			memberService.memberOut(member_idx);
+			memberOutService.insertMemberOut(hmp);
+			session.invalidate();
+			return pwdCheck_result;
+		}else{
+			return pwdCheck_result;
+		}
+		
+	}
+	
 	@RequestMapping("/logout.do")
 	public ModelAndView logout(HttpSession session) {
 		session.invalidate();
