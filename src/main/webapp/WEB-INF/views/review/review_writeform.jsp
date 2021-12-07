@@ -77,7 +77,7 @@
 </head >
 <body>
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" style="box-shadow:1px 1px 1px 0px lightgray;">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="#page-top">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
@@ -96,14 +96,10 @@
             </div>
         </div>
     </nav>
-    <section class="signup-section bg-light" id="signup"
-        style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
-        <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
+    <section class="signup-section" id="signup"
+        style="padding-top: 6rem; background: white">
         <div class="container-sm mb-5">
-
-            <!--작성 폼 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-            
-            
+            <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
             <form id="review_form" class="form-inline" name="writereview" action="writeReviewSubmit.do" method="post" enctype="multipart/form-data">
             <input type="hidden" name="member_idx" value="1111">
             <input type="hidden" name="nickname" value="홍길동">
@@ -111,87 +107,85 @@
                 <div class="col-md-4" style="height: 128px;">
                     <!-- 페이지 경로 -->
                     <div id="pagepath">
-                        <span> <a href="">커뮤니티</a>&gt;<a href="">후기게시판</a>&gt;후기작성하기
-                        </span>
+                        <span> <a href="">커뮤니티</a>&gt;<a href="">후기게시판</a>&gt;후기작성하기</span>
                     </div>
                 </div>
                 <div class="col-md-offset-1 col-md-4">
                     <!-- 	제목 -->
                     <div id="title">
                         <h5 class="display-6 fw-bolder text-center ">
-                            <input type="text" name="subject" placeholder="제목을 적어주세요">
+                        	Review 작성
                         </h5>
                     </div>
                 </div>
                 <div class="col-md-offset-1 col-md-2"></div>
             </div>
-
-                
-                <div class="container">
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-10">
-                    <!--프롤로그 입력-->
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="mb-3">
-                                <label for="exampleFormControlTextarea1" class="form-label">프롤로그</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="간단한 소개글을 적어주세요~"
-                                    rows="3" name="prologue"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 이미지 업로드 양식 -->
-
-                    <div class="row img_container">
-                        <div class="row ">
-                        
-                        <textarea id="summernote" name="content"
-						rows="10" cols="100" placeholder="사진및 설명" ></textarea> <!-- textarea 밑에 script 작성하기 -->
-								<script>
-									$(document).ready(function() {
-										$('#summernote').summernote();
-									});
-									
-								</script>
-                        </div>
-<!--                             <div class='mb-3' style='width: 100%;'> -->
-<!--                                 <label for='formFile' class='form-label'>사진을 골라주세요!</label> -->
-<!--                                 <input class='form-control' type='file' name="upload" id="inputMultipleImage" multiple> -->
-<!--                             </div> -->
-<!--                             <div class="row justify-content-md-center" id="multipleContainer" ></div>  -->
-                             
-                    </div>
-
-
-
-                    <!--에필로그 -->
-                        <div class="row" style="margin-top: 32px;">
-                            <div class="col-xs-12 ">
-                                <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">에필로그</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="epilogue"
-                                        placeholder="작성 후기 또는 느낀점"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 " style="text-align: center;">
-                                <button type="submit" class="btn btn-success "
-                                    style="font-size: medium; margin-top:32px;">작성하기</button>
-                                <button type="reset" class="btn btn-light "
-                                    style="font-size: medium; margin-top:32px;">다시쓰기</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+         <div>  
+         <div class="container-sm">
+    		 <!-- 작성폼!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+             <div class="row justify-content-md-center">
+               <div class="col-md-8">
+           		 <!--프롤로그 입력-->
+	             <div class="row mb-2">
+	                 <div class="col-xs-12">
+                   		 <input class="form-control" type="text" name="subject" placeholder="제목을 입력해주세요.">
+	                 </div>
+	                 <!-- 
+	                 <div class="col-xs-12">
+                         <label for="exampleFormControlTextarea1" class="form-label">프롤로그</label>
+	                 </div>
+	                 <div class="col-xs-12">
+                         <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="간단한 소개글을 적어주세요~" rows="3" name="prologue"></textarea>
+	                 </div>
+	                  -->
+		         </div>    
+                 <!-- 이미지 업로드 양식 -->
+	             <div class="row img_container">
+	                 <div class="col-xs-12 ">
+	                   <textarea class="form-control" id="summernote" name="content" rows="20" cols="100"></textarea> 
+	                   <!-- textarea 밑에 script 작성하기 -->
+						<script>
+							$(document).ready(function() {
+								$('#summernote').summernote({
+									placeholder:'내용을 입력해주세요.',
+									tabsize:2,
+									height:500
+								});
+							});
+							
+						</script>
+					 </div>
+			     </div>
+	            	  <!--에필로그 
+	                  <div class="row">
+	                      <div class="col-xs-12 ">
+	                          <div class="mb-3">
+	                              <label for="exampleFormControlTextarea1" class="form-label">에필로그</label>
+	                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="epilogue"
+	                                  placeholder="작성 후기 또는 느낀점"></textarea>
+	                          </div>
+	                      </div>
+	                  </div>-->
+	                  <div class="row">
+	                      <div class="col-xs-12 " style="text-align: center;">
+	                          <button type="submit" class="btn btn-success "
+	                              style="font-size: medium; margin-top:32px;">작성하기</button>
+	                          <button type="reset" class="btn btn-light "
+	                              style="font-size: medium; margin-top:32px;">다시쓰기</button>
+	                      </div>
+	                  </div>
+	             	</div>
+	         	</div>
+     		</div> 
+       	</div>
+    </div>
         
-			            <!--작성 폼 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-			            
-			            
-        </div>
+    </form>
+    
+           <!--작성 폼 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+           
+           
+    </div>
 
 <!--         <script type="text/javascript"> -->
 <!-- //             /** -->
