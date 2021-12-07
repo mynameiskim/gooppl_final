@@ -263,29 +263,24 @@ public class AdminAdManagement {
 	
 	/**광고 신청 승인*/
 	@RequestMapping("/adInquiry_ok.do")
-	public Map<String, Object> adInquiry_ok(
-			@RequestParam("inquiry_idx") int inquiry_idx,
-			@RequestParam("owner_idx") int owner_idx) {
+	@ResponseBody
+	public Map<String, Object> adInquiry_ok(@RequestParam("inquiry_idx") int inquiry_idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int code=0;
 		
-			int inquiryResult = ownerService.admin_ownerAppli_ok(owner_idx);
+		int inquiryResult = ad_inquiryService.admin_adInquiry_ok(inquiry_idx);
 
-			if(inquiryResult>0) {
-				int memberResult = memberService.admin_ownerAppli_typeChange(owner_idx);
-				if(memberResult>0) {
-					System.out.println("승인완료");
-					map.put("msg", "승인완료");
-					code=1;
-				}else {
-					map.put("msg", "ERROR");
-					code=0;
-				}
-			}else {
-				map.put("msg", "ERROR");
-				code=0;
-			}
+		if(inquiryResult>0) {
+			System.out.println("광고승인완료");
+			map.put("msg", "승인완료");
+			System.out.println("승인완료 메세지 확인");
+			code=1;
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
 		map.put("code", code);
+		System.out.println("여기까지 옴");
 		return map;
 	}
 }

@@ -74,7 +74,7 @@ public class ReviewController {
 	}
 	/** 리뷰 삭제 */
 	@RequestMapping("/reviewDelete.do")
-	public ModelAndView reviewDelete(@RequestParam(value="review_idx")int review_idx) {
+	public ModelAndView reviewDelete(@RequestParam("review_idx")int review_idx) {
 		int result = reviewService.delReview(review_idx);
 		String msg = result>0?"삭제 하였습니다.":"삭제를 실패하였습니다.";
 		ModelAndView mav = new ModelAndView();
@@ -82,6 +82,32 @@ public class ReviewController {
 		mav.setViewName("review/reviewMsg");
 		return mav;
 	}
+
+	/**	리뷰수정 */
+	@RequestMapping("/reviewUpdateForm.do")
+	public ModelAndView reviewUpdateForm(
+			@RequestParam("subject")String subject,
+			@RequestParam("prologue")String prologue,
+			@RequestParam("content")String content,
+			@RequestParam("epilogue")String epilogue
+			) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("subject", subject);
+		mav.addObject("prologue", prologue);	
+		mav.addObject("content", content);
+		mav.addObject("epilogue", epilogue);
+		mav.setViewName("review/review_update");
+		return mav;
+	}
 	
+	@RequestMapping("/reviewUpdate.do")
+	public ModelAndView reviewUpdate(@RequestParam("review_idx")int review_idx) {
+		int result = reviewService.updateReview(review_idx);
+		String msg = result>0?"수정 완료하였습니다.":"수정 실패하였습니다.";
+		ModelAndView mav=new  ModelAndView();
+		mav.addObject("msg", msg);
+		mav.setViewName("review/review_content");
+		return mav;
+	}
 	
 }

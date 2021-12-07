@@ -57,4 +57,14 @@ public class Ad_inquiryDAOImple implements Ad_inquiryDAO {
 		Ad_inquiryDTO dto = sqlMap.selectOne("adInquiry_Info", inquiry_idx);
 		return dto;
 	}
+	
+	public String ckAdInquiry(int member_idx) {
+		String inquiry_state = sqlMap.selectOne("ckAdInquiry", member_idx);
+		return inquiry_state;
+	}
+	
+	public Ad_inquiryDTO ad_paymentInfo(int member_idx) {
+		Ad_inquiryDTO dto = sqlMap.selectOne("ad_paymentInfo", member_idx);
+		return dto;
+	}
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="goo.payment_info">
+  	<insert id="savePayInfo" parameterType="goo.payment_info.model.Payment_infoDTO">
+  		INSERT INTO
+  			PAYMENT_INFO
+  		values(
+			#{imp_uid},
+			#{owner_idx},
+			#{member_idx},
+			#{merchant_uid},
+			#{amount},
+			#{status},
+			sysdate
+		)
+  	</insert>
+  </mapper>
