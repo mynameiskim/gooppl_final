@@ -73,6 +73,9 @@
 	<bean id="memberOutDao" class="goo.memberout.model.MemberOutDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="payment_infoDao" class="goo.payment_info.model.Payment_infoDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	
 	
 	<!-- service -->	
@@ -117,5 +120,8 @@
 	</bean>
 	<bean id="memberOutService" class="goo.memberout.model.MemberOutServiceImple">
 		<constructor-arg ref="memberOutDao"></constructor-arg>
+	</bean>
+	<bean id="payment_infoService" class="goo.payment_info.model.Payment_infoServiceImple">
+		<property name="payment_infoDao" ref="payment_infoDao"></property>
 	</bean>
 </beans>

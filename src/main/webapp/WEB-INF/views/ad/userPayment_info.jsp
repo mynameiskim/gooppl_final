@@ -34,6 +34,11 @@ body {
     <meta name="author" content="" />
     <title>GooPPl - Mypage</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- jquery -->
+    <script type="text/javascript"
+	  src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
 		crossorigin="anonymous"></script>
@@ -47,9 +52,8 @@ body {
 	<link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
 	<link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-	<!-- jquery -->
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script src="/gooppl/resource/js/httpRequest.js"></script>
+	
 </head>
 
 <body>
@@ -83,7 +87,7 @@ body {
 $("#check_module").click(function () {
 	
 	var IMP = window.IMP; // 생략가능
-	IMP.init('imp84628581');
+	IMP.init('imp84628581');//
 	IMP.request_pay({
 	pg: 'inicis', // version 1.1.0부터 지원.
 	
@@ -111,14 +115,28 @@ $("#check_module").click(function () {
 	msg += '상점 거래ID : ' + rsp.merchant_uid;
 	msg += '결제 금액 : ' + rsp.paid_amount;
 	
-	alert(msg);
-	location.href='user_payment_ok.do?imp_uid'+imp_uid+'&merchant_uid='+merchant_uid+'&amount='+amount;
+	var now = new Date();
+	
+	var param = 'imp_uid='+imp_uid+'&owner_idx='+${odto.owner_idx}+'&merchant_uid='+merchant_uid+'&amount='+amount+'&status=paid';
+	//alert(msg);
+	sendRequest('user_payment_ok.do', param, showResult, 'GET');
+	
 	} else {
 	var msg = '결제에 실패하였습니다.';
 	msg += '에러내용 : ' + rsp.error_msg;
 	alert(msg);
 	}
 	});
-	});
+});
+	
+function showResult(){
+	if(XHR.readyState==4){
+		if(XHR.status==200){
+			console.log('넘어왔다..!');
+			var data = XHR.responseText;
+			location.href='mypage.do';
+		}
+	}
+}
 </script>
 </html>
