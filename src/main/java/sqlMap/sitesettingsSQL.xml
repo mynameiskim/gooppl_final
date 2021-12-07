@@ -17,4 +17,10 @@
   			, keyword = #{keyword} 
   			, description = #{description}
   	</update>
+  	<update id="faviconUpload" parameterType="String">
+  		UPDATE
+  			site_settings
+  		SET
+  			favicon = #{favicon}
+  	</update>
   </mapper>

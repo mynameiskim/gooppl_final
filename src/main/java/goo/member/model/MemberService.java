@@ -19,9 +19,9 @@ public interface MemberService {
 	public int pwdCheck(Map hmp);
 	public int pwdChange(Map hmp);
 	//--------------------------
-		public List<MemberDTO> memberList(int cp,int ls);//회원목록
-		public int totalMember();//총 회원수
-		public MemberDTO memberInfo(int member_idx); //회원 정보
+	public List<MemberDTO> memberList(int cp,int ls,String search_type,String search,String start_date,String end_date);//회원목록
+	public int totalMember();//총 회원수
+	public MemberDTO memberInfo(int member_idx); //회원 정보
 	
 	public int admin_ownerAppli_typeChange(int member_idx);
 }

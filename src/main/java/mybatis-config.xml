@@ -20,3 +20,4 @@
   		<mapper resource="sqlMap/member_outSQL.xml"></mapper>
   	</mappers>
   </configuration>
+  

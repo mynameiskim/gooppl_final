@@ -29,4 +29,9 @@ public class SiteSettingsServiceImple implements SiteSettingsService {
 		SiteSettingsDTO dto = siteSettingsDao.getSiteSettings();
 		return dto;
 	}
+	
+	public int faviconUpload(String favicon) {
+		int count = siteSettingsDao.faviconUpload(favicon);
+		return count;
+	}
 }

@@ -75,9 +75,6 @@ public class AdminDAOImple implements AdminDAO {
 	
 	public int totalAdmin() {
 		int count = sqlMap.selectOne("totalAdmin");
-		if(count==0) {
-			count = 1;
-		}
 		return count;
 	}
 	

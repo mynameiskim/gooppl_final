@@ -113,6 +113,40 @@ function memberDelete(index){
 	  }
 	})
 }
+function changeCode(item) {
+	var selected = item.selectedIndex;
+	console.log(selected);
+	
+	var spanNode = document.getElementById('msg');
+	
+	
+	$.ajax({
+			type: "GET",
+			url: 'selected.do?selected='+selected,
+			dataType: "json",
+			error: function(result){
+				
+			},
+			success: function(result){
+				console.log(result.msg);
+				spanNode.innerHTML = result.msg;
+			}
+		});
+	
+}
+
+function searchStart(){
+	
+	var param1 = $('#search_type').val();
+	var param2 = $('#search').val();
+	var param3 = $('#start_date').val();
+	var param4 = $('#end_date').val();
+	
+	
+	location.href = 'admin_member_list.do?search_type='+param1+'&search='+param2+'&start_date='+param3+'&end_date='+param4;
+	
+	
+}
 
 </script>
 </head>
@@ -147,29 +181,29 @@ function memberDelete(index){
 			</ul>
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
-				<th style="border: 1px solid #0000008c;">조건 검색</th>
-				<td style="border: 1px solid #0000008c;">
-					<select style="height: 22px;">
-						<option>제목</option>
-						<option>작성자</option>
-						<option>내용</option>
+				<th style="width:20%">조건 검색</th>
+				<td style="bwidth:80%">
+					<select id="search_type" style="height: 22px;" onChange='changeCode(this);'>
+						<option value="nickname" ${nickname_selected}>닉네임</option>
+						<option value="member_type" ${member_type_selected}>회원유형</option>
+						<option value="goo_id" ${goo_id_selected}>구플 아이디</option>
 					</select>
-					<input type="text" style="width: 300px;">
+					<input id="search" type="text" style="width: 300px;" value="${search}"><span id="msg" style="color: black;"></span>
 				</td>
 			</tr>
 			<tr>
-				<th style="border: 1px solid #0000008c;">등록일</th>
-				<td style="border: 1px solid #0000008c;"><input type="date">~<input type="date"></td>
+				<th>회원가입일</th>
+				<td><input type="date" id="start_date" value="${start_date}">~<input type="date" id="end_date" value="${end_date}"></td>
 			</tr>
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
 				<div class="col-md-5 text-center">
-					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="검색하기" >
+					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="검색하기" onclick="searchStart()">
 				</div>	
 			</div>
 			<div class="row">
 				<div class="col-md-3 text-left">
-					<label><b>총 회원수:${totalMember}</b> <b>검색수:</b></label>
+					<label><b>총 회원수:${totalMember}</b> <b>검색수: ${search_num}</b></label>
 				</div>
 				<div class="col-md-9 mb-1" style="writing-mode: vertical-rl;">
 					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="엑셀파일저장"> 
@@ -198,10 +232,15 @@ function memberDelete(index){
 		  <tbody>
 		  	<c:if test="${empty list}">
 		  		<tr>
-				<td colspan="10" align="center">
-				<b>등록된 회원이 없습니다.</b>
-				</td>
-			</tr>
+					<td colspan="10" align="center">
+						<c:if test="${empty search}">
+		  					<b>회원목록이 없습니다.</b>
+		  				</c:if>
+		  				<c:if test="${!empty search}">
+		  					<b>검색 결과가 없습니다.</b>
+		  				</c:if>
+					</td>
+				</tr>
 		  	</c:if>
 		  	<c:forEach var="list" items="${list}" varStatus="status">
 		  		<tr class="tr_aling">

@@ -30,4 +30,9 @@ public class SiteSettingsDAOImple implements SiteSettingsDAO {
 		System.out.println("SQL통과");
 		return dto;
 	}
+	
+	public int faviconUpload(String favicon) {
+		int count = sqlMap.update("faviconUpload", favicon);
+		return count;
+	}
 }

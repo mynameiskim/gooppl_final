@@ -71,6 +71,20 @@ function memberOutDelete(index){
 	  }
 	})
 }
+
+function searchStart(){
+	var param1 = $('#search_type').val();
+	var param2 = $('#search').val();
+	var param3 = $('#start_date').val();
+	var param4 = $('#end_date').val();
+	
+	console.log(param1);
+	console.log(param2);
+	
+	location.href = 'admin_member_out.do?search_type='+param1+'&search='+param2+'&start_date='+param3+'&end_date='+param4;
+	
+	
+}
 </script>
 </head>
 <body>
@@ -102,33 +116,34 @@ function memberOutDelete(index){
     	<ul class='helpbox'>
 			<li>회원이 마이페이지에서 회원탈퇴 신청한 경우 회원DB는 모두 삭제되고 탈퇴회원 목록에 나옵니다.</li>
 		</ul>
+		<form name="search">
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
-				<th>조건 검색</th>
-				<td>
-					<select style="height: 22px;">
-						<option>제목</option>
-						<option>작성자</option>
-						<option>내용</option>
+				<th style="width:20%">조건 검색</th>
+				<td style="width:80%">
+					<select id="search_type" style="height: 22px;">
+						<option value="id" ${id_selected}>아이디</option>
+						<option value="out_reason" ${out_reason_selected}>탈퇴사유</option>
 					</select>
-					<input type="text" style="width: 300px;">
+					<input id="search" type="text" style="width: 300px;" value="${search}">
 				</td>
 			</tr>
 			<tr>
 				<th>탈퇴일</th>
-				<td><input type="date">~<input type="date"></td>
+				<td><input id="start_date" value="${start_date}" type="date">~<input id="end_date" value="${end_date}" type="date"></td>
 			</tr>
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
 				<div class="col-md-5 text-center">
-					<input type="button" class="bt btn-dark" style="border-radius: 3px;" value="검색하기" >
+					<input type="button" class="bt btn-dark" style="border-radius: 3px;" value="검색하기" onclick="searchStart()">
 				</div>	
 			</div>
 			<div class="row">
 				<div class="col-md-3 text-left">
-					<label><b>총 회원수:${totalMemberOut}</b> <b>검색수:</b></label>
+					<label><b>총 회원수:${totalMemberOut}</b> <b>검색수: ${search_num}</b></label>
 				</div>
 			</div>
+		</form>
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
@@ -149,7 +164,12 @@ function memberOutDelete(index){
 		  	<c:if test="${empty list}">
 		  		<tr>
 		  			<td colspan="6" align="center">
-		  				<b>탈퇴한 회원이 없습니다.</b>
+		  				<c:if test="${empty search}">
+		  					<b>탈퇴회원 목록이 없습니다.</b>
+		  				</c:if>
+		  				<c:if test="${!empty search}">
+		  					<b>검색 결과가 없습니다.</b>
+		  				</c:if>
 		  			</td>
 		  		</tr>
 		  	</c:if>

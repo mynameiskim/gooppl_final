@@ -1,13 +1,12 @@
 ﻿package goo.member.model;
 
-import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
+
 
 public class MemberDAOImple implements MemberDAO {
 	
@@ -83,27 +82,59 @@ public class MemberDAOImple implements MemberDAO {
 	
 	
 	//--------------------------
-		//회원목록 조회
-		public List<MemberDTO> memberList(Map map) {
-			List<MemberDTO> list = sqlMap.selectList("memberList",map);
-			return list;
-		}
-		//총 회원수
-		public int totalMember() {
-			int count = sqlMap.selectOne("totalMember");
-			if(count==0) {
-				count = 1;
+	//회원목록 조회
+	public List<MemberDTO> memberList(Map<String,Object> map) {
+		List<MemberDTO> list = null;
+		if(map.get("search").equals("")&&map.get("start_date").equals("")) {
+			list = sqlMap.selectList("memberList",map);
+		} else {
+			System.out.println("검색 진입");
+			if(!map.get("search").equals("")&&map.get("start_date").equals("")) {
+				list = sqlMap.selectList("memberSearchList",map);
+			}else if(map.get("search").equals("")&&!map.get("start_date").equals("")) {
+				list = sqlMap.selectList("memberJoinDateList",map);
+			}else if(!map.get("search").equals("")&&!map.get("start_date").equals("")) {
+				list = sqlMap.selectList("memberTwoSearchList",map);
 			}
-			return count;
+			
 		}
-		//회원정보
-		public MemberDTO memberInfo(int member_idx) {
-			MemberDTO mdto = sqlMap.selectOne("memberInfo", member_idx);
-			return mdto;
-		}
+		return list;
+	}
+	//총 회원수
+	public int totalMember() {
+		int count = sqlMap.selectOne("totalMember");
+		return count;
+	}
+	//회원정보
+	public MemberDTO memberInfo(int member_idx) {
+		MemberDTO mdto = sqlMap.selectOne("memberInfo", member_idx);
+		return mdto;
+	}
 		
 	public int admin_ownerAppli_typeChange(int member_idx) {
 		int result = sqlMap.update("admin_ownerAppli_typeChange", member_idx);
 		return result;
+	}
+	
+	public int searchTotalMember(String search_type, String search, String start_date, String end_date) {
+		int count = 0;
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("start_date", start_date);
+		map.put("end_date", end_date);
+		map.put("search", search);
+		map.put("search_type", search_type);
+		if(search.equals("")&&start_date.equals("")) {
+			count = sqlMap.selectOne("totalMember");
+		}else {
+			if(!search.equals("")&&start_date.equals("")) {
+				count = sqlMap.selectOne("searchTotalMember",map);
+			}else if(search.equals("")&&!start_date.equals("")) {
+				count = sqlMap.selectOne("joinDateTotalMember",map);
+			}else if(!search.equals("")&&!start_date.equals("")) {
+				count = sqlMap.selectOne("twoSearchTotalMember",map);
+			}
+			
+		}
+		return count;
 	}
 }

@@ -3,9 +3,10 @@ package goo.controller;
 import java.util.HashMap;
 
 
+
 import java.util.List;
 import java.util.Map;
-
+import java.io.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import goo.admin.model.AdminService;
 import goo.member.model.MemberDTO;
+import goo.siteSettings.model.SiteSettingsDTO;
 import goo.siteSettings.model.SiteSettingsService;
 import goo.admin.model.*;
 
@@ -179,4 +184,40 @@ public class AdminBasicSettings {
 		return mav;
 	}
 	
+	@RequestMapping("/faviconUpload.do")
+	@ResponseBody
+	public Map<String,Object> faviconUpload(SiteSettingsDTO	sdto){
+		System.out.println("faviconUpload ok");
+		String favicon=sdto.getFavicon();
+		int result = siteSettingsService.faviconUpload(favicon);
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		if(result>0) {
+			map.put("msg","성공");
+		}else {
+			map.put("msg","실패");
+		}
+		
+		map.put("favicon", favicon);
+		return map;
+	}
+	
+	
+	/**실제 파일 복사 관련 메서드*/
+	public void copyInto(MultipartFile upload) {
+		
+		System.out.println("올릴파일명:"+upload.getOriginalFilename());
+		
+		try {
+			byte[] bytes=upload.getBytes();
+			//복사본정보
+			File outFile=new File("C:\\Users\\nojiw\\Desktop\\노지원\\upload/"+upload.getOriginalFilename());
+			FileOutputStream fos=new FileOutputStream(outFile);
+			fos.write(bytes);
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

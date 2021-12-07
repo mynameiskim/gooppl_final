@@ -67,26 +67,30 @@ public class MemberServiceImple implements MemberService {
 		return count;
 	}
 	//-----------------------------
-		//회원목록 조회
-		public List<MemberDTO> memberList(int cp,int ls) {
-			int start=(cp-1)*ls+1;
-			int end=cp*ls;
-			Map map=new HashMap();
-			map.put("start", start);
-			map.put("end",end);
-			List<MemberDTO> list = memberDao.memberList(map);
-			return list;
-		}
-		//총 회원수
-		public int totalMember() {
-			int count = memberDao.totalMember();
-			return count;
-		}
-		//회원정보
-		public MemberDTO memberInfo(int member_idx) {
-			MemberDTO mdto = memberDao.memberInfo(member_idx);
-			return mdto;
-		}
+	//회원목록 조회
+	public List<MemberDTO> memberList(int cp,int ls,String search_type,String search,String start_date,String end_date) {
+		int start=(cp-1)*ls+1;
+		int end=cp*ls;
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("start", start);
+		map.put("end",end);
+		map.put("search_type", search_type);
+		map.put("search", search);
+		map.put("start_date", start_date);
+		map.put("end_date", end_date);
+		List<MemberDTO> list = memberDao.memberList(map);
+		return list;
+	}
+	//총 회원수
+	public int totalMember() {
+		int count = memberDao.totalMember();
+		return count;
+	}
+	//회원정보
+	public MemberDTO memberInfo(int member_idx) {
+		MemberDTO mdto = memberDao.memberInfo(member_idx);
+		return mdto;
+	}
 	
 	public int admin_ownerAppli_typeChange(int member_idx) {
 		int result = memberDao.admin_ownerAppli_typeChange(member_idx);

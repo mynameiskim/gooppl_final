@@ -9,11 +9,54 @@
 		(SELECT * FROM member_out ORDER BY out_no desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
+  	<select id="memberOutSearchList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member_out WHERE ${search_type} LIKE '%' || #{search} || '%' ORDER BY out_no desc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
   	<select id="totalMemberOut" resultType="Integer">
   		SELECT
   			COUNT(*)
   		FROM
   			member_out
+  	</select>
+  	<select id="searchTotalMemberOut" parameterType="Map" resultType="Integer">
+  		SELECT
+  			COUNT(*)
+  		FROM
+  			member_out
+  		WHERE ${search_type} LIKE '%' || #{search} || '%'
+  	</select>
+  	<select id="memberOutDateList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member_out WHERE outdate <![CDATA[>=]]> #{start_date} AND outdate <![CDATA[<=]]> #{end_date} ORDER BY out_no desc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="memberOutTwoSearchList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member_out WHERE ${search_type} LIKE '%' || #{search} || '%' AND outdate <![CDATA[>=]]> #{start_date} AND outdate <![CDATA[<=]]> #{end_date} ORDER BY out_no desc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="outDateTotalMemberOut" parameterType="Map" resultType="Integer">
+  		SELECT 
+  			COUNT(*) 
+  		FROM 
+  			member_out 
+  		WHERE 
+  			outdate <![CDATA[>=]]> #{start_date} 
+  		AND outdate <![CDATA[<=]]> #{end_date}
+  	</select>
+  	<select id="twoSearchTotalMemberOut" parameterType="Map" resultType="Integer">
+  		SELECT 
+  			COUNT(*)
+  		FROM
+  			member_out 
+  		WHERE 
+  			${search_type} LIKE '%' || #{search} || '%' AND 
+  		outdate <![CDATA[>=]]> #{start_date} AND outdate <![CDATA[<=]]> #{end_date}
   	</select>
   	<delete id="memberOutDelete" parameterType="Integer">
   		DELETE FROM

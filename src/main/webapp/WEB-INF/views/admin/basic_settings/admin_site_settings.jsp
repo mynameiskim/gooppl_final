@@ -11,7 +11,7 @@ th{
 <script>
 async function fiviconUpload(){
 	const { value: file } = await Swal.fire({
-	  title: 'Select image',
+	  title: 'Select Favicon image',
 	  input: 'file',
 	  inputAttributes: {
 	    'accept': 'image/*',

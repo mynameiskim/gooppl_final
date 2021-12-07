@@ -10,7 +10,7 @@ function memberUpdate(member_idx,nickname){
 	Swal.fire({
 		title: '수정하시겠습니까?',
 		text: "",
-		icon: 'warning',
+		icon: 'question',
 		showCancelButton: true,
 		confirmButtonColor: '#d33',
 		cancelButtonColor: '#000000',
