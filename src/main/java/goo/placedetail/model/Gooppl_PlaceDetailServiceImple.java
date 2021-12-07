@@ -30,6 +30,8 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 			int contentid=contentids.get(i);
 			Gooppl_PlaceDetailDTO dto=gooppl_placedetailDao.getThisDateDetail(contentid);
 			dto.setOverview(dto.getOverview().replaceAll("\n", "<br>"));
+			dto.setOverview(dto.getOverview().replaceAll("'", ""));
+			dto.setHomepage(dto.getHomepage().replaceAll("\n", "<br>"));
 			list.add(dto);
 		}
 		return list;

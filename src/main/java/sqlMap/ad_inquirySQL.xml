@@ -26,6 +26,8 @@
   			ad_inquiry
   		WHERE
   			INQUIRY_TYPE = '광고신청'
+  		AND
+  			INQUIRY_STATE = '대기'
   	</select>
   	<select id="admin_totalAdUpdateInquiry" resultType="integer">
   		SELECT
@@ -34,6 +36,8 @@
   			ad_inquiry
   		WHERE
   			INQUIRY_TYPE = '광고수정'
+  		AND
+  			INQUIRY_STATE = '대기'
   	</select>
   	<select id="admin_totalAdDelInquiry" resultType="integer">
   		SELECT
@@ -42,12 +46,14 @@
   			ad_inquiry
   		WHERE
   			INQUIRY_TYPE = '광고취소'
+  		AND
+  			INQUIRY_STATE = '대기'
   	</select>
   	<update id="admin_adInquiry_ok" parameterType="integer">
   		UPDATE
   			ad_inquiry
   		SET
-  			INQUIRY_STATE = '승인'
+  			INQUIRY_STATE = '광고승인'
   		WHERE
   			inquiry_idx = #{inquiry_idx}
   	</update>
@@ -67,26 +73,44 @@
   		WHERE
   			INQUIRY_IDX = #{inquiry_idx}
   	</update>
-  	
-  	
+  	<select id="ckAdInquiry" parameterType="integer" resultType="String">
+  		SELECT
+  			inquiry_state
+		FROM
+			AD_INQUIRY
+		WHERE
+			member_idx = #{member_idx}
+		AND
+			INQUIRY_TYPE = '광고신청'
+  	</select>
+  	<select id="ad_paymentInfo" parameterType="integer" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
+  		SELECT
+  			*
+  		FROM
+  			AD_INQUIRY
+  		WHERE
+  			INQUIRY_STATE = '광고승인'
+  		AND
+  			member_idx = #{member_idx}
+  	</select>
   	
   	
 	<select id="admin_adInquiry" parameterType="Map" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
 		SELECT * FROM	
 			(SELECT rownum AS rnum, a.* FROM
-			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고신청' ORDER BY INQUIRY_IDX ASC)a)b
+			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고신청' AND inquiry_state = '대기' ORDER BY INQUIRY_IDX ASC)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
 	</select>
 	<select id="admin_adUpdateInquiry" parameterType="Map" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
 		SELECT * FROM	
 			(SELECT rownum AS rnum, a.* FROM
-			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고수정' ORDER BY INQUIRY_IDX ASC)a)b
+			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고수정' AND inquiry_state = '대기' ORDER BY INQUIRY_IDX ASC)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
 	</select>
 	<select id="admin_adDelInquiry" parameterType="Map" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
 		SELECT * FROM	
 			(SELECT rownum AS rnum, a.* FROM
-			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고취소' ORDER BY INQUIRY_IDX ASC)a)b
+			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고취소' AND inquiry_state = '대기' ORDER BY INQUIRY_IDX ASC)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
 	</select>
 </mapper>

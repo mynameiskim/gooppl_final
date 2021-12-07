@@ -14,4 +14,6 @@ public interface Ad_inquiryDAO {
 	public List<Ad_inquiryDTO> admin_adDelInquiry(Map map);
 	public int admin_adInquiry_ok(int inquiry_idx);
 	public Ad_inquiryDTO adInquiry_Info(int inquiry_idx);
+	public String ckAdInquiry(int member_idx);
+	public Ad_inquiryDTO ad_paymentInfo(int member_idx);
 }

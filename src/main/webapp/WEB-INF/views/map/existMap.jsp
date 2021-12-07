@@ -115,7 +115,6 @@ var setAreacode;
 var setSigungucode;
 var setContenttype;
 
-
 //전체 광고 리스트
 var adContents=[];
 <c:if test="${empty adlist }">
@@ -194,7 +193,7 @@ $(function() {
         images.splice(click_id, 1);
         addrs.splice(click_id, 1);    
         contentids.splice(click_id, 1);
-        listItems.splice(click_id, 1);        
+        listItems.splice(click_id, 1); 
         
     	for(var i=0; i<mapys.length; i++){
     		
@@ -207,12 +206,22 @@ $(function() {
     	    }
     	    
     	    latly[i]= xy.position;
-
+    	    
     	    // 인포윈도우로 장소에 대한 설명을 표시합니다
     	    var infowindow = new kakao.maps.InfoWindow({
-    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+			    			'<tr style="margin-top:0px;">'+
+			    				'<td><img src="'+images[i]+'" style="width:155px;height:100px;"></td>'+
+			    			'</tr>'+
+			    			'<tr style="height:80px;">'+
+			    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+			    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+titles[i]+'</p>'+
+			    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addrs[i]+'<br>'+
+			    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentids[i]+')">'+
+			    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+			    			'</tr>'+
+						'</table>'
     	    });
-    	    
     	    // 이동할 위도 경도 위치를 생성합니다 
     	    var moveLatLon = new kakao.maps.LatLng(mapys[i], mapxs[i]);
     	   
@@ -222,13 +231,36 @@ $(function() {
     	    
     	    markers[i] = marker;
     	    
-    	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-    	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+    	    var isClick = false;
+    	    
+    	    kakao.maps.event.addListener(marker, 'mouseover', function(){
+    	    	if(isClick){
+    	    		return;
+    	    	}else{
+    	    		infowindow.open(map, marker);
+    	    	}
+    	    });
+    		kakao.maps.event.addListener(marker, 'mouseout', function(){
+    			if(isClick){
+    				return;
+    			}else{
+    				infowindow.close();
+    			}
+    		});
     	    
     	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
-    	   	 closeOverlay();
-    	        overlay.setMap(map);
+    	   	 //closeOverlay();
+    	        //overlay.setMap(map);
+    	        if(!isClick){
+    	        	isClick=true;
+    	        }
+    	    	infowindow.open(map, marker); 
+    	    });
+    	    
+    	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+    	        isClick=false;
+    	        infowindow.close();
     	    });
     	    
     	    var linePath;
@@ -378,9 +410,19 @@ function newlist(){
 
     	    // 인포윈도우로 장소에 대한 설명을 표시합니다
     	    var infowindow = new kakao.maps.InfoWindow({
-    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+			    			'<tr style="margin-top:0px;">'+
+			    				'<td><img src="'+images[i]+'" style="width:155px;height:100px;"></td>'+
+			    			'</tr>'+
+			    			'<tr style="height:80px;">'+
+			    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+			    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+titles[i]+'</p>'+
+			    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addrs[i]+'<br>'+
+			    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentids[i]+')">'+
+			    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+			    			'</tr>'+
+						'</table>'
     	    });
-    	    
     	    // 이동할 위도 경도 위치를 생성합니다 
     	    var moveLatLon = new kakao.maps.LatLng(mapys[i], mapxs[i]);
     	   
@@ -390,13 +432,35 @@ function newlist(){
     	    
     	    markers[i] = marker;
     	    
-    	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-    	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+    	    kakao.maps.event.addListener(marker, 'mouseover', function(){
+    	    	if(isClick){
+    	    		return;
+    	    	}else{
+    	    		infowindow.open(map, marker);
+    	    		
+    	    	}
+    	    });
+    		kakao.maps.event.addListener(marker, 'mouseout', function(){
+    			if(isClick){
+    				return;
+    			}else{
+    				infowindow.close();
+    			}
+    		});
     	    
     	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
-    	   	 closeOverlay();
-    	        overlay.setMap(map);
+    	   	 //closeOverlay();
+    	        //overlay.setMap(map);
+    	        if(!isClick){
+    	        	isClick=true;
+    	        }
+    	    	infowindow.open(map, marker); 
+    	    });
+    	    
+    	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+    	        isClick=false;
+    	        infowindow.close();
     	    });
     	    
     	    var linePath;
@@ -735,9 +799,30 @@ function showResult(){
 	   		var mapx = ${tripdto.mapx};
 	   		var	image = '${tripdto.firstimage}';
 	   		var contentid = ${tripdto.contentid}; 
+	   		var areacode=${tripdto.areacode};
+	   		var sigungucode=${tripdto.sigungucode};
+	   		var contenttype=12;
+	   		var overview='${tripdto.overview}';
+	   		var readnum=${tripdto.readnum};
+	   		var homepage='${tripdto.homepage}';
+	   		var firstimage='${tripdto.firstimage}';
 	   		if(contentid<1000){
 	   			title='[AD] '+title;
 	   		}
+	   		var placeDetail={
+	        	 	contentid:contentid,
+	        	 	title:title,
+	        	 	addr:addr,
+	        	 	areacode:areacode,
+	        	 	sigungucode:sigungucode,
+	        	 	contenttype:contenttype,
+	        	 	mapx:mapx,
+	        	 	mapy:mapy,
+	        	 	overview:overview,
+	        	 	homepage:homepage,
+	        	 	firstimage:firstimage
+	        	 };        	 
+	        	 placeDetails.push(placeDetail);
 	   		makeMarker(contentid, mapy, mapx, title, image, addr, 0);
 		</c:forEach>
 		 /*for (var i = 0; i < contentids2.length; i++) {
@@ -793,9 +878,21 @@ function Info(contentid) {
 	                
 	                latly.push(xy.position);
 	                
+	                
 	                // 인포윈도우로 장소에 대한 설명을 표시합니다
 	                var infowindow = new kakao.maps.InfoWindow({
-	                    content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+title+'</th></tr>'+'<tr><td><img src="'+image+'" style="width: 100px; height: 100px;"></td><td>'+addr+'</td></tr></table>'
+	                    content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+	        			'<tr style="margin-top:0px;">'+
+	        				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
+	        			'</tr>'+
+	        			'<tr style="height:80px;">'+
+	        				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+	        				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+title+'</p>'+
+	        				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addr+'<br>'+
+	        				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentid+')">'+
+	        				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+	        			'</tr>'+
+	    			'</table>'
 	                });
 	                
 	                // 이동할 위도 경도 위치를 생성합니다 
@@ -807,14 +904,38 @@ function Info(contentid) {
 	                
 	                markers.push(marker);
 	                
-	                kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-	                kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+	                var isClick = false;
+	                
+	                kakao.maps.event.addListener(marker, 'mouseover', function(){
+	        	    	if(isClick){
+	        	    		return;
+	        	    	}else{
+	        	    		infowindow.open(map, marker);
+	        	    		
+	        	    	}
+	        	    });
+	        		kakao.maps.event.addListener(marker, 'mouseout', function(){
+	        			if(isClick){
+	        				return;
+	        			}else{
+	        				infowindow.close();
+	        			}
+	        		});
 	                
 	                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
 	                kakao.maps.event.addListener(marker, 'click', function() {
-	               	 closeOverlay();
-	                    overlay.setMap(map);
+	               	 //closeOverlay();
+	                    //overlay.setMap(map);
+	                    if(!isClick){
+	                    	isClick=true;
+	                    }
+	                	infowindow.open(map, marker); 
 	                });
+	                
+	                kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+	        	        isClick=false;
+	        	        infowindow.close();
+	        	    });
 	                
 	                var linePath;
 	                var lineLine = new daum.maps.Polyline();
@@ -1051,7 +1172,6 @@ function getResult(){
 	        	 	homepage:homepage,
 	        	 	firstimage:firstimage
 	        	 };        	 
-				console.log(placeDetail);
 	        	 placeDetails.push(placeDetail);
 				
 	         }
@@ -1099,9 +1219,21 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
     
     latly.push(xy.position);
     
+    
     // 인포윈도우로 장소에 대한 설명을 표시합니다
     var infowindow = new kakao.maps.InfoWindow({
-        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+title+'</th></tr>'+'<tr><td><img src="'+image+'" style="width: 100px; height: 100px;"></td><td>'+addr+'</td></tr></table>'
+        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+        			'<tr style="margin-top:0px;">'+
+        				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
+        			'</tr>'+
+        			'<tr style="height:80px;">'+
+        				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+        				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+title+'</p>'+
+        				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addr+'<br>'+
+        				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentid+')">'+
+        				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+        			'</tr>'+
+    			'</table>'
     });
     
     // 이동할 위도 경도 위치를 생성합니다 
@@ -1113,13 +1245,37 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
     
     markers.push(marker);
     
-    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+    var isClick = false;
+    
+    kakao.maps.event.addListener(marker, 'mouseover', function(){
+    	if(isClick){
+    		return;
+    	}else{
+    		infowindow.open(map, marker);
+    		
+    	}
+    });
+	kakao.maps.event.addListener(marker, 'mouseout', function(){
+		if(isClick){
+			return;
+		}else{
+			infowindow.close();
+		}
+	});
     
     // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     kakao.maps.event.addListener(marker, 'click', function() {
-   	 closeOverlay();
-        overlay.setMap(map);
+   	 //closeOverlay();
+        //overlay.setMap(map);
+        if(!isClick){
+        	isClick=true;
+        }
+    	infowindow.open(map, marker); 
+    });
+    
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        isClick=false;
+        infowindow.close();
     });
     
     var linePath;
@@ -1158,7 +1314,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
     // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     function makeOutListener(infowindow) {
         return function() {
-            infowindow.close();
+        	infowindow.close();
         };
     }
 
@@ -1241,6 +1397,47 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
     addEventListeners();
     
 }
+
+function popup(contentid){
+	var title;
+	var areacode;
+	var sigungucode;
+	var overview;
+	var firstimage;
+	var areatxt;
+	var sigungutxt;
+	
+	for(var i=0;i<placeDetails.length;i++){
+		if(contentid==placeDetails[i].contentid){
+			title=placeDetails[i].title;
+			areacode=placeDetails[i].areacode;
+			sigungucode=placeDetails[i].sigungucode;
+			overview=placeDetails[i].overview.replace(/\'/gi,"");
+			firstimage=placeDetails[i].firstimage;
+		}
+	}
+	<c:forEach var="areadto" items="${arealist }">
+		if(${areadto.areacode}==areacode){
+			areatxt='${areadto.areaname}';
+		}
+	</c:forEach>
+	<c:forEach var="sigungudto" items="${sigungulist}">
+		if(${sigungudto.areacode}==areacode && ${sigungudto.sigungucode}==sigungucode){
+			sigungutxt='${sigungudto.sigungu_name}';
+		}
+	</c:forEach>
+	var modal_title=document.getElementById('staticBackdropLabel');
+	var modalTitle='<strong>'+title+'</strong>';
+	modalTitle += '<br><span style="font-size:13px;color:dimgray;padding:5px;">&nbsp;&nbsp;'+areatxt+'&nbsp;>&nbsp;'+sigungutxt+'</span>';
+	modal_title.innerHTML=modalTitle;
+	var modal_body=document.getElementById('modal-body');
+	var modalBody='';
+	modalBody+='<img src="'+firstimage+'" style="width:458px;">';
+	modalBody+='<br><p style="font-size:13px;padding-top:10px;word-break:break-all;">'+overview+'</p>';
+	modal_body.innerHTML=modalBody;
+	document.getElementById('modalBtn').click();
+}
+
 
 function addEventListeners() {
 	  var draggables = document.querySelectorAll('.draggable');
@@ -1331,6 +1528,36 @@ function addEventListeners() {
 </script>
 </head>
 <body id="page-top" onload="show()">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="modalBtn" style="display:none;"></button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+	aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				 <div class="modal-header">
+				 <h5 class="modal-title" id="staticBackdropLabel"></h5>
+				</div>
+				<div class="modal-body" id="modal-body">
+				  ...
+	      		</div>
+	      		<div class="modal-footer">
+		      		<button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn">Close</button>
+	      		</div>
+      		</div>
+		</div>
+	</div>
+	<script>
+// 모달 버튼에 이벤트를 건다.
+$('#modalBtn').on('click', function(){
+$('#staticBackdrop').modal('show');
+idClick=false;
+});
+// 모달 안의 취소 버튼에 이벤트를 건다.
+$('#closeModalBtn').on('click', function(){
+$('#staticBackdrop').modal('hide');
+});
+</script>
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
