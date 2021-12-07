@@ -6,6 +6,7 @@ public interface ReviewDAO {
 
 	public int writeReview(ReviewDTO dto);
 	public List<ReviewDTO> reviewList(Map map);
-	public ReviewDTO reviewContent(int idx);
+	public ReviewDTO reviewContent(int review_idx);
 	public int getTotalCnt();
+	public int delReview(int review_idx);
 }

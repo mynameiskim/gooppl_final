@@ -87,7 +87,7 @@
                 <div class="col-md-offset-1 col-md-4">
                     <!-- 	제목 -->
                     <div id="title">
-                        <h5 class="display-6 fw-bolder text-center">후기 게시글 제목</h5>
+                        <h5 class="display-6 fw-bolder text-center">${dto.subject }</h5>
                     </div>
                 </div>
                 <!--   작성자 조회수 게시글 번호-->
@@ -96,17 +96,17 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <span>
-                                작성자
+                                작성자 : ${dto.nickname }
                             </span>
                         </div>
                         <div class="col-xs-12">
                             <span>
-                                조회수
+                                조회수 : ${dto.readnum }
                             </span>
                         </div>
                         <div class="col-xs-12">
                             <span>
-                                게시글 번호
+                                게시글 번호 : ${dto.review_idx }
                             </span>
                         </div>
                     </div>
@@ -122,91 +122,14 @@
                         " 프롤로그 "
                     </h6>
                     <p class="fw-bold text-center">
-                        이번후기는 속초 여행을 다녀온 후 작성한 후기에요 재밌게 봐주세요~^^
+                        ${dto.prologue }
                     </p>
                 </div>
 
 
                 <div class="row justify-content-md-center">
-                    <!--    이미지-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <img class="img-fluid" style="width: 100%;"
-                                src="https://t1.daumcdn.net/cfile/tistory/99EFA3485ADEDC7404">
-                        </div>
-                    </div>
-                    <!--    사진에대한 글-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <p style="text-align: center; margin: 64px 0px;">
-                                <small class="text-muted">
-                                    속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이
-                                    보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도
-                                    시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요
-                                    ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변
-                                    풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도
-                                    시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ
-                                </small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <!--    이미지-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <img class="img-fluid" style="width: 100%;"
-                                src="http://www.alpacaworld.co.kr/uploadimages/135%25281%2529.jpg">
-                        </div>
-                    </div>
-                    <!--    사진에대한 글-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <p style="text-align: center; margin: 64px 0px;">
-                                <small class="text-muted">
-                                    속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ
-                                </small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <!--    이미지-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <img class="img-fluid" style="width: 100%;"
-                                src="https://t1.daumcdn.net/cfile/tistory/99EFA3485ADEDC7404">
-                        </div>
-                    </div>
-                    <!--    사진에대한 글-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <p style="text-align: center; margin: 64px 0px;">
-                                <small class="text-muted">
-                                    속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ
-                                </small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <!--    이미지-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <img class="img-fluid" style="width: 100%;"
-                                src="https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTBfNyAg/MDAxNDk0MzQzNDk4NjE5.1iKfhS6jxayFe9K1BFEtZ_1Mx3NgzPJg7APbYIk_KGcg.56561BPuGnsOU0wyAMqF1XmttZZS5ONl5CinIh6L4Nkg.JPEG.kkyul_/DSC05400.JPG?type=w800">
-                        </div>
-                    </div>
-                    <!--    사진에대한 글-->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-8 col-xs-12">
-                            <p style="text-align: center; margin: 64px 0px;">
-                                <small class="text-muted">
-                                    속초 해변 풍경이 보기만해도 시원해지네요 ㅎㅎ
-                                </small>
-                            </p>
-                        </div>
-                    </div>
+                    <!--    본문내용-->
+                    ${dto.content }
                 </div>
                 <!--    에필로그-->
                 <div class="row mb-3">
@@ -214,13 +137,14 @@
                         " 에필로그 "
                     </h6>
                     <p class="fw-bold text-center">
-                        이번후기는 속초 여행을 다녀온 후 작성한 후기에요 재밌게 봐주세요~^^
+                    	${dto.epilogue }
                     </p>
                 </div>
                 <!--본문 경계선-->
             </div>
 
-            <!--    댓글 영역-->
+            <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  댓글 영역-->
 
             <div class="container">
                 <!--style="background-color: white; border: whitesmoke solid 1px; border-radius: 4px; margin-top: 128px;">

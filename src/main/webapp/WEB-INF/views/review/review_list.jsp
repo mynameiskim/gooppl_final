@@ -209,7 +209,10 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-9">
-                                            <h5 class="card-title mb-5">${dto.subject }</h5>
+                                             <c:url var="contentUrl" value="reviewContent.do">
+											<c:param name="review_idx">${dto.review_idx}</c:param>
+											</c:url>
+                                           	<a href="${contentUrl }"><h5 class="card-title mb-5">${dto.subject }</h5></a>
                                             <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">${dto.prologue }</p>
                                             </div>
                                             <div class="col-md-3">

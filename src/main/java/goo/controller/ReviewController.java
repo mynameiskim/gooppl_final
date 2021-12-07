@@ -58,7 +58,30 @@ public class ReviewController {
 	}
 	
 	
-	
+	/** 리뷰 본문 보기 */
+	@RequestMapping("/reviewContent.do")
+	public ModelAndView reviewContent(@RequestParam(value = "review_idx", defaultValue = "0") int review_idx) {
+		ReviewDTO dto = reviewService.reviewContent(review_idx);
+		ModelAndView mav=new ModelAndView();
+		if (dto == null) {
+			mav.addObject("msg","잘못된접근 또는 삭제된 게시글입니다.");
+			mav.setViewName("review/reviewMsg");
+		} else {
+			mav.addObject("dto",dto);
+			mav.setViewName("review/review_content");
+		}
+		return mav;
+	}
+	/** 리뷰 삭제 */
+	@RequestMapping("/reviewDelete.do")
+	public ModelAndView reviewDelete(@RequestParam(value="review_idx")int review_idx) {
+		int result = reviewService.delReview(review_idx);
+		String msg = result>0?"삭제 하였습니다.":"삭제를 실패하였습니다.";
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("msg",msg);
+		mav.setViewName("review/reviewMsg");
+		return mav;
+	}
 	
 	
 }
