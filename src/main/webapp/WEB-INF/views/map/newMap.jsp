@@ -690,16 +690,16 @@ function showResult(){
              	trNode.setAttribute('style', 'display:none;');
              }
              var tdNode2 = document.createElement('td');
-             var tdTextNode2 = document.createTextNode(title);
-             var tdNode3 = document.createElement('td');
-             var tdTextNode3 = document.createTextNode(addr);
-             var tdNode4 = document.createElement('td');
-            
              var imgNode = document.createElement('img');
              imgNode.setAttribute('src', image);
-             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px; ');
+             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 45px; ');
+             
+             var tdNode3 = document.createElement('td');
+             tdNode3.setAttribute('style', 'width: 90px;');
+             var tdTextNode3 = document.createTextNode(title);
+
           
-             var tdNode5 = document.createElement('td');
+             var tdNode4 = document.createElement('td');
              var addBt = document.createElement('input');
              addBt.setAttribute('type','button');
              addBt.setAttribute('value','+');
@@ -710,11 +710,10 @@ function showResult(){
              trNode.appendChild(tdNode2);
              trNode.appendChild(tdNode3);
              trNode.appendChild(tdNode4);
-             trNode.appendChild(tdNode5);
-             tdNode2.appendChild(tdTextNode2);
+
+             tdNode2.appendChild(imgNode);
              tdNode3.appendChild(tdTextNode3);
-             tdNode4.appendChild(imgNode);
-             tdNode5.appendChild(addBt);
+             tdNode4.appendChild(addBt);
           }
          
       }
@@ -881,11 +880,21 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     addrs.push(addr);
     contentids.push(contentid);
 	
+    
     // 결과값으로 받은 위치를 마커로 표시합니다
-  
-   	var marker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(mapy, mapx)
-    });
+	var imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png', // 마커이미지의 주소입니다    
+	    imageSize = new kakao.maps.Size(26, 36), // 마커이미지의 크기입니다
+	    imageOption = {offset: new kakao.maps.Point(17, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+	
+	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+	    markerPosition = new kakao.maps.LatLng(mapy, mapx); // 마커가 표시될 위치입니다
+	
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	  position: markerPosition,
+	  image: markerImage // 마커이미지 설정 
+	});
     
     var xy = {
    		position: new kakao.maps.LatLng(mapy, mapx)
@@ -933,10 +942,10 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
  
 	var drawLine = new daum.maps.Polyline({
 	    path : linePath,
-	    strokeWeight : 3, // 선의 두께입니다 
+	    strokeWeight : 6, // 선의 두께입니다 
 	    strokeColor : '#db4040', // 선의 색깔입니다
 	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-	    strokeStyle : 'solid' // 선의 스타일입니다
+	    strokeStyle : 'dashed' // 선의 스타일입니다
 	});
 
     drawLines.push(drawLine);
@@ -1237,9 +1246,6 @@ function addEventListeners() {
 	                </div>
 					<div style="height: 584px; overflow: auto;">
 						<table id="setTable" style="width: 100%; text-align: center;">
-							<tr>
-								<th colspan="5">여행지를 검색해 주세요</th>
-							</tr>
 						</table>
 					</div>
 		        </div>
