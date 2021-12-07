@@ -3,26 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goo.ad">
-	<insert id="adTest" parameterType="goo.ad.model.AdDTO">
+	<insert id="startAD" parameterType="goo.ad.model.AdDTO">
 	insert into
-		ad_test
+		ad_info
 	values(
-		ad_test_ad_idx.nextval,
-		#{title},
-		#{business_number},
-		#{business_tel},
-		#{name},
-		#{email},
-		#{contenttype},
-		#{addr},
-		#{detailed_addr},
-		#{mapx},
-		#{mapy},
-		#{areacode},
-		#{firstimage},
-		#{ad_period},
-		1,
-		#{ad_content}
+		ad_info_idx.nextval,
+		#{owner_idx},
+		#{imp_uid},
+		sysdate
 	)
 	</insert>
 	

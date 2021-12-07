@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import goo.ad_inquery.model.Ad_inquiryService;
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
 import goo.member.model.MemberService;
@@ -33,11 +34,17 @@ public class MainController {
 	private MemberService memberService;
 	@Autowired
 	private FormmailService formmailService;
+	@Autowired
+	private Ad_inquiryService ad_inquiryService;
 	
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
+	private static final int EMAIL_PWD_FIND_FORMMAIL_NO = 3;
 	
 	@RequestMapping("/mypage.do")
-	public String mypage() {
+	public String mypage(HttpSession session) {
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		String ad_inquiry_state = ad_inquiryService.ckAdInquiry(member_idx);
+		session.setAttribute("ad_inquiry_state", ad_inquiry_state);
 		return "member/mypage";
 	}
 	
@@ -58,7 +65,39 @@ public class MainController {
 		return result;
 		
 	}
-	
+	@RequestMapping(value="/pwdFind.do",method=RequestMethod.GET)
+	@ResponseBody
+	public String pwdFind(String email) {
+		int result = memberService.gooidCheck(email);
+		if(result>0) {
+			FormmailDTO fdto = formmailService.emailTokenFormmail(EMAIL_PWD_FIND_FORMMAIL_NO);
+			
+			/* 이메일 보내기 */
+	        String setFrom = "w12310@naver.com";
+	        String toMail = email;
+	        String title = fdto.getForm_title();
+	        String content = fdto.getForm_content();
+	        content = content.replace("{{GOO_ID}}", email);
+	                
+			
+	        
+	        try {
+	            
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+	            helper.setFrom(setFrom);
+	            helper.setTo(toMail);
+	            helper.setSubject(title);
+	            helper.setText(content,true);
+	            mailSender.send(message);
+	            
+	        }catch(Exception e) {
+	            e.printStackTrace();
+	        }
+			
+		}
+		return Integer.toString(result);
+	}
 	
 	@RequestMapping(value="/pwdCheck.do",method=RequestMethod.POST)
 	@ResponseBody

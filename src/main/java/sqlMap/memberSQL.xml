@@ -4,13 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goo.member">
 	<select id="loginCheck" parameterType="goo.member.model.MemberDTO" resultType="goo.member.model.MemberDTO">
-		select * from member where goo_id=#{goo_id} and pwd=#{pwd}
+		select * from member where goo_id=#{goo_id} and pwd=#{pwd} and del='N'
 	</select>
 	<select id="gooidCheck" parameterType="String" resultType="Integer">
-		select count(*) from member where goo_id=#{goo_id}
+		select count(*) from member where goo_id=#{goo_id} and del='N'
 	</select>
 	<select id="naveridcheck" parameterType="String" resultType="Integer">
-		select count(*) from member where naver_id=#{naverid}
+		select count(*) from member where naver_id=#{naverid} and del='N'
 	</select>
 	<select id="getMemberInfo" parameterType="String" resultType="goo.member.model.MemberDTO">
 		select * from member where naver_id=#{id} or goo_id=#{id} or kakao_id=#{id}
@@ -29,7 +29,7 @@
 			)
 	</insert>
 	<select id="kakaoidCheck" parameterType="String" resultType="Integer">
-		select count(*) from member where kakao_id=#{kakaoid} 
+		select count(*) from member where kakao_id=#{kakaoid} and del='N' 
 	</select>
 	<insert id="kakaojoin" parameterType="Map">
 		insert into member values(
@@ -60,7 +60,7 @@
 		
 	</insert>
 	<update id="profileUpdate" parameterType="Map">
-		update member set nickname = #{nickname} where member_idx
+		update member set nickname=#{nickname} where member_idx=#{member_idx}
 	</update>
 	<update id="admin_ownerAppli_typeChange" parameterType="integer">
 		UPDATE
@@ -77,6 +77,8 @@
 	<update id="pwdChange" parameterType="Map">
 		update member set pwd = #{pwd} where goo_id=#{goo_id}
 	</update>
-
+	<update id="memberOut" parameterType="Integer">
+		update member set del = 'Y' where member_idx=#{member_idx}
+	</update>
 	
 </mapper>

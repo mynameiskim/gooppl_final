@@ -159,6 +159,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h2>광고 문의</h2>
+                        <input type="hidden" name="member_idx" value="${member_idx}">
                         <input type="hidden" name="owner_idx" value="${owner_idx}">
                     </div>
                     <div class="col-md-4">

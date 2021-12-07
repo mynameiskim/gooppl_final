@@ -1,13 +1,22 @@
-package goo.controller;
+﻿package goo.controller;
 
 import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.sql.*;
 import java.sql.Date;
 
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import goo.area.model.AreaDTO;
@@ -38,6 +47,9 @@ public class MapController {
 	@Autowired
 	private OwnerService ownerService;
 	
+	@Autowired
+	private SqlSession sqlSession;
+	
 	@RequestMapping("/sigungu.do")
 	public String sigungu() {
 		return "map/sigungu";
@@ -46,6 +58,26 @@ public class MapController {
 	@RequestMapping("/kyumap.do")
 	public String kyumap() {
 		return "map/kyumap";
+	}
+	
+	@RequestMapping("/createMap2.do")
+	public ModelAndView newMap(
+			@RequestParam(value = "areacode", defaultValue="1") int areacode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode
+			) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("member_idx", 1);
+		List<AreaDTO> arealist = areaService.areaList();
+		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+		mav.addObject("arealist", arealist);
+		mav.addObject("sigungulist", sigungulist);
+		mav.addObject("adlist", adlist);
+		mav.addObject("areacode", areacode);
+		mav.addObject("sigungucode", sigungucode);
+		mav.setViewName("map/newMapAdTest");
+		return mav;
 	}
 	
 	@RequestMapping("/addSigunguTable.do")
@@ -180,13 +212,182 @@ public class MapController {
 	
 	@RequestMapping("/existMap.do")
 	public ModelAndView moveExistMap(
+			@RequestParam(value = "areacode", defaultValue="1") int areacode,
+			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode,
 			@RequestParam("map_idx") int map_idx,
-			@RequestParam("day_num") int day_num
-			) {
+			@RequestParam("day_num") int day_num,
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("map_idx", map_idx);
-		mav.addObject("day_num", day_num);
-		mav.setViewName("map/existMap");
+		String session_Nickname=(String)session.getAttribute("sessionNickname");
+		System.out.println(session_Nickname);
+		if(session_Nickname==null||session_Nickname.equals("")) {
+			mav.addObject("open_login", 1);
+			mav.setViewName("redirect:index.do");
+		}else {	
+			int enroll_idx=(Integer)session.getAttribute("sessionMember_idx");
+			int map_member_idx=gooppl_mapService.getMemberIdx(map_idx);
+			if(enroll_idx!=map_member_idx) {
+				mav.addObject("msg", "접근 권한이 없습니다.");
+				mav.addObject("goPage", "index.do");
+				mav.setViewName("map/mapMove");
+			}else {
+				Map map=new HashMap();
+				map.put("map_idx", map_idx);
+				map.put("day_num", day_num);
+				List<MapInfoDTO> mapinfolist = mapinfoService.mapInfoList(map);
+				mav.addObject("mapinfolist", mapinfolist);
+				Gooppl_mapDTO mapDto=gooppl_mapService.getMapt(map_idx);
+				List<AreaDTO> arealist = areaService.areaList();
+				List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+				List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+				mav.addObject("open_login", 0);
+				mav.addObject("member_idx", map_member_idx);
+				mav.addObject("mapdto", mapDto);
+				mav.addObject("arealist", arealist);
+				mav.addObject("sigungulist", sigungulist);
+				mav.addObject("adlist", adlist);
+				mav.addObject("sigungucode", 0);
+				mav.addObject("map_idx", map_idx);
+				mav.addObject("day_num", day_num);
+				List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
+				if(list.size()!=0) {
+					List<Gooppl_PlaceDetailDTO> tripList=gooppl_placedetailService.getThisDateDetail(list);
+					mav.addObject("tripList", tripList);
+				}
+				if(list.size()!=0) {
+					int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num);
+					mav.addObject("areacode", lastAreacode);
+				}else {
+					mav.addObject("areacode", 1);
+				}
+				mav.setViewName("map/existMap");
+			}
+		}
 		return mav;
 	}
+	
+	@RequestMapping("/existMap2.do")
+	public ModelAndView moveExistMap2(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num,
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		String session_Nickname=(String)session.getAttribute("sessionNickname");
+		System.out.println(session_Nickname);
+		if(session_Nickname==null||session_Nickname.equals("")) {
+			mav.addObject("open_login", 1);
+			mav.setViewName("redirect:index.do");
+		}else {	
+			int enroll_idx=(Integer)session.getAttribute("sessionMember_idx");
+			System.out.println(enroll_idx);
+			int map_member_idx=gooppl_mapService.getMemberIdx(map_idx);
+			if(enroll_idx!=map_member_idx) {
+				mav.addObject("msg", "접근 권한이 없습니다.");
+				mav.addObject("goPage", "index.do");
+				mav.setViewName("map/mapMove");
+			}else {
+				Gooppl_mapDTO mapDto=gooppl_mapService.getMapt(map_idx);
+				List<AreaDTO> arealist = areaService.areaList();
+				List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+				List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+				mav.addObject("open_login", 0);
+				mav.addObject("member_idx", map_member_idx);
+				mav.addObject("mapdto", mapDto);
+				mav.addObject("arealist", arealist);
+				mav.addObject("sigungulist", sigungulist);
+				mav.addObject("adlist", adlist);
+				mav.addObject("sigungucode", 0);
+				mav.addObject("map_idx", map_idx);
+				mav.addObject("day_num", day_num);
+				List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
+				if(list.size()!=0) {
+					List<Gooppl_PlaceDetailDTO> tripList=gooppl_placedetailService.getThisDateDetail(list);
+					mav.addObject("tripList", tripList);
+				}
+				if(list.size()!=0) {
+					int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num);
+					mav.addObject("areacode", lastAreacode);
+				}else {
+					mav.addObject("areacode", 1);
+				}
+				mav.setViewName("map/existMap2");
+			}
+		}
+		return mav;
+	}
+	
+	@RequestMapping("/changeMap.do")
+	public ModelAndView changeMap(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num,
+			@RequestParam("map_title") String map_title,
+			@RequestParam("member_idx") int member_idx,
+			@RequestParam("people_num") int people_num,
+			@RequestParam("trip_type") int trip_type,
+			@RequestParam("starty") int starty,
+			@RequestParam("startm") int startm,
+			@RequestParam("startd") int startd,
+			@RequestParam("endy") int endy,
+			@RequestParam("endm") int endm,
+			@RequestParam("endd") int endd,
+			@RequestParam("share_ok") String share_ok,
+			@RequestParam("del_ok") String del_ok
+			) {
+		String startdate_s=starty+"-"+startm+"-"+startd;
+		String enddate_s=endy+"-"+endm+"-"+endd;
+		Date startdate=Date.valueOf(startdate_s);
+		Date enddate=Date.valueOf(enddate_s);
+		
+		ModelAndView mav = new ModelAndView();
+		Gooppl_mapDTO dto = new Gooppl_mapDTO(map_idx, map_title, member_idx, people_num, trip_type, startdate, enddate, enddate, share_ok, del_ok);
+		int result=gooppl_mapService.updateMap(dto);
+		int result2=mapinfoService.deleteMapInfo(map_idx, day_num);
+		System.out.println(result);
+		System.out.println(result2);
+		mav.addObject("msg", map_idx);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	/**
+	@RequestMapping("/loadPlaceDetail.do")
+	@ResponseBody
+	public ModelAndView loadPlaceDetail(@RequestParam("contentid")int contentid) {
+		ModelAndView mav = new ModelAndView();
+		List<Gooppl_PlaceDetailDTO> placedetail = gooppl_placedetailService.placeDetailList(contentid);
+		mav.addObject("placedetail", placedetail);
+		return mav;
+	}
+	*/
+	
+	@RequestMapping(value = "/loadPlaceDetail.do", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap <String, Object> loadPlaceDetail2(HttpServletRequest request) {
+		HashMap<String, Object> result = new HashMap <String,Object>();
+		
+		String contentidid_s = request.getParameter("contentid");
+		
+		int contentid=Integer.parseInt(contentidid_s);
+		
+		List<Gooppl_PlaceDetailDTO> placedetail = sqlSession.selectList("detailList", contentid);
+		
+		if ( placedetail.isEmpty() ) {
+			String Msg = "이력이 없습니다.";
+			String Code = "1";
+			
+			result.put("Msg", Msg);
+			result.put("Code", Code);
+			
+			return result;
+		} else {
+			String Msg = "성공";
+			String Code = "0";
+			
+			result.put("Msg", Msg);
+			result.put("Code", Code);
+			result.put("data", placedetail);
+			
+			return result;
+		}
+	}
+	
 }

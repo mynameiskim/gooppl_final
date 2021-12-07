@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -58,6 +58,9 @@
   			${search_type} LIKE '%' || #{search} || '%' AND 
   		outdate <![CDATA[>=]]> #{start_date} AND outdate <![CDATA[<=]]> #{end_date}
   	</select>
+  	<insert id="insertMemberOut">
+  		insert into member_out values(member_out_idx.nextval,#{goo_id},#{out_reason},sysdate)
+  	</insert>
   	<delete id="memberOutDelete" parameterType="Integer">
   		DELETE FROM
   			member_out

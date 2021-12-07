@@ -6,8 +6,37 @@
 <head>
 <meta charset="UTF-8">
 <title>관광지 데이터 게시판</title>
+<style>
+select{
+	margin-left: 5px;
+    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
+    padding: 0.5rem 0.4rem;
+    height: auto;
+    font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    border: 0;
+	border-radius: 5px;
+}
+input[type="button"]{
+	border: 0;
+	background-color: #f3969a;
+	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    border-radius: 5px;
+	color: white;
+    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
+}
+table{
+	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    align: center;
+}
+</style>
 </head>
 <link href="resource/css/styles.css" rel="stylesheet" />
+<link href="resource/css/bootstrap.min.css" rel="stylesheet" />
 <script src="resource/js/httpRequest.js"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
@@ -254,7 +283,7 @@ function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 		<c:if test="${empty adlist }">
 			<tr class="noContent">
 				<td colspan="5" align="center">
-				등록된 게시글이 없습니다.
+				등록된 광고가 없습니다.
 				</td>
 			</tr>
 		</c:if>
@@ -299,40 +328,43 @@ if(datay_n!='undefined'){
 	}
 }
 </script>
-<h1>실험</h1>
-<select name="contenttype" id="contenttype">
-	<option value="12">관광지</option>
-	<option value="14">문화시설</option>
-	<option value="32">숙박</option>
-	<option value="38">쇼핑</option>
-	<option value="39">음식점</option>
-</select>
-<select name="areacode" id="areacode" onchange="changeAreacode()">
-	<c:forEach var="areadto" items="${arealist }">
-		<option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
-	</c:forEach>
-</select>
-<select name="sigungucode" id="sigungucode">
-    <option value="">==전체==</option>
-	<c:forEach var="sigungudto" items="${sigungulist }">
-		<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
-	</c:forEach>
-</select>
-<input type="button" id="searchBtn" onclick="show()" value="검색">
-<table border="1">
-	<tr>
-		<td colspan="4" id="placenum">검색결과 : 0개</td>
-	</tr>
-</table>
-<table name="viewTable" id="viewTable" style="word-break:break-all;width:900px;align:center;text-align: center;">
-</table>
-<div id="pageModule" style="align:center;">
-	<div class="row justify-content-md-center">
-         <div class="col-md-3 ">
-             <ul class="pagination">
-             </ul>
-         </div>
+<section class="signup-section">
+	<div class="container-sm text-center">
+		<select name="contenttype" id="contenttype">
+			<option value="12">관광지</option>
+			<option value="14">문화시설</option>
+			<option value="32">숙박</option>
+			<option value="38">쇼핑</option>
+			<option value="39">음식점</option>
+		</select>
+		<select name="areacode" id="areacode" onchange="changeAreacode()">
+			<c:forEach var="areadto" items="${arealist }">
+				<option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
+			</c:forEach>
+		</select>
+		<select name="sigungucode" id="sigungucode">
+		    <option value="">==전체==</option>
+			<c:forEach var="sigungudto" items="${sigungulist }">
+				<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
+			</c:forEach>
+		</select>
+		<input type="button" id="searchBtn" onclick="show()" value="검색">
+		<table border="1">
+			<tr>
+				<td colspan="4" id="placenum">검색결과 : 0개</td>
+			</tr>
+		</table>
+		<table name="viewTable" id="viewTable" style="word-break:break-all;width:900px;align:center;text-align: center;">
+		</table>
+		<div id="pageModule" style="align:center;">
+			<div class="row justify-content-md-center">
+		         <div class="col-md-3 ">
+		             <ul class="pagination">
+		             </ul>
+		         </div>
+			</div>
+		</div>
 	</div>
-</div>
+</section>
 </body>
 </html>

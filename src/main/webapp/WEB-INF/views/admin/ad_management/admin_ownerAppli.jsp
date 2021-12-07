@@ -9,7 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 .tr_bg{
-   --bs-table-accent-bg: #1987541f !important;
+   --bs-table-accent-bg: #24292f !important;
 }
 .f_tab_th{
     text-align: center;
@@ -21,7 +21,7 @@ tr{
     border:1px solid lightgray;
 }
 .tb_hover{
-	--bs-table-hover-bg: #1987541f !important;
+	--bs-table-hover-bg: lightgray !important;
 }
 </style>
 <script>
@@ -288,26 +288,26 @@ function appliD_Delete(index){
 		<dl>
 			<dt>광고주 관리</dt>
 			<dd>
-				- <a href='admin_ownerAppli.do'
-				>광고주 신청 관리</a><br />
-				- <a href='admin_allOwner.do'
-				>광고주 정보 관리</a>
+				<a href='admin_ownerAppli.do' style="color: white !important;"
+				>-광고주 신청 관리</a><br />
+				<a href='admin_allOwner.do' style="color: white !important;"
+				>-광고주 정보 관리</a>
 			</dd>
 			<dt>광고 문의 관리</dt>
 			<dd>
-				- <a href='admin_adAppli.do'
-				>광고 신청 관리</a><br />
-				- <a href='admin_adRevise.do'
-				>광고 수정 관리</a><br/>
-				- <a href='admin_adCancel.do'
-				>광고 취소 관리</a>
+				<a href='admin_adAppli.do' style="color: white !important;"
+				>-광고 신청 관리</a><br />
+				<a href='admin_adRevise.do' style="color: white !important;"
+				>-광고 수정 관리</a><br/>
+				<a href='admin_adCancel.do' style="color: white !important;"
+				>-광고 취소 관리</a>
 			</dd>
 			<dt>광고 상태 관리</dt>
 			<dd>
-				- <a href='admin_paymentStatus.do'
-				>결제 상태 관리</a><br />
-				- <a href='admin_adStatus.do'
-				>광고 상태 관리</a>
+				<a href='admin_paymentStatus.do' style="color: white !important;"
+				>-결제 상태 관리</a><br />
+				<a href='admin_adStatus.do' style="color: white !important;"
+				>-광고 상태 관리</a>
 			</dd>
 		</dl>
 	</div>
@@ -315,11 +315,11 @@ function appliD_Delete(index){
 		<ul class='helpbox'>
 			<li>신청된 광고주 정보를 확인하고 승인 및 거절을 할 수 있는 메뉴입니다.</li>
 		</ul>
-        <fieldset style="border:0px solid #dde0e5; padding: 12px 14px 0px;
+        <fieldset style="border:0px solid #0000008c; padding: 12px 14px 10px;
 		margin-bottom: 5px;">
         <table class="table table-hover tb_hover">
         		<thead>
-                <tr class="tr_bg">
+                <tr class="tr_bg active text-white text-opacity-75">
                 	<th class="f_tab_th">번호</th>
                 	<th class="f_tab_th">회원번호</th>
                 	<th class="f_tab_th">상호명</th>

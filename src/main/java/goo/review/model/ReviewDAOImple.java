@@ -25,13 +25,18 @@ public class ReviewDAOImple implements ReviewDAO {
 		return list;
 	}
 
-	public ReviewDTO reviewContent(int idx) {
-		ReviewDTO dto=sqlMap.selectOne("reviewContent",idx);
+	public ReviewDTO reviewContent(int review_idx) {
+		ReviewDTO dto=sqlMap.selectOne("reviewContent",review_idx);
 		return dto;
 	}
 
 	public int getTotalCnt() {
 		int count=sqlMap.selectOne("totalCnt");
+		return count;
+	}
+	
+	public int delReview(int review_idx) {
+		int count=sqlMap.delete("reviewDelete", review_idx);
 		return count;
 	}
 

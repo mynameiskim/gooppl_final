@@ -81,10 +81,8 @@ body {
     </div>
   <script>
   $('#newPwdbt').click(function(){
-	  alert('여기까진댐');
 	  var pwd = $('#pwd').val();
 	  var goo_id = $('#goo_id').val();
-	  alert('여기까진댐');
 	  $.ajax({
           type:"POST",
           url:"pwdChange.do",
@@ -98,7 +96,6 @@ body {
 					  allowOutsideClick:false
 	        	  }).then((result) => {
 				    	if (result.isConfirmed) {
-				    		opener.location.reload();
 				    		window.self.close();
 				    	}
 				    })

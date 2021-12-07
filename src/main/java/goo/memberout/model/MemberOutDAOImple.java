@@ -1,4 +1,4 @@
-package goo.memberout.model;
+﻿package goo.memberout.model;
 
 import java.util.*;
 
@@ -30,6 +30,11 @@ public class MemberOutDAOImple implements MemberOutDAO {
 		}
 		
 		return list;
+	}
+
+	public int insertMemberOut(Map hmp) {
+		int count = sqlMap.insert("insertMemberOut", hmp);
+		return count;
 	}
 	public int totalMemberOut() {
 		int count = sqlMap.selectOne("totalMemberOut");
