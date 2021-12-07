@@ -4,14 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goo.ad">
 	<insert id="startAD" parameterType="goo.ad.model.AdDTO">
-	insert into
-		ad_info
+	INSERT INTO
+		AD_INFO
 	values(
 		ad_info_idx.nextval,
 		#{owner_idx},
 		#{imp_uid},
-		sysdate
+		#{ad_period},
+		sysdate,
+		SYSDATE + #{ad_period}*30,
+		#{ad_state}
 	)
 	</insert>
+	<delete id="admin_paymentDel">
 	
+	</delete>
 </mapper>

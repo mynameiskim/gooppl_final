@@ -10,5 +10,8 @@ public class AdDAOImple implements AdDAO {
 		super();
 		this.sqlMap = sqlMap;
 	}
-
+	public int startAD(AdDTO adto) {
+		int result = sqlMap.insert("startAD",adto);
+		return result;
+	}
 }

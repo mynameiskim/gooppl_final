@@ -4,6 +4,7 @@ import java.util.*;
 
 public interface Ad_inquiryService {
 	public int adInquiry(Ad_inquiryDTO dto);
+	public int payOk_InquiryDel(int owner_idx);
 	
 	public int admin_totalAdInquiry();
 	public int admin_totalAdUpdateInquiry();
@@ -15,4 +16,6 @@ public interface Ad_inquiryService {
 	public Ad_inquiryDTO adInquiry_Info(int inquiry_idx);
 	public String ckAdInquiry(int member_idx);
 	public Ad_inquiryDTO ad_paymentInfo(int member_idx);
+	public int admin_adInquiry_del(int inquiry_idx);
+	public int admin_delInquiry_Ok(int inquiry_idx);
 }
