@@ -1049,7 +1049,8 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     markers.push(marker);
     
     kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow, markerPosition, markerImage2));
-    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map, marker, infowindow, markerPosition, markerImage));
+    //kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map, marker, infowindow, markerPosition, markerImage));
+    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     
  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     kakao.maps.event.addListener(marker, 'click', function() {
