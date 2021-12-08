@@ -32,4 +32,7 @@
   		where 
   			map_idx=#{map_idx} and day_num=#{day_num}
   	</delete>
+  	<select id="getTotalPlace" parameterType="Integer" resultType="Integer">
+  		select count(*) from mapinfo where map_idx = #{map_idx}
+  	</select>
   </mapper>

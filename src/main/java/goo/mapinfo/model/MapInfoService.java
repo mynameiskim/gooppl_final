@@ -7,4 +7,5 @@ public interface MapInfoService {
 	public List<MapInfoDTO> mapInfoList(Map map);
 	public List<Integer> getThisMapInfo(int map_idx, int day_num);
 	public int deleteMapInfo(int map_idx, int day_num);
+	public int getTotalPlace(int map_idx);
 }
