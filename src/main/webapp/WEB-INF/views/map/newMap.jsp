@@ -1712,7 +1712,7 @@ function getResultAdd2(){
 				);
 				setTimeout(function() {
 					location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
-				}, 1000);
+				}, 500);
 			}
 		}
 	}

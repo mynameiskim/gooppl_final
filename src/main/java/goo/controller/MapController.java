@@ -257,6 +257,44 @@ public class MapController {
 		return mav;
 	}
 	
+	@RequestMapping("/delDateData.do")
+	public ModelAndView delDateData(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("starty") int starty,
+			@RequestParam("startm") int startm,
+			@RequestParam("startd") int startd,
+			@RequestParam("endy") int endy,
+			@RequestParam("endm") int endm,
+			@RequestParam("endd") int endd,
+			@RequestParam("day") int day) {
+		String startdate_s=starty+"-"+startm+"-"+startd;
+		String enddate_s=endy+"-"+endm+"-"+endd;
+		Date startdate=Date.valueOf(startdate_s);
+		Date enddate=Date.valueOf(enddate_s);
+		
+		ModelAndView mav = new ModelAndView();
+		int result=gooppl_mapService.updateMapDate(map_idx, startdate, enddate);
+		if(result>0) {
+			int result2=mapinfoService.deleteMapDay(map_idx, day);
+		}
+		String msg=result>0?"성공":"실패";
+		mav.addObject("msg", msg);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
+	@RequestMapping("/delThisDayAllInfo.do")
+	public ModelAndView delThisDayAllInfo(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num
+			) {
+		ModelAndView mav=new ModelAndView();
+		int result=mapinfoService.delThisDayAllInfo(map_idx, day_num);
+		mav.addObject("msg", result);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
 	@RequestMapping("/changeMap.do")
 	public ModelAndView changeMap(
 			@RequestParam("map_idx") int map_idx,

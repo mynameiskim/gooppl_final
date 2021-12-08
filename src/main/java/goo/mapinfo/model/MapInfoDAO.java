@@ -9,4 +9,6 @@ public interface MapInfoDAO {
 	public List<Integer> getThisMapInfo(Map map);
 	public int deleteMapInfo(Map map);
 	public int getTotalPlace(int map_idx);
+	public int deleteMapDay(Map map);
+	public int delThisDayAllInfo(Map map);
 }

@@ -289,7 +289,7 @@
                 <div class="card" style="max-width: 1024px; padding-left:0px;padding-right:0px;">
                     <div class="row align-items-center">
                         <div class="col-md-5">
-                        	<img src="${firstImg[status.index(0)}" class="img-responsive rounded-start" alt="..." style="width:100%; height:100%;">
+                        	<img src="${firstImg[status.index]}" class="img-responsive rounded-start" alt="..." style="width:100%; height:100%;">
                         </div>
                         <div class="col-md-7">
                             <div class="card-body align-items-center"  style="font-size:18px;">

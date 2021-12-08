@@ -1,5 +1,6 @@
 ﻿package goo.map_t.model;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,15 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 	
 	public int updateMap(Gooppl_mapDTO dto) {
 		int result=gooppl_mapDao.updateMap(dto);
+		return result;
+	}
+	
+	public int updateMapDate(int map_idx, Date startdate, Date enddate) {
+		Map map=new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("startdate", startdate);
+		map.put("enddate", enddate);
+		int result=gooppl_mapDao.updateMapDate(map);
 		return result;
 	}
 	
