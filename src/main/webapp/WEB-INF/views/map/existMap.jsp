@@ -818,7 +818,7 @@ function Info(contentid) {
                    var addr = data.data[0].addr;
                    var mapy = data.data[0].mapy;
                    var mapx = data.data[0].mapx;
-                   var   image = data.data[0].firstimage;
+                   var image = data.data[0].firstimage;
                    var contentid = data.data[0].contentid;          
                        
                    makeMarker(contentid, mapy, mapx, title, image, addr);
