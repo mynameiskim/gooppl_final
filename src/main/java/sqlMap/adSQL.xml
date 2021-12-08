@@ -1,16 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goo.ad">
 	<insert id="startAD" parameterType="goo.ad.model.AdDTO">
-	insert into
-		ad_info
+	INSERT INTO
+		AD_INFO
 	values(
 		ad_info_idx.nextval,
 		#{owner_idx},
 		#{imp_uid},
-		sysdate
+		#{ad_period},
+		sysdate,
+		SYSDATE + #{ad_period}*30,
+		#{ad_state}
 	)
 	</insert>
+	<delete id="admin_refundAd_Del" parameterType="String">
+		DELETE FROM
+			AD_INFO
+		WHERE
+			IMP_UID = #{imp_uid}
+	</delete>
 </mapper>

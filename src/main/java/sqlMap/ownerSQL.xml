@@ -130,5 +130,4 @@
 		WHERE
 			OWNER_IDX = #{owner_idx}
 	</update>
-	
 </mapper>

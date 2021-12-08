@@ -24,6 +24,7 @@ import goo.ad_inquery.model.Ad_inquiryService;
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
 import goo.member.model.MemberService;
+import goo.payment_info.model.Payment_infoService;
 
 @Controller
 public class MainController {
@@ -36,6 +37,8 @@ public class MainController {
 	private FormmailService formmailService;
 	@Autowired
 	private Ad_inquiryService ad_inquiryService;
+	@Autowired
+	private Payment_infoService payment_infoService;
 	
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	private static final int EMAIL_PWD_FIND_FORMMAIL_NO = 3;
@@ -45,6 +48,7 @@ public class MainController {
 		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
 		String ad_inquiry_state = ad_inquiryService.ckAdInquiry(member_idx);
 		session.setAttribute("ad_inquiry_state", ad_inquiry_state);
+		
 		return "member/mypage";
 	}
 	
