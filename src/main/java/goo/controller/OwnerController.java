@@ -18,6 +18,8 @@ import java.util.List;
 @Controller
 public class OwnerController {
 
+	public static final String HOME = "C:\\정혜수\\final\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\gooppl\\resource\\img\\owner";
+	
 	@Autowired
 	private OwnerService ownerService;
 	@Autowired
@@ -72,12 +74,25 @@ public class OwnerController {
 		return mav;
 	}
 	
+	/**업로드 폴더 생성 관련 메서드*/
+	public String userFolderExist() {
+
+		File f=new File(HOME+"\\"+ownerService.getMaxOwner_idx());
+		String imgUrl=HOME+"\\"+ownerService.getMaxOwner_idx();
+		if(!f.exists()) {
+			f.mkdir();
+		}
+		return imgUrl;
+	}
+	
 	/**광고 이미지 파일 복사 관련 메서드*/
-	public String copyInto(int member_idx, MultipartFile upload) {
+	public String copyInto(String imgUrl, MultipartFile upload) {
 	 
 		 //이미지 경로
-		 String imgUrl = "C:\\Users\\USER\\Desktop\\finalImg\\"+ upload.getOriginalFilename();
+		 //String imgUrl = "C:\\정혜수\\final\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\gooppl\\resource\\img\\owner\\"+ upload.getOriginalFilename();
 		 
+		 imgUrl += upload.getOriginalFilename();
+		
 		 try {
 		     //원본
 			 byte[] bytes = upload.getBytes();
@@ -94,11 +109,14 @@ public class OwnerController {
 		 return imgUrl;
 	}
 	
+	
+	
 	/**광고주 정보 등록 관련 명령어*/
 	@RequestMapping("/addOwnerInfo.do")
 	public ModelAndView addOwnerInfo(OwnerDTO dto) {
 		System.out.println("정보등록 진입");
-		String firstimg = copyInto(dto.getMember_idx(), dto.getUpload());
+		String imgUrl = userFolderExist();
+		String firstimg = copyInto(imgUrl, dto.getUpload());
 		dto.setFirstimg(firstimg);
 		dto.setState("대기");
 		System.out.println("광고 정보 수정 전:"+dto.getAd_content());

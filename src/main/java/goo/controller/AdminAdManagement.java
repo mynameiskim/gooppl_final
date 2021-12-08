@@ -430,4 +430,25 @@ public class AdminAdManagement {
 		return msg;
 	}
 	
+	/**결제 내역 리스트*/
+	@RequestMapping("/admin_paymentStatus.do")
+	public ModelAndView admin_payment_list(@RequestParam(value = "cp",defaultValue = "1")int cp) {
+		int listSize=5;
+		int pageSize=5;
+		int totalPayment = payment_infoService.totalPayment();
+		System.out.println("전체:"+totalPayment);
+		String pageStr = goo.page.PageModule.makePage("admin_paymentStatus.do", totalPayment, listSize, pageSize, cp);
+		System.out.println("admin_payment_list OK");
+		List<Payment_infoDTO> list = payment_infoService.allPayment_Info(cp, listSize);
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("cp", cp);
+		mav.addObject("size", list.size());
+		mav.addObject("listSize", listSize);
+		mav.addObject("pageStr", pageStr);
+		mav.addObject("list", list);
+		mav.addObject("totalPayment", totalPayment);
+		mav.setViewName("admin/ad_management/admin_payment_list");
+		return mav;
+	}
 }

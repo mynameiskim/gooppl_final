@@ -106,4 +106,9 @@ public class OwnerServiceImple implements OwnerService {
 		int result = ownerDao.admin_owner_del(owner_idx);
 		return result;
 	}
+	
+	public int getMaxOwner_idx() {
+		int result = ownerDao.getMaxOwner_idx();
+		return result;
+	}
 }

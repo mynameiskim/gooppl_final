@@ -94,4 +94,9 @@ public class OwnerDAOImple implements OwnerDAO {
 		int result = sqlMap.delete("admin_owner_del", owner_idx);
 		return result;
 	}
+	
+	public int getMaxOwner_idx() {
+		int result = sqlMap.selectOne("getMaxOwner_idx");
+		return result;
+	}
 }

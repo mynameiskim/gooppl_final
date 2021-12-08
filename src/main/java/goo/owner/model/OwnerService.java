@@ -20,4 +20,5 @@ public interface OwnerService {
 	public int admin_ownerUpdate(OwnerDTO dto);
 	public int ckBusinessNum(String business_number);
 	public int admin_owner_del(int owner_idx);
+	public int getMaxOwner_idx();
 }

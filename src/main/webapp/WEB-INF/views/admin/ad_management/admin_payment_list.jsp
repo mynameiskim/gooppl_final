@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="${pageContext.request.contextPath}/resource/css/admin_header.css" type="text/css" rel="stylesheet">
+<script src="resource/js/httpRequest.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
@@ -121,37 +121,45 @@ function memberDelete(index){
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="container">
 	<div id="aside">
-		<h5><b>회원관리</b></h5>
+		<h5><b>광고 관리</b></h5>
 		<dl>
-			<dt>회원목록</dt>
+			<dt>광고주 관리</dt>
 			<dd>
-				 <a href="admin_member_list.do" style="color: white !important;"
-				>-회원목록</a><br />
+				<a href='admin_ownerAppli.do' style="color: white !important;"
+				>-광고주 신청 관리</a><br />
+				<a href='admin_allOwner.do' style="color: white !important;"
+				>-광고주 정보 관리</a>
 			</dd>
-			<dt>탈퇴회원목록</dt>
+			<dt>광고 문의 관리</dt>
 			<dd>
-				 <a href="admin_member_out.do" style="color: white !important;"
-					>-탈퇴회원목록</a><br />
+				<a href='admin_adAppli.do' style="color: white !important;"
+				>-광고 신청 관리</a><br />
+				<a href='admin_adRevise.do' style="color: white !important;"
+				>-광고 수정 관리</a><br/>
+				<a href='admin_adCancel.do' style="color: white !important;"
+				>-광고 취소 관리</a>
 			</dd>
-			<dt>폼메일 관리</dt>
+			<dt>광고 상태 관리</dt>
 			<dd>
-				 <a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
-				>-폼메일 관리</a><br />
+				<a href='admin_paymentStatus.do' style="color: white !important;"
+				>-결제 상태 관리</a><br />
+				<a href='admin_adStatus.do' style="color: white !important;"
+				>-광고 상태 관리</a>
 			</dd>
 		</dl>
 	</div>
 	<div id="contents">
-    	<h6><b>회원목록</b></h6>
+    	<h6><b>결제 내역 관리</b></h6>
     	<ul class='helpbox'>
-				<li>사이트에 가입한 회원목록 입니다.</li>
+				<li>결제 내역을 확인하고 관리할 수 있는 메뉴입니다.</li>
 			</ul>
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
 				<th style="border: 1px solid #0000008c;">조건 검색</th>
 				<td style="border: 1px solid #0000008c;">
-					<select style="height: 22px;">
-						<option>제목</option>
-						<option>작성자</option>
+					<select id="condition" name="condition" style="height: 22px;">
+						<option value="payState">결제상태</option>
+						<option value="payImp_uid">주문번호</option>
 						<option>내용</option>
 					</select>
 					<input type="text" style="width: 300px;">
@@ -168,25 +176,19 @@ function memberDelete(index){
 				</div>	
 			</div>
 			<div class="row">
-				<div class="col-md-3 text-left">
-					<label><b>총 회원수:${totalMember}</b> <b>검색수:</b></label>
-				</div>
-				<div class="col-md-9 mb-1" style="writing-mode: vertical-rl;">
-					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="엑셀파일저장"> 
+				<div class="col-md-12 text-left">
+					<label><b>총 회원수:${totalPayment}</b>&nbsp; <b>검색수:</b></label>
 				</div>
 			</div>
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
-					<th class="text-center active text-white text-opacity-75" style="width:2%;"></th>
 					<th class="text-center active text-white text-opacity-75" style="width:4%;">번호</th>
-                    <th class="text-center active text-white text-opacity-75" style="width:8%;">회원번호</th>
-                    <th class="text-center active text-white text-opacity-75" style="width:8%;">회원유형</th>
-                    <th class="text-center active text-white text-opacity-75" style="width:6%;">닉네임</th>
-					<th class="text-center active text-white text-opacity-75" style="width:12%;">구플 아이디</th>
-					<th class="text-center active text-white text-opacity-75" style="width:16%;">네이버 아이디</th>
-					<th class="text-center active text-white text-opacity-75" style="width:14%;">카카오 아이디</th>
-					<th class="text-center active text-white text-opacity-75" style="width:13%;">회원가입일</th>
+                    <th class="text-center active text-white text-opacity-75" style="width:12%;">주문번호</th>
+					<th class="text-center active text-white text-opacity-75" style="width:6%;">결제금액</th>
+					<th class="text-center active text-white text-opacity-75" style="width:40%;">주문명</th>
+					<th class="text-center active text-white text-opacity-75" style="width:14%;">결제일</th>
+					<th class="text-center active text-white text-opacity-75" style="width:10%;">상태</th>
 					<th class="text-center active text-white text-opacity-75" style="width:15%;">기능</th>
 				</tr>
 		</thead>
@@ -205,17 +207,14 @@ function memberDelete(index){
 		  	</c:if>
 		  	<c:forEach var="list" items="${list}" varStatus="status">
 		  		<tr class="tr_aling">
-			      <th class="text-center" style="width:2%;"><input type="checkbox"></th>
 			      <td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}</td>
-			      <td class="text-center" style="width:8%;">${list.member_idx}
-			      	<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}">
+			      <td class="text-center" style="width:12%;">${list.imp_uid}
+			      	<input id="imp_uid${status.index}" type="hidden" value="${list.imp_uid}">
 			      </td>
-			      <td class="text-center" style="width:8%;">${list.member_type}</td>
-			      <td class="text-center" style="width:6%;">${list.nickname}</td>
-			      <td class="text-center" style="width:12%;">${list.goo_id}</td>
-			      <td class="text-center" style="width:16%;">${list.naver_id}</td>
-			      <td class="text-center" style="width:14%;">${list.kakao_id}</td>
-			      <td class="text-center" style="width:13%;">${list.join_date}</td>
+			      <td class="text-center" style="width:6%;">\ ${list.amount}</td>
+			      <td class="text-center" style="width:40%;">임시 ${list.merchant_uid}</td>
+			      <td class="text-center" style="width:14%;">${list.payDate}</td>
+			      <td class="text-center" style="width:10%;">${list.status}</td>
 			      <td class="text-center" style="width:15%;">
 			      <input id="btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-secondary" value="상세보기" onclick="memberInfo(${status.index},${size})">
 			      <input id="delete_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="삭제" onclick="memberDelete(${status.index})">
