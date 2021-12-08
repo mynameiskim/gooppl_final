@@ -44,4 +44,9 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 		int result=gooppl_placedetailDao.getLastAreacode(map);
 		return result;
 	}
+	
+	public String getFirstImg(int map_idx) {
+		String firstImg = gooppl_placedetailDao.getFirstImg(map_idx);
+		return firstImg;
+	}
 }

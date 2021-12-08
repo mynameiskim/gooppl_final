@@ -39,4 +39,8 @@ public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 		int result=sqlMap.selectOne("getLastAreacode", map);
 		return result;
 	}
+	public String getFirstImg(int map_idx) {
+		String firstImg = sqlMap.selectOne("getFirstImg",map_idx);
+		return firstImg;
+	}
 }

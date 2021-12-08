@@ -3,6 +3,7 @@
 
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
@@ -23,7 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import goo.ad_inquery.model.Ad_inquiryService;
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
+import goo.map_t.model.Gooppl_mapDTO;
+import goo.map_t.model.Gooppl_mapService;
+import goo.mapinfo.model.MapInfoService;
 import goo.member.model.MemberService;
+import goo.placedetail.model.Gooppl_PlaceDetailService;
 
 @Controller
 public class MainController {
@@ -36,16 +41,42 @@ public class MainController {
 	private FormmailService formmailService;
 	@Autowired
 	private Ad_inquiryService ad_inquiryService;
+	@Autowired
+	private Gooppl_mapService gooppl_mapService;
+	@Autowired
+	private MapInfoService mapInfoService;
+	@Autowired
+	private Gooppl_PlaceDetailService gooppl_PlaceDetailService;
 	
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	private static final int EMAIL_PWD_FIND_FORMMAIL_NO = 3;
 	
 	@RequestMapping("/mypage.do")
-	public String mypage(HttpSession session) {
+	public ModelAndView mypage(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
 		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
 		String ad_inquiry_state = ad_inquiryService.ckAdInquiry(member_idx);
 		session.setAttribute("ad_inquiry_state", ad_inquiry_state);
-		return "member/mypage";
+		List<Gooppl_mapDTO> mapDTO = gooppl_mapService.getMap(member_idx);
+		int totalPlaceCount[] = new int[mapDTO.size()];
+		String firstImg[] = new String[mapDTO.size()];
+		
+		
+		
+		for(int i=0;i<mapDTO.size();i++) {
+			
+			totalPlaceCount[i] = mapInfoService.getTotalPlace(mapDTO.get(i).getMap_idx());
+			firstImg[i] = gooppl_PlaceDetailService.getFirstImg(mapDTO.get(i).getMap_idx());
+			
+			
+		}
+		
+		
+		mav.addObject("mapDTO",mapDTO);
+		mav.addObject("totalPlaceCount", totalPlaceCount);
+		mav.addObject("firstImg",firstImg);
+		mav.setViewName("member/mypage");
+		return mav;
 	}
 	
 	@RequestMapping("/newPwd.do")

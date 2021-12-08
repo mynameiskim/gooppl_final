@@ -11,7 +11,9 @@
 #allDiv{
 	position: absolute;
 	top: 10%;
-	left: 22%;
+	top: 30px;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 #area_txtTable {
 	width:800px;
