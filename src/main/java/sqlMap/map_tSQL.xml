@@ -55,4 +55,14 @@
   		where
   			map_idx=#{map_idx}
   	</update>
+  	<!-- share LIST -->
+  	<select id="sharetotalCnt" resultType="Integer">
+  		select count(*) from mapt
+  	</select>
+  	<select id="shareMapAllList" parameterType="Map" resultType="goo.map_t.model.Gooppl_mapDTO">
+		select * from
+		(select rownum as rnum,a.* from
+		(select * from mapt order by map_idx desc)a)b
+		where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end} order by registdate desc
+  	</select>
   </mapper>

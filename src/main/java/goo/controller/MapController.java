@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 
 import goo.area.model.AreaDTO;
 import goo.area.model.AreaService;
@@ -28,12 +29,16 @@ import goo.owner.model.OwnerDTO;
 import goo.owner.model.OwnerService;
 import goo.placedetail.model.Gooppl_PlaceDetailDTO;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
+import goo.review.model.ReviewDTO;
 import goo.sigungu.model.SigunguDTO;
 import goo.sigungu.model.SigunguService;
 
 @Controller
 public class MapController {
 
+	List<MapInfoDTO> daynum = null;
+	List<MapInfoDTO> routenum = null;
+	
 	@Autowired
 	private SigunguService sigunguService;
 	@Autowired
@@ -389,5 +394,33 @@ public class MapController {
 			return result;
 		}
 	}
+	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	
+	/** 게시판 목록 */
+	@RequestMapping("/share.do")
+	public ModelAndView shareList(
+			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+		int listSize=16;
+		int pageSize=10;
+		int totalCnt=gooppl_mapService.getShareCnt();
+		List<Gooppl_mapDTO> list = gooppl_mapService.mapList(cp,listSize);
+		String sharePageStr=goo.page.PageModule.makePage("share.do", totalCnt, listSize, pageSize, cp);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.addObject("sharePageStr",sharePageStr);
+		mav.setViewName("share/share_list");
+		return mav;
+	}
+	
+	public ModelAndView shareContent(
+			MapInfoDTO midto,
+			@RequestParam("map_idx")int map_idx
+			) {
+		ModelAndView mav=new ModelAndView();
+		return mav;
+	}
+	
+	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	
 	
 }

@@ -1,5 +1,11 @@
 package goo.map_t.model;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import goo.review.model.ReviewDTO;
+
 public class Gooppl_mapServiceImple implements Gooppl_mapService {
 
 	private Gooppl_mapDAO gooppl_mapDao;
@@ -30,5 +36,20 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 	public int updateMap(Gooppl_mapDTO dto) {
 		int result=gooppl_mapDao.updateMap(dto);
 		return result;
+	}
+	
+	/**### 공유게시판 목록보기 ###*/
+	public List<Gooppl_mapDTO> mapList(int cp, int ls) {
+		int start=(cp-1)*ls+1;
+		int end=cp*ls;
+		Map map=new HashMap();
+		map.put("start", start);
+		map.put("end", end);
+		List<Gooppl_mapDTO> list=gooppl_mapDao.mapList(map);
+		return list;
+	}
+	public int getShareCnt() {
+		int count = gooppl_mapDao.getShareCnt();
+		return count;
 	}
 }
