@@ -269,7 +269,7 @@
                             <div class="col-md-5 form-group">
                                 <label for="registration_date" class="form-label">대표사진</label>
                                 <div class="input-group has-validation">
-                                    <input type="file" class="form-control form-control-sm mb-2" name="upload" required>
+                                    <input type="file" class="form-control form-control-sm mb-2" name="upload" required = "required" accept=".jpg, .jpeg, .png, .JPG, .JPEG">
                                 </div>
                             </div>
                             <div class="col-md-9 form-group">

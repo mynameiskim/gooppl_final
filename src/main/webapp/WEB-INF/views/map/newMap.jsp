@@ -11,6 +11,8 @@
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
@@ -114,6 +116,7 @@ var setSigungucode;
 var setContenttype;
 var map_idx;
 var moveDay;
+var isClick=false;
 
 var adContents=[];
 <c:if test="${empty adlist }">
@@ -157,6 +160,7 @@ $(function () {
 /**추가한 여행지 전체삭제*/
 $(function () {
     $('#del_Bt').click( function() {
+    	
         $('#savedList').empty();
         
         hideLines();
@@ -169,6 +173,7 @@ $(function () {
         images.splice(0, images.length);
         addrs.splice(0, addrs.length);
         contentids.splice(0, contentids.length);
+        contenttypeids.splice(0, contentids.length);
         count2 = 0;
     });
 });
@@ -190,13 +195,42 @@ $(function() {
         images.splice(click_id, 1);
         addrs.splice(click_id, 1);    
         contentids.splice(click_id, 1);
+        contenttypeids.splice(click_id, 1);
         listItems.splice(click_id, 1);        
         
     	for(var i=0; i<mapys.length; i++){
     		
-    	   	var marker = new kakao.maps.Marker({
-    	        position: new kakao.maps.LatLng(mapys[i], mapxs[i])
-    	    });
+    	    var imageSrc;
+    	    var imageSrc2;
+    	    
+    	    if(contenttypeid==12){ //관광지
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
+    	    }else if(contenttypeid==39){ //음식점
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
+    	    }else if(contenttypeid==32){ //숙박
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
+    	    }else if(contenttypeid==38){ //쇼핑
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
+    	    }
+    	    
+    	    // 결과값으로 받은 위치를 마커로 표시합니다
+    		var imageSize = new kakao.maps.Size(26, 36), // 마커이미지의 크기입니다
+    		    imageOption = {offset: new kakao.maps.Point(12, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    		
+    		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+    			markerImage2 = new kakao.maps.MarkerImage(imageSrc2, imageSize, imageOption),
+    		    markerPosition = new kakao.maps.LatLng(mapys[i], mapxs[i]); // 마커가 표시될 위치입니다
+    		
+    		// 마커를 생성합니다
+    		var marker = new kakao.maps.Marker({
+    		  position: markerPosition,
+    		  image: markerImage // 마커이미지 설정 
+    		});
     	    
     	    var xy = {
     	   		position: new kakao.maps.LatLng(mapys[i], mapxs[i])
@@ -204,9 +238,20 @@ $(function() {
     	    
     	    latly[i]= xy.position;
 
-    	    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    	 // 인포윈도우로 장소에 대한 설명을 표시합니다
     	    var infowindow = new kakao.maps.InfoWindow({
-    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+			    			'<tr style="margin-top:0px;">'+
+			    				'<td><img src="'+images[i]+'" style="width:155px;height:100px;"></td>'+
+			    			'</tr>'+
+			    			'<tr style="height:80px;">'+
+			    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+			    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+titles[i]+'</p>'+
+			    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addrs[i]+'<br>'+
+			    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentids[i]+')">'+
+			    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+			    			'</tr>'+
+						'</table>'
     	    });
     	    
     	    // 이동할 위도 경도 위치를 생성합니다 
@@ -218,13 +263,23 @@ $(function() {
     	    
     	    markers[i] = marker;
     	    
+    	    isClick = false;
+    	    
     	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
     	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     	    
     	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
-    	   	 closeOverlay();
-    	        overlay.setMap(map);
+    	   	 //closeOverlay();
+    	        //overlay.setMap(map)
+    	    	if(!isClick){
+    	        	isClick=true;
+    	        };
+    	    });
+    	    
+    	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+    	        isClick=false;
+    	        infowindow.close();
     	    });
     	    
     	    var linePath;
@@ -240,19 +295,35 @@ $(function() {
                 
             }
             
-    		var drawLine = new daum.maps.Polyline({
-    		    path : linePath,
-    		    strokeWeight : 3, // 선의 두께입니다 
-    		    strokeColor : '#db4040', // 선의 색깔입니다
-    		    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-    		    strokeStyle : 'solid' // 선의 스타일입니다
-    		});
+            var strokeColors;
+            
+            if(contenttypeid==12){
+            	strokeColors = '#db4040'; // 선의 색깔입니다
+            }else if(contenttypeid==39){
+            	strokeColors = '#f39a24'; // 선의 색깔입니다
+            }else if(contenttypeid==32){
+            	strokeColors = '#1ee09c'; // 선의 색깔입니다
+            }else if(contenttypeid==38){
+            	strokeColors = '#a024f3'; // 선의 색깔입니다
+            }
+            
+        	var drawLine = new daum.maps.Polyline({
+        	    path : linePath,
+        	    strokeWeight : 6, // 선의 두께입니다
+        	    strokeColor: strokeColors,
+        	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+        	    strokeStyle : 'dashed' // 선의 스타일입니다
+        	});
+
 
             drawLines[i] = drawLine;
             drawLine.setMap(map);
             
-    	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+         // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+    	    console.log(infowindow);
+    	    console.log(marker);
     	    function makeOverListener(map, marker, infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.open(map, marker);
     	        };
@@ -260,6 +331,7 @@ $(function() {
     		
     	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     	    function makeOutListener(infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.close();
     	        };
@@ -267,27 +339,6 @@ $(function() {
 
     	    // 마커를 지도에 표시합니다.
     		marker.setMap(map);
-    	       
-    	    
-    	    /*
-     		var savedList = document.getElementById('savedList');
-    		var listitem = savedList.innerHTML;
-
-    	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
-    		    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+i+'</span>';
-    		    listitem+= '<div class="draggable" draggable="true">';
-    			    listitem+= '<p class="placeinfo" style="display:inline;">';
-    				    listitem+= '<img src="'+images[i]+'" style="width: 80px; height: 80px;">';
-    				    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+titles[i]+'</span>';
-    			    listitem+= '</p>';
-    			    listitem+= '<input type="button" id="'+i+'" class="del_Bt2" value="-">';
-    			    listitem+= '<input type="hidden" name="cotentid" value="'+contentids[i]+'" class="contentid">';
-    		    listitem+= '</div>';
-    	    listitem+= '</li>';
-    	    
-    		savedList.innerHTML=listitem;
-
-    	    */
     	    
     		var savedList = document.getElementById('savedList');
     	    
@@ -348,23 +399,39 @@ function newlist(){
         hideLines();
         hideMarkers();  
         
-        /**
-        latly.splice(0, latly.length);
-        drawLines.splice(0, drawLines.length);
-		markers.splice(0, markers.length);
-        mapys.splice(0, mapys.length);
-        mapxs.splice(0, mapxs.length);
-        titles.splice(0, titles.length);
-        images.splice(0, images.length);
-        addrs.splice(0, addrs.length);
-        contentids.splice(0, contentids.length);
-        */
-        
     	for(var i=0; i<mapys.length; i++){
     		
-    	   	var marker = new kakao.maps.Marker({
-    	        position: new kakao.maps.LatLng(mapys[i], mapxs[i])
-    	    });
+    	    var imageSrc;
+    	    var imageSrc2;
+    	    
+    	    if(contenttypeid==12){ //관광지
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
+    	    }else if(contenttypeid==39){ //음식점
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
+    	    }else if(contenttypeid==32){ //숙박
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
+    	    }else if(contenttypeid==38){ //쇼핑
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
+    	    }
+    	    
+    	    // 결과값으로 받은 위치를 마커로 표시합니다
+    		var imageSize = new kakao.maps.Size(26, 36), // 마커이미지의 크기입니다
+    		    imageOption = {offset: new kakao.maps.Point(12, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    		
+    		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+    			markerImage2 = new kakao.maps.MarkerImage(imageSrc2, imageSize, imageOption),
+    		    markerPosition = new kakao.maps.LatLng(mapys[i], mapxs[i]); // 마커가 표시될 위치입니다
+    		
+    		// 마커를 생성합니다
+    		var marker = new kakao.maps.Marker({
+    		  position: markerPosition,
+    		  image: markerImage // 마커이미지 설정 
+    		});
     	    
     	    var xy = {
     	   		position: new kakao.maps.LatLng(mapys[i], mapxs[i])
@@ -372,9 +439,20 @@ function newlist(){
     	    
     	    latly[i]= xy.position;
 
-    	    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    	 // 인포윈도우로 장소에 대한 설명을 표시합니다
     	    var infowindow = new kakao.maps.InfoWindow({
-    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+			    			'<tr style="margin-top:0px;">'+
+			    				'<td><img src="'+images[i]+'" style="width:155px;height:100px;"></td>'+
+			    			'</tr>'+
+			    			'<tr style="height:80px;">'+
+			    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+			    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+titles[i]+'</p>'+
+			    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addrs[i]+'<br>'+
+			    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentids[i]+')">'+
+			    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+			    			'</tr>'+
+						'</table>'
     	    });
     	    
     	    // 이동할 위도 경도 위치를 생성합니다 
@@ -384,15 +462,25 @@ function newlist(){
     	    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
     	    map.panTo(moveLatLon);
     	    
+    	    isClick=false;
+    	    
     	    markers[i] = marker;
     	    
     	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
     	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     	    
-    	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    	 // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
-    	   	 closeOverlay();
-    	        overlay.setMap(map);
+    	   	 //closeOverlay();
+    	        //overlay.setMap(map);
+    	    	if(!isClick){
+    	        	isClick=true;
+    	        }
+    	    });
+    	 
+    	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+    	        isClick=false;
+    	        infowindow.close();
     	    });
     	    
     	    var linePath;
@@ -408,19 +496,35 @@ function newlist(){
                 
             }
             
-    		var drawLine = new daum.maps.Polyline({
-    		    path : linePath,
-    		    strokeWeight : 3, // 선의 두께입니다 
-    		    strokeColor : '#db4040', // 선의 색깔입니다
-    		    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-    		    strokeStyle : 'solid' // 선의 스타일입니다
-    		});
+            var strokeColors;
+            
+            if(contenttypeid==12){
+            	strokeColors = '#db4040'; // 선의 색깔입니다
+            }else if(contenttypeid==39){
+            	strokeColors = '#f39a24'; // 선의 색깔입니다
+            }else if(contenttypeid==32){
+            	strokeColors = '#1ee09c'; // 선의 색깔입니다
+            }else if(contenttypeid==38){
+            	strokeColors = '#a024f3'; // 선의 색깔입니다
+            }
+            
+        	var drawLine = new daum.maps.Polyline({
+        	    path : linePath,
+        	    strokeWeight : 6, // 선의 두께입니다
+        	    strokeColor: strokeColors,
+        	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+        	    strokeStyle : 'dashed' // 선의 스타일입니다
+        	});
+
 
             drawLines[i] = drawLine;
             drawLine.setMap(map);
             
-    	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+         // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+    	    console.log(infowindow);
+    	    console.log(marker);
     	    function makeOverListener(map, marker, infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.open(map, marker);
     	        };
@@ -428,6 +532,7 @@ function newlist(){
     		
     	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     	    function makeOutListener(infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.close();
     	        };
@@ -435,27 +540,6 @@ function newlist(){
 
     	    // 마커를 지도에 표시합니다.
     		marker.setMap(map);
-    	       
-    	    
-    	    /*
-    		var savedList = document.getElementById('savedList');
-    		var listitem = savedList.innerHTML;
-
-    	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
-    		    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+i+'</span>';
-    		    listitem+= '<div class="draggable" draggable="true">';
-    			    listitem+= '<p class="placeinfo" style="display:inline;">';
-    				    listitem+= '<img src="'+images[i]+'" style="width: 80px; height: 80px;">';
-    				    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+titles[i]+'</span>';
-    			    listitem+= '</p>';
-    			    listitem+= '<input type="button" id="'+i+'" class="del_Bt2" value="-">';
-    			    listitem+= '<input type="hidden" name="cotentid" value="'+contentids[i]+'" class="contentid">';
-    		    listitem+= '</div>';
-    	    listitem+= '</li>';
-    	    
-    		savedList.innerHTML=listitem;
-
-    	    */
     	    
     		var savedList = document.getElementById('savedList');
     	    
@@ -550,11 +634,11 @@ function show(){
 	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		var param = 'ServiceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+		var param = 'serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
 		sendRequest(url, param, showResult, 'GET');   
 	}
 }
@@ -685,36 +769,42 @@ function showResult(){
                 image=item.getElementsByTagName('firstimage').item(0).firstChild.nodeValue;
              }
   
+             if(item.getElementsByTagName('contenttypeid').length==0){
+            	 contenttypeid=0;
+              }else{
+            	 contenttypeid=item.getElementsByTagName('contenttypeid').item(0).firstChild.nodeValue;
+              }
+               
              var trNode = document.createElement('tr');
              if(mapx==0||mapy==0){
              	trNode.setAttribute('style', 'display:none;');
              }
              var tdNode2 = document.createElement('td');
-             var tdTextNode2 = document.createTextNode(title);
-             var tdNode3 = document.createElement('td');
-             var tdTextNode3 = document.createTextNode(addr);
-             var tdNode4 = document.createElement('td');
-            
+             tdNode2.setAttribute('style', 'height: 100px;');
              var imgNode = document.createElement('img');
-             imgNode.setAttribute('src', image);
-             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px; ');
+             imgNode.setAttribute('src', image);	
+             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+             
+             var tdNode3 = document.createElement('td');
+             tdNode3.setAttribute('style', 'width: 90px;');
+             var tdTextNode3 = document.createTextNode(title);
+
           
-             var tdNode5 = document.createElement('td');
+             var tdNode4 = document.createElement('td');
              var addBt = document.createElement('input');
              addBt.setAttribute('type','button');
              addBt.setAttribute('value','+');
-             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttypeid+'")');
              addBt.className = 'add_Bt';
              
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
              trNode.appendChild(tdNode3);
              trNode.appendChild(tdNode4);
-             trNode.appendChild(tdNode5);
-             tdNode2.appendChild(tdTextNode2);
+
+             tdNode2.appendChild(imgNode);
              tdNode3.appendChild(tdTextNode3);
-             tdNode4.appendChild(imgNode);
-             tdNode5.appendChild(addBt);
+             tdNode4.appendChild(addBt);
           }
          
       }
@@ -726,7 +816,7 @@ function placeDetailInfo(contentid){
 		saveAdDetail(contentid);
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-		var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		var param='serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
 		sendRequest(url, param, getResult, 'GET'); 
 	}
 }
@@ -867,11 +957,22 @@ var titles = [];
 var images = [];
 var addrs = [];
 var contentids = [];
+var contenttypeids = [];
 
 
   
 /**추가 버튼 누른후 마커생성*/
-function makeMarker(contentid, mapy, mapx, title, image, addr){
+	
+function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
+
+	if(document.getElementById('endDate').value==''){
+		Swal.fire(
+			'여행 날짜를 정해주세요',
+			'Day를 선택하셔야 일정을 담을 수 있습니다!',
+			'warning'
+			);
+	return;
+	}
 	placeDetailInfo(contentid);
 	
     mapys.push(mapy);
@@ -880,12 +981,39 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     images.push(image);
     addrs.push(addr);
     contentids.push(contentid);
-	
+    contenttypeids.push(contenttypeid);
+    
+    var imageSrc;
+    var imageSrc2;
+    
+    if(contenttypeid==12){ //관광지
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
+    }else if(contenttypeid==39){ //음식점
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
+    }else if(contenttypeid==32){ //숙박
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
+    }else if(contenttypeid==38){ //쇼핑
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
+    }
+    
     // 결과값으로 받은 위치를 마커로 표시합니다
-  
-   	var marker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(mapy, mapx)
-    });
+	var imageSize = new kakao.maps.Size(26, 36), // 마커이미지의 크기입니다
+	    imageOption = {offset: new kakao.maps.Point(12, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+	
+	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+		markerImage2 = new kakao.maps.MarkerImage(imageSrc2, imageSize, imageOption),
+	    markerPosition = new kakao.maps.LatLng(mapy, mapx); // 마커가 표시될 위치입니다
+	
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	  position: markerPosition,
+	  image: markerImage // 마커이미지 설정 
+	});
     
     var xy = {
    		position: new kakao.maps.LatLng(mapy, mapx)
@@ -893,9 +1021,20 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     
     latly.push(xy.position);
     
-    // 인포윈도우로 장소에 대한 설명을 표시합니다
+ // 인포윈도우로 장소에 대한 설명을 표시합니다
     var infowindow = new kakao.maps.InfoWindow({
-        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+title+'</th></tr>'+'<tr><td><img src="'+image+'" style="width: 100px; height: 100px;"></td><td>'+addr+'</td></tr></table>'
+        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+	    			'<tr style="margin-top:0px;">'+
+	    				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
+	    			'</tr>'+
+	    			'<tr style="height:80px;">'+
+	    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+	    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+title+'</p>'+
+	    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addr+'<br>'+
+	    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentid+')">'+
+	    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+	    			'</tr>'+
+				'</table>'
     });
     
     // 이동할 위도 경도 위치를 생성합니다 
@@ -905,15 +1044,27 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
     map.panTo(moveLatLon);
     
+    isClick = false;
+    
     markers.push(marker);
     
-    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow, markerPosition, markerImage2));
+    //kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map, marker, infowindow, markerPosition, markerImage));
     kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     
-    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+ // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     kakao.maps.event.addListener(marker, 'click', function() {
-   	 closeOverlay();
-        overlay.setMap(map);
+   	 //closeOverlay();
+        //overlay.setMap(map);
+        popup(contentid);
+    	if(!isClick){
+        	isClick=true;
+        }
+    });
+    
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        isClick=false;
+        infowindow.close();
     });
     
     var linePath;
@@ -931,19 +1082,32 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
         
     }
  
+    var strokeColors;
+    
+    if(contenttypeid==12){
+    	strokeColors = '#db4040'; // 선의 색깔입니다
+    }else if(contenttypeid==39){
+    	strokeColors = '#f39a24'; // 선의 색깔입니다
+    }else if(contenttypeid==32){
+    	strokeColors = '#1ee09c'; // 선의 색깔입니다
+    }else if(contenttypeid==38){
+    	strokeColors = '#a024f3'; // 선의 색깔입니다
+    }
+    
 	var drawLine = new daum.maps.Polyline({
 	    path : linePath,
-	    strokeWeight : 3, // 선의 두께입니다 
-	    strokeColor : '#db4040', // 선의 색깔입니다
+	    strokeWeight : 6, // 선의 두께입니다
+	    strokeColor: strokeColors,
 	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-	    strokeStyle : 'solid' // 선의 스타일입니다
+	    strokeStyle : 'dashed' // 선의 스타일입니다
 	});
 
     drawLines.push(drawLine);
     drawLine.setMap(map);
     
-    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+ // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
     function makeOverListener(map, marker, infowindow) {
+    	if(isClick){return;}
         return function() {
             infowindow.open(map, marker);
         };
@@ -951,11 +1115,11 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
 
     // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     function makeOutListener(infowindow) {
+    	if(isClick){return;}
         return function() {
-            infowindow.close();
+        	infowindow.close();
         };
     }
-
     // 마커를 지도에 표시합니다.
 	marker.setMap(map);
        
@@ -1007,33 +1171,51 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     savedList.appendChild(listitem);
     
     count2++;
-    //---------------------------------------------
-    
-    /*
-	var savedList = document.getElementById('savedList');
-	var listitem = savedList.innerHTML;
-    
-    listitem+= '<li class="listName" id="li"'+count2+'" data-index="'+(count2)+'">';
-	    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+count2+'</span>';
-	    listitem+= '<div class="draggable" draggable="true">';
-		    listitem+= '<p class="placeinfo" style="display:inline;">';
-			    listitem+= '<img src="'+image+'" style="width: 80px; height: 80px; border-radius: 8px;">';
-			    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+title+'</span>';
-		    listitem+= '</p>';
-		    listitem+= '<input type="button" id="'+count2+'" class="del_Bt2" value="-">';
-		    listitem+= '<input type="hidden" name="cotentid" value="'+contentid+'" class="contentid">';
-	    listitem+= '</div>';
-    listitem+= '</li>';
-    
-	savedList.innerHTML=listitem;
-	
-	count2++;
-	*/
 	
     listItems.push(listitem);
 
     addEventListeners();
     
+}
+
+function popup(contentid){
+	var title;
+	var areacode;
+	var sigungucode;
+	var overview;
+	var firstimage;
+	var areatxt;
+	var sigungutxt;
+	console.log(placeDetails.length);
+	for(var i=0;i<placeDetails.length;i++){
+		if(contentid==placeDetails[i].contentid){
+			title=placeDetails[i].title;
+			areacode=placeDetails[i].areacode;
+			sigungucode=placeDetails[i].sigungucode;
+			overview=placeDetails[i].overview.replace(/\'/gi,"");
+			firstimage=placeDetails[i].firstimage;
+		}
+	}
+	<c:forEach var="areadto" items="${arealist }">
+		if(${areadto.areacode}==areacode){
+			areatxt='${areadto.areaname}';
+		}
+	</c:forEach>
+	<c:forEach var="sigungudto" items="${sigungulist}">
+		if(${sigungudto.areacode}==areacode && ${sigungudto.sigungucode}==sigungucode){
+			sigungutxt='${sigungudto.sigungu_name}';
+		}
+	</c:forEach>
+	var modal_title=document.getElementById('staticBackdropLabel');
+	var modalTitle='<strong>'+title+'</strong>';
+	modalTitle += '<br><span style="font-size:13px;color:dimgray;padding:5px;">&nbsp;&nbsp;'+areatxt+'&nbsp;>&nbsp;'+sigungutxt+'</span>';
+	modal_title.innerHTML=modalTitle;
+	var modal_body=document.getElementById('modal-body');
+	var modalBody='';
+	modalBody+='<img src="'+firstimage+'" style="width:458px;">';
+	modalBody+='<br><p style="font-size:13px;padding-top:10px;word-break:break-all;">'+overview+'</p>';
+	modal_body.innerHTML=modalBody;
+	document.getElementById('modalBtn').click();
 }
 
 function addEventListeners() {
@@ -1122,31 +1304,82 @@ function addEventListeners() {
 			listItems[i+1].appendChild(temp);
 		}
 	}
+	
 </script>
 </head>
 <body id="page-top" onload="show()">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="modalBtn" style="display:none;"></button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+	aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				 <div class="modal-header">
+				 <h5 class="modal-title" id="staticBackdropLabel"></h5>
+				</div>
+				<div class="modal-body" id="modal-body">
+				  ...
+	      		</div>
+	      		<div class="modal-footer">
+		      		<button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn">Close</button>
+	      		</div>
+      		</div>
+		</div>
+	</div>
+	<script>
+// 모달 버튼에 이벤트를 건다.
+$('#modalBtn').on('click', function(){
+$('#staticBackdrop').modal('show');
+idClick=false;
+});
+// 모달 안의 취소 버튼에 이벤트를 건다.
+$('#closeModalBtn').on('click', function(){
+$('#staticBackdrop').modal('hide');
+});
+</script>
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+ 	<nav class="navbar navbar-expand-lg navbar-light fixed-top"
+		id="mainNav">
+		<div class="container px-4 px-lg-5">
+			<a class="navbar-brand" href="index.do" style="color: black;">GooPPl</a>
+			<button class="navbar-toggler navbar-toggler-right" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				Menu <i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" href="createMap.do" style="color: black;">Plan</a></li>
+					<li class="nav-item"><a class="nav-link" href="comunity.do" style="color: black;">Community</a></li>
+
+					<c:choose>
+						<c:when test="${!empty sessionNickname}">
+							<li class="nav-item dropdown dropend"><a
+								class="nav-link dropdown-toggle" href="#" role="button"
+								id="dropdownMenuLink" data-bs-toggle="dropdown"
+								aria-expanded="false"> <label class="bg-primary text-center"
+									style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+							</a>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+									<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+									<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+								</ul></li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link"
+								href="#" role="button" data-bs-toggle="modal"
+								data-bs-target="#loginmd">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+		</div>
+	</nav>
     <!-- Signup-->
-    <section class="signup-section bg-light" id="signup"
+    <section class="signup-section" id="signup"
         style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
     <div class="container" style="margin-bottom: 40px; margin-top: -60px;">
     	<div class="col-sm-1 col-md-12">
@@ -1208,12 +1441,12 @@ function addEventListeners() {
 				        <div class="col-md-7" >
 				        	<div style="height: 665px; overflow: auto;">
 				        		<div style="text-align: center;">추가한 여행지</div>
-								<ul id="savedList" style="width:100%;" class="savedList">
+								<ul id="savedList" style="width:100%; font-size: 14px;" class="savedList">
 								</ul>
 							</div>
 							<div style="text-align: center;">
 	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveAll()" id="save_Bt">저장하기</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveThisDay(1)" id="save_Bt">저장하기</button>
 	                    	</div>
 				        </div>
 				    </div>
@@ -1237,9 +1470,6 @@ function addEventListeners() {
 	                </div>
 					<div style="height: 584px; overflow: auto;">
 						<table id="setTable" style="width: 100%; text-align: center;">
-							<tr>
-								<th colspan="5">여행지를 검색해 주세요</th>
-							</tr>
 						</table>
 					</div>
 		        </div>
@@ -1325,7 +1555,11 @@ function createDay() {
 	var day = (InputDate_e-InputDate_s)/(60*60*24*1000)+1;
 	
 	if(day<=0){
-		window.alert('여행 종료일이 여행 시작일보다 빠를 수 없습니다.');
+		Swal.fire(
+				  '여행 일정을 확인해주세요',
+				  '종료일이 시작일보다 빠를 수 없습니다!',
+				  'warning'
+				);
 		document.getElementById('endDate').value='';
 	}else{
 		$("#dayBtDiv").empty();
@@ -1335,8 +1569,13 @@ function createDay() {
 			count++;
 			var dayBt = document.createElement('input');
 			dayBt.setAttribute('type','button');
+			dayBt.className=count;
 			dayBt.setAttribute('value','Day'+count);
-			dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			if(count==1){
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			}else{
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;background-color:#64a19d;');
+			}
 			dayBt.setAttribute('onclick','saveThisDay('+count+')');
 			var div = document.getElementById('calender');
 			dayBtDiv.appendChild(dayBt);
@@ -1346,28 +1585,51 @@ function createDay() {
 	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
 
 function saveThisDay(dayCount){
-	if (confirm("일정을 저장하시겠습니까?") == true) { //확인
-		var map_title=document.getElementById('map_title').value;
-		if(map_title==''){
-			window.alert('일정 제목을 입력해주세요.');
+	Swal.fire({
+		  title: '일정을 저장하시겠습니까?',
+		  text: "나만의 여행 일정을 만들어보세요!",
+		  icon: 'question',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Save'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  var map_title=document.getElementById('map_title').value;
+			  if(map_title==''){
+					Swal.fire(
+							  '일정 이름이 무엇인가요?',
+							  '여행에 이름을 지어주세요!',
+							  'warning'
+							);
+					return;
+				}else if(listItems.length==0){
+					Swal.fire(
+							  '원하는 여행지를 선택해주세요',
+							  '적어도 한 곳은 담아주세요!',
+							  'warning'
+							);
+					return;
+				}else if(document.getElementById('endDate').value==''){
+					Swal.fire(
+							  '여행 날짜를 정해주세요!',
+							  '일정은 언제든지 수정 가능합니다',
+							  'warning'
+							);
+					return;
+				}else{
+					var people_num = document.getElementById('people_num').value;
+					var trip_type= document.getElementById('trip_type').value;
+					var startdate = document.getElementById('startDate').value;
+					var enddate = document.getElementById('endDate').value;
+					var start2=startdate.split("-"); 
+					var end2=enddate.split("-"); 
+					moveToDay(map_title,member_idx,people_num,trip_type,start2[0],start2[1],start2[2],end2[0],end2[1],end2[2],'n','n',dayCount);
+				}
+		  }else { //취소
 			return;
-		}else if(listItems.length==0){
-			window.alert('일정을 선택해주세요.');
-			return;
-		}else if(document.getElementById('endDate').value==''){
-			window.alert('여행 기간을 다시 확인해주세요.');
-		}else{
-			var people_num = document.getElementById('people_num').value;
-			var trip_type= document.getElementById('trip_type').value;
-			var startdate = document.getElementById('startDate').value;
-			var enddate = document.getElementById('endDate').value;
-			var start2=startdate.split("-"); 
-			var end2=enddate.split("-"); 
-			moveToDay(map_title,member_idx,people_num,trip_type,start2[0],start2[1],start2[2],end2[0],end2[1],end2[2],'n','n',dayCount);
 		}
-	} else { //취소
-		return;
-	}
+	});
 }
 function moveToDay(map_title,member_idx,people_num,trip_type,starty,startm,startd,endy,endm,endd,share_ok,del_ok,dayCount){
 	moveDay=dayCount;
@@ -1444,57 +1706,222 @@ function getResultAdd2(){
 			if(placeDetails.length!=0){
 				savePlaceDetailData();
 			}else{
-				location.href='existMap.do?map_idx='+map_idx+'&day_num='+1;
+				Swal.fire(
+					'저장되었습니다',
+					'다음 일정도 계획해보세요!',
+					'success'
+				);
+				setTimeout(function() {
+					location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
+				}, 1000);
 			}
 		}
 	}
 }
+
+
+
+$('#save_Bt').click(function () {
+	saveThisDay(1);
+});
+
+ 
 </script>
     <!-- Contact-->
-    <section class="contact-section bg-primary align-items-center">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-md-center">
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">은평구 동서로 101-2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Email</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">hello@yourdomain.com</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">FAQ</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">문의하기</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="social d-flex justify-content-center">
-                <a class="mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                <a class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-    </section>
-    <footer class="footer bg-primary small text-center text-white-50">
-        <div class="container px-4 px-lg-5">Copyright &copy; Your Website 2021</div>
-    </footer>
+	<!-- Contact-->
+	<section class="contact-section bg-light align-items-center">
+		<div class="container px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-md-center">
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center">
+							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">Address</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">은평구 동서로 101-2</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center">
+							<i class="fas fa-envelope text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">Email</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">
+								<a href="#">hello@yourdomain.com</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center">
+							<i class="fas fa-mobile-alt text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">FAQ</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">
+								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- #####################################FAQ################################################## -->
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-50" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="padding-right: 0px;padding-left:0px;">
+		  <div class="offcanvas-header bg-primary" style="border-bottom:1px solid lightgray;">
+		    <h3 class="offcanvas-title text-center text-white-50" id="offcanvasScrollingLabel">자주하는질문 FAQ</h3>
+		    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		  </div>
+		  <!-- ------------------------------------------------------------------------------ -->
+		  <div class="offcanvas-body">
+		    <div class="faqHeader" style="font-size: 20px; margin: 10px;">일정관련 FAQ</div>
+		    	<div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingOne1">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="false" aria-controls="panelsStayOpen-collapse1">
+				        - 일정 만들기란 무엇인가요?	 
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse1" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne1" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>'일정 만들기'란</strong> 나만의 여행 일정을 계획하는 기능으로, 내가 가고 싶은 명소들의 위치를 지도에서 보며 동선을 계획할 수 있습니다. 드래그 & 드롭하여 방문 순서를 정렬하면 자동으로 경로가 보여집니다. 방문 일자별로 명소들을 정렬하여 나만의 여행 일정을 손쉽게 만들 수 있습니다.</code>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingTwo2">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false" aria-controls="panelsStayOpen-collapse2">
+				        - 완성된 일정을 수정할 수 있나요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse2" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo2" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>내 일정은 언제든지 다시 수정할 수 있습니다.</strong>마이페이지의 '나의일정'에서 '수정'을 클릭하여 일정을 수정해 보세요.	 
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree3">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse3" aria-expanded="false" aria-controls="panelsStayOpen-collapse3">
+				        - 일정 공유란 무엇인가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse3" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree3" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>나만의 일정을 공유할수 있습니다.</strong>나의 일정을 공유하거나 다른 회원님들의 일정을 공유받음으로써 여행자들의 일정을 보고 마음에 드는 명소를 확인하여 나만의 일정을 만들어보세요
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree4">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="#panelsStayOpen-collapse4">
+				        - 여러 도시를 한 일정에 넣을 수 있나요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree4" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>가능합니다.</strong>우선 일정 만들기를 시작해 보세요. 지도에서 일정을 만드는 과정에서 다른 도시의 명소목록을 불러와 선택하여 장소들을 일정에 넣을 수 있습니다. 여러 도시의 방문 일정을 순서대로 계획하시면 됩니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree5">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="#panelsStayOpen-collapse5">
+				        - 여행지 검색 목록이란 무엇인가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree5" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>여행지 검색이란,</strong>여행지에서 명소/음식점/호텔등을 검색하여 리스트에서 선택한 장소들을 일정에 추가할수 있는 기능입니다. 
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item mb-5">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree6">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse6" aria-expanded="false" aria-controls="panelsStayOpen-collapse6">
+				        - 추천 여행지는 무엇인가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree6" data-bs-parent="#accordionPanelsStayOpenExample">
+				      <div class="accordion-body">
+				        <strong>추천 여행지는</strong>국내에서 관광명소가 많고 관광객들의 발길이 끊이지 않는 여행지들을 카드화 시켜놓아서 회원님들이 여행지역을 선정할시에 도움을 드릴수 있습니다. 
+				      </div>
+				    </div>
+				  </div>
+				  
+				</div>
+				<div class="faqHeader" style="font-size: 20px; margin: 10px;">계정관련 FAQ</div>
+		    	<div class="accordion accordion-flush" id="accordionPanelsStayOpenExample1">
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingOne7">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse7" aria-expanded="false" aria-controls="panelsStayOpen-collapse7">
+				        - 소셜 로그인이 되지 않습니다.	 
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse7" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne7" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        먼저 귀하의 브라우저가 각 소셜 페이지에 다른 사람의 아이디로 로그인 되어있는 지 확인해 보시기 바랍니다. 소셜 페이지에서 로그아웃을 한 후에 다시 시도해 주세요. 그래도 로그인이 되지 않으면 소셜페이지에서 아이디와 비밀번호를 확인해 보시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingTwo8">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse8" aria-expanded="false" aria-controls="panelsStayOpen-collapse8">
+				        - 비밀번호를 잊어버렸습니다. 
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse8" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo8" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        로그인 화면에서 '비밀번호 찾기'를 클릭하고 가입시 기입한 이메일 주소를 적어주세요. 해당 이메일로 비밀번호 변경이 가능하도록 도와드립니다.	 
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree9">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse9" aria-expanded="false" aria-controls="panelsStayOpen-collapse9">
+				        - GooPPl 회원을 탈퇴하고 싶어요.
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree9" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        로그인 후, 마이페이지 '설정'에서 프로필 수정 하단에 '회원탈퇴' 버튼이 있습니다. 구플 계정을 삭제하고 탈퇴를 원하시면 이 버튼을 클릭하면 됩니다. 탈퇴 시에는 귀하의 정보와 게시글,일정 등 모든 내용이 삭제됩니다. 신중히 고려하시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree10">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse10" aria-expanded="false" aria-controls="panelsStayOpen-collapse10">
+				        - 회원 정보를 어떻게 수정하나요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse10" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree10" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        마이페이지 '프로필수정'에서 회원 정보를 수정하실 수 있습니다. '프로필수정'에서는 닉네임, 비밀번호 변경, 및 회원탈퇴를 하실 수 있습니다. 이메일 주소의 변경을 원하실 경우에는 관리자에게 문의해 주시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="panelsStayOpen-headingThree11">
+				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse11" aria-expanded="false" aria-controls="panelsStayOpen-collapse11">
+				        - 나의 개인정보가 안전한가요?
+				      </button>
+				    </h2>
+				    <div id="panelsStayOpen-collapse11" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree11" data-bs-parent="#accordionPanelsStayOpenExample1">
+				      <div class="accordion-body">
+				        GooPPl의 <a href="#" target="_blank">'개인정보 취급방침'</a> 내용을 확인하시기 바랍니다.
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+		  </div>
+		 <!-- #####################################################끝################################################# -->
+			</div>
+		</div>
+	</section>
+	<footer class="footer bg-light small text-center">
+		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
+	</footer>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

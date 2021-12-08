@@ -18,6 +18,11 @@ public class Ad_inquiryDAOImple implements Ad_inquiryDAO {
 		return result;
 	}
 	
+	public int payOk_InquiryDel(int owner_idx) {
+		int result = sqlMap.delete("payOk_InquiryDel", owner_idx);
+		return result;
+	}
+	
 	public int admin_totalAdInquiry() {
 		int count = sqlMap.selectOne("admin_totalAdInquiry");
 		return count;
@@ -67,4 +72,15 @@ public class Ad_inquiryDAOImple implements Ad_inquiryDAO {
 		Ad_inquiryDTO dto = sqlMap.selectOne("ad_paymentInfo", member_idx);
 		return dto;
 	}
+	
+	public int admin_adInquiry_del(int inquiry_idx) {
+		int result = sqlMap.delete("admin_adInquiry_del", inquiry_idx);
+		return result;
+	}
+	
+	public int admin_delInquiry_Ok(int inquiry_idx) {
+		int result = sqlMap.update("admin_delInquiry_Ok", inquiry_idx);
+		return result;
+	}
+	
 }

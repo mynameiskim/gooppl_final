@@ -55,6 +55,20 @@
   		where
   			review_idx=#{review_idx}
   	</delete>
+  	
+  	<!-- review UPDATE -->
+  	<update id="reviewUpdate" parameterType="Integer">
+  		update
+  			review
+  		set
+	  		title=#{title},
+	  		prologue=#{prologue},
+	  		content=#{content},
+	  		epilogue=#{epilogue}
+  		where
+  			reivew_idx=#{review_idx}
+  		
+  	</update>
   </mapper>
   
   

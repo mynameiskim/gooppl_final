@@ -253,12 +253,12 @@ public class MapController {
 				if(list.size()!=0) {
 					List<Gooppl_PlaceDetailDTO> tripList=gooppl_placedetailService.getThisDateDetail(list);
 					mav.addObject("tripList", tripList);
-				}
-				if(list.size()!=0) {
 					int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num);
 					mav.addObject("areacode", lastAreacode);
+					mav.addObject("tripNum", tripList.size());
 				}else {
 					mav.addObject("areacode", 1);
+					mav.addObject("tripNum", 0);
 				}
 				mav.setViewName("map/existMap");
 			}

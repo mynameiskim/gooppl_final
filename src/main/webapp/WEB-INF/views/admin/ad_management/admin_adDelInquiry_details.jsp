@@ -23,6 +23,10 @@
                                 </td>
                                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">문의번호</th>
                                     <td>${idto.inquiry_idx}
+                                    	<input type="hidden" value="${pdto.imp_uid}" name="imp_uid" id="imp_uid">
+                                        <input type="hidden" value="${pdto.merchant_uid}" name="merchant_uid" id="merchant_uid">
+                                        <input type="hidden" value="${pdto.amount}" name="amount" id="amount">
+                                        <input type="hidden" value="${iddto.reason}" name="reason" id="reason">
                                         <input type="hidden" value="${idto.owner_idx}" name="owner_idx" id="owner_idx">
                                     </td>
                                 </tr>
@@ -47,8 +51,8 @@
                                     <td>${odto.tel}</td>
                                 </tr>
                                 <tr>
-                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">광고기간</th>
-                                    <td>${idto.ad_period}</td>
+                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">환불사유</th>
+                                    <td>${idto.reason}</td>
                                 </tr>
                                 <tr>
                                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">주소</th>
@@ -64,8 +68,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3" class="text-center">
-                                        <input class="bt btn-primary" type="button" onclick="admin_adInquiryD_Ok(${idto.inquiry_idx})" value="승인">
-                                        <input class="bt btn-secondary" type="button" onclick="admin_adInquiryD_del(${idto.inquiry_idx})" value="거절">
+                                        <input class="bt btn-primary" type="button" onclick="cancelPay(${idto.inquiry_idx})" value="승인">
+                                        <input class="bt btn-secondary" type="button" onclick="admin_delInquiryD_Delete(${idto.inquiry_idx})" value="거절">
                                     </td>
                                 </tr>
                             </table>
