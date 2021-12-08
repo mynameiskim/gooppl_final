@@ -25,12 +25,12 @@ tr{
 }
 </style>
 <script>
-function inquiry_Details(index,size){
-	var param=document.getElementById("inquiry_idx"+index).value;
+function appli_Details(index,size){
+	var param=document.getElementById("owner_idx"+index).value;
 	var detail_btn=document.getElementById("detail_btn"+index);
 		
 	if(detail_btn.value=='상세보기'){
-		sendRequest('adInquiry_details.do?inquiry_idx='+param,null,showResult,'GET');
+		sendRequest('admin_ownerAppli_details.do?owner_idx='+param,null,showResult,'GET');
 		for(var i=0;i<size;i++){
 			detail_btn=document.getElementById("detail_btn"+i);
 			if(i==index){
@@ -42,7 +42,7 @@ function inquiry_Details(index,size){
 		}
 		
 	}else if(detail_btn.value=='접기'){
-		var divNode=document.all.adInquiryDetail;
+		var divNode=document.all.ownerAppliDetail;
 		divNode.remove();
 		for(var i=0;i<size;i++){
 			detail_btn=document.getElementById("detail_btn"+i);
@@ -54,17 +54,17 @@ function showResult(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){			
 			var data=XHR.responseText;
-			var divNode=document.all.inquiryDiv;
+			var divNode=document.all.ownerDiv;
 			divNode.innerHTML=data;
 		}
 	}
 }
 
 //리스트의 승인
-function adInquiry_ok(index){
+function appli_Ok(index){
 	Swal.fire({
 		title: '승인하시겠습니까?',
-		text: "결제가 완료되면 광고가 등록됩니다.",
+		text: "해당회원은 광고주 회원으로 변경됩니다.",
 		icon: 'info',
 		showCancelButton: true,
 		confirmButtonColor: '#d33',
@@ -75,11 +75,13 @@ function adInquiry_ok(index){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var param1=document.getElementById("inquiry_idx"+index).value;
+	  		var param1=document.getElementById("owner_idx"+index).value;
+	  		var param2=document.getElementById("member_idx"+index).value;
+	  		
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_adInquiry_ok.do?inquiry_idx='+param1,
+				url: 'admin_ownerAppli_ok.do?owner_idx='+param1+'&member_idx='+param2,
 				dataType: "json",
 				error: function(result){
 					
@@ -115,7 +117,7 @@ function adInquiry_ok(index){
 }
 
 //리스트의 거절
-function admin_adInquiry_del(index){
+function appli_Delete(index){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -129,11 +131,11 @@ function admin_adInquiry_del(index){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var inquiry_idx=document.getElementById("inquiry_idx"+index).value;
+	  		var owner_idx=document.getElementById("owner_idx"+index).value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_adInquiry_del.do?inquiry_idx='+inquiry_idx,
+				url: 'admin_ownerAppli_del.do?owner_idx='+owner_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -169,10 +171,10 @@ function admin_adInquiry_del(index){
 }
 
 //상세보기의 승인
-function admin_adInquiryD_Ok(inquiry_idx){
+function appliD_Ok(owner_idx,member_idx){
 	Swal.fire({
 		title: '승인하시겠습니까?',
-		text: "결제가 완료되면 광고가 출력됩니다.",
+		text: "해당회원은 광고주 회원으로 변경됩니다.",
 		icon: 'info',
 		showCancelButton: true,
 		confirmButtonColor: '#d33',
@@ -184,9 +186,10 @@ function admin_adInquiryD_Ok(inquiry_idx){
 	}).then((result) => {
 	  if (result.isConfirmed) {
 	  		
+	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_adInquiry_ok.do?inquiry_idx='+inquiry_idx,
+				url: 'admin_ownerAppli_ok.do?owner_idx='+owner_idx+'&member_idx='+member_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -222,7 +225,7 @@ function admin_adInquiryD_Ok(inquiry_idx){
 }
 
 //상세보기의 거절
-function admin_adInquiryD_del(inquiery_idx){
+function appliD_Delete(index){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -240,7 +243,7 @@ function admin_adInquiryD_del(inquiery_idx){
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_adInquiry_del.do?inquiry_idx='+inquiery_idx,
+				url: 'admin_ownerAppli_del.do?owner_idx='+owner_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -308,9 +311,9 @@ function admin_adInquiryD_del(inquiery_idx){
 			</dd>
 		</dl>
 	</div>
-	<div id="contents"><h6><b>광고 신청 관리</b></h6>
+	<div id="contents"><h6><b>광고주 신청 관리</b></h6>
 		<ul class='helpbox'>
-			<li>신청된 광고 정보를 확인하고 승인 및 거절을 할 수 있는 메뉴입니다.</li>
+			<li>신청된 광고주 정보를 확인하고 승인 및 거절을 할 수 있는 메뉴입니다.</li>
 		</ul>
         <fieldset style="border:0px solid #0000008c; padding: 12px 14px 10px;
 		margin-bottom: 5px;">
@@ -318,41 +321,14 @@ function admin_adInquiryD_del(inquiery_idx){
         		<thead>
                 <tr class="tr_bg active text-white text-opacity-75">
                 	<th class="f_tab_th">번호</th>
-                	<th class="f_tab_th">광고주번호</th>
-                	<th class="f_tab_th">이메일</th>
-                	<th class="f_tab_th">광고기간</th>
-                	<th class="f_tab_th">작성일</th>
+                	<th class="f_tab_th">회원번호</th>
+                	<th class="f_tab_th">상호명</th>
+                	<th class="f_tab_th">사업자번호</th>
+                	<th class="f_tab_th">사업자명</th>
+                    <th class="f_tab_th">이메일</th>
                     <th class="f_tab_th" width="220">기능</th>
                 </tr>
                 </thead>
-                <tbody>
-                <c:if test="${empty list}">
-                	<tr>
-                		<td colspan="8" align="center" class="f_tab_td">
-                		<b>광고 신청이 없습니다.</b>
-                		</td>
-                	</tr>
-                </c:if>
-                <c:forEach var="list" items="${list}" varStatus="status">
-                <tr>
-                	<td class="f_tab_td">${(cp-1)*listSize+status.index+1}</td>
-                	<td class="f_tab_td">
-	                	${list.owner_idx}
-	                	<input id="inquiry_idx${status.index}" type="hidden" value="${list.inquiry_idx}">
-	                	<input id="owner_idx${status.index}" type="hidden" value="${list.owner_idx}">
-                	</td>
-                    <td class="f_tab_td">${list.email}
-                    </td>
-                    <td class="f_tab_td">${list.ad_period}</td>
-                	<td class="f_tab_td">${list.writeDate}</td>
-                    <td class="f_tab_td" width="220">
-	                    <input id="detail_btn${status.index}" class="bt btn-secondary" type="button" onclick="inquiry_Details(${status.index},${size})" value="상세보기">
-	                    <input id="ok_btn${status.index}" class="bt btn-primary" type="button" onclick="adInquiry_ok(${status.index})" value="승인">
-	                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="admin_adInquiry_del(${status.index})" value="거절">
-                    </td>
-                </tr>
-                </c:forEach>
-                </tbody>
                 <tfoot>
                 <tr>
                 	<td colspan="8" align="center" class="f_tab_td">
@@ -360,9 +336,38 @@ function admin_adInquiryD_del(inquiery_idx){
 					</td>
                 </tr>
                 </tfoot>
+                <tbody>
+                <c:if test="${empty list}">
+                	<tr>
+                		<td colspan="8" align="center" class="f_tab_td">
+                		<b>광고주 신청이 없습니다.</b>
+                		</td>
+                	</tr>
+                </c:if>
+                <c:forEach var="list" items="${list}" varStatus="status">
+                <tr>
+                	<td class="f_tab_td">${(cp-1)*listSize+status.index+1}</td>
+                	<td class="f_tab_td">
+	                	${list.member_idx}
+	                	<input id="owner_idx${status.index}" type="hidden" value="${list.owner_idx}">
+                		<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}">
+                	</td>
+                    <td class="f_tab_td">${list.title}
+                    </td>
+                    <td class="f_tab_td">${list.business_number}</td>
+                	<td class="f_tab_td">${list.name}</td>
+                    <td class="f_tab_td">${list.email}</td>
+                    <td class="f_tab_td" width="220">
+	                    <input id="detail_btn${status.index}" class="bt btn-secondary" type="button" onclick="appli_Details(${status.index},${size})" value="상세보기">
+	                    <input id="ok_btn${status.index}" class="bt btn-primary" type="button" onclick="appli_Ok(${status.index})" value="승인">
+	                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="appli_Delete(${status.index})" value="거절">
+                    </td>
+                </tr>
+                </c:forEach>
+                </tbody>
         </table>
         </fieldset>
-        <div id="inquiryDiv"></div>
+        <div id="ownerDiv"></div>
 		</div>
 	</div>
 </div>

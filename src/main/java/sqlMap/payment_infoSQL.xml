@@ -16,4 +16,46 @@
 			sysdate
 		)
   	</insert>
+  	<update id="admin_changePayInfo_cancel" parameterType="String">
+  		UPDATE
+  			PAYMENT_INFO
+  		SET
+  			status = 'cancelled'
+  		WHERE
+  			imp_uid = #{imp_uid}
+  	</update>
+  	<select id="admin_getPayInfo" parameterType="integer" resultType="goo.payment_info.model.Payment_infoDTO">
+  		SELECT
+  			*
+  		FROM
+  			(SELECT
+  				*
+  			FROM
+  				PAYMENT_INFO
+  			WHERE
+  				status = 'paid'
+  			AND
+  				owner_idx = #{owner_idx}
+  			ORDER BY
+  				paydate DESC)
+  		WHERE
+  			rownum = 1
+  	</select>
+  	<select id="getRefundImp_uid" parameterType="integer" resultType="String">
+  		SELECT
+  			imp_uid
+  		FROM
+  			(SELECT
+  				*
+  			FROM
+  				PAYMENT_INFO
+  			WHERE
+  				status = 'paid'
+  			AND
+  				owner_idx = #{owner_idx}
+  			ORDER BY
+  				paydate DESC)
+  		WHERE
+  			rownum = 1
+  	</select>
   </mapper>

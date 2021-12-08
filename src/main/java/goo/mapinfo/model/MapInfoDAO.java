@@ -8,4 +8,5 @@ public interface MapInfoDAO {
 	public List<MapInfoDTO> mapInfoList(Map map);
 	public List<Integer> getThisMapInfo(Map map);
 	public int deleteMapInfo(Map map);
+	public int getTotalPlace(int map_idx);
 }

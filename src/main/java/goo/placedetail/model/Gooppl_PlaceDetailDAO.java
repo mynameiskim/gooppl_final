@@ -8,4 +8,5 @@ public interface Gooppl_PlaceDetailDAO {
 	public List<Gooppl_PlaceDetailDTO> placeDetailList(int contentid);
 	public Gooppl_PlaceDetailDTO getThisDateDetail(int contentid);
 	public int getLastAreacode(Map map);
+	public String getFirstImg(int map_idx);
 }

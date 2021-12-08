@@ -23,6 +23,11 @@ public class Ad_inquiryServiceImple implements Ad_inquiryService {
 		return result;
 	}
 	
+	public int payOk_InquiryDel(int owner_idx) {
+		int result = ad_inquiryDao.payOk_InquiryDel(owner_idx);
+		return result;
+	}
+	
 	public int admin_totalAdInquiry() {
 		int count = ad_inquiryDao.admin_totalAdInquiry();
 		return count;
@@ -87,4 +92,15 @@ public class Ad_inquiryServiceImple implements Ad_inquiryService {
 		Ad_inquiryDTO dto = ad_inquiryDao.ad_paymentInfo(member_idx);
 		return dto;
 	}
+	
+	public int admin_adInquiry_del(int inquiry_idx) {
+		int result = ad_inquiryDao.admin_adInquiry_del(inquiry_idx);
+		return result;
+	}
+	
+	public int admin_delInquiry_Ok(int inquiry_idx) {
+		int result = ad_inquiryDao.admin_delInquiry_Ok(inquiry_idx);
+		return result;
+	}
+	
 }

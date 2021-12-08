@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +18,11 @@ import goo.area.model.AreaDTO;
 import goo.area.model.AreaService;
 import goo.member.model.*;
 import goo.owner.model.*;
+import goo.payment_info.model.*;
 import goo.sigungu.model.SigunguDTO;
 import goo.sigungu.model.SigunguService;
 import goo.siteSettings.model.*;
+import goo.ad.model.*;
 import goo.ad_inquery.model.*;
 
 @Controller
@@ -34,6 +38,10 @@ public class AdminAdManagement {
 	private AreaService areaService;
 	@Autowired
 	private SigunguService sigunguService;
+	@Autowired
+	private Payment_infoService payment_infoService;
+	@Autowired
+	private AdService adService;
 
 	@RequestMapping("/admin_ad_management.do")
 	public String ad_management() {
@@ -262,7 +270,7 @@ public class AdminAdManagement {
 	}
 	
 	/**광고 신청 승인*/
-	@RequestMapping("/adInquiry_ok.do")
+	@RequestMapping("/admin_adInquiry_ok.do")
 	@ResponseBody
 	public Map<String, Object> adInquiry_ok(@RequestParam("inquiry_idx") int inquiry_idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -283,4 +291,119 @@ public class AdminAdManagement {
 		System.out.println("여기까지 옴");
 		return map;
 	}
+	
+	
+	/**광고주 신청 거절*/
+	@RequestMapping("/admin_adInquiry_del.do")
+	@ResponseBody
+	public Map<String, Object> adInquiry_del(@RequestParam(("inquiry_idx"))int inquiry_idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code=0;
+		
+		int result = ad_inquiryService.admin_adInquiry_del(inquiry_idx);
+			
+		if(result>0) {
+			map.put("msg", "광고 승인 거절");
+			code=1;
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
+		map.put("code", code);
+		return map;
+	}
+	
+	
+	
+	/**광고주 신청 자세히보기*/
+	@RequestMapping("/admin_adInquiryDel_details.do")
+	public ModelAndView admin_adInquiryDel_details(@RequestParam(("inquiry_idx")) int inquiry_idx) {
+		System.out.println("admin_adDelInquiry_details ok");
+		System.out.println("문의번호:"+inquiry_idx);
+		Ad_inquiryDTO idto = ad_inquiryService.adInquiry_Info(inquiry_idx);
+		int owner_idx = idto.getOwner_idx();
+		OwnerDTO odto = ownerService.ownerInfo(owner_idx);
+		Payment_infoDTO pdto = payment_infoService.admin_getPayInfo(owner_idx);
+		
+		System.out.println("adInquiry sql문 돌아감");
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("idto", idto);
+		mav.addObject("odto", odto);
+		mav.addObject("pdto", pdto);
+		mav.setViewName("admin/ad_management/admin_adDelInquiry_details");
+		return mav;
+	}
+	
+	/**광고 환불 문의 승인*/
+	@RequestMapping("/admin_delInquiry_Ok.do")
+	@ResponseBody
+	public Map<String, Object> admin_delInquiry_Ok(
+			@RequestParam("inquiry_idx") int inquiry_idx,
+			@RequestParam("imp_uid")String imp_uid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code=0;
+		
+		int inquiryResult = ad_inquiryService.admin_delInquiry_Ok(inquiry_idx);
+		int changePayInfoResult = payment_infoService.admin_changePayInfo_cancel(imp_uid);
+		int del_Ad_infoResult = adService.admin_refundAd_Del(imp_uid);
+		
+		int result = inquiryResult + changePayInfoResult + del_Ad_infoResult;
+		
+		if(result==3) {
+			System.out.println("광고환불완료");
+			map.put("msg", "환불이 완료되었습니다.");
+			System.out.println("환불 완료 확인 메세지");
+			code=1;
+		}else if(result<3) {
+			if(inquiryResult==0) {
+				map.put("msg", "환불 문의 삭제 실패");
+				System.out.println("환불 문의 삭제 실패");
+				code=2;
+			}else if(changePayInfoResult==0) {
+				map.put("msg", "결제 정보 수정 실패");
+				System.out.println("승인완료 메세지 확인");
+				code=2;
+			}else if(del_Ad_infoResult==0) {
+				map.put("msg", "광고 상태 수정 실패");
+				System.out.println("승인완료 메세지 확인");
+				code=2;
+			}
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
+		map.put("code", code);
+		System.out.println("여기까지 옴");
+		return map;
+	}
+	
+	
+	/**환불 명령어*/
+	@RequestMapping("/user_paymenthh_ok.do")
+	@ResponseBody
+	public String user_paymentjj_ok(
+			HttpSession session,
+			@RequestParam("imp_uid")String imp_uid,
+			@RequestParam("owner_idx")int owner_idx,
+			@RequestParam("merchant_uid")String merchant_uid,
+			@RequestParam("amount")int amount,
+			@RequestParam("status")String status,
+			@RequestParam("ad_period")int ad_period) {
+		
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		
+		Payment_infoDTO pdto = new Payment_infoDTO(imp_uid, owner_idx, member_idx, merchant_uid, amount, status);
+		AdDTO adto = new AdDTO(owner_idx, imp_uid, ad_period, "광고중");
+		int result = payment_infoService.savePayInfo(pdto);
+		int inquiry_result = ad_inquiryService.payOk_InquiryDel(owner_idx);
+		//int ad_result = adService.startAD(adto);
+		if(result>0&&inquiry_result>0) {
+			 session.removeAttribute("ad_inquiry_state");
+		}
+		System.out.println("db 값 넣음");
+		String msg=result>0?"디비 입력완료":"디비 입력실패";
+		System.out.println("결제결과:"+msg);
+		return msg;
+	}
+	
 }
