@@ -44,6 +44,7 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+					<li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
 					<li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
 
 					<c:choose>

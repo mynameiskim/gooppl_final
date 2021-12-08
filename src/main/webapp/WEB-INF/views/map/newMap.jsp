@@ -661,32 +661,36 @@ function showResult(){
       					var mapx=adContents[i].mapx;
       					var mapy=adContents[i].mapy;
       					
-      					var trNode = document.createElement('tr');
+      		             var trNode = document.createElement('tr');
+      		             if(mapx==0||mapy==0){
+      		             	trNode.setAttribute('style', 'display:none;');
+      		             }
       		             var tdNode2 = document.createElement('td');
-      		             var tdTextNode2 = document.createTextNode(title);
-      		             var tdNode3 = document.createElement('td');
-      		             var tdTextNode3 = document.createTextNode(addr);
-      		             var tdNode4 = document.createElement('td');
-      		            
+      		             tdNode2.setAttribute('style', 'height: 100px;');
       		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);
-      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+      		             imgNode.setAttribute('src', image);	
+      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+      		             
+      		             var tdNode3 = document.createElement('td');
+      		             tdNode3.setAttribute('style', 'width: 90px;');
+      		             var tdTextNode3 = document.createTextNode(title);
+
       		          
-      		             var tdNode5 = document.createElement('td');
+      		             var tdNode4 = document.createElement('td');
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
       		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.className = 'add_Bt';
+      		             
       		             table.appendChild(trNode);
       		             trNode.appendChild(tdNode2);
       		             trNode.appendChild(tdNode3);
       		             trNode.appendChild(tdNode4);
-      		             trNode.appendChild(tdNode5);
-      		             tdNode2.appendChild(tdTextNode2);
+
+      		             tdNode2.appendChild(imgNode);
       		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(imgNode);
-      		             tdNode5.appendChild(addBt);
-      		             console.log(trNode);
+      		             tdNode4.appendChild(addBt);
       				}
       			}else{
       				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
@@ -697,34 +701,36 @@ function showResult(){
       					var mapx=adContents[i].mapx;
       					var mapy=adContents[i].mapy;
       					
-      					var trNode = document.createElement('tr');
+      		             var trNode = document.createElement('tr');
+      		             if(mapx==0||mapy==0){
+      		             	trNode.setAttribute('style', 'display:none;');
+      		             }
       		             var tdNode2 = document.createElement('td');
-      		             var tdTextNode2 = document.createTextNode(title);
-      		             var tdNode3 = document.createElement('td');
-      		             var tdTextNode3 = document.createTextNode(addr);
-      		             var tdNode4 = document.createElement('td');
-      		            
+      		             tdNode2.setAttribute('style', 'height: 100px;');
       		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);
-      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+      		             imgNode.setAttribute('src', image);	
+      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+      		             
+      		             var tdNode3 = document.createElement('td');
+      		             tdNode3.setAttribute('style', 'width: 90px;');
+      		             var tdTextNode3 = document.createTextNode(title);
+
       		          
-      		             var tdNode5 = document.createElement('td');
+      		             var tdNode4 = document.createElement('td');
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
       		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.className = 'add_Bt';
       		             
       		             table.appendChild(trNode);
       		             trNode.appendChild(tdNode2);
       		             trNode.appendChild(tdNode3);
       		             trNode.appendChild(tdNode4);
-      		             trNode.appendChild(tdNode5);
-      		             tdNode2.appendChild(tdTextNode2);
+
+      		             tdNode2.appendChild(imgNode);
       		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(imgNode);
-      		             tdNode5.appendChild(addBt);
-      		             
-      		             
+      		             tdNode4.appendChild(addBt);
       				}
       			}
       		}
@@ -1274,6 +1280,7 @@ function addEventListeners() {
 	  [images[dragStartIndex], images[dragEndIndex]] = [images[dragEndIndex], images[dragStartIndex]];
 	  [addrs[dragStartIndex], addrs[dragEndIndex]] = [addrs[dragEndIndex], addrs[dragStartIndex]];
 	  [contentids[dragStartIndex], contentids[dragEndIndex]] = [contentids[dragEndIndex], contentids[dragStartIndex]];
+	  [contenttypeids[dragStartIndex], contenttypeids[dragEndIndex]] = [contenttypeids[dragEndIndex], contenttypeids[dragStartIndex]];
 	  
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
@@ -1306,7 +1313,7 @@ function addEventListeners() {
 	
 </script>
 </head>
-<body id="page-top" onload="show()">
+<body id="page-top" onload="show()" style="background-color: white;">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="modalBtn" style="display:none;"></button>
 	
 	<!-- Modal -->
@@ -1337,51 +1344,54 @@ $('#closeModalBtn').on('click', function(){
 $('#staticBackdrop').modal('hide');
 });
 </script>
-    <!-- Navigation-->
- 	<nav class="navbar navbar-expand-lg navbar-light fixed-top"
-		id="mainNav">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="index.do" style="color: black;">GooPPl</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false"
-				aria-label="Toggle navigation">
-				Menu <i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" href="createMap.do" style="color: black;">Plan</a></li>
-					<li class="nav-item"><a class="nav-link" href="comunity.do" style="color: black;">Community</a></li>
-
-					<c:choose>
+ <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <c:choose>
 						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend"><a
-								class="nav-link dropdown-toggle" href="#" role="button"
-								id="dropdownMenuLink" data-bs-toggle="dropdown"
-								aria-expanded="false"> <label class="bg-primary text-center"
-									style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
-							</a>
+							<li class="nav-item dropdown dropend">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								    <label class="bg-primary text-center"
+								    	style="
+                                        width: 30px;
+                                        border-radius: 50%;
+                                        color: #fff;
+                                        font-weight: 600;
+                                        font-size: 1.2rem;">${profileNick}</label>
+								  </a>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-									<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-									<li><hr class="dropdown-divider"></li>
-									<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-								</ul></li>
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link"
-								href="#" role="button" data-bs-toggle="modal"
-								data-bs-target="#loginmd">LogIn</a></li>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
 						</c:otherwise>
 					</c:choose>
-				</ul>
-			</div>
-		</div>
-	</nav>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <!-- Signup-->
     <section class="signup-section" id="signup"
-        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
-    <div class="container" style="margin-bottom: 40px; margin-top: -60px;">
-    	<div class="col-sm-1 col-md-12">
+        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
+    <div class="container" style="margin-bottom: 40px; margin-top: -60px;" >
+    	<div class="col-sm-1 col-md-12" >
         	<div class="row">
         		<div class="col-md-12">
         			<input type="text" placeholder="여행 제목을 입력해주세요." style="width: 400px;" id="map_title">
@@ -1423,9 +1433,9 @@ $('#staticBackdrop').modal('hide');
 								<div id="calender" style="border:1px;width: 130px;height:700px;align:center;overflow: auto;">
 									<div style="text-align: center;">
 										<form>
-										시작일<br>
+										Start<br>
 										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
-										종료일<br>
+										End<br>
 										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
 										</form>
 									</div>
@@ -1439,13 +1449,13 @@ $('#staticBackdrop').modal('hide');
 				        </div>
 				        <div class="col-md-7" >
 				        	<div style="height: 665px; overflow: auto;">
-				        		<div style="text-align: center;">추가한 여행지</div>
+				        		<div style="text-align: center;">My Travel</div>
 								<ul id="savedList" style="width:100%; font-size: 14px;" class="savedList">
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveThisDay(1)" id="save_Bt">저장하기</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">Delete</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveThisDay(1)" id="save_Bt">Saved</button>
 	                    	</div>
 				        </div>
 				    </div>
@@ -1464,7 +1474,7 @@ $('#staticBackdrop').modal('hide');
 		        	<input type="text" name="areaCode" id="areaC">
 		        	<div class="row">
 	                    <div class="col-md-12" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">여행지 검색</button>
+	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">Search</button>
 	                    </div>
 	                </div>
 					<div style="height: 584px; overflow: auto;">
@@ -1719,7 +1729,6 @@ function getResultAdd2(){
 }
  
 </script>
-    <!-- Contact-->
 	<!-- Contact-->
 	<section class="contact-section bg-light align-items-center">
 		<div class="container px-4 px-lg-5">
