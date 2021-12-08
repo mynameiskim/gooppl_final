@@ -92,4 +92,14 @@ public class OwnerServiceImple implements OwnerService {
 		int result = ownerDao.admin_ownerUpdate(dto);
 		return result;
 	}
+	
+	public int ckBusinessNum(String business_number) {
+		int result = ownerDao.ckBusinessNum(business_number);
+		return result;
+	}
+	
+	public int admin_owner_del(int owner_idx) {
+		int result = ownerDao.admin_owner_del(owner_idx);
+		return result;
+	}
 }

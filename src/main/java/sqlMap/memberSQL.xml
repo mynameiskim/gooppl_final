@@ -80,5 +80,13 @@
 	<update id="memberOut" parameterType="Integer">
 		update member set del = 'Y' where member_idx=#{member_idx}
 	</update>
+	<update id="admin_changeOwnerType" parameterType="Integer">
+		UPDATE
+			MEMBER
+		SET
+			MEMBER_TYPE = 'M'
+		WHERE
+			MEMBER_IDX = #{member_idx}
+	</update>
 	
 </mapper>

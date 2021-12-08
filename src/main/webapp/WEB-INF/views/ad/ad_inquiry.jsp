@@ -20,6 +20,9 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="resource/css/styles.css" rel="stylesheet" />
     <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="resource/js/httpRequest.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>
     <script>
     	function changeInquiryType(){
     		var divNode = document.getElementById('changeType');

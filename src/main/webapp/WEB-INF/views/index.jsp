@@ -759,12 +759,16 @@
   
    $('#pwd, #pwdRe').on('keyup', function () {
 	      if ($('#pwd').val() != '' && $('#pwdRe').val() != '' && $('#pwd').val() == $('#pwdRe').val()) {
-	        $("#joinbt").attr("disabled",false);
 	        $('#cPwdValid').show();
 	        $('#cPwdInvalid').hide();
 	        $('#cPwdValid').html('사용가능').css('color', 'green');
 	        $('.pwds').removeClass('is-invalid')
-	      } else {
+	        if($('#mail_token').val()==null || $('#mail_token').val()=="" ){
+	        	$("#joinbt").attr("disabled",true);
+	        }else{
+	        	$("#joinbt").attr("disabled",false);
+	        }
+	       } else {
 	        $("#joinbt").attr("disabled",true);
 	        $('#cPwdValid').hide();
 	        $('#cPwdInvalid').show();

@@ -21,4 +21,9 @@ public class AdServiceImple implements AdService {
 		int result = adDao.admin_refundAd_Del(imp_uid);
 		return result;
 	}
+	
+	public AdDTO getAdInfo(int owner_idx) {
+		AdDTO dto = adDao.getAdInfo(owner_idx);
+		return dto;
+	}
 }

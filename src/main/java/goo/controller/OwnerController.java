@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,6 +41,14 @@ public class OwnerController {
 	   mav.addObject("sigungulist", sigungulist);
 	   mav.setViewName("ad/addAdInfo");
 	   return mav;
+	}
+	
+	/**사업자번호 중복체크*/
+	@RequestMapping("/ckBusinessNum.do")
+	@ResponseBody
+	public int ckBusinessNum(String business_number) throws Exception{
+		int result = ownerService.ckBusinessNum(business_number);
+		return result;
 	}
 	
 	/**광고주 신청 상태 확인*/

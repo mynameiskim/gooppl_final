@@ -77,4 +77,14 @@ public class OwnerDAOImple implements OwnerDAO {
 		int result = sqlMap.update("admin_ownerUpdate", dto);
 		return result;
 	}
+	
+	public int ckBusinessNum(String business_number) {
+		int result = sqlMap.selectOne("ckBusinessNum",business_number);
+		return result;
+	}
+	
+	public int admin_owner_del(int owner_idx) {
+		int result = sqlMap.delete("admin_owner_del", owner_idx);
+		return result;
+	}
 }
