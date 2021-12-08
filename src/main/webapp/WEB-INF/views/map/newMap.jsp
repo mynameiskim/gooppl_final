@@ -200,16 +200,16 @@ $(function() {
     	    var imageSrc;
     	    var imageSrc2;
     	    
-    	    if(contenttypeid==12){ //관광지
+    	    if(contenttypeids[i]==12){ //관광지
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
-    	    }else if(contenttypeid==39){ //음식점
+    	    }else if(contenttypeids[i]==39){ //음식점
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
-    	    }else if(contenttypeid==32){ //숙박
+    	    }else if(contenttypeids[i]==32){ //숙박
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
-    	    }else if(contenttypeid==38){ //쇼핑
+    	    }else if(contenttypeids[i]==38){ //쇼핑
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
     	    }
@@ -294,13 +294,13 @@ $(function() {
             
             var strokeColors;
             
-            if(contenttypeid==12){
+            if(contenttypeids[i]==12){
             	strokeColors = '#db4040'; // 선의 색깔입니다
-            }else if(contenttypeid==39){
+            }else if(contenttypeids[i]==39){
             	strokeColors = '#f39a24'; // 선의 색깔입니다
-            }else if(contenttypeid==32){
+            }else if(contenttypeids[i]==32){
             	strokeColors = '#1ee09c'; // 선의 색깔입니다
-            }else if(contenttypeid==38){
+            }else if(contenttypeids[i]==38){
             	strokeColors = '#a024f3'; // 선의 색깔입니다
             }
             
@@ -401,16 +401,16 @@ function newlist(){
     	    var imageSrc;
     	    var imageSrc2;
     	    
-    	    if(contenttypeid==12){ //관광지
+    	    if(contenttypeids[i]==12){ //관광지
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
-    	    }else if(contenttypeid==39){ //음식점
+    	    }else if(contenttypeids[i]==39){ //음식점
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
-    	    }else if(contenttypeid==32){ //숙박
+    	    }else if(contenttypeids[i]==32){ //숙박
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
-    	    }else if(contenttypeid==38){ //쇼핑
+    	    }else if(contenttypeids[i]==38){ //쇼핑
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
     	    }
@@ -495,13 +495,13 @@ function newlist(){
             
             var strokeColors;
             
-            if(contenttypeid==12){
+            if(contenttypeids[i]==12){
             	strokeColors = '#db4040'; // 선의 색깔입니다
-            }else if(contenttypeid==39){
+            }else if(contenttypeids[i]==39){
             	strokeColors = '#f39a24'; // 선의 색깔입니다
-            }else if(contenttypeid==32){
+            }else if(contenttypeids[i]==32){
             	strokeColors = '#1ee09c'; // 선의 색깔입니다
-            }else if(contenttypeid==38){
+            }else if(contenttypeids[i]==38){
             	strokeColors = '#a024f3'; // 선의 색깔입니다
             }
             
@@ -631,11 +631,11 @@ function show(){
 	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		var param = 'ServiceKey=0xlCgShade%2B08IbCA2oVyMO4MRgKm%2BTYolGYeceK2%2BtKWkbGcn6tiSzZqEaMaDsHNeApk5JtnVbOD25%2FFZwcmw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+		var param = 'serviceKey=0xlCgShade%2B08IbCA2oVyMO4MRgKm%2BTYolGYeceK2%2BtKWkbGcn6tiSzZqEaMaDsHNeApk5JtnVbOD25%2FFZwcmw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
 		sendRequest(url, param, showResult, 'GET');   
 	}
 }
@@ -813,7 +813,7 @@ function placeDetailInfo(contentid){
 		saveAdDetail(contentid);
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-		var param='serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		var param='serviceKey=0xlCgShade%2B08IbCA2oVyMO4MRgKm%2BTYolGYeceK2%2BtKWkbGcn6tiSzZqEaMaDsHNeApk5JtnVbOD25%2FFZwcmw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
 		sendRequest(url, param, getResult, 'GET'); 
 	}
 }
@@ -1670,13 +1670,6 @@ function getResultAdd2(){
 		}
 	}
 }
-
-
-
-$('#save_Bt').click(function () {
-	saveThisDay(1);
-});
-
  
 </script>
     <!-- Contact-->
