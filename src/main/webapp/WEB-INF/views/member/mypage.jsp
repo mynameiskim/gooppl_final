@@ -290,7 +290,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-5">
                         <c:if test="${firstImg[status.index]==0}">
-                        	<img src="${firstImg[status.index(0)}" class="img-responsive rounded-start" alt="..." style="width:100%; height:100%;">
+                        	<img src="${firstImg[status.index]}" class="img-responsive rounded-start" alt="..." style="width:100%; height:100%;">
                         	
                         </c:if>
                         </div>
