@@ -22,7 +22,7 @@ import goo.payment_info.model.*;
 import goo.sigungu.model.SigunguDTO;
 import goo.sigungu.model.SigunguService;
 import goo.siteSettings.model.*;
-import goo.ad.model.AdDTO;
+import goo.ad.model.*;
 import goo.ad_inquery.model.*;
 
 @Controller
@@ -40,6 +40,8 @@ public class AdminAdManagement {
 	private SigunguService sigunguService;
 	@Autowired
 	private Payment_infoService payment_infoService;
+	@Autowired
+	private AdService adService;
 
 	@RequestMapping("/admin_ad_management.do")
 	public String ad_management() {
@@ -337,14 +339,13 @@ public class AdminAdManagement {
 	@ResponseBody
 	public Map<String, Object> admin_delInquiry_Ok(
 			@RequestParam("inquiry_idx") int inquiry_idx,
-			@RequestParam("owner_idx") int owner_idx) {
+			@RequestParam("imp_uid")String imp_uid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int code=0;
 		
-		String imp_uid = payment_infoService.getRefundImp_uid(owner_idx);
 		int inquiryResult = ad_inquiryService.admin_delInquiry_Ok(inquiry_idx);
-		int changePayInfoResult = payment_infoService.admin_changePayInfo_cancel(owner_idx);
-		int del_Ad_infoResult = 0;
+		int changePayInfoResult = payment_infoService.admin_changePayInfo_cancel(imp_uid);
+		int del_Ad_infoResult = adService.admin_refundAd_Del(imp_uid);
 		
 		if(inquiryResult>0) {
 			System.out.println("광고승인완료");

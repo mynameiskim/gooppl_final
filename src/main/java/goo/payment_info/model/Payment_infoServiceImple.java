@@ -17,8 +17,8 @@ public class Payment_infoServiceImple implements Payment_infoService {
 		return result;
 	}
 	
-	public int admin_changePayInfo_cancel(int owner_idx) {
-		int result = payment_infoDao.admin_changePayInfo_cancel(owner_idx);
+	public int admin_changePayInfo_cancel(String imp_uid) {
+		int result = payment_infoDao.admin_changePayInfo_cancel(imp_uid);
 		return result;
 	}
 	

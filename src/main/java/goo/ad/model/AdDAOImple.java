@@ -14,4 +14,8 @@ public class AdDAOImple implements AdDAO {
 		int result = sqlMap.insert("startAD",adto);
 		return result;
 	}
+	public int admin_refundAd_Del(String imp_uid) {
+		int result = sqlMap.delete("admin_refundAd_Del", imp_uid);
+		return result;
+	}
 }

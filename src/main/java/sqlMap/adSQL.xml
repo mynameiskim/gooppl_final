@@ -16,7 +16,10 @@
 		#{ad_state}
 	)
 	</insert>
-	<delete id="admin_paymentDel">
-	
+	<delete id="admin_refundAd_Del" parameterType="String">
+		DELETE FROM
+			AD_INFO
+		WHERE
+			IMP_UID = #{imp_uid}
 	</delete>
 </mapper>

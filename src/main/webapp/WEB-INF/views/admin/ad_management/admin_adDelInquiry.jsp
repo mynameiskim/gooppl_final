@@ -87,9 +87,10 @@ function cancelPay(index){
 		  
 		  console.log('imp_uid:'+imp_uid);
 		  console.log('merchant_uid:'+merchant_uid);
+		  console.log('inquiry_idx: '+index)
 		  
 		  jQuery.ajax({
-				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=bd64f0ddc337b743e54703dc0f557d1813aa5691", // 예: http://www.myservice.com/payments/cancel
+				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=66a3898a8321363ecd615b8a0d096e16c7eb7eca", // 예: http://www.myservice.com/payments/cancel
 			    "type": "POST",
 			    "contentType": "application/json",
 			    "data": JSON.stringify({
@@ -100,6 +101,7 @@ function cancelPay(index){
 			    }),
 			    "dataType": "json"
 			}).done(function(result) { //환불 성공시 로직
+				
 				Swal.fire({
 				      title: '환불이 완료되었습니다.',
 				      icon:'success',
