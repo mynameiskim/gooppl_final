@@ -13,5 +13,4 @@
 		sysdate
 	)
 	</insert>
-	
 </mapper>
