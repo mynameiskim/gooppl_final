@@ -114,6 +114,7 @@ var moveDay;
 var setAreacode;
 var setSigungucode;
 var setContenttype;
+var isClick=false;
 
 //전체 광고 리스트
 var adContents=[];
@@ -161,7 +162,6 @@ $(function () {
 $(function () {
     $('#del_Bt').click( function() {
         $('#savedList').empty();
-        
         hideLines();
         latly.splice(0, latly.length);
         drawLines.splice(0, drawLines.length);
@@ -183,7 +183,6 @@ $(function() {
         $('#savedList').empty();
         hideLines();
         hideMarkers();
-        
         latly.splice(click_id, 1);
         drawLines.splice(click_id-1, 1);
 		markers.splice(click_id, 1);
@@ -222,6 +221,7 @@ $(function() {
 			    			'</tr>'+
 						'</table>'
     	    });
+    	    
     	    // 이동할 위도 경도 위치를 생성합니다 
     	    var moveLatLon = new kakao.maps.LatLng(mapys[i], mapxs[i]);
     	   
@@ -231,31 +231,18 @@ $(function() {
     	    
     	    markers[i] = marker;
     	    
-    	    var isClick = false;
+    	    isClick = false;
     	    
-    	    kakao.maps.event.addListener(marker, 'mouseover', function(){
-    	    	if(isClick){
-    	    		return;
-    	    	}else{
-    	    		infowindow.open(map, marker);
-    	    	}
-    	    });
-    		kakao.maps.event.addListener(marker, 'mouseout', function(){
-    			if(isClick){
-    				return;
-    			}else{
-    				infowindow.close();
-    			}
-    		});
+    	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     	    
     	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
     	   	 //closeOverlay();
     	        //overlay.setMap(map);
-    	        if(!isClick){
+    	    	if(!isClick){
     	        	isClick=true;
     	        }
-    	    	infowindow.open(map, marker); 
     	    });
     	    
     	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
@@ -288,7 +275,10 @@ $(function() {
             drawLine.setMap(map);
             
     	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+    	    console.log(infowindow);
+    	    console.log(marker);
     	    function makeOverListener(map, marker, infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.open(map, marker);
     	        };
@@ -296,6 +286,7 @@ $(function() {
     		
     	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     	    function makeOutListener(infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.close();
     	        };
@@ -383,7 +374,6 @@ function newlist(){
         $('#savedList').empty();
         hideLines();
         hideMarkers();  
-        
         /**
         latly.splice(0, latly.length);
         drawLines.splice(0, drawLines.length);
@@ -432,30 +422,18 @@ function newlist(){
     	    
     	    markers[i] = marker;
     	    
-    	    kakao.maps.event.addListener(marker, 'mouseover', function(){
-    	    	if(isClick){
-    	    		return;
-    	    	}else{
-    	    		infowindow.open(map, marker);
-    	    		
-    	    	}
-    	    });
-    		kakao.maps.event.addListener(marker, 'mouseout', function(){
-    			if(isClick){
-    				return;
-    			}else{
-    				infowindow.close();
-    			}
-    		});
+    	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     	    
+            isClick =false;
+            
     	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
     	   	 //closeOverlay();
     	        //overlay.setMap(map);
-    	        if(!isClick){
+    	    	if(!isClick){
     	        	isClick=true;
     	        }
-    	    	infowindow.open(map, marker); 
     	    });
     	    
     	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
@@ -489,6 +467,7 @@ function newlist(){
             
     	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
     	    function makeOverListener(map, marker, infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.open(map, marker);
     	        };
@@ -496,6 +475,7 @@ function newlist(){
     		
     	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     	    function makeOutListener(infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.close();
     	        };
@@ -602,7 +582,8 @@ function changeAreacode(){
 	
 	map.panTo(moveLatLon);
 }
-
+var contentids2=[];
+var roopState=false;
 /**데이터 검색 테이블 생성*/
 function show(){
 	var areacodeSelector=document.getElementById('areacode');
@@ -616,11 +597,11 @@ function show(){
 	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		var param = 'ServiceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+		var param = 'serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
 		sendRequest(url, param, showResult, 'GET');   
 	}
 }
@@ -628,7 +609,6 @@ function showResult(){
    if(XHR.readyState==4){
       if(XHR.status==200){
 		// alert("${mapinfolist[0].contentid}");
-		
          var doc = XHR.responseXML;
          var items = doc.getElementsByTagName('item');
          var table = document.getElementById('setTable');
@@ -659,7 +639,7 @@ function showResult(){
        		             var addBt = document.createElement('input');
        		             addBt.setAttribute('type','button');
        		             addBt.setAttribute('value','+');
-       		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",1)');
+       		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
        		             table.appendChild(trNode);
        		             trNode.appendChild(tdNode2);
        		             trNode.appendChild(tdNode3);
@@ -783,274 +763,84 @@ function showResult(){
              tdNode4.appendChild(imgNode);
              tdNode5.appendChild(addBt);
              
-             
+             if(roopState==false){
+            	 <c:forEach items="${mapinfolist}" var="item1">
+
+            	 contentids2.push("${item1.contentid}");
+
+            	 </c:forEach>
+            	 Info2(contentids2[0]);
+             }
           }
-         
-         
-         /**onload시에 createMap에서 저장된 contentid 가져옴*/
-		 var contentids2 = [];
-		 <c:if test="${empty tripList }">
-			console.log('없음.');
-		</c:if>
-		 <c:forEach items="${tripList}" var="tripdto">
-			var title = '${tripdto.title}';
-			var addr = '${tripdto.addr}';
-	   		var mapy = ${tripdto.mapy};
-	   		var mapx = ${tripdto.mapx};
-	   		var	image = '${tripdto.firstimage}';
-	   		var contentid = ${tripdto.contentid}; 
-	   		var areacode=${tripdto.areacode};
-	   		var sigungucode=${tripdto.sigungucode};
-	   		var contenttype=12;
-	   		var overview='${tripdto.overview}';
-	   		var readnum=${tripdto.readnum};
-	   		var homepage='${tripdto.homepage}';
-	   		var firstimage='${tripdto.firstimage}';
-	   		if(contentid<1000){
-	   			title='[AD] '+title;
-	   		}
-	   		var placeDetail={
-	        	 	contentid:contentid,
-	        	 	title:title,
-	        	 	addr:addr,
-	        	 	areacode:areacode,
-	        	 	sigungucode:sigungucode,
-	        	 	contenttype:contenttype,
-	        	 	mapx:mapx,
-	        	 	mapy:mapy,
-	        	 	overview:overview,
-	        	 	homepage:homepage,
-	        	 	firstimage:firstimage
-	        	 };        	 
-	        	 placeDetails.push(placeDetail);
-	   		makeMarker(contentid, mapy, mapx, title, image, addr, 0);
-		</c:forEach>
-		 /*for (var i = 0; i < contentids2.length; i++) {
-		 	Info(contentids2[i]);
-		 }**/
-		 
       }
    }
 }
 
 
+function saveContentid2(){
+	/**onload시에 createMap에서 저장된 contentid 가져옴*/
+	contentids2.splice(0,1);
+	Info2(contentids2[0]);
+}
+
+function Info2(contentid){
+	<c:forEach items="${tripList}" var="tripdto">
+    if(${tripdto.contentid}==contentid){
+    	var title='${tripdto.title}';
+    	var addr='${tripdto.addr}';
+    	var mapy=${tripdto.mapy};
+    	var mapx=${tripdto.mapx};
+    	var image='${tripdto.firstimage}';
+    	makeMarker(contentid, mapy, mapx, title, image, addr);
+    }
+ 	</c:forEach>
+ 	if(contentids2.length>1){
+ 	   saveContentid2();
+    }else{
+    	 roopState=true;
+    }
+}
+
 /**createMap에서 가져온 contentid로 DB placedetail에 테이블 조회 후 저장된 정보 가져옴*/
 function Info(contentid) {
-	
-	$.ajax({
+   console.log(contentid);
+   $.ajax({
         url: "loadPlaceDetail.do",
         type: "POST",
         data: {
-        	contentid:contentid
+           contentid:contentid
         },
         success: function(data){
            if (data.Code == 0 ) {
-        	   console.log(data.data.length);
-        	   var title = data.data[0].title;
-       			var addr = data.data[0].addr;
-	       		var mapy = data.data[0].mapy;
-	       		var mapx = data.data[0].mapx;
-	       		var	image = data.data[0].firstimage;
-	       		var contentid = data.data[0].contentid;   
-	       		if(contentid<1000){
-	       			title='[AD] '+title;
-	       		}
-	       		makeMarker(contentid, mapy, mapx, title, image, addr);
-	        	for (i=0; i<data.data.length; i++ ) {
-	        		
-	   	                  	  
-	                mapys.push(mapy);
-	                mapxs.push(mapx);
-	                titles.push(title);
-	                images.push(image);
-	                addrs.push(addr);
-	                contentids.push(contentid);
-	            	
-	                // 결과값으로 받은 위치를 마커로 표시합니다
-	              
-	               	var marker = new kakao.maps.Marker({
-	                    position: new kakao.maps.LatLng(mapy, mapx)
-	                });
-	                
-	                var xy = {
-	               		position: new kakao.maps.LatLng(mapy, mapx)
-	                }
-	                
-	                latly.push(xy.position);
-	                
-	                
-	                // 인포윈도우로 장소에 대한 설명을 표시합니다
-	                var infowindow = new kakao.maps.InfoWindow({
-	                    content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
-	        			'<tr style="margin-top:0px;">'+
-	        				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
-	        			'</tr>'+
-	        			'<tr style="height:80px;">'+
-	        				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
-	        				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+title+'</p>'+
-	        				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addr+'<br>'+
-	        				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentid+')">'+
-	        				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
-	        			'</tr>'+
-	    			'</table>'
-	                });
-	                
-	                // 이동할 위도 경도 위치를 생성합니다 
-	                var moveLatLon = new kakao.maps.LatLng(mapy, mapx);
-	                
-	                // 지도 중심을 부드럽게 이동시킵니다
-	                // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-	                map.panTo(moveLatLon);
-	                
-	                markers.push(marker);
-	                
-	                var isClick = false;
-	                
-	                kakao.maps.event.addListener(marker, 'mouseover', function(){
-	        	    	if(isClick){
-	        	    		return;
-	        	    	}else{
-	        	    		infowindow.open(map, marker);
-	        	    		
-	        	    	}
-	        	    });
-	        		kakao.maps.event.addListener(marker, 'mouseout', function(){
-	        			if(isClick){
-	        				return;
-	        			}else{
-	        				infowindow.close();
-	        			}
-	        		});
-	                
-	                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-	                kakao.maps.event.addListener(marker, 'click', function() {
-	               	 //closeOverlay();
-	                    //overlay.setMap(map);
-	                    if(!isClick){
-	                    	isClick=true;
-	                    }
-	                	infowindow.open(map, marker); 
-	                });
-	                
-	                kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-	        	        isClick=false;
-	        	        infowindow.close();
-	        	    });
-	                
-	                var linePath;
-	                var lineLine = new daum.maps.Polyline();
-
-	                var distance;
-	             
-	                for (var i = 0; i < 1; i++) {
-	                    if (count2 != 0) {
-	                        linePath = [ latly[count2-1], latly[count2] ] //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다
-	                    }
-	                    ;
-	                    
-	                    lineLine.setPath(linePath); // 선을 그릴 라인을 세팅합니다
-	                    
-	                }
-	             
-	            	var drawLine = new daum.maps.Polyline({
-	            	    path : linePath,
-	            	    strokeWeight : 3, // 선의 두께입니다 
-	            	    strokeColor : '#db4040', // 선의 색깔입니다
-	            	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-	            	    strokeStyle : 'solid' // 선의 스타일입니다
-	            	});
-
-	                drawLines.push(drawLine);
-	                drawLine.setMap(map);
-	                
-	                // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-	                function makeOverListener(map, marker, infowindow) {
-	                    return function() {
-	                        infowindow.open(map, marker);
-	                    };
-	                }
-
-	                // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-	                function makeOutListener(infowindow) {
-	                    return function() {
-	                        infowindow.close();
-	                    };
-	                }
-
-	                // 마커를 지도에 표시합니다.
-	            	marker.setMap(map);
-	                
-	            	var savedList = document.getElementById('savedList');
-	                
-	                var listitem=document.createElement('li');
-	                listitem.setAttribute('class', 'listName');
-	                listitem.setAttribute('id', 'li'+count2);
-	                listitem.setAttribute('data-index', count2);
-	                var spanNode=document.createElement('span');
-	                spanNode.setAttribute('class', 'tripnum');
-	                var spanTextNode=document.createTextNode(count2);
-	                spanNode.appendChild(spanTextNode);
-	                spanNode.setAttribute('style', 'vertical-align:middle;text-align:center;');
-	                var divNode=document.createElement('div');
-	                divNode.setAttribute('class', 'draggable');
-	                divNode.setAttribute('draggable', 'true');
-	                divNode.setAttribute('style', 'justify-content: center;');
-	                var pNode=document.createElement('span');
-	                pNode.setAttribute('class', 'placeinfo');
-	                var imgNode=document.createElement('img');
-	                imgNode.setAttribute('src', image);
-	                imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
-	                imgNode.setAttribute('hover', '');
-	                pNode.appendChild(imgNode);
-	                var spanNode2=document.createElement('span');
-	                spanNode2.setAttribute('class', 'tripdis');
-	                var spanTextNode2=document.createTextNode(title);
-	                spanNode2.setAttribute('style', 'word-break: break-all;display:inline-block; vertical-align: top; max-width: 80px;');
-	                spanNode2.appendChild(spanTextNode2);
-	                pNode.appendChild(spanNode2);
-	                pNode.setAttribute('style', 'display:inline; max-width: 80px;');
-	                divNode.appendChild(pNode);
-	                var addBt = document.createElement('input');
-	                addBt.setAttribute('type','button');
-	                addBt.className='del_Bt2';
-	                addBt.id=count2;
-	                addBt.setAttribute('value','-');
-	                var hiddenNode=document.createElement('input');
-	                hiddenNode.setAttribute('type', 'hidden');
-	                hiddenNode.setAttribute('name', 'contentid');
-	                hiddenNode.setAttribute('value', contentid);
-	                hiddenNode.setAttribute('class', 'contentid');
-	                divNode.appendChild(addBt);
-	                divNode.appendChild(hiddenNode);
-	                listitem.appendChild(spanNode);
-	                listitem.appendChild(divNode);
-	                savedList.appendChild(listitem);
-	                
-	                count2++;
-	                	       
-	                listItems.push(listitem);
-
-	                addEventListeners();
-	                
-	            }
+                   var title = data.data[0].title;
+                   var addr = data.data[0].addr;
+                   var mapy = data.data[0].mapy;
+                   var mapx = data.data[0].mapx;
+                   var   image = data.data[0].firstimage;
+                   var contentid = data.data[0].contentid;          
+                       
+                   makeMarker(contentid, mapy, mapx, title, image, addr);
            } else {
-        	   alert(data.Msg);
+              alert(data.Msg);
            }
         },
         error: function(){
             alert("err");
         }
-  	});
+     });
+   if(contentids2.length>1){
+	   saveContentid2();
+   }else{
+	   roopState==true;
+   }
 }
-
-
 
 function placeDetailInfo(contentid){
 	if(contentid<1000){
 		saveAdDetail(contentid);
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-		var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		var param='serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
 		sendRequest(url, param, getResult, 'GET'); 
 	}
 }
@@ -1109,13 +899,13 @@ function getResult(){
 		        	 contentid=items[0].getElementsByTagName('contentid').item(0).firstChild.nodeValue;
 	 	       	 }
 	        	 if(items[0].getElementsByTagName('title').length==0){
-	        		 title='';
+	        		 title='알 수 없음';
 	        	 }else{
 		        	 title=items[0].getElementsByTagName('title').item(0).firstChild.nodeValue;
 
 	        	 }
 	        	 if(items[0].getElementsByTagName('addr1').length==0){
-	        		 addr1='';
+	        		 addr1='알 수 없음';
 	        	 }else{
 		        	 addr=items[0].getElementsByTagName('addr1').item(0).firstChild.nodeValue;
 	        	 }
@@ -1145,12 +935,12 @@ function getResult(){
 		        	 mapy=items[0].getElementsByTagName('mapy').item(0).firstChild.nodeValue;
 	        	 }
 	        	 if(items[0].getElementsByTagName('overview').length==0){
-	        		 overview='';
+	        		 overview='알 수 없음';
 	        	 }else{
 		        	 overview=items[0].getElementsByTagName('overview').item(0).firstChild.nodeValue;
 	        	 }
 	        	 if(items[0].getElementsByTagName('homepage').length==0){
-	        		 homepage='';
+	        		 homepage='알 수 없음';
 	        	 }else{
 		        	 homepage=items[0].getElementsByTagName('homepage').item(0).firstChild.nodeValue;
 	        	 }
@@ -1194,9 +984,42 @@ var addrs = [];
 var contentids = [];
   
 /**추가 버튼 누른후 마커생성*/
-function makeMarker(contentid, mapy, mapx, title, image, addr, state){
+function makeMarker(contentid, mapy, mapx, title, image, addr){
 	
-	if(state!=0){
+	var state=0;
+	
+	<c:forEach var="tripdto" items="${tripList}">
+	if(${tripdto.contentid}==contentid){
+		state=1;
+		var title='${tripdto.title}';
+		var addr='${tripdto.addr}';
+		var areacode=${tripdto.areacode};
+		var sigungucode=${tripdto.sigungucode};
+		var contenttype=12;
+		var mapx=${tripdto.mapx};
+		var mapy=${tripdto.mapy};
+		var overview='${tripdto.overview}'.replace(/\'/gi,"");
+		var homepage='${tripdto.homepage}';
+		var image='${tripdto.firstimage}';
+		
+		 var placeDetail={
+	     	 	contentid:contentid,
+	     	 	title:title,
+	     	 	addr:addr,
+	     	 	areacode:areacode,
+	     	 	sigungucode:sigungucode,
+	     	 	contenttype:contenttype,
+	     	 	mapx:mapx,
+	     	 	mapy:mapy,
+	     	 	overview:overview,
+	     	 	homepage:homepage,
+	     	 	firstimage:image
+	     	 };
+     	 placeDetails.push(placeDetail);
+	}
+	</c:forEach>
+	
+	if(state!=1){
 		placeDetailInfo(contentid);
 	}
 	
@@ -1245,38 +1068,12 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
     
     markers.push(marker);
     
-    var isClick = false;
+    isClick = false;
     
-    kakao.maps.event.addListener(marker, 'mouseover', function(){
-    	if(isClick){
-    		return;
-    	}else{
-    		infowindow.open(map, marker);
-    		
-    	}
-    });
-	kakao.maps.event.addListener(marker, 'mouseout', function(){
-		if(isClick){
-			return;
-		}else{
-			infowindow.close();
-		}
-	});
     
     // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-    kakao.maps.event.addListener(marker, 'click', function() {
-   	 //closeOverlay();
-        //overlay.setMap(map);
-        if(!isClick){
-        	isClick=true;
-        }
-    	infowindow.open(map, marker); 
-    });
-    
-    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-        isClick=false;
-        infowindow.close();
-    });
+    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     
     var linePath;
     var lineLine = new daum.maps.Polyline();
@@ -1292,6 +1089,21 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
         lineLine.setPath(linePath); // 선을 그릴 라인을 세팅합니다
         
     }
+    
+ // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    kakao.maps.event.addListener(marker, 'click', function() {
+   	 //closeOverlay();
+        //overlay.setMap(map);
+        popup(contentid);
+    	if(!isClick){
+        	isClick=true;
+        }
+    });
+    
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        isClick=false;
+        infowindow.close();
+    });
  
 	var drawLine = new daum.maps.Polyline({
 	    path : linePath,
@@ -1306,6 +1118,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
     
     // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
     function makeOverListener(map, marker, infowindow) {
+    	if(isClick){return;}
         return function() {
             infowindow.open(map, marker);
         };
@@ -1313,6 +1126,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, state){
 
     // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     function makeOutListener(infowindow) {
+    	if(isClick){return;}
         return function() {
         	infowindow.close();
         };
@@ -1406,7 +1220,7 @@ function popup(contentid){
 	var firstimage;
 	var areatxt;
 	var sigungutxt;
-	
+	console.log(placeDetails.length);
 	for(var i=0;i<placeDetails.length;i++){
 		if(contentid==placeDetails[i].contentid){
 			title=placeDetails[i].title;
@@ -1604,6 +1418,7 @@ $('#staticBackdrop').modal('hide');
 						</c:forEach>
         			</select>
         			<select name="sigungucode" id="sigungucode">
+        				<option value="0">==전체==</option>
 						<c:forEach var="sigungudto" items="${sigungulist }">
 							<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
 						</c:forEach>

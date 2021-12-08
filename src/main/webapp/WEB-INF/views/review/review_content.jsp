@@ -17,8 +17,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
+    <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
     <style>
         #pagepath a {
@@ -45,6 +45,27 @@
             margin-top: 24px;
         }
     </style>
+    <script>
+    function deleteCon() {
+    	alert('함수진입')
+        if (!confirm("게시글을 삭제하시겠습니까?")) {
+            // 취소(아니오) 버튼 클릭 시 이벤트
+        } else {
+            // 확인(예) 버튼 클릭 시 이벤트
+            
+    	//삭제할 게시글 번호가져오기
+    	alert('페이지명령어진입')
+		var review_idx=document.getElementById('reviewIdx');
+		//컨트롤러로이동할 명령어 작성
+		window.loaction.href='review.do?review_idx='+review_idx+'';
+        }
+	}
+    </script>
+    <script>
+    function updateCon() {
+		
+	}
+    </script>
 </head>
 
 <body>
@@ -74,6 +95,11 @@
         <div class="container-sm mb-5">
 
 
+        <form name="reviewContent" action="reviewUpdateForm.do">
+        <input type="hidden" name="subject" value="">
+        <input type="hidden" name="" value="">
+        <input type="hidden" name="" value="">
+        <input type="hidden" name="" value="">
             <div class="row">
                 <div class="col-md-4" style="height: 128px;">
                     <!-- 페이지 경로 -->
@@ -105,7 +131,7 @@
                             </span>
                         </div>
                         <div class="col-xs-12">
-                            <span>
+                            <span id="reviewIdx">
                                 게시글 번호 : ${dto.review_idx }
                             </span>
                         </div>
@@ -113,7 +139,8 @@
                 </div>
             </div>
 
-            <!--    본문내용-->
+             <!--##### 본문 경계선 #####-->
+             
             <div class="container" style="margin-top: 64px;">
 
                 <!--    여행 인트로?-->
@@ -127,7 +154,7 @@
                 </div>
 
 
-                <div class="row justify-content-md-center">
+                <div class="row justify-content-md-center text-center">
                     <!--    본문내용-->
                     ${dto.content }
                 </div>
@@ -140,8 +167,16 @@
                     	${dto.epilogue }
                     </p>
                 </div>
-                <!--본문 경계선-->
+                <!--수정 삭제 버튼-->
+                
+           
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+                <input type="button" value="삭제하기" class="btn btn-secondary" onclick="deleteCon();"></input>
+                <button type="submit" class="btn btn-light" onclick="updateCon">수정하기</button>
+            </div> 
+            </form>  
             </div>
+                <!--##### 본문 경계선 #####-->
 
             <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  댓글 영역-->

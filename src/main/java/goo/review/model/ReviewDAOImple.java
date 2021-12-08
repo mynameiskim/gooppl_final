@@ -40,4 +40,8 @@ public class ReviewDAOImple implements ReviewDAO {
 		return count;
 	}
 
+	public int updateReview(int review_idx) {
+		int count=sqlMap.update("reviewUpdate", review_idx);
+		return count;
+	}
 }
