@@ -44,6 +44,7 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+					<li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
 					<li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
 
 					<c:choose>
@@ -189,7 +190,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- #####################################FAQ################################################## -->
+	<!-- #####################################FAQ################################################## -->
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-50" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="padding-right: 0px;padding-left:0px;">
 		  <div class="offcanvas-header bg-primary" style="border-bottom:1px solid lightgray;">
 		    <h3 class="offcanvas-title text-center text-white-50" id="offcanvasScrollingLabel">자주하는질문 FAQ</h3>

@@ -1,5 +1,6 @@
 package goo.owner.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,16 @@ public class OwnerDAOImple implements OwnerDAO {
 		return dto;
 	}
 	
-	public List<OwnerDTO> allOwnerSelect() {
-		List<OwnerDTO> list =sqlMap.selectList("allOwnerSelect");
+	public List<OwnerDTO> allOwnerSelect(List<Integer> ownerIdxList) {
+		List<OwnerDTO> list=new ArrayList<OwnerDTO>();
+		for(int i=0;i<ownerIdxList.size();i++) {
+			int owner_idx=ownerIdxList.get(i);
+			OwnerDTO dto = sqlMap.selectOne("selectOwnerDetail", owner_idx);
+			list.add(dto);
+		}
 		return list;
 	}
+	
 	public OwnerDTO getOwnerDetail(int owner_idx) {
 		OwnerDTO dto = sqlMap.selectOne("selectOwnerDetail", owner_idx);
 		return dto;

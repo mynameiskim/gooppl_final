@@ -1,8 +1,13 @@
 package goo.map_t.model;
 
+import java.util.List;
+
+import goo.mapinfo.model.MapInfoDAO;
+
 public class Gooppl_mapServiceImple implements Gooppl_mapService {
 
 	private Gooppl_mapDAO gooppl_mapDao;
+	private MapInfoDAO mapInfoDao;
 	
 	public Gooppl_mapDAO getGooppl_mapDao() {
 		return gooppl_mapDao;
@@ -31,4 +36,10 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		int result=gooppl_mapDao.updateMap(dto);
 		return result;
 	}
+	public List<Gooppl_mapDTO> getMap(int member_idx) {
+		List<Gooppl_mapDTO> mapDTO = gooppl_mapDao.getMap(member_idx);
+		return mapDTO;
+	}
+	
+	
 }

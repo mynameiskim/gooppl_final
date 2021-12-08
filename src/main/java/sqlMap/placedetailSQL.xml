@@ -61,4 +61,19 @@
   				   												mapinfo 
   				   											WHERE map_idx=#{map_idx} AND day_num=#{day_num}))
   	</select>
+  	<select id="getFirstImg" parameterType="Integer" resultType="String">
+  	SELECT 
+  		FIRSTIMAGE 
+  	FROM 
+  		placedetail 
+  	WHERE 
+  		contentid=(SELECT 
+  					contentid 
+  				   FROM 
+  				   	mapinfo 
+  				   WHERE 
+  				   	map_idx=#{map_idx} AND day_num= 1 AND route_num= 1)
+  	
+  	</select>
+  	
   </mapper>

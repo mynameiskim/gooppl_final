@@ -1,5 +1,7 @@
 package goo.map_t.model;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
@@ -34,4 +36,9 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		int result=sqlMap.update("updateMap", dto);
 		return result;
 	}
+	public List<Gooppl_mapDTO> getMap(int member_idx) {
+		List<Gooppl_mapDTO> mapDTO = sqlMap.selectList("getMap",member_idx);
+		return mapDTO;
+	}
+	
 }

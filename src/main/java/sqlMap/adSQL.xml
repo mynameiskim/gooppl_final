@@ -34,4 +34,13 @@
 		AND
 			OWNER_IDX = #{owner_idx}
 	</select>
+	<select id="getOwnerIdx" resultType="Integer">
+		SELECT 
+			owner_idx 
+		FROM 
+			AD_INFO 
+		WHERE 
+			ad_state='광고중'
+	</select>
+	
 </mapper>
