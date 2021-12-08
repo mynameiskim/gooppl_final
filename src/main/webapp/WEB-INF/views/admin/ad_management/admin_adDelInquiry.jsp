@@ -90,7 +90,7 @@ function cancelPay(index){
 		  console.log('inquiry_idx: '+index)
 		  
 		  jQuery.ajax({
-				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=66a3898a8321363ecd615b8a0d096e16c7eb7eca", // 예: http://www.myservice.com/payments/cancel
+				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=a9531fe35530a571423df67ca500d95acc9a3990", // 예: http://www.myservice.com/payments/cancel
 			    "type": "POST",
 			    "contentType": "application/json",
 			    "data": JSON.stringify({
@@ -101,17 +101,9 @@ function cancelPay(index){
 			    }),
 			    "dataType": "json"
 			}).done(function(result) { //환불 성공시 로직
-				
-				Swal.fire({
-				      title: '환불이 완료되었습니다.',
-				      icon:'success',
-				      confirmButtonText: '확인',
-				      confirmButtonColor: '#A4C399'
-				    }).then((result) => {
-				    	if (result.isConfirmed) {
-				    		location.reload();
-				    	}
-				    })
+				var param = 'imp_uid='+imp_uid+'&inquiry_idx='+index;
+				sendRequest('admin_delInquiry_Ok.do', param, showResult2, 'GET');
+
 			}).fail(function(error) { //환불 실패시 로직
 				Swal.fire({
 				      title: '환불 실패',
@@ -123,66 +115,59 @@ function cancelPay(index){
 				    		location.reload();
 				    	}
 				    })
+				   
 			});
-		  
-	  }
+		}
 	})
 }
 
-//리스트의 승인
-function admin_delInquiry_Ok(index){
-	Swal.fire({
-		title: '승인하시겠습니까?',
-		text: "해당회원은 광고주 회원으로 변경됩니다.",
-		icon: 'info',
-		showCancelButton: true,
-		confirmButtonColor: '#d33',
-		cancelButtonColor: '#000000',
-		confirmButtonText: '확인',
-		cancelButtonText: '취소',
-		showLoaderOnConfirm: true,
-		allowOutsideClick: () => !Swal.isLoading()
-	}).then((result) => {
-	  if (result.isConfirmed) {
-	  		var param1=document.getElementById("inquiry_idx"+index).value;
-	  		var param2=document.getElementById("owner_idx"+index).value
-	  		
-			$.ajax({
-				type: "GET",
-				url: 'admin_delInquiry_Ok.do?inquiry_idx='+param1+'&owner_idx='+param2,
-				dataType: "json",
-				error: function(result){
-					
-				},
-				success: function(result){
-					if(result.code==1){
-						Swal.fire({
-					      title: result.msg,
-					      icon:'success',
-					      confirmButtonText: '확인',
-					      confirmButtonColor: '#A4C399'
-					    }).then((result) => {
-					    	if (result.isConfirmed) {
-					    		location.reload();
-					    	}
-					    })
-					}else {
-						Swal.fire({
-					      title: result.msg,
-					      icon:'error',
-					      confirmButtonText: '확인',
-					      confirmButtonColor: '#d33'
-					    }).then((result) => {
-					    	if (result.isConfirmed) {
-					    		location.reload();
-					    	}
-					    })
-					}
-				}
-			});
-	  }
-	})
+function showResult2(){
+	if(XHR.readyState==4){
+		if(XHR.status==200){
+			console.log('db넘어와따!');
+			var data = XHR.responseText;
+			data = eval('('+data+')');
+			console.log(data);
+			console.log(data.code);
+			if(data.code==1){
+				Swal.fire({
+					title: '환불이 완료되었습니다.',
+					icon:'success',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#A4C399'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						location.reload();
+				    }
+				});
+			}else if(data.code==2){
+				Swal.fire({
+				    title: 'Data ERROR',
+				    text: data.msg,
+				    icon:'error',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#d33'
+			    }).then((result) => {
+			    	if (result.isConfirmed) {
+			    		location.reload();
+			    	}
+			    });
+			}
+		}else if(data.code==0){
+			Swal.fire({
+			    title: 'ERROR',
+			    icon:'error',
+			    confirmButtonText: '확인',
+			    confirmButtonColor: '#d33'
+		    }).then((result) => {
+		    	if (result.isConfirmed) {
+		    		location.reload();
+		    	}
+		    });
+		}
+	}
 }
+
 
 //리스트의 거절
 function appli_Delete(index){

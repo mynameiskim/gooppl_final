@@ -347,11 +347,27 @@ public class AdminAdManagement {
 		int changePayInfoResult = payment_infoService.admin_changePayInfo_cancel(imp_uid);
 		int del_Ad_infoResult = adService.admin_refundAd_Del(imp_uid);
 		
-		if(inquiryResult>0) {
-			System.out.println("광고승인완료");
-			map.put("msg", "승인완료");
-			System.out.println("승인완료 메세지 확인");
+		int result = inquiryResult + changePayInfoResult + del_Ad_infoResult;
+		
+		if(result==3) {
+			System.out.println("광고환불완료");
+			map.put("msg", "환불이 완료되었습니다.");
+			System.out.println("환불 완료 확인 메세지");
 			code=1;
+		}else if(result<3) {
+			if(inquiryResult==0) {
+				map.put("msg", "환불 문의 삭제 실패");
+				System.out.println("환불 문의 삭제 실패");
+				code=2;
+			}else if(changePayInfoResult==0) {
+				map.put("msg", "결제 정보 수정 실패");
+				System.out.println("승인완료 메세지 확인");
+				code=2;
+			}else if(del_Ad_infoResult==0) {
+				map.put("msg", "광고 상태 수정 실패");
+				System.out.println("승인완료 메세지 확인");
+				code=2;
+			}
 		}else {
 			map.put("msg", "ERROR");
 			code=0;

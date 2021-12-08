@@ -20,7 +20,7 @@
   		UPDATE
   			PAYMENT_INFO
   		SET
-  			status 'cancelled'
+  			status = 'cancelled'
   		WHERE
   			imp_uid = #{imp_uid}
   	</update>
