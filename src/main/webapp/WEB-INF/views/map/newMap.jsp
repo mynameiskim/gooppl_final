@@ -196,7 +196,7 @@ $(function() {
         addrs.splice(click_id, 1);    
         contentids.splice(click_id, 1);
         contenttypeids.splice(click_id, 1);
-        listItems.splice(click_id, 1);        
+        listItems.splice(click_id, 1);     
         
     	for(var i=0; i<mapys.length; i++){
     		
@@ -306,7 +306,6 @@ $(function() {
             }else if(contenttypeids[i]==38){
             	strokeColors = '#a024f3'; // 선의 색깔입니다
             }
-            
         	var drawLine = new daum.maps.Polyline({
         	    path : linePath,
         	    strokeWeight : 6, // 선의 두께입니다
@@ -320,8 +319,6 @@ $(function() {
             drawLine.setMap(map);
             
          // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-    	    console.log(infowindow);
-    	    console.log(marker);
     	    function makeOverListener(map, marker, infowindow) {
     	    	if(isClick){return;}
     	        return function() {
@@ -521,8 +518,6 @@ function newlist(){
             drawLine.setMap(map);
             
          // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-    	    console.log(infowindow);
-    	    console.log(marker);
     	    function makeOverListener(map, marker, infowindow) {
     	    	if(isClick){return;}
     	        return function() {
@@ -660,11 +655,9 @@ function showResult(){
       					var image=adContents[i].image;
       					var mapx=adContents[i].mapx;
       					var mapy=adContents[i].mapy;
+      					var contenttype=adContents[i].contenttype;
       					
       		             var trNode = document.createElement('tr');
-      		             if(mapx==0||mapy==0){
-      		             	trNode.setAttribute('style', 'display:none;');
-      		             }
       		             var tdNode2 = document.createElement('td');
       		             tdNode2.setAttribute('style', 'height: 100px;');
       		             var imgNode = document.createElement('img');
@@ -680,9 +673,8 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
       		             addBt.className = 'add_Bt';
-      		             
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
       		             table.appendChild(trNode);
       		             trNode.appendChild(tdNode2);
       		             trNode.appendChild(tdNode3);
@@ -700,11 +692,9 @@ function showResult(){
       					var image=adContents[i].image;
       					var mapx=adContents[i].mapx;
       					var mapy=adContents[i].mapy;
+      					var contenttype=adContents[i].contenttype;
       					
       		             var trNode = document.createElement('tr');
-      		             if(mapx==0||mapy==0){
-      		             	trNode.setAttribute('style', 'display:none;');
-      		             }
       		             var tdNode2 = document.createElement('td');
       		             tdNode2.setAttribute('style', 'height: 100px;');
       		             var imgNode = document.createElement('img');
@@ -720,8 +710,8 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
       		             addBt.className = 'add_Bt';
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
       		             
       		             table.appendChild(trNode);
       		             trNode.appendChild(tdNode2);
@@ -945,7 +935,6 @@ function saveAdDetail(contentid){
 		     	 	homepage:homepage,
 		     	 	firstimage:image,
 		     	 };
-			 console.log(placeDetail);
 	     	 placeDetails.push(placeDetail);
 		}
 	}
@@ -1191,7 +1180,6 @@ function popup(contentid){
 	var firstimage;
 	var areatxt;
 	var sigungutxt;
-	console.log(placeDetails.length);
 	for(var i=0;i<placeDetails.length;i++){
 		if(contentid==placeDetails[i].contentid){
 			title=placeDetails[i].title;
@@ -1545,7 +1533,6 @@ function setLines(map) {
 function hideMarkers() {
     setMarkers(null);
     listItems.splice(0, listItems.length);
-    placeDetails.splice(0, placeDetails.length);
     markers.splice(0, placeDetails.length);
 }
 function hideLines() {
@@ -1669,7 +1656,6 @@ function getResultAdd(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
-			console.log(data);
 			savePlaceDetailData();
 		}
 	}
@@ -1710,7 +1696,6 @@ function getResultAdd2(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
-			console.log(data);
 			placeDetails.splice(0,1);
 			if(placeDetails.length!=0){
 				savePlaceDetailData();
