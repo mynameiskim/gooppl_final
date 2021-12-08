@@ -629,11 +629,11 @@ function show(){
 	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=0xlCgShade%2B08IbCA2oVyMO4MRgKm%2BTYolGYeceK2%2BtKWkbGcn6tiSzZqEaMaDsHNeApk5JtnVbOD25%2FFZwcmw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=0xlCgShade%2B08IbCA2oVyMO4MRgKm%2BTYolGYeceK2%2BtKWkbGcn6tiSzZqEaMaDsHNeApk5JtnVbOD25%2FFZwcmw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
 		sendRequest(url, param, showResult, 'GET');   
 	}
 }
@@ -813,7 +813,7 @@ function placeDetailInfo(contentid){
 		saveAdDetail(contentid);
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-		var param='serviceKey=0xlCgShade%2B08IbCA2oVyMO4MRgKm%2BTYolGYeceK2%2BtKWkbGcn6tiSzZqEaMaDsHNeApk5JtnVbOD25%2FFZwcmw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
 		sendRequest(url, param, getResult, 'GET'); 
 	}
 }
@@ -1662,8 +1662,11 @@ function savePlaceDetailData(){
 	var contentid=placeDetails[0].contentid;
 	param+='&contentid='+contentid;
 	var title=placeDetails[0].title;
+	//title=encodeURI(decodeURI(title));
+	title=encodeURIComponent(title);
 	param+='&title='+title;
 	var addr=placeDetails[0].addr;
+	addr=encodeURIComponent(addr);
 	param+='&addr='+addr;
 	var areacode=placeDetails[0].areacode;
 	param+='&areacode='+areacode;
@@ -1677,12 +1680,14 @@ function savePlaceDetailData(){
 	if(overview.length>900){
 		overview=overview.substr(0, 900)+'...';
 	}
-	overview=encodeURI(decodeURI(overview));
+	//overview=encodeURI(decodeURI(overview));
+	overview=encodeURIComponent(overview);
 	param+='&overview='+overview;
 	var readnum=1;
 	param+='&readnum='+readnum;
 	var homepage=placeDetails[0].homepage;
-	homepage=encodeURI(decodeURI(homepage));
+	//homepage=encodeURI(decodeURI(homepage));
+	homepage=encodeURIComponent(homepage);
 	param+='&homepage='+homepage;
 	var firstimage=placeDetails[0].firstimage;
 	param+='&firstimage='+firstimage;

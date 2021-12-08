@@ -1811,8 +1811,10 @@ function savePlaceDetailData(){
 		var contentid=placeDetails[0].contentid;
 		param+='&contentid='+contentid;
 		var title=placeDetails[0].title;
+		title=encodeURIComponent(title);
 		param+='&title='+title;
 		var addr=placeDetails[0].addr;
+		addr=encodeURIComponent(addr);
 		param+='&addr='+addr;
 		var areacode=placeDetails[0].areacode;
 		param+='&areacode='+areacode;
@@ -1826,12 +1828,14 @@ function savePlaceDetailData(){
 		if(overview.length>900){
 			overview=overview.substr(0, 900)+'...';
 		}
-		overview=encodeURI(decodeURI(overview));
+		//overview=encodeURI(decodeURI(overview));
+		overview=encodeURIComponent(overview);
 		param+='&overview='+overview;
 		var readnum=1;
 		param+='&readnum='+readnum;
 		var homepage=placeDetails[0].homepage;
-		homepage=encodeURI(decodeURI(homepage));
+		//homepage=encodeURI(decodeURI(homepage));
+		homepage=encodeURIComponent(homepage);
 		param+='&homepage='+homepage;
 		var firstimage=placeDetails[0].firstimage;
 		param+='&firstimage='+firstimage;
