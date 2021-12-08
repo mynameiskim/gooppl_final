@@ -51,14 +51,6 @@
   		WHERE
   			STATE = '승인'
   	</select>
-	<select id="allOwnerSelect" resultType="goo.owner.model.OwnerDTO">
-		select
-			*
-		from 
-			owner_info
-		where
-			state = '승인'
-	</select>
 	<select id="selectOwnerDetail" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
 		select 
 			*
@@ -81,7 +73,20 @@
 		where
 			owner_idx=#{owner_idx}
 	</select>
-	
+	<select id="ckBusinessNum" parameterType="String" resultType="integer">
+		SELECT
+			count(*)
+		FROM
+			OWNER_INFO
+		WHERE
+			BUSINESS_NUMBER = #{business_number}
+	</select>
+	<delete id="admin_owner_del">
+		DELETE FROM
+			OWNER_INFO
+		WHERE
+			OWNER_IDX = #{owner_idx}
+	</delete>
 	
 	
 	

@@ -196,23 +196,23 @@ $(function() {
         addrs.splice(click_id, 1);    
         contentids.splice(click_id, 1);
         contenttypeids.splice(click_id, 1);
-        listItems.splice(click_id, 1);        
+        listItems.splice(click_id, 1);     
         
     	for(var i=0; i<mapys.length; i++){
     		
     	    var imageSrc;
     	    var imageSrc2;
     	    
-    	    if(contenttypeid==12){ //관광지
+    	    if(contenttypeids[i]==12){ //관광지
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
-    	    }else if(contenttypeid==39){ //음식점
+    	    }else if(contenttypeids[i]==39){ //음식점
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
-    	    }else if(contenttypeid==32){ //숙박
+    	    }else if(contenttypeids[i]==32){ //숙박
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
-    	    }else if(contenttypeid==38){ //쇼핑
+    	    }else if(contenttypeids[i]==38){ //쇼핑
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
     	    }
@@ -297,16 +297,15 @@ $(function() {
             
             var strokeColors;
             
-            if(contenttypeid==12){
+            if(contenttypeids[i]==12){
             	strokeColors = '#db4040'; // 선의 색깔입니다
-            }else if(contenttypeid==39){
+            }else if(contenttypeids[i]==39){
             	strokeColors = '#f39a24'; // 선의 색깔입니다
-            }else if(contenttypeid==32){
+            }else if(contenttypeids[i]==32){
             	strokeColors = '#1ee09c'; // 선의 색깔입니다
-            }else if(contenttypeid==38){
+            }else if(contenttypeids[i]==38){
             	strokeColors = '#a024f3'; // 선의 색깔입니다
             }
-            
         	var drawLine = new daum.maps.Polyline({
         	    path : linePath,
         	    strokeWeight : 6, // 선의 두께입니다
@@ -320,8 +319,6 @@ $(function() {
             drawLine.setMap(map);
             
          // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-    	    console.log(infowindow);
-    	    console.log(marker);
     	    function makeOverListener(map, marker, infowindow) {
     	    	if(isClick){return;}
     	        return function() {
@@ -404,16 +401,16 @@ function newlist(){
     	    var imageSrc;
     	    var imageSrc2;
     	    
-    	    if(contenttypeid==12){ //관광지
+    	    if(contenttypeids[i]==12){ //관광지
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
-    	    }else if(contenttypeid==39){ //음식점
+    	    }else if(contenttypeids[i]==39){ //음식점
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
-    	    }else if(contenttypeid==32){ //숙박
+    	    }else if(contenttypeids[i]==32){ //숙박
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
-    	    }else if(contenttypeid==38){ //쇼핑
+    	    }else if(contenttypeids[i]==38){ //쇼핑
     	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
     	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
     	    }
@@ -498,13 +495,13 @@ function newlist(){
             
             var strokeColors;
             
-            if(contenttypeid==12){
+            if(contenttypeids[i]==12){
             	strokeColors = '#db4040'; // 선의 색깔입니다
-            }else if(contenttypeid==39){
+            }else if(contenttypeids[i]==39){
             	strokeColors = '#f39a24'; // 선의 색깔입니다
-            }else if(contenttypeid==32){
+            }else if(contenttypeids[i]==32){
             	strokeColors = '#1ee09c'; // 선의 색깔입니다
-            }else if(contenttypeid==38){
+            }else if(contenttypeids[i]==38){
             	strokeColors = '#a024f3'; // 선의 색깔입니다
             }
             
@@ -521,8 +518,6 @@ function newlist(){
             drawLine.setMap(map);
             
          // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-    	    console.log(infowindow);
-    	    console.log(marker);
     	    function makeOverListener(map, marker, infowindow) {
     	    	if(isClick){return;}
     	        return function() {
@@ -634,11 +629,11 @@ function show(){
 	setContenttype=contenttype;
 	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
 		sendRequest(url, param, showResult, 'GET');   
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
 		sendRequest(url, param, showResult, 'GET');   
 	}
 }
@@ -660,33 +655,34 @@ function showResult(){
       					var image=adContents[i].image;
       					var mapx=adContents[i].mapx;
       					var mapy=adContents[i].mapy;
+      					var contenttype=adContents[i].contenttype;
       					
-      					var trNode = document.createElement('tr');
+      		             var trNode = document.createElement('tr');
       		             var tdNode2 = document.createElement('td');
-      		             var tdTextNode2 = document.createTextNode(title);
-      		             var tdNode3 = document.createElement('td');
-      		             var tdTextNode3 = document.createTextNode(addr);
-      		             var tdNode4 = document.createElement('td');
-      		            
+      		             tdNode2.setAttribute('style', 'height: 100px;');
       		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);
-      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+      		             imgNode.setAttribute('src', image);	
+      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+      		             
+      		             var tdNode3 = document.createElement('td');
+      		             tdNode3.setAttribute('style', 'width: 90px;');
+      		             var tdTextNode3 = document.createTextNode(title);
+
       		          
-      		             var tdNode5 = document.createElement('td');
+      		             var tdNode4 = document.createElement('td');
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.className = 'add_Bt';
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
       		             table.appendChild(trNode);
       		             trNode.appendChild(tdNode2);
       		             trNode.appendChild(tdNode3);
       		             trNode.appendChild(tdNode4);
-      		             trNode.appendChild(tdNode5);
-      		             tdNode2.appendChild(tdTextNode2);
+
+      		             tdNode2.appendChild(imgNode);
       		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(imgNode);
-      		             tdNode5.appendChild(addBt);
-      		             console.log(trNode);
+      		             tdNode4.appendChild(addBt);
       				}
       			}else{
       				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
@@ -696,35 +692,35 @@ function showResult(){
       					var image=adContents[i].image;
       					var mapx=adContents[i].mapx;
       					var mapy=adContents[i].mapy;
+      					var contenttype=adContents[i].contenttype;
       					
-      					var trNode = document.createElement('tr');
+      		             var trNode = document.createElement('tr');
       		             var tdNode2 = document.createElement('td');
-      		             var tdTextNode2 = document.createTextNode(title);
-      		             var tdNode3 = document.createElement('td');
-      		             var tdTextNode3 = document.createTextNode(addr);
-      		             var tdNode4 = document.createElement('td');
-      		            
+      		             tdNode2.setAttribute('style', 'height: 100px;');
       		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);
-      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
+      		             imgNode.setAttribute('src', image);	
+      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+      		             
+      		             var tdNode3 = document.createElement('td');
+      		             tdNode3.setAttribute('style', 'width: 90px;');
+      		             var tdTextNode3 = document.createTextNode(title);
+
       		          
-      		             var tdNode5 = document.createElement('td');
+      		             var tdNode4 = document.createElement('td');
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.className = 'add_Bt';
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
       		             
       		             table.appendChild(trNode);
       		             trNode.appendChild(tdNode2);
       		             trNode.appendChild(tdNode3);
       		             trNode.appendChild(tdNode4);
-      		             trNode.appendChild(tdNode5);
-      		             tdNode2.appendChild(tdTextNode2);
+
+      		             tdNode2.appendChild(imgNode);
       		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(imgNode);
-      		             tdNode5.appendChild(addBt);
-      		             
-      		             
+      		             tdNode4.appendChild(addBt);
       				}
       			}
       		}
@@ -816,7 +812,7 @@ function placeDetailInfo(contentid){
 		saveAdDetail(contentid);
 	}else{
 		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon'; /*URL*/
-		var param='serviceKey=z8c%2FjRTMz%2FWFvdFuWTueDK74T8y21zFfSv4VYmmMI0hijUh7RsqRZSydypjPZ%2FOSS%2BC6H0sWSqBY9hbjDnYTig%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
+		var param='serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y';
 		sendRequest(url, param, getResult, 'GET'); 
 	}
 }
@@ -939,7 +935,6 @@ function saveAdDetail(contentid){
 		     	 	homepage:homepage,
 		     	 	firstimage:image,
 		     	 };
-			 console.log(placeDetail);
 	     	 placeDetails.push(placeDetail);
 		}
 	}
@@ -1048,8 +1043,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     
     markers.push(marker);
     
-    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow, markerPosition, markerImage2));
-    //kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map, marker, infowindow, markerPosition, markerImage));
+    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
     kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     
  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
@@ -1186,7 +1180,6 @@ function popup(contentid){
 	var firstimage;
 	var areatxt;
 	var sigungutxt;
-	console.log(placeDetails.length);
 	for(var i=0;i<placeDetails.length;i++){
 		if(contentid==placeDetails[i].contentid){
 			title=placeDetails[i].title;
@@ -1275,6 +1268,7 @@ function addEventListeners() {
 	  [images[dragStartIndex], images[dragEndIndex]] = [images[dragEndIndex], images[dragStartIndex]];
 	  [addrs[dragStartIndex], addrs[dragEndIndex]] = [addrs[dragEndIndex], addrs[dragStartIndex]];
 	  [contentids[dragStartIndex], contentids[dragEndIndex]] = [contentids[dragEndIndex], contentids[dragStartIndex]];
+	  [contenttypeids[dragStartIndex], contenttypeids[dragEndIndex]] = [contenttypeids[dragEndIndex], contenttypeids[dragStartIndex]];
 	  
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
@@ -1307,7 +1301,7 @@ function addEventListeners() {
 	
 </script>
 </head>
-<body id="page-top" onload="show()">
+<body id="page-top" onload="show()" style="background-color: white;">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="modalBtn" style="display:none;"></button>
 	
 	<!-- Modal -->
@@ -1338,51 +1332,54 @@ $('#closeModalBtn').on('click', function(){
 $('#staticBackdrop').modal('hide');
 });
 </script>
-    <!-- Navigation-->
- 	<nav class="navbar navbar-expand-lg navbar-light fixed-top"
-		id="mainNav">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="index.do" style="color: black;">GooPPl</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false"
-				aria-label="Toggle navigation">
-				Menu <i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" href="createMap.do" style="color: black;">Plan</a></li>
-					<li class="nav-item"><a class="nav-link" href="comunity.do" style="color: black;">Community</a></li>
-
-					<c:choose>
+ <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <c:choose>
 						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend"><a
-								class="nav-link dropdown-toggle" href="#" role="button"
-								id="dropdownMenuLink" data-bs-toggle="dropdown"
-								aria-expanded="false"> <label class="bg-primary text-center"
-									style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
-							</a>
+							<li class="nav-item dropdown dropend">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								    <label class="bg-primary text-center"
+								    	style="
+                                        width: 30px;
+                                        border-radius: 50%;
+                                        color: #fff;
+                                        font-weight: 600;
+                                        font-size: 1.2rem;">${profileNick}</label>
+								  </a>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-									<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-									<li><hr class="dropdown-divider"></li>
-									<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-								</ul></li>
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link"
-								href="#" role="button" data-bs-toggle="modal"
-								data-bs-target="#loginmd">LogIn</a></li>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
 						</c:otherwise>
 					</c:choose>
-				</ul>
-			</div>
-		</div>
-	</nav>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <!-- Signup-->
     <section class="signup-section" id="signup"
-        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
-    <div class="container" style="margin-bottom: 40px; margin-top: -60px;">
-    	<div class="col-sm-1 col-md-12">
+        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
+    <div class="container" style="margin-bottom: 40px; margin-top: -60px;" >
+    	<div class="col-sm-1 col-md-12" >
         	<div class="row">
         		<div class="col-md-12">
         			<input type="text" placeholder="여행 제목을 입력해주세요." style="width: 400px;" id="map_title">
@@ -1424,9 +1421,9 @@ $('#staticBackdrop').modal('hide');
 								<div id="calender" style="border:1px;width: 130px;height:700px;align:center;overflow: auto;">
 									<div style="text-align: center;">
 										<form>
-										시작일<br>
+										Start<br>
 										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
-										종료일<br>
+										End<br>
 										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
 										</form>
 									</div>
@@ -1440,13 +1437,13 @@ $('#staticBackdrop').modal('hide');
 				        </div>
 				        <div class="col-md-7" >
 				        	<div style="height: 665px; overflow: auto;">
-				        		<div style="text-align: center;">추가한 여행지</div>
+				        		<div style="text-align: center;">My Travel</div>
 								<ul id="savedList" style="width:100%; font-size: 14px;" class="savedList">
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveThisDay(1)" id="save_Bt">저장하기</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">Delete</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveThisDay(1)" id="save_Bt">Saved</button>
 	                    	</div>
 				        </div>
 				    </div>
@@ -1465,7 +1462,7 @@ $('#staticBackdrop').modal('hide');
 		        	<input type="text" name="areaCode" id="areaC">
 		        	<div class="row">
 	                    <div class="col-md-12" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">여행지 검색</button>
+	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">Search</button>
 	                    </div>
 	                </div>
 					<div style="height: 584px; overflow: auto;">
@@ -1536,7 +1533,6 @@ function setLines(map) {
 function hideMarkers() {
     setMarkers(null);
     listItems.splice(0, listItems.length);
-    placeDetails.splice(0, placeDetails.length);
     markers.splice(0, placeDetails.length);
 }
 function hideLines() {
@@ -1660,7 +1656,6 @@ function getResultAdd(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
-			console.log(data);
 			savePlaceDetailData();
 		}
 	}
@@ -1670,8 +1665,11 @@ function savePlaceDetailData(){
 	var contentid=placeDetails[0].contentid;
 	param+='&contentid='+contentid;
 	var title=placeDetails[0].title;
+	//title=encodeURI(decodeURI(title));
+	title=encodeURIComponent(title);
 	param+='&title='+title;
 	var addr=placeDetails[0].addr;
+	addr=encodeURIComponent(addr);
 	param+='&addr='+addr;
 	var areacode=placeDetails[0].areacode;
 	param+='&areacode='+areacode;
@@ -1685,12 +1683,14 @@ function savePlaceDetailData(){
 	if(overview.length>900){
 		overview=overview.substr(0, 900)+'...';
 	}
-	overview=encodeURI(decodeURI(overview));
+	//overview=encodeURI(decodeURI(overview));
+	overview=encodeURIComponent(overview);
 	param+='&overview='+overview;
 	var readnum=1;
 	param+='&readnum='+readnum;
 	var homepage=placeDetails[0].homepage;
-	homepage=encodeURI(decodeURI(homepage));
+	//homepage=encodeURI(decodeURI(homepage));
+	homepage=encodeURIComponent(homepage);
 	param+='&homepage='+homepage;
 	var firstimage=placeDetails[0].firstimage;
 	param+='&firstimage='+firstimage;
@@ -1701,7 +1701,6 @@ function getResultAdd2(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
-			console.log(data);
 			placeDetails.splice(0,1);
 			if(placeDetails.length!=0){
 				savePlaceDetailData();
@@ -1718,16 +1717,8 @@ function getResultAdd2(){
 		}
 	}
 }
-
-
-
-$('#save_Bt').click(function () {
-	saveThisDay(1);
-});
-
  
 </script>
-    <!-- Contact-->
 	<!-- Contact-->
 	<section class="contact-section bg-light align-items-center">
 		<div class="container px-4 px-lg-5">

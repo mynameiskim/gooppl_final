@@ -5,7 +5,7 @@ import java.util.*;
 
 public interface OwnerDAO {
 	public int addOwnerInfo(OwnerDTO dto);
-	public List<OwnerDTO> allOwnerSelect();
+	public List<OwnerDTO> allOwnerSelect(List<Integer> ownerIdxList);
 	public OwnerDTO getOwnerDetail(int owner_idx);
 	public OwnerDTO ckOwnerInfo(int member_idx);
 	public int totalOwner();
@@ -16,4 +16,6 @@ public interface OwnerDAO {
 	public int admin_ownerAppli_del(int owner_idx);
 	public List<OwnerDTO> admin_allOwner(Map map);
 	public int admin_ownerUpdate(OwnerDTO dto);
+	public int ckBusinessNum(String business_number);
+	public int admin_owner_del(int owner_idx);
 }

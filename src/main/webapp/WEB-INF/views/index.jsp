@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -44,6 +44,7 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+					<li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
 					<li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
 
 					<c:choose>
@@ -764,11 +765,12 @@
 	        $('#cPwdValid').html('사용가능').css('color', 'green');
 	        $('.pwds').removeClass('is-invalid')
 	        if('#mail_token'.val()==null || '#mail_token'.val()=="" ){
+	        if($('#mail_token').val()==null || $('#mail_token').val()=="" ){
 	        	$("#joinbt").attr("disabled",true);
 	        }else{
 	        	$("#joinbt").attr("disabled",false);
 	        }
-	      } else {
+	       } else {
 	        $("#joinbt").attr("disabled",true);
 	        $('#cPwdValid').hide();
 	        $('#cPwdInvalid').show();

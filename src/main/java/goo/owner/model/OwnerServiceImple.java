@@ -1,8 +1,6 @@
 package goo.owner.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OwnerServiceImple implements OwnerService {
 
@@ -25,11 +23,17 @@ public class OwnerServiceImple implements OwnerService {
 		OwnerDTO dto = ownerDao.ckOwnerInfo(member_idx);
 		return dto;
 	}
-	public List<OwnerDTO> allOwnerSelect() {
-		List<OwnerDTO> list = ownerDao.allOwnerSelect();
+	public List<OwnerDTO> allOwnerSelect(List<Integer> ownerIdxList) {
+		List<OwnerDTO> list = new ArrayList<OwnerDTO>();
+		list=ownerDao.allOwnerSelect(ownerIdxList);
+		System.out.println(list.size());
 		for(int i=0;i<list.size();i++) {
-			list.get(i).setAd_content(list.get(i).getAd_content().replaceAll("\r\n", "<br>"));
-			list.get(i).setAddr(list.get(i).getAddr().replaceAll("\r\n", "<br>"));
+			if(list.get(i).getAd_content().contains("\r\n")) {
+				list.get(i).setAd_content(list.get(i).getAd_content().replaceAll("\r\n", "<br>"));
+			}
+			if(list.get(i).getAddr().contains("\r\n")) {
+				list.get(i).setAddr(list.get(i).getAddr().replaceAll("\r\n", "<br>"));
+			}
 		}
 		return list;
 	}
@@ -90,6 +94,16 @@ public class OwnerServiceImple implements OwnerService {
 	
 	public int admin_ownerUpdate(OwnerDTO dto) {
 		int result = ownerDao.admin_ownerUpdate(dto);
+		return result;
+	}
+	
+	public int ckBusinessNum(String business_number) {
+		int result = ownerDao.ckBusinessNum(business_number);
+		return result;
+	}
+	
+	public int admin_owner_del(int owner_idx) {
+		int result = ownerDao.admin_owner_del(owner_idx);
 		return result;
 	}
 }

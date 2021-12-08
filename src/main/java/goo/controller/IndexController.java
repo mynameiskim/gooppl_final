@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import goo.ad.model.AdService;
 import goo.area.model.*;
 import goo.kakao.KakaoApi;
 import goo.naver.NaverLoginBO;
@@ -36,6 +37,8 @@ public class IndexController {
 	private StartAreaDAO startAreaDao;
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
+	private AdService adService;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -137,7 +140,11 @@ public class IndexController {
 			mav.addObject("member_idx", session_idx);
 			List<AreaDTO> arealist = areaService.areaList();
 			List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-			List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+			List<Integer> ownerIdxList=adService.getOwnerIdx();
+			List<OwnerDTO> adlist=new ArrayList<OwnerDTO>();
+			if(ownerIdxList.size()>0) {
+				adlist = ownerService.allOwnerSelect(ownerIdxList);
+			}
 			mav.addObject("arealist", arealist);
 			mav.addObject("sigungulist", sigungulist);
 			mav.addObject("adlist", adlist);
