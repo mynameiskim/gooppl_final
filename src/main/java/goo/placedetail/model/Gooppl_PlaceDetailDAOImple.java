@@ -1,9 +1,14 @@
 ﻿package goo.placedetail.model;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+
+import goo.map_t.model.Gooppl_mapDTO;
+import goo.mapinfo.model.MapInfoDTO;
 
 public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 
@@ -43,4 +48,5 @@ public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 		String firstImg = sqlMap.selectOne("getFirstImg",map_idx);
 		return firstImg;
 	}
+	
 }

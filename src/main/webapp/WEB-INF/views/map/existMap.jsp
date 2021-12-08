@@ -1675,7 +1675,6 @@ function setLines(map) {
 function hideMarkers() {
     setMarkers(null);
     listItems.splice(0, listItems.length);
-    placeDetails.splice(0, placeDetails.length);
     markers.splice(0, placeDetails.length);
 }
 function hideLines() {
