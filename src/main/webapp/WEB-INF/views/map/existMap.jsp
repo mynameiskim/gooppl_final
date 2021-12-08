@@ -11,6 +11,8 @@
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
@@ -816,7 +818,7 @@ function Info(contentid) {
                    var addr = data.data[0].addr;
                    var mapy = data.data[0].mapy;
                    var mapx = data.data[0].mapx;
-                   var   image = data.data[0].firstimage;
+                   var image = data.data[0].firstimage;
                    var contentid = data.data[0].contentid;          
                        
                    makeMarker(contentid, mapy, mapx, title, image, addr);
@@ -1607,7 +1609,11 @@ function createDay() {
 	var day = (InputDate_e-InputDate_s)/(60*60*24*1000)+1;
 	
 	if(day<=0){
-		window.alert('여행 종료일이 여행 시작일보다 빠를 수 없습니다.');
+		Swal.fire(
+				  '여행 일정을 확인해주세요',
+				  '종료일이 시작일보다 빠를 수 없습니다!',
+				  'warning'
+				);
 		document.getElementById('endDate').value='';
 	}else{
 		$("#dayBtDiv").empty();
@@ -1632,28 +1638,54 @@ function createDay() {
 	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
 
 function saveThisDay(dayCount){
-	if (confirm("일정을 저장하시겠습니까?") == true) { //확인
-		var map_title=document.getElementById('map_title').value;
-		if(map_title==''){
-			window.alert('일정 제목을 입력해주세요.');
+	
+	var text=${tripNum}==0?'나만의 여행 일정을 만들어보세요!':'기존에 저장한 일정은 삭제됩니다.';
+	
+	Swal.fire({
+		  title: '일정을 저장하시겠습니까?',
+		  text: text,
+		  icon: 'question',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Save'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  var map_title=document.getElementById('map_title').value;
+			  if(map_title==''){
+					Swal.fire(
+							  '일정 이름이 무엇인가요?',
+							  '여행에 이름을 지어주세요!',
+							  'warning'
+							);
+					return;
+				}else if(listItems.length==0){
+					Swal.fire(
+							  '원하는 여행지를 선택해주세요',
+							  '적어도 한 곳은 담아주세요!',
+							  'warning'
+							);
+					return;
+				}else if(document.getElementById('endDate').value==''){
+					Swal.fire(
+							  '여행 날짜를 정해주세요!',
+							  '일정은 언제든지 수정 가능합니다',
+							  'warning'
+							);
+					return;
+				}else{
+					var people_num = document.getElementById('people_num').value;
+					var trip_type= document.getElementById('trip_type').value;
+					var startdate = document.getElementById('startDate').value;
+					var enddate = document.getElementById('endDate').value;
+					var start2=startdate.split("-"); 
+					var end2=enddate.split("-"); 
+					moveToDay(map_title,member_idx,people_num,trip_type,start2[0],start2[1],start2[2],end2[0],end2[1],end2[2],'n','n',dayCount);
+				}
+		  }else { //취소
 			return;
-		}else if(listItems.length==0){
-			window.alert('일정을 선택해주세요.');
-			return;
-		}else if(document.getElementById('endDate').value==''){
-			window.alert('여행 기간을 다시 확인해주세요.');
-		}else{
-			var people_num = document.getElementById('people_num').value;
-			var trip_type= document.getElementById('trip_type').value;
-			var startdate = document.getElementById('startDate').value;
-			var enddate = document.getElementById('endDate').value;
-			var start2=startdate.split("-"); 
-			var end2=enddate.split("-"); 
-			moveToDay(map_title,member_idx,people_num,trip_type,start2[0],start2[1],start2[2],end2[0],end2[1],end2[2],'n','n',dayCount);
 		}
-	} else { //취소
-		return;
-	}
+	});
 }
 function moveToDay(map_title,member_idx,people_num,trip_type,starty,startm,startd,endy,endm,endd,share_ok,del_ok,dayCount){
 	moveDay=dayCount;
