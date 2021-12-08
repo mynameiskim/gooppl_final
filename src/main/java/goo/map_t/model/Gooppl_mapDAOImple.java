@@ -1,4 +1,4 @@
-package goo.map_t.model;
+﻿package goo.map_t.model;
 
 import java.util.List;
 import java.util.Map;
@@ -47,4 +47,9 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		List<Gooppl_mapDTO> list = sqlMap.selectList("shareMapAllList", map);
 		return list;
 	}
+	public List<Gooppl_mapDTO> getMap(int member_idx) {
+		List<Gooppl_mapDTO> mapDTO = sqlMap.selectList("getMap",member_idx);
+		return mapDTO;
+	}
+	
 }

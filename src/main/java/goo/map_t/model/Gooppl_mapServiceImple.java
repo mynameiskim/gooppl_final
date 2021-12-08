@@ -1,4 +1,4 @@
-package goo.map_t.model;
+﻿package goo.map_t.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,9 +6,14 @@ import java.util.Map;
 
 import goo.review.model.ReviewDTO;
 
+import java.util.List;
+
+import goo.mapinfo.model.MapInfoDAO;
+
 public class Gooppl_mapServiceImple implements Gooppl_mapService {
 
 	private Gooppl_mapDAO gooppl_mapDao;
+	private MapInfoDAO mapInfoDao;
 	
 	public Gooppl_mapDAO getGooppl_mapDao() {
 		return gooppl_mapDao;
@@ -52,4 +57,10 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		int count = gooppl_mapDao.getShareCnt();
 		return count;
 	}
+	public List<Gooppl_mapDTO> getMap(int member_idx) {
+		List<Gooppl_mapDTO> mapDTO = gooppl_mapDao.getMap(member_idx);
+		return mapDTO;
+	}
+	
+	
 }

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -114,7 +114,7 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-2 text-center">
                     <h5 class="fw-bolder mb-1 text-center">나의 일정</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><a href="#">2</a></h4>
+                    <h4 class="fw-bolder mb-3 text-center"><a href="#">${mapDTO.size()}</a></h4>
                 </div>
                 <div class="col-md-2 text-center">
                     <h5 class="fw-bolder mb-1 text-center">나의 후기</h5>
@@ -246,7 +246,7 @@
         		<div class="row justify-content-md-center mb-4">
         			<div class="row mb-4">
         				<div class="col-md-2 text-center">
-        					<h5 class="fw-bolder mb-2 text-center">나의 업장</h5>
+        					<h5 class="fw-bolder mb-2 text-center" id="my">나의 업장</h5>
         				</div>
         			</div>
         		</div>
@@ -284,25 +284,23 @@
                     </div>
                 </div>
             </div>
+            <c:forEach var="mapdto" items="${mapDTO}" varStatus="status">
             <div class="row row-cols-1 row-cols-md-1 justify-content-md-center mb-4">
                 <div class="card" style="max-width: 1024px; padding-left:0px;padding-right:0px;">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
-                            <img src="/gooppl/resource/img/gapyeong.jpg" class="img-fluid rounded-start" alt="..." style="width:100%;">
+                        <div class="col-md-5">
+                        	<img src="${firstImg[status.index(0)}" class="img-responsive rounded-start" alt="..." style="width:100%; height:100%;">
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-body align-items-center"  style="font-size:24px;">
-                                <div class="col-md-12 mb-3">
-	                                	<label class="fw-bolder" style="font-size:36px;">GAPYEONG </label>
-	                                	<label class="fw-bolder" style="font-size:20px;">대한민국 가평</label>
-                                </div>
+                        <div class="col-md-7">
+                            <div class="card-body align-items-center"  style="font-size:18px;">
+                               
                                 <div class="col-md-12 fw-bolder mb-2">
                                         <div class="row">
 	                                        <div class="col-md-3" style="color: cadetblue;">
 	                                            여행명
 	                                        </div>
 	                                        <div class="col-md-9">
-	                                            신나는 가평 여행
+	                                            ${mapdto.map_title}
 	                                        </div>
 	                                    </div>    
                                 </div>
@@ -312,7 +310,17 @@
                                             여행일자
                                         </div>
                                         <div class="col-md-9">
-                                            2021-11-20 - 2021-11-21
+                                            ${mapdto.startdate } - ${mapdto.enddate}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 fw-bolder mb-2">
+                                    <div class="row">
+                                        <div class="col-md-3" style="color: cadetblue;">
+                                            여행인원
+                                        </div>
+                                        <div class="col-md-9">
+                                            ${mapdto.people_num }명
                                         </div>
                                     </div>
                                 </div>
@@ -322,7 +330,12 @@
                                             여행유형
                                         </div>
                                         <div class="col-md-9">
-                                            커플끼리
+                                            <c:choose>
+                                            	<c:when test="${mapdto.trip_type==1}">홀로여행</c:when>
+                                            	<c:when test="${mapdto.trip_type==2}">우정여행${mapdto.map_idx}</c:when>
+                                            	<c:when test="${mapdto.trip_type==3}">커플여행</c:when>
+                                            	<c:when test="${mapdto.trip_type==4}">가족여행</c:when>
+                                            </c:choose>
                                         </div>
                                     </div>
                                 </div>
@@ -332,7 +345,7 @@
                                             방문장소
                                         </div>
                                         <div class="col-md-9">
-                                            12곳
+                                            ${totalPlaceCount[status.index]}곳
                                         </div>
                                     </div>
                                 </div>
@@ -342,7 +355,7 @@
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">공유</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">수정</button>
+                                            <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick='javascript:location.href="existMap.do?map_idx=${mapdto.map_idx}&day_num=1"'>수정</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">삭제</button>
@@ -355,34 +368,10 @@
                         
                     </div>
                 </div>
-                <div class="row justify-content-md-center mb-4">
-                <div class="col-md-3 ">
-                	<div class="col-md-8" style="margin:0px auto;">
-	                    <ul class="pagination">
-	                        <li class="page-item disabled">
-	                            <a class="page-link" href="#">&laquo;</a>
-	                        </li>
-	                        <li class="page-item active">
-	                            <a class="page-link" href="#">1</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">2</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">3</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">4</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">&raquo;</a>
-	                        </li>
-	                    </ul>
-                    </div>
-                </div>
-            </div>
-            </div>
-			
+                
+			</c:forEach>
+            </div> <!-- 컨테이너 -->
+            
         </div>
         <!--후기 영역 -->
         <div class="container-sm mb-5" style="padding: 5rem 0;">
@@ -434,32 +423,6 @@
 			    </div>
 			  </div>
 			</div>
-            <div class="row justify-content-md-center">
-                <div class="col-md-3 ">
-                	<div class="col-md-8" style="margin:0px auto;">
-	                    <ul class="pagination">
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">&laquo;</a>
-	                        </li>
-	                        <li class="page-item active">
-	                            <a class="page-link" href="#">1</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">2</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">3</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">4</a>
-	                        </li>
-	                        <li class="page-item">
-	                            <a class="page-link" href="#">&raquo;</a>
-	                        </li>
-	                    </ul>
-	                </div>
-                </div>
-            </div>
         </div>
 
     </section>
@@ -483,7 +446,9 @@
                             <i class="fas fa-envelope text-primary mb-2"></i>
                             <h4 class="text-uppercase m-0">1:1상담</h4>
                             <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">문의하기</a></div>
+                            <div class="small text-black-50">
+								<a href="#">hello@yourdomain.com</a>
+							</div>
                         </div>
                     </div>
                 </div>
@@ -493,7 +458,9 @@
                             <i class="fas fa-mobile-alt text-primary mb-2"></i>
                             <h4 class="text-uppercase m-0">FAQ</h4>
                             <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">자주하는 질문</a></div>
+                            <div class="small text-black-50">
+                            <a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -579,6 +546,7 @@
     <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
         <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
     </footer>
+    <%@include file="/WEB-INF/views/member/faq.jsp" %>
       <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

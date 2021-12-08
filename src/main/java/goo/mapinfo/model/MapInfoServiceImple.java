@@ -42,4 +42,8 @@ public class MapInfoServiceImple implements MapInfoService {
 		int result=mapinfoDao.deleteMapInfo(map);
 		return result;
 	}
+	public int getTotalPlace(int map_idx) {
+		int count = mapinfoDao.getTotalPlace(map_idx);
+		return count;
+	}
 }

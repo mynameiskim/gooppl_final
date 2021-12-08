@@ -178,8 +178,63 @@ function ownerD_Update(owner_idx){
 	})
 }
 
-//상세보기의 거절
-function appliD_Delete(index){
+//리스트의 삭제
+function owner_Delete(index){
+	Swal.fire({
+		title: '광고주 정보를 삭제하시겠습니까?',
+		text: "삭제된 정보는 복구가 불가능합니다.",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#A4C399',
+		cancelButtonColor: '#000000',
+		confirmButtonText: '확인',
+		cancelButtonText: '취소',
+		showLoaderOnConfirm: true,
+		allowOutsideClick: () => !Swal.isLoading()
+	}).then((result) => {
+	  if (result.isConfirmed) {
+	  		var owner_idx=document.getElementById("owner_idx"+index).value;
+	  		var member_idx = document.getElementById("member_idx"+index).value;
+	  		
+			$.ajax({
+				type: "GET",
+				url: 'admin_owner_del.do?owner_idx='+owner_idx+'&member_idx='+member_idx,
+				dataType: "json",
+				error: function(result){
+					
+				},
+				success: function(result){
+					if(result.code==1){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'success',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#A4C399'
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.reload();
+					    	}
+					    })
+					}else {
+						Swal.fire({
+					      title: result.msg,
+					      icon:'error',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#d33'
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.reload();
+					    	}
+					    })
+					}
+				}
+			});
+	  }
+	})	
+}
+
+//상세보기의 삭제
+function ownerD_Delete(owner_idx, member_idx){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -193,11 +248,10 @@ function appliD_Delete(index){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var owner_idx=document.getElementById("owner_idx").value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_ownerAppli_del.do?owner_idx='+owner_idx,
+				url: 'admin_owner_del.do?owner_idx='+owner_idx+'&member_idx='+member_idx,
 				dataType: "json",
 				error: function(result){
 					

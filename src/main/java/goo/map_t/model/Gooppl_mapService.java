@@ -1,4 +1,4 @@
-package goo.map_t.model;
+﻿package goo.map_t.model;
 
 import java.util.*;
 
@@ -14,4 +14,6 @@ public interface Gooppl_mapService {
 	public int getShareCnt();
 	public int updateMap(Gooppl_mapDTO dto);
 	public List<Gooppl_mapDTO> mapList(int cp,int ls);
+	public List<Gooppl_mapDTO> getMap(int member_idx);
+	
 }

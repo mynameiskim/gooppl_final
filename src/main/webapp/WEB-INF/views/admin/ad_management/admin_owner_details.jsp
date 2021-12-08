@@ -109,6 +109,7 @@
                                 <tr>
                                     <td colspan="3" class="text-center">
                                         <input class="bt btn-secondary" type="submit" value="수정">
+                                        <input class="bt btn-danger" type="button" value="삭제" onclick="ownerD_delete(${dto.owner_idx},${dto.member_idx})">
                                     </td>
                                 </tr>
                             </table>

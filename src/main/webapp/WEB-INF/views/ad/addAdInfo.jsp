@@ -21,6 +21,12 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="resource/css/styles.css" rel="stylesheet" />
     <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- jquery -->
+	<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
     <script>
         //특별, 광역시, 도 단위 지역 이동시 처리할 함수
        function changeAreacode(){
@@ -209,6 +215,9 @@
                            }
                        }).open();
                    }
+                   
+                   
+                   
                </script>
                        <!-- <div class="img-fluid rounded-start"  id="map" style="width:350px; height:350px;"></div> -->
                     </div>
@@ -224,16 +233,18 @@
                                 <input type="text" class="form-control mb-2" id="title" name="title" required>
                                 
                             </div>
-                            <div class="col-md-5 form-group">
+                            <div class="col-md-3 form-group">
                                 <label for="business_number" class="form-label">사업자번호</label>
                                 <input type="text" class="form-control mb-2" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required>
-                                
+                            </div>
+                            <div class="col-md-2 form-group">
+                            	<button class="btn btn-outline-primary" id="ckBusinessNum" name="ckBusinessNum">중복체크</button>
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="contenttype" class="form-label">타입</label>
 
-                                <select class="form-select mb-2" id="contenttype" name="contenttype" required>
-                                    <option selected disabled>타입</option>
+                                <select class="form-select mb-2" id="contenttype" name="contenttype" required = "required"> 
+                                    <option value="" selected disabled>타입</option>
                                     <option value="14">문화시설</option>
                                     <option value="32">숙박</option>
                                     <option value="39">음식점</option>
@@ -269,7 +280,7 @@
                             <div class="col-md-5 form-group">
                                 <label for="registration_date" class="form-label">대표사진</label>
                                 <div class="input-group has-validation">
-                                    <input type="file" class="form-control form-control-sm mb-2" name="upload" required>
+                                    <input type="file" class="form-control form-control-sm mb-2" name="upload" required = "required" accept=".jpg, .jpeg, .png, .JPG, .JPEG">
                                 </div>
                             </div>
                             <div class="col-md-9 form-group">
@@ -319,7 +330,7 @@
                                </div>
                            </div>
                            <div class="col-12">
-                               <button class="btn btn-primary" type="submit">광고주 등록 신청</button>
+                               <button class="btn btn-primary" id="ownerJoinBtn" type="submit">광고주 등록 신청</button>
                            </div>
                        </div>
                     </div>
@@ -327,7 +338,41 @@
             </div>
         </form>
     </section>
+<script>
+/*사업자 번호체크*/
+$("#ckBusinessNum").click(function(){
+	 var business_number = $("#business_number").val();        // 입력한 사업자 번호
+	 var reg=/^\d{3}-\d{2}-\d{5}$/;
+	 if(business_number==''){
+   	   Swal.fire('사업자번호를 입력해주세요');
+	 }else if(!reg.test(business_number)){
+		 Swal.fire('사업자번호 형식을 확인해주세요.<br>ex)123-12-12345');
+	 }else{
+		 $.ajax({
+	            method:"GET",
+	            url:"ckBusinessNum.do",
+	            data:{"business_number":business_number},
+	            success:function(data){
+	                if(data==0){//사용 가능한 아이디 라면 
+	                	 Swal.fire({
+							  title: '이용가능한 사업자번호입니다.',
+							  icon: 'success',
+							  confirmButtonText: '확인'
+							});
+	                }else{//중복된 사업자번호라면
+	                	 Swal.fire({
+							  title: '중복된 사업자번호입니다.',
+							  icon: 'warning',
+							  confirmButtonText: '확인'
+							});
+	                	 business_number = '';
+	                }
+	            }
+	     });
+      } 
+});
 
+</script>
 
     <!-- Contact-->
     <section class="contact-section bg-primary align-items-center">
