@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import goo.ad.model.AdService;
 import goo.area.model.AreaDTO;
 import goo.area.model.AreaService;
 import goo.map_t.model.*;
@@ -46,6 +47,8 @@ public class MapController {
 	private Gooppl_PlaceDetailService gooppl_placedetailService;
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
+	private AdService adService;
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -53,31 +56,6 @@ public class MapController {
 	@RequestMapping("/sigungu.do")
 	public String sigungu() {
 		return "map/sigungu";
-	}
-	
-	@RequestMapping("/kyumap.do")
-	public String kyumap() {
-		return "map/kyumap";
-	}
-	
-	@RequestMapping("/createMap2.do")
-	public ModelAndView newMap(
-			@RequestParam(value = "areacode", defaultValue="1") int areacode,
-			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode
-			) {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("member_idx", 1);
-		List<AreaDTO> arealist = areaService.areaList();
-		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
-		mav.addObject("arealist", arealist);
-		mav.addObject("sigungulist", sigungulist);
-		mav.addObject("adlist", adlist);
-		mav.addObject("areacode", areacode);
-		mav.addObject("sigungucode", sigungucode);
-		mav.setViewName("map/newMapAdTest");
-		return mav;
 	}
 	
 	@RequestMapping("/addSigunguTable.do")
@@ -101,7 +79,11 @@ public class MapController {
 		ModelAndView mav = new ModelAndView();
 		List<AreaDTO> arealist = areaService.areaList();
 		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+		List<Integer> ownerIdxList=adService.getOwnerIdx();
+		List<OwnerDTO> adlist=new ArrayList<OwnerDTO>();
+		if(ownerIdxList.size()>0) {
+			adlist = ownerService.allOwnerSelect(ownerIdxList);
+		}
 		mav.addObject("arealist", arealist);
 		mav.addObject("sigungulist", sigungulist);
 		mav.addObject("adlist", adlist);
@@ -239,7 +221,11 @@ public class MapController {
 				Gooppl_mapDTO mapDto=gooppl_mapService.getMapt(map_idx);
 				List<AreaDTO> arealist = areaService.areaList();
 				List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-				List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+				List<Integer> ownerIdxList=adService.getOwnerIdx();
+				List<OwnerDTO> adlist=new ArrayList<OwnerDTO>();
+				if(ownerIdxList.size()>0) {
+					adlist = ownerService.allOwnerSelect(ownerIdxList);
+				}
 				mav.addObject("open_login", 0);
 				mav.addObject("member_idx", map_member_idx);
 				mav.addObject("mapdto", mapDto);
@@ -261,56 +247,6 @@ public class MapController {
 					mav.addObject("tripNum", 0);
 				}
 				mav.setViewName("map/existMap");
-			}
-		}
-		return mav;
-	}
-	
-	@RequestMapping("/existMap2.do")
-	public ModelAndView moveExistMap2(
-			@RequestParam("map_idx") int map_idx,
-			@RequestParam("day_num") int day_num,
-			HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		String session_Nickname=(String)session.getAttribute("sessionNickname");
-		System.out.println(session_Nickname);
-		if(session_Nickname==null||session_Nickname.equals("")) {
-			mav.addObject("open_login", 1);
-			mav.setViewName("redirect:index.do");
-		}else {	
-			int enroll_idx=(Integer)session.getAttribute("sessionMember_idx");
-			System.out.println(enroll_idx);
-			int map_member_idx=gooppl_mapService.getMemberIdx(map_idx);
-			if(enroll_idx!=map_member_idx) {
-				mav.addObject("msg", "접근 권한이 없습니다.");
-				mav.addObject("goPage", "index.do");
-				mav.setViewName("map/mapMove");
-			}else {
-				Gooppl_mapDTO mapDto=gooppl_mapService.getMapt(map_idx);
-				List<AreaDTO> arealist = areaService.areaList();
-				List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-				List<OwnerDTO> adlist = ownerService.allOwnerSelect();
-				mav.addObject("open_login", 0);
-				mav.addObject("member_idx", map_member_idx);
-				mav.addObject("mapdto", mapDto);
-				mav.addObject("arealist", arealist);
-				mav.addObject("sigungulist", sigungulist);
-				mav.addObject("adlist", adlist);
-				mav.addObject("sigungucode", 0);
-				mav.addObject("map_idx", map_idx);
-				mav.addObject("day_num", day_num);
-				List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
-				if(list.size()!=0) {
-					List<Gooppl_PlaceDetailDTO> tripList=gooppl_placedetailService.getThisDateDetail(list);
-					mav.addObject("tripList", tripList);
-				}
-				if(list.size()!=0) {
-					int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num);
-					mav.addObject("areacode", lastAreacode);
-				}else {
-					mav.addObject("areacode", 1);
-				}
-				mav.setViewName("map/existMap2");
 			}
 		}
 		return mav;

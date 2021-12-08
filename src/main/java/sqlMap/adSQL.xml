@@ -22,4 +22,12 @@
 		WHERE
 			IMP_UID = #{imp_uid}
 	</delete>
+	<select id="getOwnerIdx" resultType="Integer">
+		SELECT 
+			owner_idx 
+		FROM 
+			AD_INFO 
+		WHERE 
+			ad_state='광고중'
+	</select>
 </mapper>
