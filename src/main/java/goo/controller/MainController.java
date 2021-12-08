@@ -26,6 +26,7 @@ import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
 import goo.map_t.model.Gooppl_mapDTO;
 import goo.map_t.model.Gooppl_mapService;
+import goo.mapinfo.model.MapInfoDTO;
 import goo.mapinfo.model.MapInfoService;
 import goo.member.model.MemberService;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
@@ -65,15 +66,14 @@ public class MainController {
 		int totalPlaceCount[] = new int[mapDTO.size()];
 		String firstImg[] = new String[mapDTO.size()];
 		
-		
-		
+		               
 		for(int i=0;i<mapDTO.size();i++) {
 			
 			totalPlaceCount[i] = mapInfoService.getTotalPlace(mapDTO.get(i).getMap_idx());
 			firstImg[i] = gooppl_PlaceDetailService.getFirstImg(mapDTO.get(i).getMap_idx());
 			
-			
 		}
+		
 		
 		
 		mav.addObject("mapDTO",mapDTO);
