@@ -57,16 +57,16 @@
   	</delete>
   	
   	<!-- review UPDATE -->
-  	<update id="reviewUpdate" parameterType="Integer">
+  	<update id="reviewUpdate" parameterType="goo.review.model.ReviewDTO" >
   		update
   			review
   		set
-	  		title=#{title},
+	  		subject=#{subject},
 	  		prologue=#{prologue},
 	  		content=#{content},
 	  		epilogue=#{epilogue}
   		where
-  			reivew_idx=#{review_idx}
+  			review_idx=#{review_idx}
   		
   	</update>
   </mapper>

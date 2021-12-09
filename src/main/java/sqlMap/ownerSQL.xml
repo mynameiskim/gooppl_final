@@ -73,7 +73,20 @@
 		where
 			owner_idx=#{owner_idx}
 	</select>
-	
+	<select id="ckBusinessNum" parameterType="String" resultType="integer">
+		SELECT
+			count(*)
+		FROM
+			OWNER_INFO
+		WHERE
+			BUSINESS_NUMBER = #{business_number}
+	</select>
+	<delete id="admin_owner_del">
+		DELETE FROM
+			OWNER_INFO
+		WHERE
+			OWNER_IDX = #{owner_idx}
+	</delete>
 	
 	
 	

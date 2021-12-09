@@ -36,4 +36,12 @@ public class MapInfoDAOImple implements MapInfoDAO {
 		int count = sqlMap.selectOne("getTotalPlace",map_idx);
 		return count;
 	}
+	public int deleteMapDay(Map map) {
+		int count=sqlMap.delete("deleteMapDay", map);
+		return count;
+	}
+	public int delThisDayAllInfo(Map map) {
+		int count=sqlMap.delete("delThisDayAllInfo", map);
+		return count;
+	}
 }

@@ -213,6 +213,30 @@ public class AdminAdManagement {
 			return mav;
 	}
 	
+	/**광고주 정보 삭제*/
+	@RequestMapping("/admin_owner_del.do")
+	@ResponseBody
+	public Map<String, Object> admin_owner_del(
+			@RequestParam(("owner_idx"))int owner_idx,
+			@RequestParam(("member_idx"))int member_idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code=0;
+		
+		int result = ownerService.admin_ownerAppli_del(owner_idx);
+		int memberResult = memberService.admin_changeOwnerType(member_idx);
+			
+		if(result>0) {
+			map.put("msg", "삭제완료");
+			code=1;
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
+		map.put("code", code);
+		return map;
+	}
+	
+	/**광고 신청 문의*/
 	@RequestMapping("/admin_adAppli.do")
 	public ModelAndView admin_adAppliList(@RequestParam(value = "cp",defaultValue = "1")int cp) {
 		int listSize=5;
@@ -345,9 +369,9 @@ public class AdminAdManagement {
 		
 		int inquiryResult = ad_inquiryService.admin_delInquiry_Ok(inquiry_idx);
 		int changePayInfoResult = payment_infoService.admin_changePayInfo_cancel(imp_uid);
-		int del_Ad_infoResult = adService.admin_refundAd_Del(imp_uid);
+		int refund_Ad_infoResult = adService.admin_refundAd_Del(imp_uid);
 		
-		int result = inquiryResult + changePayInfoResult + del_Ad_infoResult;
+		int result = inquiryResult + changePayInfoResult + refund_Ad_infoResult;
 		
 		if(result==3) {
 			System.out.println("광고환불완료");
@@ -363,7 +387,7 @@ public class AdminAdManagement {
 				map.put("msg", "결제 정보 수정 실패");
 				System.out.println("승인완료 메세지 확인");
 				code=2;
-			}else if(del_Ad_infoResult==0) {
+			}else if(refund_Ad_infoResult==0) {
 				map.put("msg", "광고 상태 수정 실패");
 				System.out.println("승인완료 메세지 확인");
 				code=2;

@@ -28,4 +28,9 @@ public class AdServiceImple implements AdService {
 		List<Integer> list= adDao.getOwnerIdx();
 		return list;
 	}
+	
+	public AdDTO getAdInfo(int owner_idx) {
+		AdDTO dto = adDao.getAdInfo(owner_idx);
+		return dto;
+	}
 }

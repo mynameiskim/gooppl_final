@@ -21,4 +21,5 @@ public interface MemberDAO {
 	public int totalMember();//총 회원수
 	public MemberDTO memberInfo(int member_idx); //회원 정보
 	public int admin_ownerAppli_typeChange(int member_idx);
+	public int admin_changeOwnerType(int member_idx);
 }

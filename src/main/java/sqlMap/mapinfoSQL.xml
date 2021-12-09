@@ -35,4 +35,20 @@
   	<select id="getTotalPlace" parameterType="Integer" resultType="Integer">
   		select count(*) from mapinfo where map_idx = #{map_idx}
   	</select>
+  	<delete id="deleteMapDay" parameterType="Map">
+  		delete from
+  			(select 
+  				* 
+  			from 
+  				mapinfo 
+  			where 
+  				map_idx=#{map_idx})
+  		where
+  			day_num>#{day}
+  	</delete>
+  	<delete id="delThisDayAllInfo" parameterType="Map">
+  		delete from
+  			mapinfo
+  		where map_idx=#{map_idx} and day_num=#{day_num}
+  	</delete>
   </mapper>

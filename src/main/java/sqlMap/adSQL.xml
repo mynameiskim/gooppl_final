@@ -16,12 +16,24 @@
 		#{ad_state}
 	)
 	</insert>
-	<delete id="admin_refundAd_Del" parameterType="String">
-		DELETE FROM
+	<update id="admin_refundAd_Del" parameterType="String">
+		UPDATE
 			AD_INFO
+		SET
+			AD_STATE = '광고내림'
 		WHERE
 			IMP_UID = #{imp_uid}
-	</delete>
+	</update>
+	<select id="getAdInfo" parameterType="integer" resultType="goo.ad.model.AdDTO">
+		SELECT
+			*
+		FROM
+			ad_info
+		WHERE
+			AD_STATE = '광고중'
+		AND
+			OWNER_IDX = #{owner_idx}
+	</select>
 	<select id="getOwnerIdx" resultType="Integer">
 		SELECT 
 			owner_idx 
@@ -30,4 +42,5 @@
 		WHERE 
 			ad_state='광고중'
 	</select>
+	
 </mapper>
