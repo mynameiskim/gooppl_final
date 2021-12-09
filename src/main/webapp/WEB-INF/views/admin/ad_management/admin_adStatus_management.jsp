@@ -177,19 +177,19 @@ function memberDelete(index){
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-left">
-					<label><b>총 광고수:${totalPayment}</b>&nbsp; <b>검색수:</b></label>
+					<label><b>총 광고수:${totalAd}</b>&nbsp; <b>검색수:</b></label>
 				</div>
 			</div>
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
 					<th class="text-center active text-white text-opacity-75" style="width:4%;">번호</th>
-                    <th class="text-center active text-white text-opacity-75" style="width:14%;">광고번호</th>
-					<th class="text-center active text-white text-opacity-75" style="width:10%;">상호명</th>
+                    <th class="text-center active text-white text-opacity-75" style="width:12%;">광고번호</th>
+					<th class="text-center active text-white text-opacity-75" style="width:10%;">광고주번호</th>
 					<th class="text-center active text-white text-opacity-75" style="width:15%;">광고 시작일</th>
 					<th class="text-center active text-white text-opacity-75" style="width:15%;">광고 종료일</th>
 					<th class="text-center active text-white text-opacity-75" style="width:10%;">상태</th>
-					<th class="text-center active text-white text-opacity-75" style="width:15%;">기능</th>
+					<th class="text-center active text-white text-opacity-75" style="width:20%;">기능</th>
 				</tr>
 		</thead>
 			<tfoot style="border-top: 0px">
@@ -208,14 +208,14 @@ function memberDelete(index){
 		  	<c:forEach var="list" items="${list}" varStatus="status">
 		  		<tr class="tr_aling">
 			      <td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}</td>
-			      <td class="text-center" style="width:12%;">${list.imp_uid}
+			      <td class="text-center" style="width:12%;">${list.ad_idx}
 			      	<input id="imp_uid${status.index}" type="hidden" value="${list.imp_uid}">
 			      </td>
-			      <td class="text-center" style="width:6%;">\ ${list.amount}</td>
-			      <td class="text-center" style="width:40%;">임시 ${list.merchant_uid}</td>
-			      <td class="text-center" style="width:14%;">${list.payDate}</td>
-			      <td class="text-center" style="width:10%;">${list.status}</td>
-			      <td class="text-center" style="width:15%;">
+			      <td class="text-center" style="width:10%;">${list.owner_idx}</td>
+			      <td class="text-center" style="width:15%;">${list.ad_startDate}</td>
+			      <td class="text-center" style="width:15%;">${list.ad_endDate}</td>
+			      <td class="text-center" style="width:10%;">${list.ad_state}</td>
+			      <td class="text-center" style="width:20%;">
 			      <input id="btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-secondary" value="상세보기" onclick="memberInfo(${status.index},${size})">
 			      <input id="delete_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="삭제" onclick="memberDelete(${status.index})">
 			      </td>

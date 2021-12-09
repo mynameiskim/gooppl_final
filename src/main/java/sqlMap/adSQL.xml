@@ -66,22 +66,22 @@
   			ad_state='광고내림'
 	</select>
 	
-	<select id="all_AdInfo" parameterType="Map" resultType="goo.payment_info.model.Payment_infoDTO">
+	<select id="all_AdInfo" parameterType="Map" resultType="goo.ad.model.AdDTO">
   		SELECT * FROM
   			(SELECT rownum AS rnum, a.* FROM
-  			(SELECT * FROM AD_INFO ORDER BY PAYDATE DESC)a)b
+  			(SELECT * FROM AD_INFO ORDER BY AD_STARTDATE DESC)a)b
   		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
-  	<select id="all_ingAdInfo" parameterType="Map" resultType="goo.payment_info.model.Payment_infoDTO">
+  	<select id="all_ingAdInfo" parameterType="Map" resultType="goo.ad.model.AdDTO">
   		SELECT * FROM
   			(SELECT rownum AS rnum, a.* FROM
-  			(SELECT * FROM AD_INFO WHERE ad_state='광고중' ORDER BY PAYDATE DESC)a)b
+  			(SELECT * FROM AD_INFO WHERE ad_state='광고중' ORDER BY AD_STARTDATE DESC)a)b
   		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
-  	<select id="all_endAdInfo" parameterType="Map" resultType="goo.payment_info.model.Payment_infoDTO">
+  	<select id="all_endAdInfo" parameterType="Map" resultType="goo.ad.model.AdDTO">
   		SELECT * FROM
   			(SELECT rownum AS rnum, a.* FROM
-  			(SELECT * FROM AD_INFO WHERE ad_state='광고내림' ORDER BY PAYDATE DESC)a)b
+  			(SELECT * FROM AD_INFO WHERE ad_state='광고내림' ORDER BY AD_STARTDATE DESC)a)b
   		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
 </mapper>

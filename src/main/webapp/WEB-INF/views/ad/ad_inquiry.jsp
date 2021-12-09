@@ -171,7 +171,6 @@
                     <div class="col-md-4">
                         <select class="form-select" id="inquiry_type" name="inquiry_type" onchange="changeInquiryType()" required>
                             <option value="광고신청" selected>광고 신청</option>
-                            <option value="광고수정">광고 수정</option>
                             <option value="광고취소">광고 취소</option>
                         </select>
                     </div>
