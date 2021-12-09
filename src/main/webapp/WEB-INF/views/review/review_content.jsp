@@ -47,17 +47,16 @@
     </style>
     <script>
     function deleteCon() {
-    	alert('함수진입')
-        if (!confirm("게시글을 삭제하시겠습니까?")) {
-            // 취소(아니오) 버튼 클릭 시 이벤트
-        } else {
+    	
+        if (confirm("게시글을 삭제하시겠습니까?")) {
             // 확인(예) 버튼 클릭 시 이벤트
             
     	//삭제할 게시글 번호가져오기
-    	alert('페이지명령어진입')
-		var review_idx=document.getElementById('reviewIdx');
+		//var review_idx=document.getElementById('reviewIdx');
+          var review_idx=document.getElementById('review_idx').value;
 		//컨트롤러로이동할 명령어 작성
-		window.loaction.href='review.do?review_idx='+review_idx+'';
+		alert(review_idx);
+		location.href="reviewDelete.do?review_idx="+review_idx;
         }
 	}
     </script>
@@ -95,25 +94,26 @@
         <div class="container-sm mb-5">
 
 
-        <form name="reviewContent" action="reviewUpdateForm.do">
-        <input type="hidden" name="subject" value="">
-        <input type="hidden" name="" value="">
-        <input type="hidden" name="" value="">
-        <input type="hidden" name="" value="">
+        <form name="reviewContent" action="reviewUpdateForm.do"  method="post" enctype="multipart/form-data">
+        <input type="hidden" id="review_idx" name="review_idx" value="${dto.review_idx }">
+        <input type="hidden" name="subject" value='${dto.subject }' >
+        <input type="hidden" name="prologue" value='${dto.prologue}' >
+        <input type="hidden" name="content" value='${dto.content }' >
+        <input type="hidden" name="epilogue" value='${dto.epilogue }'>
             <div class="row">
                 <div class="col-md-4" style="height: 128px;">
                     <!-- 페이지 경로 -->
                     <div id="pagepath">
-                        <span> <a href="#">커뮤니티</a>
-                            <a href="#">&gt;후기게시판</a>
-                            &gt;~의 여행후기or게시글 제목
+                        <span> <a href='community.do'>커뮤니티</a>
+                            <a href='review.do'>&gt;후기게시판</a>
+                            &gt;${dto.nickname}의 여행후기
                         </span>
                     </div>
                 </div>
                 <div class="col-md-offset-1 col-md-4">
                     <!-- 	제목 -->
                     <div id="title">
-                        <h5 class="display-6 fw-bolder text-center">${dto.subject }</h5>
+                        <h5 class="display-6 fw-bolder text-center" >${dto.subject }</h5>
                     </div>
                 </div>
                 <!--   작성자 조회수 게시글 번호-->
@@ -131,6 +131,7 @@
                             </span>
                         </div>
                         <div class="col-xs-12">
+                        
                             <span id="reviewIdx">
                                 게시글 번호 : ${dto.review_idx }
                             </span>
@@ -145,8 +146,8 @@
 
                 <!--    여행 인트로?-->
                 <div class="row justify-content-md-center mb-5">
-                    <h6 class="display-7 text-center  mb-3">
-                        " 프롤로그 "
+                    <h6 class="fw-bolder text-center  mb-3">
+                        " intro ~ "
                     </h6>
                     <p class="fw-bold text-center">
                         ${dto.prologue }
@@ -160,22 +161,21 @@
                 </div>
                 <!--    에필로그-->
                 <div class="row mb-3">
-                    <h6 class="display-7 text-center " style="font-size: 26px;">
-                        " 에필로그 "
+                    <h6 class="fw-bolder text-center mb-3 " style="font-size: 18px;">
+                        " outro .. " 
                     </h6>
                     <p class="fw-bold text-center">
                     	${dto.epilogue }
                     </p>
                 </div>
-                <!--수정 삭제 버튼-->
-                
-           
-            <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
-                <input type="button" value="삭제하기" class="btn btn-secondary" onclick="deleteCon();"></input>
-                <button type="submit" class="btn btn-light" onclick="updateCon">수정하기</button>
-            </div> 
-            </form>  
+	                
+	                <!--#### 수정 삭제 버튼 ####-->
+	            <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+	                <input type="button" value="삭제하기" class="btn btn-secondary" onclick="deleteCon();"></input>
+	                <button type="submit" class="btn btn-light" >수정하기</button>
+	            </div> 
             </div>
+            </form>  
                 <!--##### 본문 경계선 #####-->
 
             <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

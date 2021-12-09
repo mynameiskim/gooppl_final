@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 
 import goo.ad.model.AdService;
 import goo.area.model.AreaDTO;
@@ -29,12 +30,16 @@ import goo.owner.model.OwnerDTO;
 import goo.owner.model.OwnerService;
 import goo.placedetail.model.Gooppl_PlaceDetailDTO;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
+import goo.review.model.ReviewDTO;
 import goo.sigungu.model.SigunguDTO;
 import goo.sigungu.model.SigunguService;
 
 @Controller
 public class MapController {
 
+	List<MapInfoDTO> daynum = null;
+	List<MapInfoDTO> routenum = null;
+	
 	@Autowired
 	private SigunguService sigunguService;
 	@Autowired
@@ -252,6 +257,44 @@ public class MapController {
 		return mav;
 	}
 	
+	@RequestMapping("/delDateData.do")
+	public ModelAndView delDateData(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("starty") int starty,
+			@RequestParam("startm") int startm,
+			@RequestParam("startd") int startd,
+			@RequestParam("endy") int endy,
+			@RequestParam("endm") int endm,
+			@RequestParam("endd") int endd,
+			@RequestParam("day") int day) {
+		String startdate_s=starty+"-"+startm+"-"+startd;
+		String enddate_s=endy+"-"+endm+"-"+endd;
+		Date startdate=Date.valueOf(startdate_s);
+		Date enddate=Date.valueOf(enddate_s);
+		
+		ModelAndView mav = new ModelAndView();
+		int result=gooppl_mapService.updateMapDate(map_idx, startdate, enddate);
+		if(result>0) {
+			int result2=mapinfoService.deleteMapDay(map_idx, day);
+		}
+		String msg=result>0?"성공":"실패";
+		mav.addObject("msg", msg);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
+	@RequestMapping("/delThisDayAllInfo.do")
+	public ModelAndView delThisDayAllInfo(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num
+			) {
+		ModelAndView mav=new ModelAndView();
+		int result=mapinfoService.delThisDayAllInfo(map_idx, day_num);
+		mav.addObject("msg", result);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
 	@RequestMapping("/changeMap.do")
 	public ModelAndView changeMap(
 			@RequestParam("map_idx") int map_idx,
@@ -325,5 +368,34 @@ public class MapController {
 			return result;
 		}
 	}
+	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	
+	/** 게시판 목록 */
+	@RequestMapping("/share.do")
+	public ModelAndView shareList(
+			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+		int listSize=16;
+		int pageSize=10;
+		int totalCnt=gooppl_mapService.getShareCnt();
+		List<Gooppl_mapDTO> list = gooppl_mapService.mapList(cp,listSize);
+		String sharePageStr=goo.page.PageModule.makePage("share.do", totalCnt, listSize, pageSize, cp);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.addObject("sharePageStr",sharePageStr);
+		mav.setViewName("share/share_list");
+		return mav;
+	}
+	
+	public ModelAndView shareContent(
+			MapInfoDTO midto,
+			@RequestParam("map_idx")int map_idx
+			) {
+		ModelAndView mav=new ModelAndView();
+		return mav;
+	}
+	
+	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	
+	
 
 }

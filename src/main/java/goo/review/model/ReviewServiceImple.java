@@ -52,8 +52,8 @@ public class ReviewServiceImple implements ReviewService {
 		return count;
 	}
 /**		리뷰수정	*/
-	public int updateReview(int review_idx) {
-		int count = reviewDao.updateReview(review_idx);
+	public int updateReview(ReviewDTO dto) {
+		int count = reviewDao.updateReview(dto);
 		return count;
 	}
 }

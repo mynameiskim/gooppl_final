@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -289,10 +289,7 @@
                 <div class="card" style="max-width: 1024px; padding-left:0px;padding-right:0px;">
                     <div class="row align-items-center">
                         <div class="col-md-5">
-                        <c:if test="${firstImg[status.index]==0}">
                         	<img src="${firstImg[status.index]}" class="img-responsive rounded-start" alt="..." style="width:100%; height:100%;">
-                        	
-                        </c:if>
                         </div>
                         <div class="col-md-7">
                             <div class="card-body align-items-center"  style="font-size:18px;">
@@ -335,7 +332,7 @@
                                         <div class="col-md-9">
                                             <c:choose>
                                             	<c:when test="${mapdto.trip_type==1}">홀로여행</c:when>
-                                            	<c:when test="${mapdto.trip_type==2}">우정여행</c:when>
+                                            	<c:when test="${mapdto.trip_type==2}">우정여행${mapdto.map_idx}</c:when>
                                             	<c:when test="${mapdto.trip_type==3}">커플여행</c:when>
                                             	<c:when test="${mapdto.trip_type==4}">가족여행</c:when>
                                             </c:choose>
@@ -358,7 +355,7 @@
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">공유</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">수정</button>
+                                            <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick='javascript:location.href="existMap.do?map_idx=${mapdto.map_idx}&day_num=1"'>수정</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">삭제</button>
