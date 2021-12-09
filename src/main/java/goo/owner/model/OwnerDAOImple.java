@@ -95,8 +95,4 @@ public class OwnerDAOImple implements OwnerDAO {
 		return result;
 	}
 	
-	public int getMaxOwner_idx() {
-		int result = sqlMap.selectOne("getMaxOwner_idx");
-		return result;
-	}
 }

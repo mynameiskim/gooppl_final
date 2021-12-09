@@ -108,7 +108,7 @@
                 <div class="row">
                     <div class="col-md-5">
                     
-               <div id="map" style="width:350px;height:350px;margin-top:10px;"></div>
+               <div id="map" style="width:100%;height:350px;margin-top:10px;"></div>
                
                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>

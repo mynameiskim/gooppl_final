@@ -87,12 +87,6 @@
 		WHERE
 			OWNER_IDX = #{owner_idx}
 	</delete>
-	<select id="getMaxOwner_idx" resultType="Integer">
-		SELECT
-			max(owner_idx)
-		FROM
-			OWNER_INFO
-	</select>
 	
 	
 	

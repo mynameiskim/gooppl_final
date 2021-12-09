@@ -107,8 +107,4 @@ public class OwnerServiceImple implements OwnerService {
 		return result;
 	}
 	
-	public int getMaxOwner_idx() {
-		int result = ownerDao.getMaxOwner_idx();
-		return result;
-	}
 }
