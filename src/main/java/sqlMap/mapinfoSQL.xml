@@ -42,6 +42,7 @@
   	<select id="getMaxDaynum" parameterType="Integer" resultType="Integer">
   		select max(day_num) from mapinfo where map_idx=#{map_idx}
   	</select>
+  	
   	<select id="getMaxRoutenum" parameterType="Map" resultType="Integer">
   		select max(route_num) from mapinfo where map_idx=#{map_idx} and day_num=#{day_num}
   	</select>
@@ -62,4 +63,10 @@
   			mapinfo
   		where map_idx=#{map_idx} and day_num=#{day_num}
   	</delete>
+  	
+  	
+  	
+  	
+  	
+  	
   </mapper>

@@ -10,7 +10,7 @@ public interface MapInfoService {
 	public int getTotalPlace(int map_idx);
 	public List<MapInfoDTO> shareContent(int map_idx);
 	public int getMaxDaynum(int map_idx);
-	public int getMaxRoutenum(int map_idx, int route_num);
+	public int getMaxRoutenum(int map_idx,int day_num);
 	public int deleteMapDay(int map_idx, int day);
 	public int delThisDayAllInfo(int map_idx, int day_num);
 }

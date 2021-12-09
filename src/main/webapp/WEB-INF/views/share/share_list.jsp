@@ -238,6 +238,7 @@
 								<div class="card-body">
 								<c:url var="contentUrl" value="shareContent.do">
 								<c:param name="map_idx">${dto.map_idx}</c:param>
+								<c:param name="member_idx">${dto.member_idx}</c:param>
 								</c:url>
                                	<h5 class="card-title mb-5"><a href="${contentUrl }">${dto.map_title}</a></h5>
 									<p class="card-text">trip_type : ${dto.trip_type }</p>

@@ -11,5 +11,4 @@ public interface Gooppl_PlaceDetailService {
 	public List<Gooppl_PlaceDetailDTO> getThisDateDetail(List<Integer> contentids);
 	public int getLastAreacode(int map_idx, int day_num);
 	public String getFirstImg(int map_idx);
-	public List<Gooppl_PlaceDetailDTO> getPlaceInfo(MapInfoDTO dto);
 }

@@ -77,22 +77,22 @@
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
         <div class="container-sm mb-5">
 
-            
+           
                 <div class="row">
                     <!-- 페이지경로 -->
                     <div id="pagepath" class="col-md-4">
-                       <span><a href="">커뮤니티</a>&gt;&gt;<a href="">일정 공유 게시판</a>&gt;&gt;~의 일정or일정 제목</span> 
+                       <span><a href="">커뮤니티</a>&gt;&gt;<a href="">일정 공유 게시판</a>&gt;&gt;${mdto.nickname }의 일정</span> 
                     </div>
                     <!-- 제목-->
                     <div id="title" class="col-md-4">
-                        <label>~의 일정or일정 제목</label>
+                        <label>${gmdto.map_title }</label>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
                 <!-- 컨텐츠 영역-->
                 <div class="row"></div>
                 <div class="row" style="margin-top: 32px;">
-                
+               
                 
                     <!-- #### 일정 카드 영역 #### -->
                     
@@ -134,13 +134,15 @@
                                             
                                               <h5 class="fw-bold" style="padding-top: 8px;">${pdlist[status.index].title }</h5>
                                               <p class="text">${pdlist[status.index].addr }</p>
-                                              <p class="text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 300px;">
-                                              <small class="text-muted">${pdlist[status.index].overview }</small></p>
+                                              <p class="text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 360px;">
+                                              <small class="text-muted">자세한내용은 우측아이콘 클릭!</small></p>
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
-                                          <c:url var="contentUrl" value="placeOverview.do">
-											<c:param name="contentid">${dto.contentid}</c:param>
+                                          <c:url var="contentUrl" value="goPlaceDetail.do">
+											<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
+											<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
+											<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
 											</c:url>
                               			 	<h5 class="card-title mb-5"><a href="${contentUrl }">
                               			 	<img src="https://img.icons8.com/fluency/24/000000/information.png"/></a></h5>

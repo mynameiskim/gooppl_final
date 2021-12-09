@@ -2,6 +2,8 @@
 
 import java.util.*;
 
+import org.apache.commons.collections.map.HashedMap;
+
 public class MapInfoServiceImple implements MapInfoService {
 
 	private MapInfoDAO mapinfoDao;
@@ -55,7 +57,7 @@ public class MapInfoServiceImple implements MapInfoService {
 		return result;
 	}
 	public int getMaxRoutenum(int map_idx,int day_num) {
-		Map map=new HashMap();
+		Map map = new HashedMap();
 		map.put("map_idx", map_idx);
 		map.put("day_num", day_num);
 		

@@ -26,6 +26,8 @@ import goo.area.model.AreaService;
 import goo.map_t.model.*;
 import goo.mapinfo.model.MapInfoDTO;
 import goo.mapinfo.model.MapInfoService;
+import goo.member.model.MemberDTO;
+import goo.member.model.MemberService;
 import goo.owner.model.OwnerDTO;
 import goo.owner.model.OwnerService;
 import goo.placedetail.model.Gooppl_PlaceDetailDTO;
@@ -36,6 +38,12 @@ import goo.sigungu.model.SigunguService;
 
 @Controller
 public class MapController {
+
+	List<MapInfoDTO> daynum = null;
+	List<MapInfoDTO> routenum = null;
+	
+	
+	
 
 	@Autowired
 	private SigunguService sigunguService;
@@ -51,6 +59,8 @@ public class MapController {
 	private OwnerService ownerService;
 	@Autowired
 	private AdService adService;
+	@Autowired
+	private MemberService memberService;
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -396,42 +406,40 @@ public class MapController {
 	
 	
 	@RequestMapping("/shareContent.do")
-	public ModelAndView shareContent(
-			@RequestParam("map_idx")int map_idx) {
-		//int map_idx로 day_num ,route_num의 쵀댓 값을 구함
-		int daynum = mapinfoService.getMaxDaynum(map_idx);
-		int routenum[]=new int[daynum]; 
-		List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
-		for(int i=1;i<=daynum;i++) {
-			routenum[i-1]=mapinfoService.getMaxRoutenum(map_idx, i);
-		}
-		List<Integer> contentids=new ArrayList<Integer>();;
-		for(int i=0;i<drlist.size();i++) {
-				contentids.add(drlist.get(i).getContentid());
-		}
-		List<Gooppl_PlaceDetailDTO> pdlist=gooppl_placedetailService.getThisDateDetail(contentids);
-		for(int i=0;i<pdlist.size();i++) {
-			System.out.println(pdlist.get(i).getContentid());
-		}
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("drlist",drlist);
-		mav.addObject("pdlist",pdlist);
-		for(int i=0;i<pdlist.size();i++) {
-			System.out.println(pdlist.get(i).getFirstimage()+"\n"+
-					pdlist.get(i).getAddr()+"\n"+
-					pdlist.get(i).getTitle()+"\n");
-			
-		}
-		mav.setViewName("share/share_content");
-		return mav;
-	}
-	@ResponseBody
-	@RequestMapping("/planShare.do")
-	public int planShere(int map_idx) {
-		int result = gooppl_mapService.planShare(map_idx);
-		return result;
-	}
+	   public ModelAndView shareContent(
+	         @RequestParam("map_idx")int map_idx,
+	         @RequestParam("member_idx")int member_idx) {
+	      //int map_idx로 day_num ,route_num의 쵀댓 값을 구함
+	      int daynum = mapinfoService.getMaxDaynum(map_idx);
+	      int routenum[]=new int[daynum]; 
+	      List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
+	      for(int i=1;i<=daynum;i++) {
+	         routenum[i-1]=mapinfoService.getMaxRoutenum(map_idx, i);
+	      }
+	      List<Integer> contentids=new ArrayList<Integer>();;
+	      for(int i=0;i<drlist.size();i++) {
+	            contentids.add(drlist.get(i).getContentid());
+	      }
+	      List<Gooppl_PlaceDetailDTO> pdlist=gooppl_placedetailService.getThisDateDetail(contentids);
+	      
+	      List<AreaDTO> arealist = areaService.areaList();
+	      List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+	      
+	      Gooppl_mapDTO gmdto = gooppl_mapService.getMapt(map_idx);
+	      MemberDTO mdto = memberService.memberInfo(member_idx); 
+
+	      ModelAndView mav=new ModelAndView();
+	      mav.addObject("drlist",drlist);
+	      mav.addObject("pdlist",pdlist);
+	      mav.addObject("arealist", arealist);
+	      mav.addObject("sigungulist", sigungulist);
+	      mav.addObject("gmdto", gmdto);
+	      mav.addObject("mdto", mdto);
+	      
+	      mav.setViewName("share/share_content");
+	      return mav;
+	   }
+
 	
 	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
 	@ResponseBody
@@ -440,8 +448,40 @@ public class MapController {
 		int result = gooppl_mapService.planShareCancel(map_idx);
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+	
+
 
 	
 	
-
+	
 }
