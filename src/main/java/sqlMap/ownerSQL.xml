@@ -35,7 +35,7 @@
 		where
 			member_idx=#{member_idx}
 	</select>
-	<select id="totalOwnerAppli" resultType="integer">
+	<select id="totalOwnerAppli" resultType="Integer">
   		SELECT
   			count(*)
   		FROM
@@ -43,7 +43,7 @@
   		WHERE
   			STATE = '대기'
   	</select>
-  	<select id="totalOwner" resultType="integer">
+  	<select id="totalOwner" resultType="Integer">
   		SELECT
   			count(*)
   		FROM
@@ -73,7 +73,7 @@
 		where
 			owner_idx=#{owner_idx}
 	</select>
-	<select id="ckBusinessNum" parameterType="String" resultType="integer">
+	<select id="ckBusinessNum" parameterType="String" resultType="Integer">
 		SELECT
 			count(*)
 		FROM
@@ -92,8 +92,7 @@
 	
 	
 	
-	
-	<update id="admin_ownerAppli_ok" parameterType="integer">
+	<update id="admin_ownerAppli_ok" parameterType="Integer">
 		UPDATE
 			OWNER_INFO
 		SET

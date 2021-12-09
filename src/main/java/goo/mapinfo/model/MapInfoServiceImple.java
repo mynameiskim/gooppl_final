@@ -46,4 +46,18 @@ public class MapInfoServiceImple implements MapInfoService {
 		int count = mapinfoDao.getTotalPlace(map_idx);
 		return count;
 	}
+	public int deleteMapDay(int map_idx, int day) {
+		Map map=new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("day", day);
+		int result=mapinfoDao.deleteMapDay(map);
+		return result;
+	}
+	public int delThisDayAllInfo(int map_idx, int day_num) {
+		Map map=new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("day_num", day_num);
+		int result=mapinfoDao.delThisDayAllInfo(map);
+		return result;
+	}
 }

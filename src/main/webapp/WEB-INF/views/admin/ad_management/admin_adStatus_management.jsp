@@ -149,24 +149,24 @@ function memberDelete(index){
 		</dl>
 	</div>
 	<div id="contents">
-    	<h6><b>결제 내역 관리</b></h6>
+    	<h6><b>광고 상태 관리</b></h6>
     	<ul class='helpbox'>
-				<li>결제 내역을 확인하고 관리할 수 있는 메뉴입니다.</li>
+				<li>광고 리스트를 확인하고 관리할 수 있는 메뉴입니다.</li>
 			</ul>
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
 				<th style="border: 1px solid #0000008c;">조건 검색</th>
 				<td style="border: 1px solid #0000008c;">
 					<select id="condition" name="condition" style="height: 22px;">
-						<option value="payState">결제상태</option>
-						<option value="payImp_uid">주문번호</option>
-						<option>내용</option>
+						<option value="payState">광고상태</option>
+						<option value="payImp_uid">업장타입</option>
+						<option></option>
 					</select>
 					<input type="text" style="width: 300px;">
 				</td>
 			</tr>
 			<tr>
-				<th style="border: 1px solid #0000008c;">결제일</th>
+				<th style="border: 1px solid #0000008c;">광고시작일</th>
 				<td style="border: 1px solid #0000008c;"><input type="date">~<input type="date"></td>
 			</tr>
 		</table>
@@ -177,17 +177,17 @@ function memberDelete(index){
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-left">
-					<label><b>총 결제수:${totalPayment}</b>&nbsp; <b>검색수:</b></label>
+					<label><b>총 광고수:${totalPayment}</b>&nbsp; <b>검색수:</b></label>
 				</div>
 			</div>
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
 					<th class="text-center active text-white text-opacity-75" style="width:4%;">번호</th>
-                    <th class="text-center active text-white text-opacity-75" style="width:12%;">주문번호</th>
-					<th class="text-center active text-white text-opacity-75" style="width:6%;">결제금액</th>
-					<th class="text-center active text-white text-opacity-75" style="width:40%;">주문명</th>
-					<th class="text-center active text-white text-opacity-75" style="width:14%;">결제일</th>
+                    <th class="text-center active text-white text-opacity-75" style="width:14%;">광고번호</th>
+					<th class="text-center active text-white text-opacity-75" style="width:10%;">상호명</th>
+					<th class="text-center active text-white text-opacity-75" style="width:15%;">광고 시작일</th>
+					<th class="text-center active text-white text-opacity-75" style="width:15%;">광고 종료일</th>
 					<th class="text-center active text-white text-opacity-75" style="width:10%;">상태</th>
 					<th class="text-center active text-white text-opacity-75" style="width:15%;">기능</th>
 				</tr>

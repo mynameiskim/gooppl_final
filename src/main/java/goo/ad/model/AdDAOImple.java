@@ -1,6 +1,7 @@
 package goo.ad.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -27,5 +28,29 @@ public class AdDAOImple implements AdDAO {
 	public List<Integer> getOwnerIdx() {
 		List<Integer> ownerList = sqlMap.selectList("getOwnerIdx");
 		return ownerList;
+	}
+	public int total_AdInfo() {
+		int count = sqlMap.selectOne("total_AdInfo");
+		return count;
+	}
+	public int total_ingAdInfo() {
+		int count = sqlMap.selectOne("total_ingAdInfo");
+		return count;
+	}
+	public int total_endAdInfo() {
+		int count = sqlMap.selectOne("total_endAdInfo");
+		return count;
+	}
+	public List<AdDTO> all_AdInfo(Map map) {
+		List<AdDTO> list = sqlMap.selectList("all_AdInfo", map);
+		return list;
+	}
+	public List<AdDTO> all_ingAdInfo(Map map) {
+		List<AdDTO> list = sqlMap.selectList("all_ingAdInfo", map);
+		return list;
+	}
+	public List<AdDTO> all_endAdInfo(Map map) {
+		List<AdDTO> list = sqlMap.selectList("all_endAdInfo", map);
+		return list;
 	}
 }

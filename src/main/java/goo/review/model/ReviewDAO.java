@@ -9,5 +9,5 @@ public interface ReviewDAO {
 	public ReviewDTO reviewContent(int review_idx);
 	public int getTotalCnt();
 	public int delReview(int review_idx);
-	public int updateReview(int review_idx);
+	public int updateReview(ReviewDTO dto);
 }
