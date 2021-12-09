@@ -37,9 +37,6 @@ import goo.sigungu.model.SigunguService;
 @Controller
 public class MapController {
 
-	List<MapInfoDTO> daynum = null;
-	List<MapInfoDTO> routenum = null;
-	
 	@Autowired
 	private SigunguService sigunguService;
 	@Autowired
@@ -400,13 +397,23 @@ public class MapController {
 	
 	@RequestMapping("/shareContent.do")
 	public ModelAndView shareContent(
-			@RequestParam("map_idx")int map_idx,
-			MapInfoDTO dto) {
+			@RequestParam("map_idx")int map_idx) {
 		//int map_idx로 day_num ,route_num의 쵀댓 값을 구함
 		int daynum = mapinfoService.getMaxDaynum(map_idx);
-		int routenum = mapinfoService.getMaxRoutenum(map_idx);
+		int routenum[]=new int[daynum]; 
 		List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
-		List<Gooppl_PlaceDetailDTO> pdlist = gooppl_placedetailService.getPlaceInfo(dto);
+		for(int i=1;i<=daynum;i++) {
+			routenum[i-1]=mapinfoService.getMaxRoutenum(map_idx, i);
+		}
+		List<Integer> contentids=new ArrayList<Integer>();;
+		for(int i=0;i<drlist.size();i++) {
+				contentids.add(drlist.get(i).getContentid());
+		}
+		List<Gooppl_PlaceDetailDTO> pdlist=gooppl_placedetailService.getThisDateDetail(contentids);
+		for(int i=0;i<pdlist.size();i++) {
+			System.out.println(pdlist.get(i).getContentid());
+		}
+		
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("drlist",drlist);
 		mav.addObject("pdlist",pdlist);
