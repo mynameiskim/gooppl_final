@@ -14,4 +14,6 @@ public interface Gooppl_mapDAO {
 	public List<Gooppl_mapDTO> mapList(Map map);
 	public List<Gooppl_mapDTO> getMap(int map_idx);
 	public int planDelete(int map_idx);
+	public int planShare(int map_idx);
+	public int planShareCancel(int map_idx);
 }

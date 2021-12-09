@@ -2,6 +2,8 @@
 
 import java.util.*;
 
+import goo.mapinfo.model.MapInfoDTO;
+
 public interface Gooppl_PlaceDetailService {
 
 	public int addPlaceDetail(Gooppl_PlaceDetailDTO dto);

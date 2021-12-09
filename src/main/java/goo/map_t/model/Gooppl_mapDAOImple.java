@@ -63,5 +63,13 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		int count = sqlMap.delete("planDelete",map_idx);
 		return count;
 	}
+	public int planShare(int map_idx) {
+		int count = sqlMap.update("planShare",map_idx);
+		return count;
+	}
+	public int planShareCancel(int map_idx) {
+		int count = sqlMap.update("planShareCancel",map_idx);
+		return count;
+	}
 
 }

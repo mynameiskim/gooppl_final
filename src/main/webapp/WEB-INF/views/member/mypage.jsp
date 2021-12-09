@@ -31,7 +31,7 @@
 
 </script>
 <body>
-    <!-- Navigation-->
+    <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="index.do">GooPPl</a>
@@ -86,6 +86,7 @@
             </div>
         </div>
     </nav>
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
@@ -141,15 +142,16 @@
             </div>
 			
             <div class="row justify-content-md-center">
-            	<c:if test="${sessionScope.sessionMemberType=='M' }">
+            	
                 <div class="col-md-2 text-center">
                     <h5 class="fw-bolder mb-3 text-center">나의 일정</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><button onclick="showMyPlan()" class="btn btn-primary" style="font-size:30px;">${mapDTO.size()}</button></h4>
+                    <h4 class="fw-bolder mb-3 text-center"><button onclick="showMyPlan()" class="btn btn-primary" style="font-size:30px;" id="showMyPlan_bt">${mapDTO.size()}</button></h4>
                 </div>
                 <script>
-                function showMyPlan(){
+                function showMyPlan(index){
                 	$('#myPlanArea').css("display","");
                 	$('#myReviewArea').css("display","none");
+                	$('#myStoreArea').css("display","none");
 					document.getElementById("myPlanArea").scrollIntoView();
                 }
                 </script>
@@ -163,19 +165,22 @@
                 function showMyReview(){
                 	$('#myPlanArea').css("display","none");
                 	$('#myReviewArea').css("display","");
+                	$('#myStoreArea').css("display","none");
                 	document.getElementById("myReviewArea").scrollIntoView();
                 }
                 </script>
-                </c:if>
+                
                 <c:if test="${sessionScope.sessionMemberType=='O'}">
                 	<div class="col-md-2 text-center">
                     <h5 class="fw-bolder mb-3 text-center">나의 업장</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary" onclick="showMyStore()" style="font-size:20px;">보기</button></h4>
+                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary" onclick="showMyStore()" style="font-size:30px;">1</button></h4>
                 </div>
                 <script>
                 function showMyStore(){
                 	$('#myStoreArea').css("display","");
                 	document.getElementById("myStoreArea").scrollIntoView();
+                	$('#myPlanArea').css("display","none");
+                	$('#myReviewArea').css("display","none");
                 }
                 </script>
                 </c:if>
@@ -299,7 +304,7 @@
     
     <!-- 비밀번호 변경 모달 끝 -->
     <section>
-        <!--일정 영역-->
+        <!--업장 영역-->
         <c:if test="${sessionScope.sessionMemberType=='O'}">
         	<div class="container-sm mb-5" style="padding:3rem 0; display:none" id="myStoreArea">
         		<div class="row justify-content-md-center mb-4">
@@ -313,21 +318,21 @@
 	                <div class="card mb-3" style="max-width: 1024px;">
 	                    <div class="row align-items-center ">
 	                        <div class="col-md-6">
-	                            <img src="/gooppl/resource/img/혜수네.jpg" class="img-fluid rounded-start rounded-end" alt="...">
+	                            <img src="${odto.firstimg}" class="img-fluid rounded-start rounded-end" alt="...">
 	                        </div>
 	                        <div class="col-md-6">
 	                            <div class="card-body">
-	                                <h5 class="card-title fw-bolder" style="font-size:40px;">연신내 싸갈s 바갈s</h5>
-	                                <h6 class="card-text mb-4" style="font-size:20px;">02-9999-9999</h6>
-	                                <p class="card-text mb-1">서울 은평구 통일로 885</p>
-	                                <p class="card-text mb-5">혜수스타디움 2층</p>
+	                                <h5 class="card-title fw-bolder" style="font-size:40px;">${odto.title}</h5>
+	                                <h6 class="card-text mb-4" style="font-size:20px;">${odto.business_tel}</h6>
+	                                <p class="card-text mb-1">${odto.addr}</p>
+	                                <p class="card-text mb-5">${odto.detailed_addr}</p>
 	                                <button class="btn btn-info btn-lg" type="button" onclick="location.href='ad_inquiry.do'">문의</button>
-	                                <button class="btn btn-info btn-lg" type="button">수정</button>
+	                                <button class="btn btn-info btn-lg" type="button" onclick="location.href='go_updateOwnerInfo.do'">수정</button>
 	                                <c:if test="${ad_inquiry_state=='광고승인'}">
-	                                	<button class="btn btn-lg-info" type="button" onclick="location.href='user_payment.do'">결제</button>
+	                                	<button class="btn btn-info btn-lg" type="button" onclick="location.href='user_payment.do'">결제</button>
 	                                </c:if>
 	                                <hr class="mb-3">
-	                                <p class="card-text fw-bolder" >바른생각을 가진 사람들이 만드는 요리 신선한 재료와 성실한 조리로 요리를 대접합니다 가장 바른 돈까스 프랜차이즈 쑝쑝돈까스</p>
+	                                <p class="card-text fw-bolder" >${odto.ad_content}</p>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -335,6 +340,7 @@
 	            </div>
         	</div>
         </c:if>
+        <!-- 일정영역 -->
         <div class="container-sm mb-5" style="padding: 5rem 0; display:none;" id="myPlanArea">
             <div class="row justify-content-md-center mb-5">
                 <div class="row">
@@ -353,7 +359,7 @@
             	</div>
             </c:if>
             <c:forEach var="mapdto" items="${mapDTO}" varStatus="status">
-            <div class="row row-cols-1 row-cols-md-1 justify-content-md-center mb-4">
+            <div class="row row-cols-1 row-cols-md-1 justify-content-md-center mb-4" id="planList${status.index}">
                 <div class="card" style="max-width: 1024px; padding-left:0px;padding-right:0px;">
                     <div class="row align-items-center">
                         <div class="col-md-5">
@@ -361,7 +367,6 @@
                         </div>
                         <div class="col-md-7">
                             <div class="card-body align-items-center"  style="font-size:18px;">
-                               
                                 <div class="col-md-12 fw-bolder mb-2">
                                         <div class="row">
 	                                        <div class="col-md-3" style="color: cadetblue;">
@@ -407,7 +412,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 fw-bolder mb-4">
+                                <div class="col-md-12 fw-bolder mb-3">
                                     <div class="row">
                                         <div class="col-md-3" style="color: cadetblue;">
                                             방문장소
@@ -419,42 +424,124 @@
                                 </div>
                                 <div class="col-md-12 fw-bolder">    
                                     <div class="row justify-content-md-center mb-2">
-                                        <div class="col-md-3 col-sm-3">
-                                            <button id="planShare_bt" type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">공유</button>
-                                        </div>
+	                                        <div class="col-md-3 col-sm-3">
+	                                            <c:if test="${mapdto.share_ok=='n'}">
+	                                            	<button id="planShare_bt${status.index}" type="button" class="btn btn-primary btn-sm planShare_bt" style="padding: 0.5rem 2.5em;" onclick="planShare(${mapdto.map_idx},${status.index});">공유</button>
+	                                            	<button id="planShare_cbt${status.index}" type="button" class="btn btn-primary btn-sm planShare_cbt" style="padding: 0.5rem 2.5em; display:none;" onclick="planShareCancel(${mapdto.map_idx},${status.index});">취소</button>
+	                                            </c:if>
+	                                            <c:if test="${mapdto.share_ok=='y' }">
+													<button id="planShare_bt${status.index}" type="button" class="btn btn-primary btn-sm planShare_bt" style="padding: 0.5rem 2.5em; display:none;" onclick="planShare(${mapdto.map_idx},${status.index});">공유</button>
+	                                            	<button id="planShare_cbt${status.index}" type="button" class="btn btn-primary btn-sm planShare_cbt" style="padding: 0.5rem 2.5em;" onclick="planShareCancel(${mapdto.map_idx},${status.index});">취소</button>	
+	                                            </c:if>
+	                                        </div>
+                                        <script>
+                                        	function planShare(map_idx,index){
+	                                       		$.ajax({
+	                                 	              type:"GET",
+	                                 	              url:"planShare.do",
+	                                 	              data:{"map_idx":map_idx},
+	                                 	              success:function(data){
+	                                 	            	  if(data==1){
+	                                 		            	  Swal.fire({
+	                                 							  title: '공유되었습니다!',
+	                                 							  icon: 'success',
+	                                 							  allowOutsideClick:false
+	                                 		            	  }).then((result) => {
+	                                 						    	if (result.isConfirmed) {
+	                                 						    		$('#planShare_bt'+index).css("display","none");
+	                                 						    		$('#planShare_cbt'+index).css("display","");
+	                                 						    	}
+	                                 						    })
+	                                 	            	  }else{
+	                                 	            		  Swal.fire({
+	                                 							  title: '공유실패!',
+	                                 							  icon: 'warning',
+	                                 							  confirmButtonText: '확인'
+	                                 							})  
+	                                 	            	  }
+	                                 	              }        
+	                                 	          });
+	                   						    	
+	                                     	}	
+	                                     	
+	                                     	function planShareCancel(map_idx,index){
+	                                       		$.ajax({
+	                                 	              type:"GET",
+	                                 	              url:"planShareCancel.do",
+	                                 	              data:{"map_idx":map_idx},
+	                                 	              success:function(data){
+	                                 	            	  if(data==1){
+	                                 		            	  Swal.fire({
+	                                 							  title: '공유취소되었습니다!',
+	                                 							  icon: 'success',
+	                                 							  allowOutsideClick:false
+	                                 		            	  }).then((result) => {
+	                                 						    	if (result.isConfirmed) {
+	                                 						    		$('#planShare_bt'+index).css("display","");
+	                                 						    		$('#planShare_cbt'+index).css("display","none");
+	                                 						    	}
+	                                 						    })
+	                                 	            	  }else{
+	                                 	            		  Swal.fire({
+	                                 							  title: '공유취소실패!',
+	                                 							  icon: 'warning',
+	                                 							  confirmButtonText: '확인'
+	                                 							})  
+	                                 	            	  }
+	                                 	              }        
+	                                 	          });
+	                   						    	
+	                                     	}	
+                                        	
+                                        </script>
                                         <div class="col-md-3 col-sm-3">
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick='javascript:location.href="existMap.do?map_idx=${mapdto.map_idx}&day_num=1"'>수정</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <button id="planDelete_bt" type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick="planDelete(${mapdto.map_idx})")>삭제</button>
+                                            <button id="planDelete_bt" type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick="planDelete(${mapdto.map_idx},${status.index})">삭제</button>
                                         </div>
                                         <script>
-                                        	function planDelete(var map_idx){
-                                        		$.ajax({
-                                  	              type:"GET",
-                                  	              url:"planDelete.do",
-                                  	              data:{"map_idx":map_idx},
-                                  	              success:function(data){
-                                  	            	  if(data==1){
-                                  		            	  Swal.fire({
-                                  							  title: '확인되었습니다.',
-                                  							  icon: 'success',
-                                  							  allowOutsideClick:false
-                                  		            	  }).then((result) => {
-                                  						    	if (result.isConfirmed) {
-                                  						    		location.reload();
-                                  						    		window.open('newPwd.do?goo_id=${sessionScope.sessionId}','_blank');
-                                  						    	}
-                                  						    })
-                                  	            	  }else{
-                                  	            		  Swal.fire({
-                                  							  title: '비밀번호가 다릅니다.',
-                                  							  icon: 'warning',
-                                  							  confirmButtonText: '확인'
-                                  							})  
-                                  	            	  }
-                                  	              }        
-                                  	          });
+                                        	function planDelete(map_idx,index){
+                                        		Swal.fire({
+                                        			title: '정말로 삭제하시겠습니까?',
+                                        			text: "삭제된 일정은 복구가 불가능합니다.",
+                                        			icon: 'warning',
+                                        			showCancelButton: true,
+                                        			confirmButtonColor: '#d33',
+                                        			cancelButtonColor: '#000000',
+                                        			confirmButtonText: '삭제',
+                                        			cancelButtonText: '취소',
+                                        			showLoaderOnConfirm: true,
+                                        			allowOutsideClick:false
+                                        		}).then((result) => {
+                      						    	if (result.isConfirmed) {
+		                                        		$.ajax({
+		                                  	              type:"GET",
+		                                  	              url:"planDelete.do",
+		                                  	              data:{"map_idx":map_idx},
+		                                  	              success:function(data){
+		                                  	            	  if(data==1){
+		                                  		            	  Swal.fire({
+		                                  							  title: '삭제되었습니다!.',
+		                                  							  icon: 'success',
+		                                  							  allowOutsideClick:false
+		                                  		            	  }).then((result) => {
+		                                  						    	if (result.isConfirmed) {
+		                                  						    		sessionStorage.setItem("planDel",1);
+		                                  						    		location.reload();
+		                                  						    	}
+		                                  						    })
+		                                  	            	  }else{
+		                                  	            		  Swal.fire({
+		                                  							  title: '삭제 실패!',
+		                                  							  icon: 'warning',
+		                                  							  confirmButtonText: '확인'
+		                                  							})  
+		                                  	            	  }
+		                                  	              }        
+		                                  	          });
+                      						    	}
+                                        		});	
                                         	}
                                         </script>
                                     </div>
@@ -647,6 +734,16 @@
 	       }		    
     }); 
     </script>
+    <script>
+    window.onload=function(){
+    	var planDel = sessionStorage.getItem("planDel");	
+    	if(planDel==1){
+    		$('#showMyPlan_bt').click();
+    		sessionStorage.setItem("planDel",0)
+    	}
+    }
+    </script>
+    
     <!-- 비밀번호 체크 확인 끝 -->
     <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
         <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
@@ -655,7 +752,6 @@
       <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

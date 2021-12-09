@@ -154,9 +154,7 @@ public class AdminAdManagement {
 	
 	/**광고주 회원 상세정보*/
 	@RequestMapping("/admin_owner_detail.do")
-	public ModelAndView admin_owner_detail(@RequestParam(("owner_idx")) int owner_idx,
-			@RequestParam(value = "areacode") int areacode,
-			@RequestParam(value = "sigungucode") int sigungucode) {
+	public ModelAndView admin_owner_detail(@RequestParam(("owner_idx")) int owner_idx) {
 		System.out.println("owner details ok");
 		System.out.println("광고주번호:"+owner_idx);
 		OwnerDTO dto = ownerService.ownerInfo(owner_idx);
@@ -469,6 +467,28 @@ public class AdminAdManagement {
 		//mav.addObject("odto", odto);
 		mav.addObject("pdto", pdto);
 		mav.setViewName("admin/ad_management/admin_adDelInquiry_details");
+		return mav;
+	}
+	
+	/**결제 내역 리스트*/
+	@RequestMapping("/admin_adStatus.do")
+	public ModelAndView admin_ad_list(@RequestParam(value = "cp",defaultValue = "1")int cp) {
+		int listSize=5;
+		int pageSize=5;
+		int totalAd = adService.total_AdInfo();
+		System.out.println("전체:"+totalAd);
+		String pageStr = goo.page.PageModule.makePage("admin_adStatus.do", totalAd, listSize, pageSize, cp);
+		System.out.println("admin_ad_list OK");
+		List<AdDTO> list = adService.all_AdInfo(cp, listSize);
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("cp", cp);
+		mav.addObject("size", list.size());
+		mav.addObject("listSize", listSize);
+		mav.addObject("pageStr", pageStr);
+		mav.addObject("list", list);
+		mav.addObject("totalAd", totalAd);
+		mav.setViewName("admin/ad_management/admin_adStatus_management");
 		return mav;
 	}
 }

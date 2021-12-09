@@ -75,12 +75,11 @@
             </div>
             <!--     일정공유게시판 컨텐츠 이동  -->
 
-            <div class="row">
+            <div class="row justify-content-md-center">
                 <div class="col-xs-12" style="height: 32px;"></div>
             </div>
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class=" col-md-10">
+                <div class=" col-md-8">
                     <div class="card bg-dark text-white" style="border: ghostwhite 0.5px solid;">
                         <img src="https://t1.daumcdn.net/cfile/blog/244C94505523281305" class="card-img" alt="..."
                             style="width: auto; height:360px;">
@@ -93,11 +92,11 @@
                 </div>
             </div>
             <!--     후기게시판 컨텐츠 이동  -->
-            <div class="row">
+            <div class="row justify-content-md-center">
                 <div class="col-xs-12" style="height:32px;">&nbsp;&nbsp;&nbsp;</div>
             </div>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <div class="card bg-dark text-white" style="border: ghostwhite 0.5px solid;">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoO8SWIR4rq_qHOOplxFU7R5tU3k42XdEqkw&usqp=CAU"
                             class="card-img" alt="..." style="width: auto; height: 360px;">

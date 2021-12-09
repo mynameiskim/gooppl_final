@@ -26,4 +26,5 @@ public interface MemberService {
 	
 	public int admin_ownerAppli_typeChange(int member_idx);
 	public int admin_changeOwnerType(int member_idx);
+	
 }
