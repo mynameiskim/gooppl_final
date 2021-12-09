@@ -233,12 +233,12 @@
                                 <input type="text" class="form-control mb-2" id="title" name="title" required>
                                 
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label for="business_number" class="form-label">사업자번호</label>
-                                <input type="text" class="form-control mb-2" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required>
-                            </div>
-                            <div class="col-md-2 form-group">
-                            	<button class="btn btn-outline-primary" id="ckBusinessNum" name="ckBusinessNum">중복체크</button>
+                            <div class="col-md-5 form-group">
+	                                <label for="business_number" class="form-label">사업자번호</label>
+                                <div class="input-group mb-3">
+	                                <input type="text" class="form-control" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required>
+	                            	<button class="btn btn-outline-primary" id="ckBusinessNum" name="ckBusinessNum">중복체크</button>
+								</div>
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="contenttype" class="form-label">타입</label>

@@ -17,5 +17,5 @@ public interface Gooppl_mapService {
 	public int updateMapDate(int map_idx, Date startdate, Date endDate);
 	public List<Gooppl_mapDTO> mapList(int cp,int ls);
 	public List<Gooppl_mapDTO> getMap(int member_idx);
-	
+	public int planDelete(int map_idx); 
 }

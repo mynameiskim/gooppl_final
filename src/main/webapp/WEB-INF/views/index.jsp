@@ -49,11 +49,14 @@
 
 					<c:choose>
 						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend"><a
-								class="nav-link dropdown-toggle" href="#" role="button"
-								id="dropdownMenuLink" data-bs-toggle="dropdown"
-								aria-expanded="false"> <label class="bg-primary text-center"
-									style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+							<li class="nav-item dropdown dropend">
+							<a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"> 
+								<c:if test="${sessionScope.sessionMemberType=='M'}">
+								<label class="bg-primary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+								</c:if>
+								<c:if test="${sessionScope.sessionMemberType=='O'}">
+								<label class="bg-secondary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+								</c:if>	
 							</a>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 									<li><a class="dropdown-item" href="mypage.do">myPage</a></li>

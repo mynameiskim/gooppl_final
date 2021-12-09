@@ -58,4 +58,10 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		List<Gooppl_mapDTO> mapDTO = sqlMap.selectList("getMap",member_idx);
 		return mapDTO;
 	}
+	
+	public int planDelete(int map_idx) {
+		int count = sqlMap.delete("planDelete",map_idx);
+		return count;
+	}
+
 }
