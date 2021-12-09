@@ -178,6 +178,19 @@ $(function () {
         count2 = 0;
     });
 });
+
+/**중복 선택 막는 쿼리*/
+$(function() {
+   $(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+      for(var i=0; i<contentids.length; i++){
+         if(contentids[i]==click_id){
+            $('#'+click_id).hide();
+         }
+      }
+     });
+});
+
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
 $(function() {
@@ -625,6 +638,21 @@ function changeAreacode(){
 }
 var contentids2=[];
 var roopState=false;
+
+/**중복 선택 막는 쿼리*/
+$(function() {
+   $(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+      for(var i=0; i<contentids.length; i++){
+         if(contentids[i]==click_id){
+            $('#'+click_id).hide();
+         }
+      }
+     });
+});
+
+var once=false;
+
 /**데이터 검색 테이블 생성*/
 function show(){
 	var areacodeSelector=document.getElementById('areacode');
@@ -792,9 +820,17 @@ function showResult(){
               }
   
              var trNode = document.createElement('tr');
+             trNode.id = contentid;
              if(mapx==0||mapy==0){
              	trNode.setAttribute('style', 'display:none;');
              }
+             
+             for(var j=0; j<contentids.length; j++){
+                 if(contentid==contentids[j]){
+                    trNode.setAttribute('style', 'display:none;');
+                 }
+              }
+             
              var tdNode2 = document.createElement('td');
              tdNode2.setAttribute('style', 'height: 100px;');
              var imgNode = document.createElement('img');
@@ -812,6 +848,8 @@ function showResult(){
              addBt.setAttribute('value','+');
              addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttypeid+'")');
              addBt.className = 'add_Bt';
+             
+             addBt.id = contentid;
              
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
@@ -831,6 +869,11 @@ function showResult(){
             	 Info2(contentids2[0]);
              }
           }
+         
+         if(once==false){
+        	 show();
+        	 once=true;
+         }
       }
    }
 }
@@ -1416,6 +1459,7 @@ function addEventListeners() {
 	  [images[dragStartIndex], images[dragEndIndex]] = [images[dragEndIndex], images[dragStartIndex]];
 	  [addrs[dragStartIndex], addrs[dragEndIndex]] = [addrs[dragEndIndex], addrs[dragStartIndex]];
 	  [contentids[dragStartIndex], contentids[dragEndIndex]] = [contentids[dragEndIndex], contentids[dragStartIndex]];
+	  [contenttypeids[dragStartIndex], contenttypeids[dragEndIndex]] = [contenttypeids[dragEndIndex], contenttypeids[dragStartIndex]];
 	  
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
@@ -1477,11 +1521,28 @@ idClick=false;
 $('#closeModalBtn').on('click', function(){
 $('#staticBackdrop').modal('hide');
 });
+
+function alertSave(moveUrl){
+	Swal.fire({
+		  title: '변경된 데이터가 저장되지 않을 수 있습니다!',
+		  text: "페이지를 이동하시겠습니까?",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: 'YES'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    location.href=moveUrl;
+		  }
+		});
+}
+
 </script>
  <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1490,9 +1551,9 @@ $('#staticBackdrop').modal('hide');
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('comunity.do')">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -1506,9 +1567,9 @@ $('#staticBackdrop').modal('hide');
                                         font-size: 1.2rem;">${profileNick}</label>
 								  </a>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('mypage.do')">myPage</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('logout.do')">Logout</a></li>
 							</ul>
 							</li>
 						</c:when>
@@ -1568,9 +1629,9 @@ $('#staticBackdrop').modal('hide');
 									<div style="text-align: center;">
 										<form>
 										Start<br>
-										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										End<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1588,8 +1649,8 @@ $('#staticBackdrop').modal('hide');
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">Delete</button>
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveAll()" id="save_Bt">Saved</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="deleteThisday()" id="del_Bt">Delete</button>
+	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveThisDay('${day_num}')" id="save_Bt">Saved</button>
 	                    	</div>
 				        </div>
 				    </div>
@@ -1635,6 +1696,50 @@ $('#staticBackdrop').modal('hide');
 <script>
 var setMapx;
 var setMapy;
+function deleteThisday(){
+	Swal.fire({
+		title: '일정을 모두 삭제하시겠습니까?',
+		  text: '한 번 삭제한 일정은 복구가 불가능합니다!',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'DELETE'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  delThisDayAllInfo();
+		  }else { //취소
+			return;
+		}
+	});
+}
+
+function delThisDayAllInfo(){
+	param='map_idx='+${map_idx}+'&day_num='+${day_num};
+	sendRequest('delThisDayAllInfo.do', param, delThisDayAllInfoResult, 'GET');
+}
+function delThisDayAllInfoResult(){
+	if(XHR.readyState==4){
+		if(XHR.status==200){
+			var data=XHR.responseText;
+			if(data>0){
+				Swal.fire(
+						'일정이 삭제되었습니다!',
+						'계속해서 일정을 계획해보세요!',
+						'success'
+					);
+				location.href='existMap.do?map_idx='+${map_idx}+'&day_num='+${day_num};
+			}else{
+				Swal.fire({
+					  icon: 'error',
+					  title: '일시적인 오류입니다.',
+					  text: '고객센터로 문의해주세요',
+					  footer: '<a href="">Why do I have this issue?</a>'
+					});
+			}
+		}
+	}
+}
 document.getElementById('map_title').value='${mapdto.map_title}';
 selectedOption('people_num', '${mapdto.people_num}', 'value');
 selectedOption('trip_type', '${mapdto.trip_type}', 'value');
@@ -1718,6 +1823,7 @@ function hideMarkers() {
 function hideLines() {
     setLines(null);
 }
+var day;
 function createDay() {
 	var start1 = document.getElementById('startDate').value;
 	var end1 = document.getElementById('endDate').value;
@@ -1728,37 +1834,114 @@ function createDay() {
 	var InputDate_s = new Date(start2[0],start2[1],start2[2]); // 20211110
 	var InputDate_e = new Date(end2[0],end2[1],end2[2]);
 	
-	var day = (InputDate_e-InputDate_s)/(60*60*24*1000)+1;
-	
-	if(day<=0){
-		Swal.fire(
-				  '여행 일정을 확인해주세요',
-				  '종료일이 시작일보다 빠를 수 없습니다!',
-				  'warning'
-				);
-		document.getElementById('endDate').value='';
-	}else{
-		$("#dayBtDiv").empty();
-		
-		count=0;
-		for(var i=0;i<day;i++){
-			count++;
-			var dayBt = document.createElement('input');
-			dayBt.setAttribute('type','button');
-			dayBt.setAttribute('value','Day'+count);
-			if(count==${day_num}){
-				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
-			}else{
-				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;background-color:#64a19d;');
+	if((InputDate_e-InputDate_s)/(60*60*24*1000)+1<day){
+		Swal.fire({
+			  title: '여행 일자가 변경되었습니다!',
+			  text: '기존에 저장된 데이터를 잃을 수 있습니다.',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'CHANGE'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  day = (InputDate_e-InputDate_s)/(60*60*24*1000)+1;
+					
+					if(day<=0){
+						Swal.fire(
+								  '여행 일정을 확인해주세요',
+								  '종료일이 시작일보다 빠를 수 없습니다!',
+								  'warning'
+								);
+						document.getElementById('startDate').value='${mapdto.startdate}';
+						document.getElementById('endDate').value='${mapdto.enddate}';
+						createDay();
+					}else{
+						
+						$("#dayBtDiv").empty();
+						
+						count=0;
+						for(var i=0;i<day;i++){
+							count++;
+							var dayBt = document.createElement('input');
+							dayBt.setAttribute('type','button');
+							dayBt.setAttribute('value','Day'+count);
+							if(count==${day_num}){
+								dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+							}else{
+								dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;background-color:#64a19d;');
+							}
+							dayBt.setAttribute('onclick','saveThisDay('+count+')');
+							var div = document.getElementById('calender');
+							dayBtDiv.appendChild(dayBt);
+						}
+						var startdate = document.getElementById('startDate').value;
+						var enddate = document.getElementById('endDate').value;
+						var start2=startdate.split("-"); 
+						var end2=enddate.split("-");
+						delDateData(start2[0],start2[1],start2[2],end2[0],end2[1],end2[2],day);
+					}
+			  }else { //취소
+				  document.getElementById('startDate').value='${mapdto.startdate}';
+				  document.getElementById('endDate').value='${mapdto.enddate}';
+				  createDay();
 			}
-			dayBt.setAttribute('onclick','saveThisDay('+count+')');
-			var div = document.getElementById('calender');
-			dayBtDiv.appendChild(dayBt);
-		}	
+		});
+	}else{
+		day = (InputDate_e-InputDate_s)/(60*60*24*1000)+1;
+		
+		if(day<=0){
+			Swal.fire(
+					  '여행 일정을 확인해주세요',
+					  '종료일이 시작일보다 빠를 수 없습니다!',
+					  'warning'
+					);
+			document.getElementById('startDate').value='${mapdto.startdate}';
+			document.getElementById('endDate').value='${mapdto.enddate}';
+			createDay();
+		}else{
+			
+			$("#dayBtDiv").empty();
+			
+			count=0;
+			for(var i=0;i<day;i++){
+				count++;
+				var dayBt = document.createElement('input');
+				dayBt.setAttribute('type','button');
+				dayBt.setAttribute('value','Day'+count);
+				if(count==${day_num}){
+					dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+				}else{
+					dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;background-color:#64a19d;');
+				}
+				dayBt.setAttribute('onclick','saveThisDay('+count+')');
+				var div = document.getElementById('calender');
+				dayBtDiv.appendChild(dayBt);
+			}	
+		}
+	}
+	
+}
+
+function delDateData(starty,startm,startd,endy,endm,endd,day){
+	var param='map_idx='+${map_idx}+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&day='+day;
+	sendRequest('delDateData.do',param,delDateDataResult,'GET');
+}
+function delDateDataResult(){
+	if(XHR.readyState==4){
+		if(XHR.status==200){
+			console.log();
+			Swal.fire(
+					'변경되었습니다!',
+					'계속해서 일정을 계획해보세요!',
+					'success'
+				);
+			if(day<${day_num}){
+				location.href='existMap.do?map_idx='+${map_idx}+'&day_num=1';
+			}
+		}
 	}
 }
-	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
-
 function saveThisDay(dayCount){
 	
 	var text=${tripNum}==0?'나만의 여행 일정을 만들어보세요!':'기존에 저장한 일정은 삭제됩니다.';
@@ -1893,7 +2076,14 @@ function getResultAdd2(){
 			if(placeDetails.length!=0){
 				savePlaceDetailData();
 			}else{
-				location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
+				Swal.fire(
+						'저장되었습니다',
+						'다음 일정도 계획해보세요!',
+						'success'
+					);
+					setTimeout(function() {
+						location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
+					}, 500);
 			}
 		}
 	}

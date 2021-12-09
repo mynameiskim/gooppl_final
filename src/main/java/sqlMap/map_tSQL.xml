@@ -55,6 +55,15 @@
   		where
   			map_idx=#{map_idx}
   	</update>
+  	<update id="updateMapDate" parameterType="goo.map_t.model.Gooppl_mapDTO">
+  		update
+  			mapt
+  		set 
+  			startdate=#{startdate},
+  			enddate=#{enddate}
+  		where
+  			map_idx=#{map_idx}
+  	</update>
   	<!-- share LIST -->
   	<select id="sharetotalCnt" resultType="Integer">
   		select count(*) from mapt
@@ -70,4 +79,7 @@
   	</select>
   	
   	
+  	<delete id="planDelete">
+  		delete from mapt where map_idx = #{map_idx}
+  	</delete>
   </mapper>

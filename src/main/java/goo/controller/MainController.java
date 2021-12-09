@@ -31,6 +31,7 @@ import goo.mapinfo.model.MapInfoService;
 import goo.member.model.MemberService;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
 import goo.payment_info.model.Payment_infoService;
+import goo.owner.model.*;
 
 @Controller
 public class MainController {
@@ -51,6 +52,8 @@ public class MainController {
 	private Gooppl_PlaceDetailService gooppl_PlaceDetailService;
 	@Autowired
 	private Payment_infoService payment_infoService;
+	@Autowired
+	private OwnerService ownerService;
 	
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	private static final int EMAIL_PWD_FIND_FORMMAIL_NO = 3;

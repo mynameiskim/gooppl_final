@@ -48,4 +48,12 @@ public class MapInfoDAOImple implements MapInfoDAO {
 		int result = sqlMap.selectOne("getMaxRoutenum", map_idx);
 		return result;
 	}
+	public int deleteMapDay(Map map) {
+		int count=sqlMap.delete("deleteMapDay", map);
+		return count;
+	}
+	public int delThisDayAllInfo(Map map) {
+		int count=sqlMap.delete("delThisDayAllInfo", map);
+		return count;
+	}
 }

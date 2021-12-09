@@ -1,5 +1,6 @@
 ﻿package goo.map_t.model;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,15 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		return result;
 	}
 	
+	public int updateMapDate(int map_idx, Date startdate, Date enddate) {
+		Map map=new HashMap();
+		map.put("map_idx", map_idx);
+		map.put("startdate", startdate);
+		map.put("enddate", enddate);
+		int result=gooppl_mapDao.updateMapDate(map);
+		return result;
+	}
+	
 	/**### 공유게시판 목록보기 ###*/
 	public List<Gooppl_mapDTO> mapList(int cp, int ls) {
 		int start=(cp-1)*ls+1;
@@ -61,6 +71,9 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		List<Gooppl_mapDTO> mapDTO = gooppl_mapDao.getMap(member_idx);
 		return mapDTO;
 	}
-	
+	public int planDelete(int map_idx) {
+		int count = gooppl_mapDao.planDelete(map_idx);
+		return count;
+	}
 	
 }

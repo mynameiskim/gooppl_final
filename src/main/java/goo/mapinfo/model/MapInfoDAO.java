@@ -12,4 +12,6 @@ public interface MapInfoDAO {
 	public List<MapInfoDTO> shareContent(int map_idx);
 	public int getMaxDaynum(int map_idx);
 	public int getMaxRoutenum(int map_idx);
+	public int deleteMapDay(Map map);
+	public int delThisDayAllInfo(Map map);
 }

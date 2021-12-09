@@ -13,6 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
@@ -108,6 +111,7 @@ table{
       crossorigin="anonymous"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
+
 var member_idx=${member_idx}
 var areacodes=[];
 var sigungucodes=[];
@@ -177,6 +181,19 @@ $(function () {
         count2 = 0;
     });
 });
+
+/**중복 선택 막는 쿼리*/
+$(function() {
+	$(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+		for(var i=0; i<contentids.length; i++){
+			if(contentids[i]==click_id){
+				$('#'+click_id).hide();
+			}
+		}
+     });
+});
+
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
 $(function() {
@@ -185,6 +202,9 @@ $(function() {
         $('#savedList').empty();
         hideLines();
         hideMarkers();
+        
+        var trid = contentids[click_id];
+        $('#'+trid).show();
         
         latly.splice(click_id, 1);
         drawLines.splice(click_id-1, 1);
@@ -616,26 +636,38 @@ function changeAreacode(){
 	map.panTo(moveLatLon);
 }
 
+/**중복 선택 막는 쿼리*/
+$(function() {
+	$(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+		for(var i=0; i<contentids.length; i++){
+			if(contentids[i]==click_id){
+				$('#'+click_id).hide();
+			}
+		}
+     });
+});
+
 /**데이터 검색 테이블 생성*/
 function show(){
-	var areacodeSelector=document.getElementById('areacode');
-	var sigungucodeSelector=document.getElementById('sigungucode');
-	var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
-	var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
-	var contenttype=document.getElementById('cate').value;
-	sigungucode=sigungucode==0?'':sigungucode;
-	setAreacode=areacode;
-	setSigungucode=sigungucode;
-	setContenttype=contenttype;
-	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
-		sendRequest(url, param, showResult, 'GET');   
-	}else{
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
-		sendRequest(url, param, showResult, 'GET');   
-	}
+   var areacodeSelector=document.getElementById('areacode');
+   var sigungucodeSelector=document.getElementById('sigungucode');
+   var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
+   var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
+   var contenttype=document.getElementById('cate').value;
+   sigungucode=sigungucode==0?'':sigungucode;
+   setAreacode=areacode;
+   setSigungucode=sigungucode;
+   setContenttype=contenttype;
+   if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
+      var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
+      var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+      sendRequest(url, param, showResult, 'GET');   
+   }else{
+      var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
+      var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+      sendRequest(url, param, showResult, 'GET');   
+   }
 }
 function showResult(){
    if(XHR.readyState==4){
@@ -646,118 +678,119 @@ function showResult(){
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
          if(adContents.length!=0){
-      		for(var i=0;i<adContents.length;i++){
-      			if(setSigungucode==''){
-      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
-      					var title=adContents[i].title;
-      					var contentid=adContents[i].contentid;
-      					var addr=adContents[i].addr;
-      					var image=adContents[i].image;
-      					var mapx=adContents[i].mapx;
-      					var mapy=adContents[i].mapy;
-      					var contenttype=adContents[i].contenttype;
-      					
-      		             var trNode = document.createElement('tr');
-      		             var tdNode2 = document.createElement('td');
-      		             tdNode2.setAttribute('style', 'height: 100px;');
-      		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);	
-      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
-      		             
-      		             var tdNode3 = document.createElement('td');
-      		             tdNode3.setAttribute('style', 'width: 90px;');
-      		             var tdTextNode3 = document.createTextNode(title);
+            for(var i=0;i<adContents.length;i++){
+               if(setSigungucode==''){
+                  if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
+                     var title=adContents[i].title;
+                     var contentid=adContents[i].contentid;
+                     var addr=adContents[i].addr;
+                     var image=adContents[i].image;
+                     var mapx=adContents[i].mapx;
+                     var mapy=adContents[i].mapy;
+                     var contenttype=adContents[i].contenttype;
+                     
+                         var trNode = document.createElement('tr');
+                         var tdNode2 = document.createElement('td');
+                         tdNode2.setAttribute('style', 'height: 100px;');
+                         var imgNode = document.createElement('img');
+                         imgNode.setAttribute('src', image);   
+                         imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+                         
+                         var tdNode3 = document.createElement('td');
+                         tdNode3.setAttribute('style', 'width: 90px;');
+                         var tdTextNode3 = document.createTextNode(title);
 
-      		          
-      		             var tdNode4 = document.createElement('td');
-      		             var addBt = document.createElement('input');
-      		             addBt.setAttribute('type','button');
-      		             addBt.setAttribute('value','+');
-      		             addBt.className = 'add_Bt';
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
-      		             table.appendChild(trNode);
-      		             trNode.appendChild(tdNode2);
-      		             trNode.appendChild(tdNode3);
-      		             trNode.appendChild(tdNode4);
+                      
+                         var tdNode4 = document.createElement('td');
+                         var addBt = document.createElement('input');
+                         addBt.setAttribute('type','button');
+                         addBt.setAttribute('value','+');
+                         addBt.className = 'add_Bt';
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         table.appendChild(trNode);
+                         trNode.appendChild(tdNode2);
+                         trNode.appendChild(tdNode3);
+                         trNode.appendChild(tdNode4);
 
-      		             tdNode2.appendChild(imgNode);
-      		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(addBt);
-      				}
-      			}else{
-      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
-      					var title=adContents[i].title;
-      					var contentid=adContents[i].contentid;
-      					var addr=adContents[i].addr;
-      					var image=adContents[i].image;
-      					var mapx=adContents[i].mapx;
-      					var mapy=adContents[i].mapy;
-      					var contenttype=adContents[i].contenttype;
-      					
-      		             var trNode = document.createElement('tr');
-      		             var tdNode2 = document.createElement('td');
-      		             tdNode2.setAttribute('style', 'height: 100px;');
-      		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);	
-      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
-      		             
-      		             var tdNode3 = document.createElement('td');
-      		             tdNode3.setAttribute('style', 'width: 90px;');
-      		             var tdTextNode3 = document.createTextNode(title);
+                         tdNode2.appendChild(imgNode);
+                         tdNode3.appendChild(tdTextNode3);
+                         tdNode4.appendChild(addBt);
+                  }
+               }else{
+                  if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
+                     var title=adContents[i].title;
+                     var contentid=adContents[i].contentid;
+                     var addr=adContents[i].addr;
+                     var image=adContents[i].image;
+                     var mapx=adContents[i].mapx;
+                     var mapy=adContents[i].mapy;
+                     var contenttype=adContents[i].contenttype;
+                     
+                         var trNode = document.createElement('tr');
+                         var tdNode2 = document.createElement('td');
+                         tdNode2.setAttribute('style', 'height: 100px;');
+                         var imgNode = document.createElement('img');
+                         imgNode.setAttribute('src', image);   
+                         imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+                         
+                         var tdNode3 = document.createElement('td');
+                         tdNode3.setAttribute('style', 'width: 90px;');
+                         var tdTextNode3 = document.createTextNode(title);
 
-      		          
-      		             var tdNode4 = document.createElement('td');
-      		             var addBt = document.createElement('input');
-      		             addBt.setAttribute('type','button');
-      		             addBt.setAttribute('value','+');
-      		             addBt.className = 'add_Bt';
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
-      		             
-      		             table.appendChild(trNode);
-      		             trNode.appendChild(tdNode2);
-      		             trNode.appendChild(tdNode3);
-      		             trNode.appendChild(tdNode4);
+                      
+                         var tdNode4 = document.createElement('td');
+                         var addBt = document.createElement('input');
+                         addBt.setAttribute('type','button');
+                         addBt.setAttribute('value','+');
+                         addBt.className = 'add_Bt';
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         
+                         table.appendChild(trNode);
+                         trNode.appendChild(tdNode2);
+                         trNode.appendChild(tdNode3);
+                         trNode.appendChild(tdNode4);
 
-      		             tdNode2.appendChild(imgNode);
-      		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(addBt);
-      				}
-      			}
-      		}
-      	}
+                         tdNode2.appendChild(imgNode);
+                         tdNode3.appendChild(tdTextNode3);
+                         tdNode4.appendChild(addBt);
+                  }
+               }
+            }
+         }
+
          for(var i=0;i<items.length;i++){
              var item = items[i];
              var count=i+1;
              var title;
              var addr;
- 			var mapx;
- 			var mapy;
- 			var contentid = item.getElementsByTagName('contentid').item(0).firstChild.nodeValue;
+          var mapx;
+          var mapy;
+          var contentid = item.getElementsByTagName('contentid').item(0).firstChild.nodeValue;
              var image;
              
              if(item.getElementsByTagName('title').length==0){
- 	       		 title='0';
- 	       	 }else{
- 	       		 title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
- 	       		 title=title_s.split('(');
- 	       		 title=title[0];
- 	       	 }
- 	       	 
- 	       	 if(item.getElementsByTagName('addr1').length==0){
- 	       		 addr='0';
- 	       	 }else{
- 	       		 addr=item.getElementsByTagName('addr1').item(0).firstChild.nodeValue;
- 	       	 }
- 	       	if(item.getElementsByTagName('mapx').length==0){
- 	       		 mapx=0;
- 	       	 }else{
- 	       		 mapx=item.getElementsByTagName('mapx').item(0).firstChild.nodeValue;
- 	       	 }
- 	       	 if(item.getElementsByTagName('mapy').length==0){
- 	       		 mapy=0;
- 	       	 }else{
- 	       		 mapy=item.getElementsByTagName('mapy').item(0).firstChild.nodeValue;
- 	       	 }
+                  title='0';
+               }else{
+                  title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
+                  title=title_s.split('(');
+                  title=title[0];
+               }
+               
+               if(item.getElementsByTagName('addr1').length==0){
+                  addr='0';
+               }else{
+                  addr=item.getElementsByTagName('addr1').item(0).firstChild.nodeValue;
+               }
+              if(item.getElementsByTagName('mapx').length==0){
+                  mapx=0;
+               }else{
+                  mapx=item.getElementsByTagName('mapx').item(0).firstChild.nodeValue;
+               }
+               if(item.getElementsByTagName('mapy').length==0){
+                  mapy=0;
+               }else{
+                  mapy=item.getElementsByTagName('mapy').item(0).firstChild.nodeValue;
+               }
              
              if(item.getElementsByTagName('firstimage').length==0){
                 image='resource/img/noimage.png';
@@ -766,19 +799,27 @@ function showResult(){
              }
   
              if(item.getElementsByTagName('contenttypeid').length==0){
-            	 contenttypeid=0;
+                contenttypeid=0;
               }else{
-            	 contenttypeid=item.getElementsByTagName('contenttypeid').item(0).firstChild.nodeValue;
+                contenttypeid=item.getElementsByTagName('contenttypeid').item(0).firstChild.nodeValue;
               }
                
              var trNode = document.createElement('tr');
+             trNode.id = contentid;
              if(mapx==0||mapy==0){
-             	trNode.setAttribute('style', 'display:none;');
+                trNode.setAttribute('style', 'display:none;');
              }
+             
+             for(var j=0; j<contentids.length; j++){
+                if(contentid==contentids[j]){
+                   trNode.setAttribute('style', 'display:none;');
+                }
+             }
+
              var tdNode2 = document.createElement('td');
              tdNode2.setAttribute('style', 'height: 100px;');
              var imgNode = document.createElement('img');
-             imgNode.setAttribute('src', image);	
+             imgNode.setAttribute('src', image);   
              imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
              
              var tdNode3 = document.createElement('td');
@@ -793,6 +834,8 @@ function showResult(){
              addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttypeid+'")');
              addBt.className = 'add_Bt';
              
+             addBt.id = contentid;
+             
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
              trNode.appendChild(tdNode3);
@@ -806,6 +849,7 @@ function showResult(){
       }
    }
 }
+
 
 function placeDetailInfo(contentid){
 	if(contentid<1000){
@@ -1331,11 +1375,26 @@ idClick=false;
 $('#closeModalBtn').on('click', function(){
 $('#staticBackdrop').modal('hide');
 });
+function alertSave(moveUrl){
+	Swal.fire({
+		  title: '변경된 데이터가 저장되지 않을 수 있습니다!',
+		  text: "페이지를 이동하시겠습니까?",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: 'YES'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    location.href=moveUrl;
+		  }
+		});
+}
 </script>
  <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1344,9 +1403,9 @@ $('#staticBackdrop').modal('hide');
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('comunity.do')">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -1360,9 +1419,9 @@ $('#staticBackdrop').modal('hide');
                                         font-size: 1.2rem;">${profileNick}</label>
 								  </a>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('mypage.do')">myPage</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('logout.do')">Logout</a></li>
 							</ul>
 							</li>
 						</c:when>
@@ -1422,9 +1481,9 @@ $('#staticBackdrop').modal('hide');
 									<div style="text-align: center;">
 										<form>
 										Start<br>
-										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										End<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1476,6 +1535,19 @@ $('#staticBackdrop').modal('hide');
 </div>
  </section>
 <script>
+(async () => {
+    const { value: getName } = await Swal.fire({
+        title: '여행 제목을 입력해주세요!',
+        text: '당신만의 일정을 만들어보세요.',
+        input: 'text',
+        inputPlaceholder: '여행 제목을 입력해주세요'
+    })
+
+    if (getName) {
+    	document.getElementById('map_title').value=getName;
+    }
+})();
+
 var setMapx;
 var setMapy;
 //초기 지도 중심좌표 처리 
@@ -1712,7 +1784,7 @@ function getResultAdd2(){
 				);
 				setTimeout(function() {
 					location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
-				}, 1000);
+				}, 500);
 			}
 		}
 	}

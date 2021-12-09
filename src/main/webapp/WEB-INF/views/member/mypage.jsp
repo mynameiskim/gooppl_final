@@ -48,6 +48,7 @@
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
+								  <c:if test="${sessionScope.sessionMemberType=='M' }">
 								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
 								    <label class="bg-primary text-center"
 								    	style="
@@ -57,6 +58,18 @@
                                         font-weight: 600;
                                         font-size: 1.2rem;">${profileNick}</label>
 								  </a>
+								  </c:if>
+								  <c:if test="${sessionScope.sessionMemberType=='O' }">
+									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+									    <label class="bg-secondary text-center"
+									    	style="
+	                                        width: 30px;
+	                                        border-radius: 50%;
+	                                        color: #fff;
+	                                        font-weight: 600;
+	                                        font-size: 1.2rem;">${profileNick}</label>
+									  </a>
+								  </c:if>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
 								<li><hr class="dropdown-divider"></li>
@@ -79,18 +92,34 @@
         <div class="container-sm mb-5">
             <div class="row justify-content-md-center">
                 <div class="col col-lg-2 mb-4">
+                <c:if test="${sessionScope.sessionMemberType=='O' }">
+                 <div style="display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                width: 50px;
+                                height: 50px;
+                                border-radius: 50%;
+                                background-color: #f3969a;
+                                color: #fff;
+                                margin: 0px auto;
+                                font-size:25px;
+                                font-weight: 700;">${profileNick}
+                    </div>
+                </c:if>
+                <c:if test="${sessionScope.sessionMemberType=='M' }">
                     <div style="display: flex;
                                 justify-content: center;
                                 align-items: center;
                                 width: 50px;
                                 height: 50px;
                                 border-radius: 50%;
-                                background-color: #717171;
+                                background-color: #66a593;
                                 color: #fff;
                                 margin: 0px auto;
                                 font-size:25px;
                                 font-weight: 700;">${profileNick}
                     </div>
+                </c:if>
                 </div>
             </div>
             <div class="row justify-content-md-center">
@@ -105,21 +134,51 @@
                         프로필수정
                     </button>
                     <c:if test="${sessionScope.sessionMemberType=='M'}">
-                    	<button class="btn btn-primary" onclick="location.href='ckOwnerAppli.do?member_idx=${sessionScope.sessionMember_idx}'">광고주 신청</button>
+                    	<button class="btn btn-secondary" onclick="location.href='ckOwnerAppli.do?member_idx=${sessionScope.sessionMember_idx}'">광고주 신청</button>
                     	
                     </c:if>
                 </div>
             </div>
 			
             <div class="row justify-content-md-center">
+            	<c:if test="${sessionScope.sessionMemberType=='M' }">
                 <div class="col-md-2 text-center">
-                    <h5 class="fw-bolder mb-1 text-center">나의 일정</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><a href="#">${mapDTO.size()}</a></h4>
+                    <h5 class="fw-bolder mb-3 text-center">나의 일정</h5>
+                    <h4 class="fw-bolder mb-3 text-center"><button onclick="showMyPlan()" class="btn btn-primary" style="font-size:30px;">${mapDTO.size()}</button></h4>
                 </div>
+                <script>
+                function showMyPlan(){
+                	$('#myPlanArea').css("display","");
+                	$('#myReviewArea').css("display","none");
+					document.getElementById("myPlanArea").scrollIntoView();
+                }
+                </script>
+                
                 <div class="col-md-2 text-center">
-                    <h5 class="fw-bolder mb-1 text-center">나의 후기</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><a href="#">3</a></h4>
+                    <h5 class="fw-bolder mb-3 text-center">나의 후기</h5>
+                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary" onclick="showMyReview()" style="font-size:30px;">3</button></h4>
                 </div>
+                
+                <script>
+                function showMyReview(){
+                	$('#myPlanArea').css("display","none");
+                	$('#myReviewArea').css("display","");
+                	document.getElementById("myReviewArea").scrollIntoView();
+                }
+                </script>
+                </c:if>
+                <c:if test="${sessionScope.sessionMemberType=='O'}">
+                	<div class="col-md-2 text-center">
+                    <h5 class="fw-bolder mb-3 text-center">나의 업장</h5>
+                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary" onclick="showMyStore()" style="font-size:20px;">보기</button></h4>
+                </div>
+                <script>
+                function showMyStore(){
+                	$('#myStoreArea').css("display","");
+                	document.getElementById("myStoreArea").scrollIntoView();
+                }
+                </script>
+                </c:if>
             </div>
         </div>
     </section> 
@@ -242,33 +301,33 @@
     <section>
         <!--일정 영역-->
         <c:if test="${sessionScope.sessionMemberType=='O'}">
-        	<div class="container-sm mb-5" style="padding:3rem 0;">
+        	<div class="container-sm mb-5" style="padding:3rem 0; display:none" id="myStoreArea">
         		<div class="row justify-content-md-center mb-4">
         			<div class="row mb-4">
         				<div class="col-md-2 text-center">
-        					<h5 class="fw-bolder mb-2 text-center" id="my">나의 업장</h5>
+        					<h5 class="fw-bolder mb-2 text-center">나의 업장</h5>
         				</div>
         			</div>
         		</div>
 	        	<div class="row justify-content-md-center">
-	                <div class="card mb-3" style="max-width: 700px;">
+	                <div class="card mb-3" style="max-width: 1024px;">
 	                    <div class="row align-items-center ">
 	                        <div class="col-md-6">
 	                            <img src="/gooppl/resource/img/혜수네.jpg" class="img-fluid rounded-start rounded-end" alt="...">
 	                        </div>
 	                        <div class="col-md-6">
 	                            <div class="card-body">
-	                                <h5 class="card-title fw-bolder" style="font-size:30px;">연신내 싸갈s 바갈s</h5>
-	                                <p class="card-text mb-4">02-9999-9999</p>
+	                                <h5 class="card-title fw-bolder" style="font-size:40px;">연신내 싸갈s 바갈s</h5>
+	                                <h6 class="card-text mb-4" style="font-size:20px;">02-9999-9999</h6>
 	                                <p class="card-text mb-1">서울 은평구 통일로 885</p>
-	                                <p class="card-text mb-3">혜수스타디움 2층</p>
-	                                <button class="btn btn-info" type="button" onclick="location.href='ad_inquiry.do'">문의</button>
-	                                <button class="btn btn-info" type="button">수정</button>
+	                                <p class="card-text mb-5">혜수스타디움 2층</p>
+	                                <button class="btn btn-info btn-lg" type="button" onclick="location.href='ad_inquiry.do'">문의</button>
+	                                <button class="btn btn-info btn-lg" type="button">수정</button>
 	                                <c:if test="${ad_inquiry_state=='광고승인'}">
-	                                	<button class="btn btn-info" type="button" onclick="location.href='user_payment.do'">결제</button>
+	                                	<button class="btn btn-lg-info" type="button" onclick="location.href='user_payment.do'">결제</button>
 	                                </c:if>
-	                                <hr>
-	                                <p class="card-text">바른생각을 가진 사람들이 만드는 요리 신선한 재료와 성실한 조리로 요리를 대접합니다 가장 바른 돈까스 프랜차이즈 쑝쑝돈까스</p>
+	                                <hr class="mb-3">
+	                                <p class="card-text fw-bolder" >바른생각을 가진 사람들이 만드는 요리 신선한 재료와 성실한 조리로 요리를 대접합니다 가장 바른 돈까스 프랜차이즈 쑝쑝돈까스</p>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -276,14 +335,23 @@
 	            </div>
         	</div>
         </c:if>
-        <div class="container-sm mb-5" style="padding: 5rem 0;">
+        <div class="container-sm mb-5" style="padding: 5rem 0; display:none;" id="myPlanArea">
             <div class="row justify-content-md-center mb-5">
                 <div class="row">
                     <div class="col-md-2 text-center">
-                        <h4 class="fw-bolder mb-2 text-center">나의 일정</h4>
+                        <h4 class="fw-bolder mb-2 text-center" id="myPlanList">나의 일정</h4>
                     </div>
                 </div>
             </div>
+            <c:if test="${empty mapDTO}">
+            	<div class="row justify-content-md-center mb-5">
+            		<div class="col-md-6">
+            		  <div class="img-wrapper" style="position: relative; text-align:center; margin:0px auto;">
+            			<a href="createMap.do"><img class="rounded img-responsive" alt="..." src ="/gooppl/resource/img/마이페이지일정만들기.png"></a>
+					  </div>    
+            		</div>
+            	</div>
+            </c:if>
             <c:forEach var="mapdto" items="${mapDTO}" varStatus="status">
             <div class="row row-cols-1 row-cols-md-1 justify-content-md-center mb-4">
                 <div class="card" style="max-width: 1024px; padding-left:0px;padding-right:0px;">
@@ -332,7 +400,7 @@
                                         <div class="col-md-9">
                                             <c:choose>
                                             	<c:when test="${mapdto.trip_type==1}">홀로여행</c:when>
-                                            	<c:when test="${mapdto.trip_type==2}">우정여행${mapdto.map_idx}</c:when>
+                                            	<c:when test="${mapdto.trip_type==2}">우정여행$</c:when>
                                             	<c:when test="${mapdto.trip_type==3}">커플여행</c:when>
                                             	<c:when test="${mapdto.trip_type==4}">가족여행</c:when>
                                             </c:choose>
@@ -352,14 +420,43 @@
                                 <div class="col-md-12 fw-bolder">    
                                     <div class="row justify-content-md-center mb-2">
                                         <div class="col-md-3 col-sm-3">
-                                            <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">공유</button>
+                                            <button id="planShare_bt" type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">공유</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick='javascript:location.href="existMap.do?map_idx=${mapdto.map_idx}&day_num=1"'>수정</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">삭제</button>
+                                            <button id="planDelete_bt" type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick="planDelete(${mapdto.map_idx})")>삭제</button>
                                         </div>
+                                        <script>
+                                        	function planDelete(var map_idx){
+                                        		$.ajax({
+                                  	              type:"GET",
+                                  	              url:"planDelete.do",
+                                  	              data:{"map_idx":map_idx},
+                                  	              success:function(data){
+                                  	            	  if(data==1){
+                                  		            	  Swal.fire({
+                                  							  title: '확인되었습니다.',
+                                  							  icon: 'success',
+                                  							  allowOutsideClick:false
+                                  		            	  }).then((result) => {
+                                  						    	if (result.isConfirmed) {
+                                  						    		location.reload();
+                                  						    		window.open('newPwd.do?goo_id=${sessionScope.sessionId}','_blank');
+                                  						    	}
+                                  						    })
+                                  	            	  }else{
+                                  	            		  Swal.fire({
+                                  							  title: '비밀번호가 다릅니다.',
+                                  							  icon: 'warning',
+                                  							  confirmButtonText: '확인'
+                                  							})  
+                                  	            	  }
+                                  	              }        
+                                  	          });
+                                        	}
+                                        </script>
                                     </div>
                                 </div>    
 	                            </div>    
@@ -374,14 +471,23 @@
             
         </div>
         <!--후기 영역 -->
-        <div class="container-sm mb-5" style="padding: 5rem 0;">
+        <div class="container-sm mb-5" style="padding: 5rem 0; display:none; " id="myReviewArea">
             <div class="row justify-content-md-center mb-5">
                 <div class="row">
                     <div class="col-md-2 text-center">
-                        <h4 class="fw-bolder mb-2 text-center">나의 리뷰</h4>
+                        <h4 class="fw-bolder mb-2 text-center" id="myReviewList">나의 리뷰</h4>
                     </div>
                 </div>
             </div>
+            <c:if test="${empty mapDTO}">
+            	<div class="row justify-content-md-center mb-5">
+            		<div class="col-md-6">
+            		  <div class="img-wrapper" style="position: relative; text-align:center; margin:0px auto;">
+            			<a href="#"><img class="rounded img-responsive" alt="..." src ="/gooppl/resource/img/마이페이지리뷰쓰기.png"></a>
+					  </div>    
+            		</div>
+            	</div>
+            </c:if>
            	<div class="row row-cols-1 row-cols-md-4 g-4 justify-content-md-center mb-4">
 			  <div class="col">
 			    <div class="card h-100">
@@ -424,7 +530,6 @@
 			  </div>
 			</div>
         </div>
-
     </section>
     <!-- Contact-->
     <section class="contact-section bg-primary align-items-center">

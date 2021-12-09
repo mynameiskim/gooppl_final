@@ -24,6 +24,7 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		}
 		return result2;
 	}
+	
 	public int getMemberIdx(int map_idx) {
 		int result=sqlMap.selectOne("getMemberIdx", map_idx);
 		return result;
@@ -33,8 +34,14 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		Gooppl_mapDTO dto=sqlMap.selectOne("getMapt", map_idx);
 		return dto;
 	}
+	
 	public int updateMap(Gooppl_mapDTO dto) {
 		int result=sqlMap.update("updateMap", dto);
+		return result;
+	}
+	
+	public int updateMapDate(Map map) {
+		int result=sqlMap.update("updateMapDate", map);
 		return result;
 	}
 	
@@ -52,4 +59,9 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		return mapDTO;
 	}
 	
+	public int planDelete(int map_idx) {
+		int count = sqlMap.delete("planDelete",map_idx);
+		return count;
+	}
+
 }
