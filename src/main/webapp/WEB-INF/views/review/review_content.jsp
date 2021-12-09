@@ -221,7 +221,7 @@
 					</div>
 					<div style="height: 5px;"></div>
 					<div style="text-align: right;">
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button id="replyWrite" class="btn btn-primary">Submit</button>
 					</div>
 				</form>
 			</div>
@@ -291,6 +291,24 @@
     	    	})
     	     });
     	});
+    
+    $(function() {
+ 	   $(document).on("click","#replyWrite",function(){
+ 	        
+ 	     	$.ajax({
+ 	    		type: 'GET',
+ 	    		url: 'replyWrite.do',
+ 	    		success: function(result){
+ 	    			console.log(result);
+ 	    			},
+ 	    		error: function(result){
+ 	    		},
+ 	    		complete: function(){
+ 	    			location.reload();
+ 	    		}
+ 	    	})
+ 	     });
+ 	});
     </script>
     
     <!-- Bootstrap core JS-->

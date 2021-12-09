@@ -1,6 +1,8 @@
 package goo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +25,7 @@ public class ReplyController {
 	@Autowired
 	private ReplyServiceImple replyService;
 	
+	/**
 	@RequestMapping("/replyWrite.do")
 	public ModelAndView writeReply(@RequestParam("content") String content,@RequestParam("review_idx") int review_idx, HttpSession session) throws Exception{
 		
@@ -44,6 +47,27 @@ public class ReplyController {
 			mav.setViewName("redirect:reviewContent.do?review_idx="+review_idx);
 		}
 		return mav;
+	}
+	*/
+	
+	@RequestMapping("/replyWrite.do")
+	@ResponseBody
+	private int writeReply(@RequestParam("content") String content,@RequestParam("review_idx") int review_idx, HttpSession session) throws Exception{
+		
+		String nickname = (String)session.getAttribute("sessionNickname");
+		int result;
+		if(nickname==""||nickname==null) {
+			result = 0;
+		}else {
+			ReplyDTO dto = new ReplyDTO();
+			dto.setContent(content);
+			dto.setNickname(nickname);
+			dto.setReview_idx(review_idx);
+	
+			result = replyService.writeReply(dto);
+		}
+		
+		return result;
 	}
 	
 	@RequestMapping("/getRelplyList.do")
