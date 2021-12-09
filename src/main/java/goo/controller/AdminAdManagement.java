@@ -420,7 +420,6 @@ public class AdminAdManagement {
 		AdDTO adto = new AdDTO(owner_idx, imp_uid, ad_period, "광고중");
 		int result = payment_infoService.savePayInfo(pdto);
 		int inquiry_result = ad_inquiryService.payOk_InquiryDel(owner_idx);
-		//int ad_result = adService.startAD(adto);
 		if(result>0&&inquiry_result>0) {
 			 session.removeAttribute("ad_inquiry_state");
 		}
@@ -430,4 +429,46 @@ public class AdminAdManagement {
 		return msg;
 	}
 	
+	/**결제 내역 리스트*/
+	@RequestMapping("/admin_paymentStatus.do")
+	public ModelAndView admin_payment_list(@RequestParam(value = "cp",defaultValue = "1")int cp) {
+		int listSize=5;
+		int pageSize=5;
+		int totalPayment = payment_infoService.totalPayment();
+		System.out.println("전체:"+totalPayment);
+		String pageStr = goo.page.PageModule.makePage("admin_paymentStatus.do", totalPayment, listSize, pageSize, cp);
+		System.out.println("admin_payment_list OK");
+		List<Payment_infoDTO> list = payment_infoService.allPayment_Info(cp, listSize);
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("cp", cp);
+		mav.addObject("size", list.size());
+		mav.addObject("listSize", listSize);
+		mav.addObject("pageStr", pageStr);
+		mav.addObject("list", list);
+		mav.addObject("totalPayment", totalPayment);
+		mav.setViewName("admin/ad_management/admin_payment_list");
+		return mav;
+	}
+	
+	/**결제 정보 자세히보기*/
+	@RequestMapping("/admin_payment_details.do")
+	public ModelAndView admin_adInquiryDel_details(@RequestParam(("imp_uid")) String imp_uid) {
+		System.out.println("admin_payment_details ok");
+		System.out.println("imp_uid:"+ imp_uid);
+		
+		Payment_infoDTO pdto = payment_infoService.getPaymentDetail(imp_uid);
+		 
+		//Ad_inquiryDTO idto = ad_inquiryService.adInquiry_Info(inquiry_idx);
+		//int owner_idx = idto.getOwner_idx();
+		//OwnerDTO odto = ownerService.ownerInfo(owner_idx);
+		
+		System.out.println("adInquiry sql문 돌아감");
+		ModelAndView mav=new ModelAndView();
+		//mav.addObject("idto", idto);
+		//mav.addObject("odto", odto);
+		mav.addObject("pdto", pdto);
+		mav.setViewName("admin/ad_management/admin_adDelInquiry_details");
+		return mav;
+	}
 }
