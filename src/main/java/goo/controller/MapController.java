@@ -368,6 +368,14 @@ public class MapController {
 			return result;
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping("/planDelete.do")
+	public int planDelete(int map_idx) {
+		int result = gooppl_mapService.planDelete(map_idx);
+		
+		return result;
+	}
 	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
 	
 	/** 게시판 목록 */

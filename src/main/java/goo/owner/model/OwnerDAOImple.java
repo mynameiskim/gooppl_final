@@ -94,4 +94,5 @@ public class OwnerDAOImple implements OwnerDAO {
 		int result = sqlMap.delete("admin_owner_del", owner_idx);
 		return result;
 	}
+	
 }

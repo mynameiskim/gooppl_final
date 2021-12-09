@@ -646,24 +646,24 @@ $(function() {
 
 /**데이터 검색 테이블 생성*/
 function show(){
-	var areacodeSelector=document.getElementById('areacode');
-	var sigungucodeSelector=document.getElementById('sigungucode');
-	var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
-	var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
-	var contenttype=document.getElementById('cate').value;
-	sigungucode=sigungucode==0?'':sigungucode;
-	setAreacode=areacode;
-	setSigungucode=sigungucode;
-	setContenttype=contenttype;
-	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
-		sendRequest(url, param, showResult, 'GET');   
-	}else{
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
-		sendRequest(url, param, showResult, 'GET');   
-	}
+   var areacodeSelector=document.getElementById('areacode');
+   var sigungucodeSelector=document.getElementById('sigungucode');
+   var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
+   var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
+   var contenttype=document.getElementById('cate').value;
+   sigungucode=sigungucode==0?'':sigungucode;
+   setAreacode=areacode;
+   setSigungucode=sigungucode;
+   setContenttype=contenttype;
+   if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
+      var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
+      var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+      sendRequest(url, param, showResult, 'GET');   
+   }else{
+      var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
+      var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+      sendRequest(url, param, showResult, 'GET');   
+   }
 }
 function showResult(){
    if(XHR.readyState==4){
@@ -674,119 +674,119 @@ function showResult(){
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
          if(adContents.length!=0){
-      		for(var i=0;i<adContents.length;i++){
-      			if(setSigungucode==''){
-      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
-      					var title=adContents[i].title;
-      					var contentid=adContents[i].contentid;
-      					var addr=adContents[i].addr;
-      					var image=adContents[i].image;
-      					var mapx=adContents[i].mapx;
-      					var mapy=adContents[i].mapy;
-      					var contenttype=adContents[i].contenttype;
-      					
-      		             var trNode = document.createElement('tr');
-      		             var tdNode2 = document.createElement('td');
-      		             tdNode2.setAttribute('style', 'height: 100px;');
-      		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);	
-      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
-      		             
-      		             var tdNode3 = document.createElement('td');
-      		             tdNode3.setAttribute('style', 'width: 90px;');
-      		             var tdTextNode3 = document.createTextNode(title);
+            for(var i=0;i<adContents.length;i++){
+               if(setSigungucode==''){
+                  if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
+                     var title=adContents[i].title;
+                     var contentid=adContents[i].contentid;
+                     var addr=adContents[i].addr;
+                     var image=adContents[i].image;
+                     var mapx=adContents[i].mapx;
+                     var mapy=adContents[i].mapy;
+                     var contenttype=adContents[i].contenttype;
+                     
+                         var trNode = document.createElement('tr');
+                         var tdNode2 = document.createElement('td');
+                         tdNode2.setAttribute('style', 'height: 100px;');
+                         var imgNode = document.createElement('img');
+                         imgNode.setAttribute('src', image);   
+                         imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+                         
+                         var tdNode3 = document.createElement('td');
+                         tdNode3.setAttribute('style', 'width: 90px;');
+                         var tdTextNode3 = document.createTextNode(title);
 
-      		          
-      		             var tdNode4 = document.createElement('td');
-      		             var addBt = document.createElement('input');
-      		             addBt.setAttribute('type','button');
-      		             addBt.setAttribute('value','+');
-      		             addBt.className = 'add_Bt';
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
-      		             table.appendChild(trNode);
-      		             trNode.appendChild(tdNode2);
-      		             trNode.appendChild(tdNode3);
-      		             trNode.appendChild(tdNode4);
+                      
+                         var tdNode4 = document.createElement('td');
+                         var addBt = document.createElement('input');
+                         addBt.setAttribute('type','button');
+                         addBt.setAttribute('value','+');
+                         addBt.className = 'add_Bt';
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         table.appendChild(trNode);
+                         trNode.appendChild(tdNode2);
+                         trNode.appendChild(tdNode3);
+                         trNode.appendChild(tdNode4);
 
-      		             tdNode2.appendChild(imgNode);
-      		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(addBt);
-      				}
-      			}else{
-      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
-      					var title=adContents[i].title;
-      					var contentid=adContents[i].contentid;
-      					var addr=adContents[i].addr;
-      					var image=adContents[i].image;
-      					var mapx=adContents[i].mapx;
-      					var mapy=adContents[i].mapy;
-      					var contenttype=adContents[i].contenttype;
-      					
-      		             var trNode = document.createElement('tr');
-      		             var tdNode2 = document.createElement('td');
-      		             tdNode2.setAttribute('style', 'height: 100px;');
-      		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);	
-      		             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
-      		             
-      		             var tdNode3 = document.createElement('td');
-      		             tdNode3.setAttribute('style', 'width: 90px;');
-      		             var tdTextNode3 = document.createTextNode(title);
+                         tdNode2.appendChild(imgNode);
+                         tdNode3.appendChild(tdTextNode3);
+                         tdNode4.appendChild(addBt);
+                  }
+               }else{
+                  if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
+                     var title=adContents[i].title;
+                     var contentid=adContents[i].contentid;
+                     var addr=adContents[i].addr;
+                     var image=adContents[i].image;
+                     var mapx=adContents[i].mapx;
+                     var mapy=adContents[i].mapy;
+                     var contenttype=adContents[i].contenttype;
+                     
+                         var trNode = document.createElement('tr');
+                         var tdNode2 = document.createElement('td');
+                         tdNode2.setAttribute('style', 'height: 100px;');
+                         var imgNode = document.createElement('img');
+                         imgNode.setAttribute('src', image);   
+                         imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+                         
+                         var tdNode3 = document.createElement('td');
+                         tdNode3.setAttribute('style', 'width: 90px;');
+                         var tdTextNode3 = document.createTextNode(title);
 
-      		          
-      		             var tdNode4 = document.createElement('td');
-      		             var addBt = document.createElement('input');
-      		             addBt.setAttribute('type','button');
-      		             addBt.setAttribute('value','+');
-      		             addBt.className = 'add_Bt';
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
-      		             
-      		             table.appendChild(trNode);
-      		             trNode.appendChild(tdNode2);
-      		             trNode.appendChild(tdNode3);
-      		             trNode.appendChild(tdNode4);
+                      
+                         var tdNode4 = document.createElement('td');
+                         var addBt = document.createElement('input');
+                         addBt.setAttribute('type','button');
+                         addBt.setAttribute('value','+');
+                         addBt.className = 'add_Bt';
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         
+                         table.appendChild(trNode);
+                         trNode.appendChild(tdNode2);
+                         trNode.appendChild(tdNode3);
+                         trNode.appendChild(tdNode4);
 
-      		             tdNode2.appendChild(imgNode);
-      		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(addBt);
-      				}
-      			}
-      		}
-      	}
+                         tdNode2.appendChild(imgNode);
+                         tdNode3.appendChild(tdTextNode3);
+                         tdNode4.appendChild(addBt);
+                  }
+               }
+            }
+         }
 
          for(var i=0;i<items.length;i++){
              var item = items[i];
              var count=i+1;
              var title;
              var addr;
- 			var mapx;
- 			var mapy;
- 			var contentid = item.getElementsByTagName('contentid').item(0).firstChild.nodeValue;
+          var mapx;
+          var mapy;
+          var contentid = item.getElementsByTagName('contentid').item(0).firstChild.nodeValue;
              var image;
              
              if(item.getElementsByTagName('title').length==0){
- 	       		 title='0';
- 	       	 }else{
- 	       		 title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
- 	       		 title=title_s.split('(');
- 	       		 title=title[0];
- 	       	 }
- 	       	 
- 	       	 if(item.getElementsByTagName('addr1').length==0){
- 	       		 addr='0';
- 	       	 }else{
- 	       		 addr=item.getElementsByTagName('addr1').item(0).firstChild.nodeValue;
- 	       	 }
- 	       	if(item.getElementsByTagName('mapx').length==0){
- 	       		 mapx=0;
- 	       	 }else{
- 	       		 mapx=item.getElementsByTagName('mapx').item(0).firstChild.nodeValue;
- 	       	 }
- 	       	 if(item.getElementsByTagName('mapy').length==0){
- 	       		 mapy=0;
- 	       	 }else{
- 	       		 mapy=item.getElementsByTagName('mapy').item(0).firstChild.nodeValue;
- 	       	 }
+                  title='0';
+               }else{
+                  title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
+                  title=title_s.split('(');
+                  title=title[0];
+               }
+               
+               if(item.getElementsByTagName('addr1').length==0){
+                  addr='0';
+               }else{
+                  addr=item.getElementsByTagName('addr1').item(0).firstChild.nodeValue;
+               }
+              if(item.getElementsByTagName('mapx').length==0){
+                  mapx=0;
+               }else{
+                  mapx=item.getElementsByTagName('mapx').item(0).firstChild.nodeValue;
+               }
+               if(item.getElementsByTagName('mapy').length==0){
+                  mapy=0;
+               }else{
+                  mapy=item.getElementsByTagName('mapy').item(0).firstChild.nodeValue;
+               }
              
              if(item.getElementsByTagName('firstimage').length==0){
                 image='resource/img/noimage.png';
@@ -795,27 +795,27 @@ function showResult(){
              }
   
              if(item.getElementsByTagName('contenttypeid').length==0){
-            	 contenttypeid=0;
+                contenttypeid=0;
               }else{
-            	 contenttypeid=item.getElementsByTagName('contenttypeid').item(0).firstChild.nodeValue;
+                contenttypeid=item.getElementsByTagName('contenttypeid').item(0).firstChild.nodeValue;
               }
                
              var trNode = document.createElement('tr');
              trNode.id = contentid;
              if(mapx==0||mapy==0){
-             	trNode.setAttribute('style', 'display:none;');
+                trNode.setAttribute('style', 'display:none;');
              }
              
              for(var j=0; j<contentids.length; j++){
-            	 if(contentid==contentids[j]){
-            		 trNode.setAttribute('style', 'display:none;');
-            	 }
+                if(contentid==contentids[j]){
+                   trNode.setAttribute('style', 'display:none;');
+                }
              }
 
              var tdNode2 = document.createElement('td');
              tdNode2.setAttribute('style', 'height: 100px;');
              var imgNode = document.createElement('img');
-             imgNode.setAttribute('src', image);	
+             imgNode.setAttribute('src', image);   
              imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
              
              var tdNode3 = document.createElement('td');
@@ -845,6 +845,7 @@ function showResult(){
       }
    }
 }
+
 
 function placeDetailInfo(contentid){
 	if(contentid<1000){

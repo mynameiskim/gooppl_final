@@ -19,7 +19,7 @@
 			            <table class="table table-bordered" style="font-size: 13px;">
 			            	<tr>
                                 <td rowspan="8" style="width:400px;">
-                                	<img src="resource/img/gapyeong.jpg" style="width:100%; height:100%;"/>
+                                	<img src="${dto.firstimg}" style="width:100%; height:100%;"/>
                                 </td>
                                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">회원번호</th>
                                     <td>${dto.member_idx}
