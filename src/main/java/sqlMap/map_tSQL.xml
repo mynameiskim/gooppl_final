@@ -68,4 +68,6 @@
   	<select id="getMap" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
   		select * from mapt where member_idx =#{member_idx}
   	</select>
+  	
+  	
   </mapper>

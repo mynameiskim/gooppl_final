@@ -8,4 +8,7 @@ public interface MapInfoService {
 	public List<Integer> getThisMapInfo(int map_idx, int day_num);
 	public int deleteMapInfo(int map_idx, int day_num);
 	public int getTotalPlace(int map_idx);
+	public List<MapInfoDTO> shareContent(int map_idx);
+	public int getMaxDaynum(int map_idx);
+	public int getMaxRoutenum(int map_idx);
 }

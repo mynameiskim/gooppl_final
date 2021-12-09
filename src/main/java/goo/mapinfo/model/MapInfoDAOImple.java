@@ -36,4 +36,16 @@ public class MapInfoDAOImple implements MapInfoDAO {
 		int count = sqlMap.selectOne("getTotalPlace",map_idx);
 		return count;
 	}
+	public List<MapInfoDTO> shareContent(int map_idx) {
+		List<MapInfoDTO> drlist=sqlMap.selectList("shareContent", map_idx );
+		return drlist;
+	}
+	public int getMaxDaynum(int map_idx) {
+		int result = sqlMap.selectOne("getMaxDaynum", map_idx);
+		return result;
+	}
+	public int getMaxRoutenum(int map_idx) {
+		int result = sqlMap.selectOne("getMaxRoutenum", map_idx);
+		return result;
+	}
 }

@@ -9,4 +9,7 @@ public interface MapInfoDAO {
 	public List<Integer> getThisMapInfo(Map map);
 	public int deleteMapInfo(Map map);
 	public int getTotalPlace(int map_idx);
+	public List<MapInfoDTO> shareContent(int map_idx);
+	public int getMaxDaynum(int map_idx);
+	public int getMaxRoutenum(int map_idx);
 }

@@ -236,7 +236,10 @@
 									src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
 									class="card-img-top" alt="...">
 								<div class="card-body">
-									<h5 class="card-title">title : ${dto.map_title }</h5>
+								<c:url var="contentUrl" value="shareContent.do">
+								<c:param name="map_idx">${dto.map_idx}</c:param>
+								</c:url>
+                               	<h5 class="card-title mb-5"><a href="${contentUrl }">${dto.map_title}</a></h5>
 									<p class="card-text">trip_type : ${dto.trip_type }</p>
 									<p class="card-text" style="font-size: small;">
 									작성자 :	${dto.member_idx }</p>
