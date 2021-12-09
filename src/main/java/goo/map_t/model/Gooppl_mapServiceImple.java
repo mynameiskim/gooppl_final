@@ -40,6 +40,9 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		List<Gooppl_mapDTO> mapDTO = gooppl_mapDao.getMap(member_idx);
 		return mapDTO;
 	}
-	
+	public int planDelete(int map_idx) {
+		int count = gooppl_mapDao.planDelete(map_idx);
+		return count;
+	}
 	
 }
