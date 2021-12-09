@@ -524,7 +524,6 @@ function closeOverlay() {
 	</script>
 		<!-- Footer-->
 	<%@include file="/WEB-INF/views/member/faq.jsp" %>
-	<%@include file="/resource/modal/modal.jsp" %>
 	<footer class="footer bg-light small text-center">
 		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
 	</footer>
