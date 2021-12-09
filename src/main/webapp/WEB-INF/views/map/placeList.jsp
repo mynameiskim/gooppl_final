@@ -32,7 +32,7 @@ table{
 	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 80%;
     align: center;
-}
+
 </style>
 </head>
 <link href="resource/css/styles.css" rel="stylesheet" />
@@ -290,7 +290,7 @@ function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 	location.href='goPlaceDetail.do?contentid='+contentid+'&areacode='+paramAreacode+'&sigungucode='+paramSigungucode;
 }
 </script>
-<body onload="show()" style="background-color: white;">
+<body id="page-top" onload="show()" style="background-color: white;">
 <div id="adInfo" style="display:none;">
 	<table id="adSite">
 		<c:if test="${empty adlist }">
@@ -384,7 +384,8 @@ if(datay_n!='undefined'){
             </div>
         </div>
     </nav>
-<section class="signup-section" style="background-color: white;">
+ <section class="signup-section bg-light" id="signup"
+        style="padding-top: 7rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
 	<div class="container-sm text-center">
 		<div class="row justify-content-md-center mb-3">
 			<div class="col-md-2">
@@ -431,8 +432,8 @@ if(datay_n!='undefined'){
 		</div>
 		<div class="row justify-content-md-center mb-3 ">
 			<div class="col-md-8" style="margin:0px auto;">
-			<table name="viewTable" id="viewTable" style="word-break:break-all;width:100%;align:center;text-align: center;">
-			</table>
+				<table name="viewTable" id="viewTable" style="word-break:break-all;width:100%;align:center;text-align: center;">
+				</table>
 			</div>
 			<div id="pageModule" style="align:center; margin-top:30px;">
 				<div class="row justify-content-md-center">
@@ -453,7 +454,7 @@ if(datay_n!='undefined'){
 			<div class="row gx-4 gx-lg-5 justify-content-md-center">
 				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
 					<div class="card py-1 h-100">
-						<div class="card-body text-center">
+						<div class="card-body text-center" style="padding: 2rem 1rem;">
 							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
 							<h4 class="text-uppercase m-0">Address</h4>
 							<hr class="my-4 mx-auto" />
@@ -463,7 +464,7 @@ if(datay_n!='undefined'){
 				</div>
 				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
 					<div class="card py-1 h-100">
-						<div class="card-body text-center">
+						<div class="card-body text-center" style="padding: 2rem 1rem;">
 							<i class="fas fa-envelope text-primary mb-2"></i>
 							<h4 class="text-uppercase m-0">Email</h4>
 							<hr class="my-4 mx-auto" />
@@ -475,7 +476,7 @@ if(datay_n!='undefined'){
 				</div>
 				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
 					<div class="card py-1 h-100">
-						<div class="card-body text-center">
+						<div class="card-body text-center" style="padding: 2rem 1rem;">
 							<i class="fas fa-mobile-alt text-primary mb-2"></i>
 							<h4 class="text-uppercase m-0">FAQ</h4>
 							<hr class="my-4 mx-auto" />

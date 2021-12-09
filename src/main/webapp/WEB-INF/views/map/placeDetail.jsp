@@ -413,7 +413,7 @@ function closeOverlay() {
 }
 </script>
 </head>
-<body id="page-top">
+<body id="page-top" style="background-color: white;">
  <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
@@ -457,9 +457,9 @@ function closeOverlay() {
             </div>
         </div>
     </nav>
-    <section>
+    <section style="padding-top: 1rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
 		<div
-			class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center" style="margin-top: 90px;">
+			class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center" style="margin-top: 60px;">
 			<div class="d-flex justify-content-center">
 				<div class="text-center">
 					<div id="allDiv">

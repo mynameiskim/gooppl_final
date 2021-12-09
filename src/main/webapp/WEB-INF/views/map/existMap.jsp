@@ -678,6 +678,16 @@ function showResult(){
    if(XHR.readyState==4){
       if(XHR.status==200){
 		// alert("${mapinfolist[0].contentid}");
+		
+		if(roopState==false){
+			<c:forEach items="${mapinfolist}" var="item1">
+			
+			contentids2.push("${item1.contentid}");
+			
+			</c:forEach>
+			Info2(contentids2[0]);
+		}
+		
          var doc = XHR.responseXML;
          var items = doc.getElementsByTagName('item');
          var table = document.getElementById('setTable');
@@ -692,6 +702,7 @@ function showResult(){
        					var image=adContents[i].image;
        					var mapx=adContents[i].mapx;
        					var mapy=adContents[i].mapy;
+       					var contenttype=adContents[i].contenttype;
        					
      		             var trNode = document.createElement('tr');
       		             if(mapx==0||mapy==0){
@@ -716,7 +727,7 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttype+'")');
       		             addBt.className = 'add_Bt';
       		             
       		             table.appendChild(trNode);
@@ -736,6 +747,7 @@ function showResult(){
        					var image=adContents[i].image;
        					var mapx=adContents[i].mapx;
        					var mapy=adContents[i].mapy;
+       					var contenttype=adContents[i].contenttype;
        					
      		             var trNode = document.createElement('tr');
       		             if(mapx==0||mapy==0){
@@ -756,7 +768,7 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttype+'")');
       		             addBt.className = 'add_Bt';
       		             
       		             table.appendChild(trNode);
@@ -859,15 +871,7 @@ function showResult(){
              tdNode2.appendChild(imgNode);
              tdNode3.appendChild(tdTextNode3);
              tdNode4.appendChild(addBt);
-             
-             if(roopState==false){
-            	 <c:forEach items="${mapinfolist}" var="item1">
 
-            	 contentids2.push("${item1.contentid}");
-
-            	 </c:forEach>
-            	 Info2(contentids2[0]);
-             }
           }
          
          if(once==false){
@@ -1567,7 +1571,7 @@ $('#staticBackdrop').modal('hide');
     </nav>
     <!-- Signup-->
     <section class="signup-section bg-light" id="signup"
-        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
+        style="padding-top: 9rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
     <div class="container" style="margin-bottom: 40px; margin-top: -60px;">
     	<div class="col-sm-1 col-md-12">
         	<div class="row">
@@ -1905,7 +1909,7 @@ function createDay() {
 	}
 	
 }
-	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
+	
 
 function delDateData(starty,startm,startd,endy,endm,endd,day){
 	var param='map_idx='+${map_idx}+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&day='+day;

@@ -178,18 +178,6 @@ $(function () {
     });
 });
 
-/**중복 선택 막는 쿼리*/
-$(function() {
-	$(document).on("click",".add_Bt",function(){
-        var click_id = $(this).attr('id');
-		for(var i=0; i<contentids.length; i++){
-			if(contentids[i]==click_id){
-				$('#'+click_id).hide();
-			}
-		}
-     });
-});
-
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
 $(function() {
@@ -405,6 +393,7 @@ $(function() {
     count2--;
     });
 });
+
 
 /**드래그앤 드랍시 새로 생성 ---아직 안됨 미완성*/
 function newlist(){
@@ -1417,7 +1406,7 @@ $('#staticBackdrop').modal('hide');
     </nav>
     <!-- Signup-->
     <section class="signup-section" id="signup"
-        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
+        style="padding-top: 9rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
     <div class="container" style="margin-bottom: 40px; margin-top: -60px;" >
     	<div class="col-sm-1 col-md-12" >
         	<div class="row">
