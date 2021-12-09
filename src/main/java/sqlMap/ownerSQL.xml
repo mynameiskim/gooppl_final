@@ -87,7 +87,14 @@
 		WHERE
 			OWNER_IDX = #{owner_idx}
 	</delete>
-	
+	<select id="getOwnerInfo_M" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
+		SELECT
+			*
+		FROM
+			owner_info
+		WHERE
+			member_idx = #{member_idx} 	
+	</select>
 	
 	
 	
