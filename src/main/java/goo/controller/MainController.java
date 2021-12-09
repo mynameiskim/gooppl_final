@@ -65,6 +65,8 @@ public class MainController {
 		String ad_inquiry_state = ad_inquiryService.ckAdInquiry(member_idx);
 		session.setAttribute("ad_inquiry_state", ad_inquiry_state);
 		
+		OwnerDTO odto = ownerService.ckOwnerInfo(member_idx);
+		
 		List<Gooppl_mapDTO> mapDTO = gooppl_mapService.getMap(member_idx);
 		int totalPlaceCount[] = new int[mapDTO.size()];
 		String firstImg[] = new String[mapDTO.size()];
@@ -78,7 +80,7 @@ public class MainController {
 		}
 		
 		
-		
+		mav.addObject("odto", odto);
 		mav.addObject("mapDTO",mapDTO);
 		mav.addObject("totalPlaceCount", totalPlaceCount);
 		mav.addObject("firstImg",firstImg);

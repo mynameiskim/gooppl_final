@@ -2,6 +2,7 @@ package goo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,9 +95,7 @@ public class OwnerController {
 		
 		//해당 폴더에 이미지가 있으면 삭제
 		File files[] = f.listFiles();
-		if(files==null||files.length==0) {
-			f.delete();
-		}else {
+		if(!(files==null||files.length==0)) {
 			for(int i=0; i<files.length; i++) {
 				files[i].delete();
 			}
@@ -138,9 +137,11 @@ public class OwnerController {
 	
 	/**광고주 정보 등록 관련 명령어*/
 	@RequestMapping("/addOwnerInfo.do")
-	public ModelAndView addOwnerInfo(HttpSession session, OwnerDTO dto) {
+	public ModelAndView addOwnerInfo(@ModelAttribute("dto")OwnerDTO dto) {
 		System.out.println("정보등록 진입");
-		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		//int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		int member_idx = dto.getMember_idx();
+		System.out.println("member_idx:"+member_idx);
 		String imgUrl = userFolderExist(member_idx);
 		System.out.println("imgUrl:"+ imgUrl+"member_idx:"+ member_idx);
 		String firstimg = copyInto(imgUrl, member_idx, dto.getUpload());
@@ -162,4 +163,59 @@ public class OwnerController {
 		return mav;
 	}
 	
+	/**광고주 정보 수정 페이지 이동 명령어*/
+	@RequestMapping("/go_updateOwnerInfo.do")
+	public ModelAndView updateOwnerInfo(HttpSession session) {
+		System.out.println("owner 정보수정 진입");
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		OwnerDTO odto = ownerService.ckOwnerInfo(member_idx);
+		List<AreaDTO> arealist = areaService.areaList();
+		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("odto", odto);
+		mav.addObject("arealist",arealist);
+		mav.addObject("sigungulist",sigungulist);
+		mav.setViewName("ad/updateAdInfo");
+		return mav;
+	}
+	
+	/**광고주 정보 업데이트 관련 명령어*/
+	@RequestMapping("/updateOwnerInfo.do")
+	public ModelAndView updateOwnerInfo(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
+		System.out.println("정보등록 진입");
+		int member_idx = dto.getMember_idx();
+		double mapx = dto.getMapx();
+		String title = dto.getTitle();
+		System.out.println("member_idx:"+member_idx);
+		System.out.println("mapx:" + mapx);
+		System.out.println("title:"+title);
+		String firstimg = null;
+		// 파일 업로드 처리
+	      MultipartFile uploadFile = dto.getUpload();
+	      if (uploadFile.isEmpty()) {
+	        
+			System.out.println("upload가 널");
+			//result = ownerService.update_ownerInfo_withoutFile(dto);
+			OwnerDTO originDto = ownerService.ckOwnerInfo(member_idx);
+			firstimg = originDto.getFirstimg();
+			System.out.println("firstimg  "+firstimg);
+		}else {
+			String imgUrl = userFolderExist(member_idx);
+			System.out.println("imgUrl:"+ imgUrl+"member_idx:"+ member_idx);
+			firstimg = copyInto(imgUrl, member_idx, dto.getUpload());
+			System.out.println(firstimg);
+		}
+		dto.setFirstimg(firstimg);
+		System.out.println("db 등록 전");
+		int result = ownerService.update_ownerInfo_withFile(dto);
+		System.out.println("db 등록 후");
+		String msg = result>0?"수정이 완료되었습니다.":"수정에 실패했습니다.";
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("msg", msg);
+		mav.addObject("goUrl","mypage.do");
+		mav.setViewName("ad/adMsg");
+		return mav;
+	}
 }
