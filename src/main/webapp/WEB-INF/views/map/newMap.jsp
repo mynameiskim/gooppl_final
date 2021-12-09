@@ -177,6 +177,19 @@ $(function () {
         count2 = 0;
     });
 });
+
+/**중복 선택 막는 쿼리*/
+$(function() {
+	$(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+		for(var i=0; i<contentids.length; i++){
+			if(contentids[i]==click_id){
+				$('#'+click_id).hide();
+			}
+		}
+     });
+});
+
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
 $(function() {
@@ -185,6 +198,9 @@ $(function() {
         $('#savedList').empty();
         hideLines();
         hideMarkers();
+        
+        var trid = contentids[click_id];
+        $('#'+trid).show();
         
         latly.splice(click_id, 1);
         drawLines.splice(click_id-1, 1);
@@ -616,6 +632,18 @@ function changeAreacode(){
 	map.panTo(moveLatLon);
 }
 
+/**중복 선택 막는 쿼리*/
+$(function() {
+	$(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+		for(var i=0; i<contentids.length; i++){
+			if(contentids[i]==click_id){
+				$('#'+click_id).hide();
+			}
+		}
+     });
+});
+
 /**데이터 검색 테이블 생성*/
 function show(){
 	var areacodeSelector=document.getElementById('areacode');
@@ -725,6 +753,7 @@ function showResult(){
       			}
       		}
       	}
+
          for(var i=0;i<items.length;i++){
              var item = items[i];
              var count=i+1;
@@ -772,9 +801,17 @@ function showResult(){
               }
                
              var trNode = document.createElement('tr');
+             trNode.id = contentid;
              if(mapx==0||mapy==0){
              	trNode.setAttribute('style', 'display:none;');
              }
+             
+             for(var j=0; j<contentids.length; j++){
+            	 if(contentid==contentids[j]){
+            		 trNode.setAttribute('style', 'display:none;');
+            	 }
+             }
+
              var tdNode2 = document.createElement('td');
              tdNode2.setAttribute('style', 'height: 100px;');
              var imgNode = document.createElement('img');
@@ -792,6 +829,8 @@ function showResult(){
              addBt.setAttribute('value','+');
              addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttypeid+'")');
              addBt.className = 'add_Bt';
+             
+             addBt.id = contentid;
              
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
