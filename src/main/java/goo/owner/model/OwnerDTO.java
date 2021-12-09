@@ -74,6 +74,30 @@ public class OwnerDTO {
 		this.sigungucode = sigungucode;
 		this.state = state;
 	}
+	
+	
+
+	public OwnerDTO(int member_idx, String title, String name, String email, String business_tel, String tel,
+			int contenttype, String firstimg, String addr, String detailed_addr, String ad_content, double mapx,
+			double mapy, int areacode, int sigungucode, MultipartFile upload) {
+		super();
+		this.member_idx = member_idx;
+		this.title = title;
+		this.name = name;
+		this.email = email;
+		this.business_tel = business_tel;
+		this.tel = tel;
+		this.contenttype = contenttype;
+		this.firstimg = firstimg;
+		this.addr = addr;
+		this.detailed_addr = detailed_addr;
+		this.ad_content = ad_content;
+		this.mapx = mapx;
+		this.mapy = mapy;
+		this.areacode = areacode;
+		this.sigungucode = sigungucode;
+		this.upload = upload;
+	}
 
 	public int getOwner_idx() {
 		return owner_idx;

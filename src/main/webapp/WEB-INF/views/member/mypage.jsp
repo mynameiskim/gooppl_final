@@ -318,21 +318,21 @@
 	                <div class="card mb-3" style="max-width: 1024px;">
 	                    <div class="row align-items-center ">
 	                        <div class="col-md-6">
-	                            <img src="/gooppl/resource/img/혜수네.jpg" class="img-fluid rounded-start rounded-end" alt="...">
+	                            <img src="${odto.firstimg}" class="img-fluid rounded-start rounded-end" alt="...">
 	                        </div>
 	                        <div class="col-md-6">
 	                            <div class="card-body">
-	                                <h5 class="card-title fw-bolder" style="font-size:40px;">연신내 싸갈s 바갈s</h5>
-	                                <h6 class="card-text mb-4" style="font-size:20px;">02-9999-9999</h6>
-	                                <p class="card-text mb-1">서울 은평구 통일로 885</p>
-	                                <p class="card-text mb-5">혜수스타디움 2층</p>
+	                                <h5 class="card-title fw-bolder" style="font-size:40px;">${odto.title}</h5>
+	                                <h6 class="card-text mb-4" style="font-size:20px;">${odto.business_tel}</h6>
+	                                <p class="card-text mb-1">${odto.addr}</p>
+	                                <p class="card-text mb-5">${odto.detailed_addr}</p>
 	                                <button class="btn btn-info btn-lg" type="button" onclick="location.href='ad_inquiry.do'">문의</button>
-	                                <button class="btn btn-info btn-lg" type="button">수정</button>
+	                                <button class="btn btn-info btn-lg" type="button" onclick="location.href='go_updateOwnerInfo.do'">수정</button>
 	                                <c:if test="${ad_inquiry_state=='광고승인'}">
-	                                	<button class="btn btn-lg-info" type="button" onclick="location.href='user_payment.do'">결제</button>
+	                                	<button class="btn btn-info btn-lg" type="button" onclick="location.href='user_payment.do'">결제</button>
 	                                </c:if>
 	                                <hr class="mb-3">
-	                                <p class="card-text fw-bolder" >바른생각을 가진 사람들이 만드는 요리 신선한 재료와 성실한 조리로 요리를 대접합니다 가장 바른 돈까스 프랜차이즈 쑝쑝돈까스</p>
+	                                <p class="card-text fw-bolder" >${odto.ad_content}</p>
 	                            </div>
 	                        </div>
 	                    </div>

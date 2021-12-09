@@ -37,9 +37,6 @@ import goo.sigungu.model.SigunguService;
 @Controller
 public class MapController {
 
-	List<MapInfoDTO> daynum = null;
-	List<MapInfoDTO> routenum = null;
-	
 	@Autowired
 	private SigunguService sigunguService;
 	@Autowired
@@ -369,6 +366,8 @@ public class MapController {
 		}
 	}
 	
+	/**#################        SHARE          #########################*/
+	
 	@ResponseBody
 	@RequestMapping("/planDelete.do")
 	public int planDelete(int map_idx) {
@@ -376,7 +375,7 @@ public class MapController {
 		
 		return result;
 	}
-	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	
 	
 	/** 게시판 목록 */
 	@RequestMapping("/share.do")
@@ -394,11 +393,37 @@ public class MapController {
 		return mav;
 	}
 	
+	
+	
+	@RequestMapping("/shareContent.do")
 	public ModelAndView shareContent(
-			MapInfoDTO midto,
-			@RequestParam("map_idx")int map_idx
-			) {
+			@RequestParam("map_idx")int map_idx) {
+		//int map_idx로 day_num ,route_num의 쵀댓 값을 구함
+		int daynum = mapinfoService.getMaxDaynum(map_idx);
+		int routenum[]=new int[daynum]; 
+		List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
+		for(int i=1;i<=daynum;i++) {
+			routenum[i-1]=mapinfoService.getMaxRoutenum(map_idx, i);
+		}
+		List<Integer> contentids=new ArrayList<Integer>();;
+		for(int i=0;i<drlist.size();i++) {
+				contentids.add(drlist.get(i).getContentid());
+		}
+		List<Gooppl_PlaceDetailDTO> pdlist=gooppl_placedetailService.getThisDateDetail(contentids);
+		for(int i=0;i<pdlist.size();i++) {
+			System.out.println(pdlist.get(i).getContentid());
+		}
+		
 		ModelAndView mav=new ModelAndView();
+		mav.addObject("drlist",drlist);
+		mav.addObject("pdlist",pdlist);
+		for(int i=0;i<pdlist.size();i++) {
+			System.out.println(pdlist.get(i).getFirstimage()+"\n"+
+					pdlist.get(i).getAddr()+"\n"+
+					pdlist.get(i).getTitle()+"\n");
+			
+		}
+		mav.setViewName("share/share_content");
 		return mav;
 	}
 	@ResponseBody
@@ -408,13 +433,14 @@ public class MapController {
 		return result;
 	}
 	
+	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
 	@ResponseBody
 	@RequestMapping("/planShareCancel.do")
 	public int planShereCancel(int map_idx) {
 		int result = gooppl_mapService.planShareCancel(map_idx);
 		return result;
 	}
-	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+
 	
 	
 

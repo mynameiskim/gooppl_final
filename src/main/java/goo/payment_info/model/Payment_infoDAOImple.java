@@ -63,4 +63,9 @@ public class Payment_infoDAOImple implements Payment_infoDAO {
 		List<Payment_infoDTO> list = sqlMap.selectList("cancelledPayment_Info", map);
 		return list;
 	}
+	
+	public Payment_infoDTO getPaymentDetail(String imp_uid) {
+		Payment_infoDTO dto = sqlMap.selectOne("getPaymentDetail", imp_uid);
+		return dto;
+	}
 }

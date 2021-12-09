@@ -62,7 +62,7 @@ body {
 		<h4 class="display-6 fw-bolder text-center mb-5">결제정보</h4>
 		<form name="paymentFm">
 		<div class="card" style="width: 20rem; margin:0px auto;">
-		  <img src="/gooppl/resource/img/온천집.jpg" class="card-img-top" >
+		  <img src="${odto.firstimg}" class="card-img-top" >
 		  <div class="card-body">
 		    <h5 class="card-title">${odto.title}</h5>
 		    <p class="card-text">${odto.addr}</p>
@@ -75,6 +75,7 @@ body {
 		  <input type="hidden" id="name" value="${odto.name}">
 		  <div class="card-body">
 		  	<!-- <input type="button" name="goPayment" value="결제" id="check_module"> -->
+		  	<!-- <input type="button" name="back" value="뒤로가기" id="back" onclick="location.href='mypage.do'"> -->
 		    <a id="check_module" class="card-link">결제</a>
 		    <a href="mypage.do" class="card-link">뒤로가기</a>
 		  </div>

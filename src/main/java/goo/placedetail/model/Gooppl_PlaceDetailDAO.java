@@ -2,6 +2,8 @@
 
 import java.util.*;
 
+import goo.mapinfo.model.MapInfoDTO;
+
 public interface Gooppl_PlaceDetailDAO {
 
 	public int addPlaceDetail(Gooppl_PlaceDetailDTO dto);
@@ -9,4 +11,5 @@ public interface Gooppl_PlaceDetailDAO {
 	public Gooppl_PlaceDetailDTO getThisDateDetail(int contentid);
 	public int getLastAreacode(Map map);
 	public String getFirstImg(int map_idx);
+	public List<Gooppl_PlaceDetailDTO> getPlaceInfo(MapInfoDTO dto);
 }

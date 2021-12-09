@@ -107,4 +107,14 @@ public class OwnerServiceImple implements OwnerService {
 		return result;
 	}
 	
+	public int update_ownerInfo_withFile(OwnerDTO dto) {
+		int result = ownerDao.update_ownerInfo_withFile(dto);
+		return result;
+	}
+	
+	public int update_ownerInfo_withoutFile(OwnerDTO dto) {
+		int result = ownerDao.update_ownerInfo_withoutFile(dto);
+		return result;
+	}
+	
 }

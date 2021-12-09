@@ -116,6 +116,8 @@
 		UPDATE
 			OWNER_INFO
 		SET
+			owner_idx = #{owner_idx},
+			MEMBER_IDX = #{member_idx},
 			title = #{title},
 			BUSINESS_NUMBER = #{business_number},
 			name = #{name},
@@ -133,5 +135,48 @@
 			sigungucode = #{sigungucode}
 		WHERE
 			OWNER_IDX = #{owner_idx}
+	</update>
+	<update id="update_ownerInfo_withFile" parameterType="goo.owner.model.OwnerDTO">
+		UPDATE
+			OWNER_INFO
+		SET
+			title = #{title},
+			business_number = #{business_number},
+			name = #{name},
+			email = #{email},
+			BUSINESS_TEL = #{business_tel},
+			tel = #{tel},
+			CONTENTTYPE = #{contenttype},
+			firstimg = #{firstimg},
+			addr = #{addr},
+			detailed_addr = #{detailed_addr},
+			ad_content = #{ad_content},
+			mapx = #{mapx},
+			mapy = #{mapy},
+			areacode = #{areacode},
+			SIGUNGUCODE = #{sigungucode}
+		WHERE
+			member_idx = #{member_idx}
+	</update>
+	<update id="update_ownerInfo_withoutFile" parameterType="goo.owner.model.OwnerDTO">
+		UPDATE
+			OWNER_INFO
+		SET
+			title = #{title},
+			business_number = #{business_number},
+			name = #{name},
+			email = #{email},
+			BUSINESS_TEL = #{business_tel},
+			tel = #{tel},
+			CONTENTTYPE = #{contenttype},
+			addr = #{addr},
+			detailed_addr = #{detailed_addr},
+			ad_content = #{ad_content},
+			mapx = #{mapx},
+			mapy = #{mapy},
+			areacode = #{areacode},
+			SIGUNGUCODE = #{sigungucode}
+		WHERE
+			member_idx = #{member_idx}
 	</update>
 </mapper>

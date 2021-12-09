@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -447,7 +447,8 @@ if(datay_n!='undefined'){
 		</div>
 	</div>
 </section>
-<section class="contact-section bg-light align-items-center">
+	<!-- Contact-->
+	<section class="contact-section bg-light align-items-center">
 		<div class="container px-4 px-lg-5">
 			<div class="row gx-4 gx-lg-5 justify-content-md-center">
 				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
@@ -501,6 +502,5 @@ if(datay_n!='undefined'){
   <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/gooppl/resource/js/scripts.js"></script>
-
 </body>
 </html>

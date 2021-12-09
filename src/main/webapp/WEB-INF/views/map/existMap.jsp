@@ -160,24 +160,19 @@ $(function () {
         $('#setTable').empty();
     });
 });
-/**추가한 여행지 전체삭제*/
-$(function () {
-    $('#del_Bt').click( function() {
-        $('#savedList').empty();
-        hideLines();
-        latly.splice(0, latly.length);
-        drawLines.splice(0, drawLines.length);
-		markers.splice(0, markers.length);
-        mapys.splice(0, mapys.length);
-        mapxs.splice(0, mapxs.length);
-        titles.splice(0, titles.length);
-        images.splice(0, images.length);
-        addrs.splice(0, addrs.length);
-        contentids.splice(0, contentids.length);
-        contenttypeids.splice(0, contentids.length);
-        count2 = 0;
-    });
+
+/**중복 선택 막는 쿼리*/
+$(function() {
+   $(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+      for(var i=0; i<contentids.length; i++){
+         if(contentids[i]==click_id){
+            $('#'+click_id).hide();
+         }
+      }
+     });
 });
+
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
 $(function() {
@@ -625,6 +620,21 @@ function changeAreacode(){
 }
 var contentids2=[];
 var roopState=false;
+
+/**중복 선택 막는 쿼리*/
+$(function() {
+   $(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+      for(var i=0; i<contentids.length; i++){
+         if(contentids[i]==click_id){
+            $('#'+click_id).hide();
+         }
+      }
+     });
+});
+
+var once=false;
+
 /**데이터 검색 테이블 생성*/
 function show(){
 	var areacodeSelector=document.getElementById('areacode');
@@ -792,9 +802,17 @@ function showResult(){
               }
   
              var trNode = document.createElement('tr');
+             trNode.id = contentid;
              if(mapx==0||mapy==0){
              	trNode.setAttribute('style', 'display:none;');
              }
+             
+             for(var j=0; j<contentids.length; j++){
+                 if(contentid==contentids[j]){
+                    trNode.setAttribute('style', 'display:none;');
+                 }
+              }
+             
              var tdNode2 = document.createElement('td');
              tdNode2.setAttribute('style', 'height: 100px;');
              var imgNode = document.createElement('img');
@@ -812,6 +830,8 @@ function showResult(){
              addBt.setAttribute('value','+');
              addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttypeid+'")');
              addBt.className = 'add_Bt';
+             
+             addBt.id = contentid;
              
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
@@ -831,6 +851,11 @@ function showResult(){
             	 Info2(contentids2[0]);
              }
           }
+         
+         if(once==false){
+        	 show();
+        	 once=true;
+         }
       }
    }
 }
@@ -1416,6 +1441,7 @@ function addEventListeners() {
 	  [images[dragStartIndex], images[dragEndIndex]] = [images[dragEndIndex], images[dragStartIndex]];
 	  [addrs[dragStartIndex], addrs[dragEndIndex]] = [addrs[dragEndIndex], addrs[dragStartIndex]];
 	  [contentids[dragStartIndex], contentids[dragEndIndex]] = [contentids[dragEndIndex], contentids[dragStartIndex]];
+	  [contenttypeids[dragStartIndex], contenttypeids[dragEndIndex]] = [contenttypeids[dragEndIndex], contenttypeids[dragStartIndex]];
 	  
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
@@ -1477,11 +1503,28 @@ idClick=false;
 $('#closeModalBtn').on('click', function(){
 $('#staticBackdrop').modal('hide');
 });
+
+function alertSave(moveUrl){
+	Swal.fire({
+		  title: '변경된 데이터가 저장되지 않을 수 있습니다!',
+		  text: "페이지를 이동하시겠습니까?",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: 'YES'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    location.href=moveUrl;
+		  }
+		});
+}
+
 </script>
  <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1490,9 +1533,9 @@ $('#staticBackdrop').modal('hide');
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('comunity.do')">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -1519,9 +1562,9 @@ $('#staticBackdrop').modal('hide');
 									  </a>
 								  </c:if>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('mypage.do')">myPage</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('logout.do')">Logout</a></li>
 							</ul>
 							</li>
 						</c:when>
@@ -1581,9 +1624,9 @@ $('#staticBackdrop').modal('hide');
 									<div style="text-align: center;">
 										<form>
 										Start<br>
-										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										End<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1874,7 +1917,6 @@ function createDay() {
 	}
 	
 }
-	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
 
 function delDateData(starty,startm,startd,endy,endm,endd,day){
 	var param='map_idx='+${map_idx}+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&day='+day;
