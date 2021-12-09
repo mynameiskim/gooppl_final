@@ -184,16 +184,15 @@ $(function () {
 
 /**중복 선택 막는 쿼리*/
 $(function() {
-   $(document).on("click",".add_Bt",function(){
+	$(document).on("click",".add_Bt",function(){
         var click_id = $(this).attr('id');
-      for(var i=0; i<contentids.length; i++){
-         if(contentids[i]==click_id){
-            $('#'+click_id).hide();
-         }
-      }
+		for(var i=0; i<contentids.length; i++){
+			if(contentids[i]==click_id){
+				$('#'+click_id).hide();
+			}
+		}
      });
 });
-
 
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
@@ -203,6 +202,9 @@ $(function() {
         $('#savedList').empty();
         hideLines();
         hideMarkers();
+        
+        var trid = contentids[click_id];
+        $('#'+trid).show();
         
         latly.splice(click_id, 1);
         drawLines.splice(click_id-1, 1);
@@ -636,13 +638,13 @@ function changeAreacode(){
 
 /**중복 선택 막는 쿼리*/
 $(function() {
-   $(document).on("click",".add_Bt",function(){
+	$(document).on("click",".add_Bt",function(){
         var click_id = $(this).attr('id');
-      for(var i=0; i<contentids.length; i++){
-         if(contentids[i]==click_id){
-            $('#'+click_id).hide();
-         }
-      }
+		for(var i=0; i<contentids.length; i++){
+			if(contentids[i]==click_id){
+				$('#'+click_id).hide();
+			}
+		}
      });
 });
 

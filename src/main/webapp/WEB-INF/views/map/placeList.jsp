@@ -447,7 +447,8 @@ if(datay_n!='undefined'){
 		</div>
 	</div>
 </section>
-<section class="contact-section bg-light align-items-center">
+	<!-- Contact-->
+	<section class="contact-section bg-light align-items-center">
 		<div class="container px-4 px-lg-5">
 			<div class="row gx-4 gx-lg-5 justify-content-md-center">
 				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
@@ -484,7 +485,7 @@ if(datay_n!='undefined'){
 						</div>
 					</div>
 				</div>
-	<!-- #####################################FAQ################################################## -->
+				<!-- #####################################FAQ################################################## -->
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-50" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="padding-right: 0px;padding-left:0px;">
 		  <div class="offcanvas-header bg-primary" style="border-bottom:1px solid lightgray;">
 		    <h3 class="offcanvas-title text-center text-white-50" id="offcanvasScrollingLabel">자주하는질문 FAQ</h3>
@@ -637,7 +638,6 @@ if(datay_n!='undefined'){
 			</div>
 		</div>
 	</section>
-	<!-- Footer-->
 	<footer class="footer bg-light small text-center">
 		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
 	</footer>
