@@ -13,6 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
@@ -108,6 +111,7 @@ table{
       crossorigin="anonymous"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
+
 var member_idx=${member_idx}
 var areacodes=[];
 var sigungucodes=[];
@@ -1369,11 +1373,26 @@ idClick=false;
 $('#closeModalBtn').on('click', function(){
 $('#staticBackdrop').modal('hide');
 });
+function alertSave(moveUrl){
+	Swal.fire({
+		  title: '변경된 데이터가 저장되지 않을 수 있습니다!',
+		  text: "페이지를 이동하시겠습니까?",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: 'YES'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    location.href=moveUrl;
+		  }
+		});
+}
 </script>
  <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1382,9 +1401,9 @@ $('#staticBackdrop').modal('hide');
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('comunity.do')">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -1398,9 +1417,9 @@ $('#staticBackdrop').modal('hide');
                                         font-size: 1.2rem;">${profileNick}</label>
 								  </a>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('mypage.do')">myPage</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('logout.do')">Logout</a></li>
 							</ul>
 							</li>
 						</c:when>
@@ -1460,9 +1479,9 @@ $('#staticBackdrop').modal('hide');
 									<div style="text-align: center;">
 										<form>
 										Start<br>
-										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										End<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1514,6 +1533,24 @@ $('#staticBackdrop').modal('hide');
 </div>
  </section>
 <script>
+(async () => {
+    const { value: getName } = await Swal.fire({
+        title: '여행 제목을 입력해주세요!',
+        text: '당신만의 일정을 만들어보세요.',
+        input: 'text',
+        inputPlaceholder: '여행 제목을 입력해주세요'
+    })
+
+    if (getName) {
+    	document.getElementById('map_title').value=getName;
+    }
+})();
+
+window.addEventListener('beforeunload', (event) => { // 명세에 따라 preventDefault는 호출해야하며, 기본 동작을 방지합니다. 
+	event.preventDefault(); // 대표적으로 Chrome에서는 returnValue 설정이 필요합니다. 
+	event.returnValue = 'ee'; 
+	});
+
 var setMapx;
 var setMapy;
 //초기 지도 중심좌표 처리 
