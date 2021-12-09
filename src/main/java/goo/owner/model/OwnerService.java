@@ -20,4 +20,6 @@ public interface OwnerService {
 	public int admin_ownerUpdate(OwnerDTO dto);
 	public int ckBusinessNum(String business_number);
 	public int admin_owner_del(int owner_idx);
+	public int update_ownerInfo_withFile(OwnerDTO dto);
+	public int update_ownerInfo_withoutFile(OwnerDTO dto);
 }

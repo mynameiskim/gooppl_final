@@ -160,24 +160,6 @@ $(function () {
         $('#setTable').empty();
     });
 });
-/**추가한 여행지 전체삭제*/
-$(function () {
-    $('#del_Bt').click( function() {
-        $('#savedList').empty();
-        hideLines();
-        latly.splice(0, latly.length);
-        drawLines.splice(0, drawLines.length);
-		markers.splice(0, markers.length);
-        mapys.splice(0, mapys.length);
-        mapxs.splice(0, mapxs.length);
-        titles.splice(0, titles.length);
-        images.splice(0, images.length);
-        addrs.splice(0, addrs.length);
-        contentids.splice(0, contentids.length);
-        contenttypeids.splice(0, contentids.length);
-        count2 = 0;
-    });
-});
 
 /**중복 선택 막는 쿼리*/
 $(function() {

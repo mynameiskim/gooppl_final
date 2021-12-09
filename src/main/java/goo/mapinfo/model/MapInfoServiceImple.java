@@ -57,10 +57,11 @@ public class MapInfoServiceImple implements MapInfoService {
 		return result;
 	}
 	public int getMaxRoutenum(int map_idx,int day_num) {
-		
 		Map map = new HashedMap();
+		Map map=new HashMap();
 		map.put("map_idx", map_idx);
 		map.put("day_num", day_num);
+		
 		int result = mapinfoDao.getMaxRoutenum(map);
 		return result;
 	}

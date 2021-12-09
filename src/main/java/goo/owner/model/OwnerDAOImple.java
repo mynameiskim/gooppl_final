@@ -95,4 +95,14 @@ public class OwnerDAOImple implements OwnerDAO {
 		return result;
 	}
 	
+	public int update_ownerInfo_withFile(OwnerDTO dto) {
+		int result = sqlMap.update("update_ownerInfo_withFile", dto);
+		return result;
+	}
+	
+	public int update_ownerInfo_withoutFile(OwnerDTO dto) {
+		int result = sqlMap.update("update_ownerInfo_withoutFile", dto);
+		return result;
+	}
+	
 }

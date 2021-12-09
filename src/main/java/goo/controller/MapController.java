@@ -39,8 +39,12 @@ import goo.sigungu.model.SigunguService;
 @Controller
 public class MapController {
 
+	List<MapInfoDTO> daynum = null;
+	List<MapInfoDTO> routenum = null;
 	
 	
+	
+
 	@Autowired
 	private SigunguService sigunguService;
 	@Autowired
@@ -469,31 +473,9 @@ public class MapController {
 	
 	
 	
-	/**	@RequestMapping("/shareContent.do")
-	public ModelAndView shareContent(
-			@RequestParam("map_idx")int map_idx,
-			MapInfoDTO dto) {
-		//int map_idx로 day_num ,route_num의 쵀댓 값을 구함
-		int day_num = mapinfoService.getMaxDaynum(map_idx);
-		System.out.println("daynum="+daynum);
-		int route_num = mapinfoService.getMaxRoutenum(map_idx,day_num);
-		System.out.println("routenum="+routenum);
-		for(int i=1;i<=day_num;i++) {
-			for(int j=1;j<=route_num;j++) {
-				List<Gooppl_PlaceDetailDTO> pdlist = gooppl_placedetailService.getPlaceInfo(dto,i,j);
-				
-			}
-		}
-		List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //mapinfo 에서 가져옴
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("drlist",drlist);
-	//	mav.addObject("pdlist",pdlist);
-		mav.setViewName("share/share_content");
-		return mav;
-	}
-	*/
 		
 	
+
 	
 	
 	
