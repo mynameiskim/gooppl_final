@@ -369,6 +369,8 @@ public class MapController {
 		}
 	}
 	
+	/**#################        SHARE          #########################*/
+	
 	@ResponseBody
 	@RequestMapping("/planDelete.do")
 	public int planDelete(int map_idx) {
@@ -376,7 +378,7 @@ public class MapController {
 		
 		return result;
 	}
-	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	
 	
 	/** 게시판 목록 */
 	@RequestMapping("/share.do")
@@ -394,15 +396,31 @@ public class MapController {
 		return mav;
 	}
 	
+	
+	
+	@RequestMapping("/shareContent.do")
 	public ModelAndView shareContent(
-			MapInfoDTO midto,
-			@RequestParam("map_idx")int map_idx
-			) {
+			@RequestParam("map_idx")int map_idx,
+			MapInfoDTO dto) {
+		//int map_idx로 day_num ,route_num의 쵀댓 값을 구함
+		int daynum = mapinfoService.getMaxDaynum(map_idx);
+		int routenum = mapinfoService.getMaxRoutenum(map_idx);
+		List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
+		List<Gooppl_PlaceDetailDTO> pdlist = gooppl_placedetailService.getPlaceInfo(dto);
 		ModelAndView mav=new ModelAndView();
+		mav.addObject("drlist",drlist);
+		mav.addObject("pdlist",pdlist);
+		for(int i=0;i<pdlist.size();i++) {
+			System.out.println(pdlist.get(i).getFirstimage()+"\n"+
+					pdlist.get(i).getAddr()+"\n"+
+					pdlist.get(i).getTitle()+"\n");
+			
+		}
+		mav.setViewName("share/share_content");
 		return mav;
 	}
 	
-	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	/**#################        SHARE          #########################*/
 	
 	
 

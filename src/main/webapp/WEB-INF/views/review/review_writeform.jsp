@@ -69,6 +69,7 @@
         $(window).on('beforeunload',function(){
             if(checkUnload)return "변경사항이 저장되지 않습니다.";            
         });
+        //submit 시에만 발생 x
         $(document).on("submit", "form", function(event){
             checkUnload = false;
         });
