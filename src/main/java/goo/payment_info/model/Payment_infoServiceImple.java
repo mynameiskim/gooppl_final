@@ -82,4 +82,9 @@ public class Payment_infoServiceImple implements Payment_infoService {
 		List<Payment_infoDTO> list = payment_infoDao.cancelledPayment_Info(map);
 		return list;
 	}
+	
+	public Payment_infoDTO getPaymentDetail(String imp_uid) {
+		Payment_infoDTO dto = payment_infoDao.getPaymentDetail(imp_uid);
+		return dto;
+	}
 }

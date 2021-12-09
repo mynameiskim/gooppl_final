@@ -14,4 +14,5 @@ public interface Payment_infoService {
 	public List<Payment_infoDTO> allPayment_Info(int cp, int ls);
 	public List<Payment_infoDTO> paidPayment_Info(int cp, int ls);
 	public List<Payment_infoDTO> cancelledPayment_Info(int cp, int ls);
+	public Payment_infoDTO getPaymentDetail(String imp_uid);
 }
