@@ -18,4 +18,6 @@ public interface Gooppl_mapService {
 	public List<Gooppl_mapDTO> mapList(int cp,int ls);
 	public List<Gooppl_mapDTO> getMap(int member_idx);
 	public int planDelete(int map_idx); 
+	public int planShare(int map_idx);
+	public int planShareCancel(int map_idx);
 }

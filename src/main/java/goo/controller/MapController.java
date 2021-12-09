@@ -401,7 +401,19 @@ public class MapController {
 		ModelAndView mav=new ModelAndView();
 		return mav;
 	}
+	@ResponseBody
+	@RequestMapping("/planShare.do")
+	public int planShere(int map_idx) {
+		int result = gooppl_mapService.planShare(map_idx);
+		return result;
+	}
 	
+	@ResponseBody
+	@RequestMapping("/planShareCancel.do")
+	public int planShereCancel(int map_idx) {
+		int result = gooppl_mapService.planShareCancel(map_idx);
+		return result;
+	}
 	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
 	
 	
