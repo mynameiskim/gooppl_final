@@ -102,7 +102,7 @@ public class MemberDAOImple implements MemberDAO {
 		}
 		//회원정보
 		public MemberDTO memberInfo(int member_idx) {
-			MemberDTO mdto = sqlMap.selectOne("memberInfo", member_idx);
+			MemberDTO mdto = sqlMap.selectOne("findMemberInfo", member_idx);
 			return mdto;
 		}
 		
@@ -115,4 +115,5 @@ public class MemberDAOImple implements MemberDAO {
 		int result = sqlMap.update("admin_changeOwnerType", member_idx);
 		return result;
 	}
+	
 }

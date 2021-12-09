@@ -48,11 +48,5 @@ public class Gooppl_PlaceDetailDAOImple implements Gooppl_PlaceDetailDAO {
 		String firstImg = sqlMap.selectOne("getFirstImg",map_idx);
 		return firstImg;
 	}
-	public List<Gooppl_PlaceDetailDTO> getPlaceInfo(MapInfoDTO dto) {
-		List<Gooppl_PlaceDetailDTO> pdlist = sqlMap.selectList("getPlaceInfo", dto);
-		System.out.println(dto.getMap_idx());
-		System.out.println(dto.getDay_num());
-		System.out.println(dto.getRoute_num());
-		return pdlist;
-	}
+	
 }
