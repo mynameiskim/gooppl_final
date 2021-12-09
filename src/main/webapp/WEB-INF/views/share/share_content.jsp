@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +18,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
+    <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
     
 </head>
@@ -91,11 +92,16 @@
                 <!-- 컨텐츠 영역-->
                 <div class="row"></div>
                 <div class="row" style="margin-top: 32px;">
+                
+                
+                    <!-- #### 일정 카드 영역 #### -->
+                    
+                   <c:forEach var="dto" items="${drlist }"  varStatus="status">
                     <div class="col-md-9 col-sm-9">
-                    <div class="row" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
+                     <div class="row" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
                         <!--여행 일차-->
                         <div class="col-md-2 col-xs-3 fw-bold" style="background-color: #78C2AD; color: whitesmoke; border-top-left-radius: 10px; text-align: center; font-size: x-large;">
-                            Day1
+                            Day${dto.day_num }
                         </div>
                         <div class="col-md-10 col-xs-9" style=" border-bottom:#78C2AD solid 0.5px;">
                             <div class="row">
@@ -113,7 +119,7 @@
                         </div>
                         <!--일정 순번 -->
                         <div class="col-md-2">
-                            <p style="text-align: center; font-size: xx-large; padding-top: 24px;">1</p>
+                            <p style="text-align: center; font-size: xx-large; padding-top: 24px;">${dto.route_num }</p>
                         </div>
                         <div class="col-md-10">
                             <div class="row">
@@ -122,17 +128,22 @@
                                     <div class="row" style="width: auto; " >
                                         <div class="row g-0" style="border-left: solid 0.5px rgb(230, 227, 227);">
                                           <div class="col-md-3 " >
-                                            <img src="https://ww.namu.la/s/957178fa99b1b9ecf53065b2aa8be8b3c82d4a801e3b1a340364a3babf1547477bdae6bae6045d338f63e0ae4ef8d03d0f38545ed5236774026e6dd1f22a5fbc6e95db146d8da9111bb86dc71ad3d7bae0b12cf1313ae4f4fb9e5c0563e34381" class="img-fluid " alt="..." style="padding: 8px;" >
+                                            <img src="${pdlist[status.index].firstimage }" class="img-fluid " alt="..." style="padding: 8px;" >
                                           </div>
                                           <div class="col-md-7" style="padding-left: 8px;" >
                                             
-                                              <h5 class="fw-bold" style="padding-top: 8px;">롯데월드 타워</h5>
-                                              <p class="text">태그 + 평가 +소감?</p>
-                                              <p class="text"><small class="text-muted">안적은사람도있음 예)공항/롯데월드타워 도착 오후9시</small></p>
+                                              <h5 class="fw-bold" style="padding-top: 8px;">${pdlist[status.index].title }</h5>
+                                              <p class="text">${pdlist[status.index].addr }</p>
+                                              <p class="text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 300px;">
+                                              <small class="text-muted">${pdlist[status.index].overview }</small></p>
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
-                                            <a href=""><img src="https://img.icons8.com/fluency/24/000000/information.png"/></a> 
+                                          <c:url var="contentUrl" value="placeOverview.do">
+											<c:param name="contentid">${dto.contentid}</c:param>
+											</c:url>
+                              			 	<h5 class="card-title mb-5"><a href="${contentUrl }">
+                              			 	<img src="https://img.icons8.com/fluency/24/000000/information.png"/></a></h5>
                                           </div>
                                           <div class="col-md-1 col-sm-12">&nbsp;</div>
                                         </div>
@@ -151,8 +162,11 @@
                         </div>
                     </div>
                     </div>
+                   </c:forEach> 
+                    
                     <!-- 되면 들어갈 지도영역-->
                     <div class="col-md-3"></div>
+                    
                 </div>
                     <!-- 추가 컨텐츠영역-->
                 <div class="row"></div>
