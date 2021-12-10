@@ -191,10 +191,6 @@ function adInquiry(){
 }
 </script>
 </head>
-<script>
-	
-</script>
-
 <body id="page-top">
 <%@include file="/WEB-INF/views/member/header.jsp" %>
     <section class="signup-section" id="sigup">
