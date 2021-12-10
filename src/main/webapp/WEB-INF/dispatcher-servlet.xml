@@ -11,6 +11,10 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 		<!-- @ResponseBody 어노테이션 사용하기위한 필수 등록 -->
 		<annotation-driven/>
+		
+		<!-- Handles HTTP GET requests for /resources/** by efficiently serving up 
+		static resources in the ${webappRoot}/resources directory -->
+		<resources mapping="/**" location="/resources/" />
 
 		<!--  configs  -->
 		<beans:bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>

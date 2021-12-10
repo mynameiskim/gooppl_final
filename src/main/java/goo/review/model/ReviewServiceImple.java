@@ -1,4 +1,4 @@
-package goo.review.model;
+﻿package goo.review.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,5 +51,18 @@ public class ReviewServiceImple implements ReviewService {
 		int count = reviewDao.delReview(review_idx);
 		return count;
 	}
-
+/**		리뷰수정	*/
+	public int updateReview(ReviewDTO dto) {
+		int count = reviewDao.updateReview(dto);
+		return count;
+	}
+/**		리뷰 IDX 최댓값*/
+	public int getMaxReview() {
+		int count = reviewDao.getMaxReview();
+		return count;
+	}
+	public List<ReviewDTO> getReview(int member_idx){
+		List<ReviewDTO> reviewDTO = reviewDao.getReview(member_idx);
+		return reviewDTO;
+	}
 }

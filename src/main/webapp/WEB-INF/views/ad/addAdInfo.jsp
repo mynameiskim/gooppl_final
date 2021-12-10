@@ -21,6 +21,12 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="resource/css/styles.css" rel="stylesheet" />
     <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- jquery -->
+	<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
     <script>
         //특별, 광역시, 도 단위 지역 이동시 처리할 함수
        function changeAreacode(){
@@ -42,7 +48,53 @@
        }
 
     </script>
-    
+    <script>
+    //광고주 정보 입력
+    function addOwnerInfo(){
+    	$.ajax({
+				type: "POST",
+				data: new FormData($("#adForm")[0]),
+				url: 'addOwnerInfo.do',
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				cache: false,
+				dataType: "json",
+				error: function(result){
+				},
+				success: function(result){
+					if(result.code==1){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'success',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}else {
+						Swal.fire({
+					      title: result.msg,
+					      icon:'error',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}
+				}
+			
+		});
+    }
+    </script>
 
 </head>
 
@@ -80,7 +132,7 @@
                     <div class="col-md-5">
                        <div class="row">
                           <div class="col-md-6">
-                           <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required>
+                           <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required="required">
                                <option value="" selected disabled>지역선택</option>
                                <c:forEach var="areadto" items="${arealist}">
                            <option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
@@ -88,7 +140,7 @@
                            </select>  
                           </div>
                           <div class="col-md-6">
-                           <select class="form-select" name="sigungucode" id="sigungucode" required>
+                           <select class="form-select" name="sigungucode" id="sigungucode" required="required">
                          <option value="" selected disabled>선택해주세요</option>
                         <c:forEach var="sigungudto" items="${sigungulist}">
                            <option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
@@ -102,7 +154,7 @@
                 <div class="row">
                     <div class="col-md-5">
                     
-               <div id="map" style="width:350px;height:350px;margin-top:10px;"></div>
+               <div id="map" style="width:100%;height:350px;margin-top:10px;"></div>
                
                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>
@@ -209,6 +261,9 @@
                            }
                        }).open();
                    }
+                   
+                   
+                   
                </script>
                        <!-- <div class="img-fluid rounded-start"  id="map" style="width:350px; height:350px;"></div> -->
                     </div>
@@ -221,19 +276,21 @@
                         <div class="row">
                             <div class="col-md-4 form-group">
                                 <label for="title" class="form-label">상호명</label>
-                                <input type="text" class="form-control mb-2" id="title" name="title" required>
+                                <input type="text" class="form-control mb-2" id="title" name="title" required="required">
                                 
                             </div>
                             <div class="col-md-5 form-group">
-                                <label for="business_number" class="form-label">사업자번호</label>
-                                <input type="text" class="form-control mb-2" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required>
-                                
+	                                <label for="business_number" class="form-label">사업자번호</label>
+                                <div class="input-group mb-3">
+	                                <input type="text" class="form-control" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required="required">
+	                            	<button class="btn btn-outline-primary" id="ckBusinessNum" name="ckBusinessNum">중복체크</button>
+								</div>
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="contenttype" class="form-label">타입</label>
 
-                                <select class="form-select mb-2" id="contenttype" name="contenttype" required>
-                                    <option selected disabled>타입</option>
+                                <select class="form-select mb-2" id="contenttype" name="contenttype" required = "required"> 
+                                    <option value="" selected disabled>타입</option>
                                     <option value="14">문화시설</option>
                                     <option value="32">숙박</option>
                                     <option value="39">음식점</option>
@@ -245,38 +302,38 @@
                                 <label for="email" class="form-label">이메일</label>
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control mb-2" id="email" name="email"
-                                        aria-describedby="inputGroupPrepend" pattern="^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$" required>
+                                        aria-describedby="inputGroupPrepend" pattern="^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$" required="required">
                                 </div>
                             </div>
 
                             <div class="col-md-4 form-group">
                                 <label for="business_tel" class="form-label">업체 전화번호</label>
-                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" placeholder="ex)02-123-4567" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required>
+                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" placeholder="ex)02-123-4567" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required="required">
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="name" class="form-label">이름</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" class="form-control mb-2" id="name" name="name" aria-describedby="inputGroupPrepend" required>
+                                    <input type="text" class="form-control mb-2" id="name" name="name" aria-describedby="inputGroupPrepend" required="required">
                                 </div>
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="tel" class="form-label">번호</label>
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control mb-2" id="tel" name="tel"
-                                        aria-describedby="inputGroupPrepend" pattern="^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$" required>
+                                        aria-describedby="inputGroupPrepend" pattern="^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$" required="required">
                                 </div>
                             </div>
                             <div class="col-md-5 form-group">
                                 <label for="registration_date" class="form-label">대표사진</label>
                                 <div class="input-group has-validation">
-                                    <input type="file" class="form-control form-control-sm mb-2" name="upload" required>
+                                    <input type="file" class="form-control form-control-sm mb-2" name="upload" required = "required" accept=".jpg, .jpeg, .png, .JPG, .JPEG">
                                 </div>
                             </div>
                             <div class="col-md-9 form-group">
                                 <label for="addr" class="form-label">주소</label>
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="addr" name="addr"
-                                        aria-describedby="inputGroupPrepend" readonly required>
+                                        aria-describedby="inputGroupPrepend" readonly required="required">
                                 </div>
                             </div>
                             <div class="col-md-3 mb-2 form-group">
@@ -307,19 +364,19 @@
                            </div>
                                
                                <div class="input-group has-validation">
-                                   <textarea class="form-control" name="ad_content" rows="5" required></textarea>
+                                   <textarea class="form-control" name="ad_content" rows="5" required="required"></textarea>
                                </div>
                            </div>
                            <div class="col-md-12 form-group">
                                <div class="form-check">
-                                   <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                   <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required="required">
                                    <label class="form-check-label" for="invalidCheck">
                                        약관 동의 및 광고주 등급 신청
                                    </label>
                                </div>
                            </div>
                            <div class="col-12">
-                               <button class="btn btn-primary" type="submit">광고주 등록 신청</button>
+                               <button class="btn btn-primary" id="ownerJoinBtn" type="button" onclick="addOwnerInfo()">광고주 등록 신청</button>
                            </div>
                        </div>
                     </div>
@@ -327,7 +384,41 @@
             </div>
         </form>
     </section>
+<script>
+/*사업자 번호체크*/
+$("#ckBusinessNum").click(function(){
+	 var business_number = $("#business_number").val();        // 입력한 사업자 번호
+	 var reg=/^\d{3}-\d{2}-\d{5}$/;
+	 if(business_number==''){
+   	   Swal.fire('사업자번호를 입력해주세요');
+	 }else if(!reg.test(business_number)){
+		 Swal.fire('사업자번호 형식을 확인해주세요.<br>ex)123-12-12345');
+	 }else{
+		 $.ajax({
+	            method:"GET",
+	            url:"ckBusinessNum.do",
+	            data:{"business_number":business_number},
+	            success:function(data){
+	                if(data==0){//사용 가능한 아이디 라면 
+	                	 Swal.fire({
+							  title: '이용가능한 사업자번호입니다.',
+							  icon: 'success',
+							  confirmButtonText: '확인'
+							});
+	                }else{//중복된 사업자번호라면
+	                	 Swal.fire({
+							  title: '중복된 사업자번호입니다.',
+							  icon: 'warning',
+							  confirmButtonText: '확인'
+							});
+	                	 business_number = '';
+	                }
+	            }
+	     });
+      } 
+});
 
+</script>
 
     <!-- Contact-->
     <section class="contact-section bg-primary align-items-center">

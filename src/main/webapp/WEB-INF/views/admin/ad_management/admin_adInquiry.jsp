@@ -79,7 +79,7 @@ function adInquiry_ok(index){
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'adInquiry_ok.do?inquiry_idx='+param1,
+				url: 'admin_adInquiry_ok.do?inquiry_idx='+param1,
 				dataType: "json",
 				error: function(result){
 					
@@ -115,7 +115,7 @@ function adInquiry_ok(index){
 }
 
 //리스트의 거절
-function adInquiry_Delete(index){
+function admin_adInquiry_del(index){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -129,11 +129,11 @@ function adInquiry_Delete(index){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var owner_idx=document.getElementById("owner_idx"+index).value;
+	  		var inquiry_idx=document.getElementById("inquiry_idx"+index).value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_ownerAppli_del.do?owner_idx='+owner_idx,
+				url: 'admin_adInquiry_del.do?inquiry_idx='+inquiry_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -169,10 +169,10 @@ function adInquiry_Delete(index){
 }
 
 //상세보기의 승인
-function adInquiryD_Ok(owner_idx,member_idx){
+function admin_adInquiryD_Ok(inquiry_idx){
 	Swal.fire({
 		title: '승인하시겠습니까?',
-		text: "해당회원은 광고주 회원으로 변경됩니다.",
+		text: "결제가 완료되면 광고가 출력됩니다.",
 		icon: 'info',
 		showCancelButton: true,
 		confirmButtonColor: '#d33',
@@ -184,10 +184,9 @@ function adInquiryD_Ok(owner_idx,member_idx){
 	}).then((result) => {
 	  if (result.isConfirmed) {
 	  		
-	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_ownerAppli_ok.do?owner_idx='+owner_idx+'&member_idx='+member_idx,
+				url: 'admin_adInquiry_ok.do?inquiry_idx='+inquiry_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -223,7 +222,7 @@ function adInquiryD_Ok(owner_idx,member_idx){
 }
 
 //상세보기의 거절
-function adInquiryD_Delete(index){
+function admin_adInquiryD_del(inquiery_idx){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -241,7 +240,7 @@ function adInquiryD_Delete(index){
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_ownerAppli_del.do?owner_idx='+owner_idx,
+				url: 'admin_adInquiry_del.do?inquiry_idx='+inquiery_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -349,7 +348,7 @@ function adInquiryD_Delete(index){
                     <td class="f_tab_td" width="220">
 	                    <input id="detail_btn${status.index}" class="bt btn-secondary" type="button" onclick="inquiry_Details(${status.index},${size})" value="상세보기">
 	                    <input id="ok_btn${status.index}" class="bt btn-primary" type="button" onclick="adInquiry_ok(${status.index})" value="승인">
-	                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="inquiry_Delete(${status.index})" value="거절">
+	                    <input id="delete_btn${status.index}" class="bt btn-danger" type="button" onclick="admin_adInquiry_del(${status.index})" value="거절">
                     </td>
                 </tr>
                 </c:forEach>

@@ -62,21 +62,22 @@ body {
 		<h4 class="display-6 fw-bolder text-center mb-5">결제정보</h4>
 		<form name="paymentFm">
 		<div class="card" style="width: 20rem; margin:0px auto;">
-		  <img src="/gooppl/resource/img/jeju.jpg" class="card-img-top" >
+		  <img src="${odto.firstimg}" class="card-img-top" >
 		  <div class="card-body">
 		    <h5 class="card-title">${odto.title}</h5>
 		    <p class="card-text">${odto.addr}</p>
 		  </div>
 		  <ul class="list-group list-group-flush">
-		    <li class="list-group-item">광고기간 / ${adto.ad_period}</li>
-		    <li class="list-group-item">결제금액 / ${(adto.ad_period)*100}</li>
+		    <li class="list-group-item">광고기간 / ${adto.ad_period}개월</li>
+		    <li class="list-group-item">결제금액 / ${(adto.ad_period)*100}원</li>
 		    <li class="list-group-item"></li>
 		  </ul>
 		  <input type="hidden" id="name" value="${odto.name}">
 		  <div class="card-body">
-		  	<input type="button" name="goPayment" value="결제" id="check_module">
-		    <a href="#" class="card-link">결제</a>
-		    <a href="#" class="card-link">뒤로가기</a>
+		  	<!-- <input type="button" name="goPayment" value="결제" id="check_module"> -->
+		  	<!-- <input type="button" name="back" value="뒤로가기" id="back" onclick="location.href='mypage.do'"> -->
+		    <a id="check_module" class="card-link">결제</a>
+		    <a href="mypage.do" class="card-link">뒤로가기</a>
 		  </div>
 		</div>
 		</form>
@@ -91,7 +92,7 @@ $("#check_module").click(function () {
 	IMP.request_pay({
 	pg: 'inicis', // version 1.1.0부터 지원.
 	
-	pay_method: 100*4,
+	//pay_method: 100*4,
 	
 	merchant_uid: 'merchant_' + new Date().getTime(),
 	
@@ -117,13 +118,12 @@ $("#check_module").click(function () {
 	
 	var now = new Date();
 	
-	var param = 'imp_uid='+imp_uid+'&owner_idx='+${odto.owner_idx}+'&merchant_uid='+merchant_uid+'&amount='+amount+'&status=paid';
+	var param = 'imp_uid='+imp_uid+'&owner_idx='+${odto.owner_idx}+'&merchant_uid='+merchant_uid+'&amount='+amount+'&status=paid&ad_period='+${adto.ad_period};
 	//alert(msg);
 	sendRequest('user_payment_ok.do', param, showResult, 'GET');
 	
 	} else {
-	var msg = '결제에 실패하였습니다.';
-	msg += '에러내용 : ' + rsp.error_msg;
+	var msg = rsp.error_msg;
 	alert(msg);
 	}
 	});

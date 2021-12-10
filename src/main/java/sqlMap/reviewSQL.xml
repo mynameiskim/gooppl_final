@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -55,6 +55,27 @@
   		where
   			review_idx=#{review_idx}
   	</delete>
+  	
+  	<!-- review UPDATE -->
+  	<update id="reviewUpdate" parameterType="goo.review.model.ReviewDTO" >
+  		update
+  			review
+  		set
+	  		subject=#{subject},
+	  		prologue=#{prologue},
+	  		content=#{content},
+	  		epilogue=#{epilogue}
+  		where
+  			review_idx=#{review_idx}
+  		
+  	</update>
+  	<select id="getMaxReview" resultType="Integer">
+  		select max(review_idx) from review
+	</select>
+  	<select id="getReview" parameterType="Integer" resultType="goo.review.model.ReviewDTO">
+  		select * from review where member_idx=#{member_idx} order by review_idx desc
+  	</select>
+  	
   </mapper>
   
   

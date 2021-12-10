@@ -57,6 +57,8 @@
   		WHERE
   			inquiry_idx = #{inquiry_idx}
   	</update>
+  	
+  	<!-- 문의 상세보기 -->
   	<select id="adInquiry_Info" parameterType="integer" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
   		SELECT
   			*
@@ -93,6 +95,28 @@
   		AND
   			member_idx = #{member_idx}
   	</select>
+  	<delete id="payOk_InquiryDel" parameterType="integer">
+  		DELETE FROM
+  			AD_INQUIRY
+  		WHERE
+  			OWNER_IDX = #{owner_idx}
+  		AND
+  			INQUIRY_TYPE = '광고신청'
+  	</delete>
+  	<delete id="admin_adInquiry_del" parameterType="integer">
+  		DELETE FROM
+  			AD_INQUIRY
+  		WHERE
+  			inquiry_idx = #{inquiry_idx}
+  	</delete>
+  	<update id="admin_delInquiry_Ok">
+  		UPDATE
+  			AD_INQUIRY
+  		SET
+  			INQUIRY_STATE = '환불승인'
+  		WHERE
+  			INQUIRY_IDX = #{inquiry_idx} 
+  	</update>
   	
   	
 	<select id="admin_adInquiry" parameterType="Map" resultType="goo.ad_inquery.model.Ad_inquiryDTO">

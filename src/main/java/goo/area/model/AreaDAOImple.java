@@ -22,4 +22,8 @@ public class AreaDAOImple implements AreaDAO {
 		String areaname=sqlMap.selectOne("getAreaName", areacode);
 		return areaname;
 	}
+	public AreaDTO getAreaInfo(int contentid) {
+		AreaDTO dto = sqlMap.selectOne("getAreaInfo", contentid);
+		return dto;
+	}
 }

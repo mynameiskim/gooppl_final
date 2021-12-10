@@ -32,4 +32,41 @@
   		where 
   			map_idx=#{map_idx} and day_num=#{day_num}
   	</delete>
+  	<select id="getTotalPlace" parameterType="Integer" resultType="Integer">
+  		select count(*) from mapinfo where map_idx = #{map_idx}
+  	</select>
+  
+  	<select id="shareContent" parameterType="Integer" resultType="goo.mapinfo.model.MapInfoDTO">
+		select * from mapinfo where map_idx=#{map_idx} order by day_num asc,route_num ASC  	
+  	</select>
+  	<select id="getMaxDaynum" parameterType="Integer" resultType="Integer">
+  		select max(day_num) from mapinfo where map_idx=#{map_idx}
+  	</select>
+  	
+  	<select id="getMaxRoutenum" parameterType="Map" resultType="Integer">
+  		select max(route_num) from mapinfo where map_idx=#{map_idx} and day_num=#{day_num}
+  	</select>
+  	 
+  	<delete id="deleteMapDay" parameterType="Map">
+  		delete from
+  			(select 
+  				* 
+  			from 
+  				mapinfo 
+  			where 
+  				map_idx=#{map_idx})
+  		where
+  			day_num>#{day}
+  	</delete>
+  	<delete id="delThisDayAllInfo" parameterType="Map">
+  		delete from
+  			mapinfo
+  		where map_idx=#{map_idx} and day_num=#{day_num}
+  	</delete>
+  	
+  	
+  	
+  	
+  	
+  	
   </mapper>

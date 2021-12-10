@@ -19,4 +19,13 @@
   where 
   	areacode=#{areacode}
   </select>
+  <select id="getAreaInfo" parameterType="Integer" resultType="goo.area.model.AreaDTO">
+  	SELECT 
+  		* 
+  	FROM 
+  		AREA 
+  	WHERE
+  		AREACODE =
+	(SELECT areacode FROM PLACEDETAIL WHERE contentid=#{contentid})
+  </select>
   </mapper>

@@ -13,26 +13,38 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 
+import goo.ad.model.AdService;
 import goo.area.model.AreaDTO;
 import goo.area.model.AreaService;
 import goo.map_t.model.*;
 import goo.mapinfo.model.MapInfoDTO;
 import goo.mapinfo.model.MapInfoService;
+import goo.member.model.MemberDTO;
+import goo.member.model.MemberService;
 import goo.owner.model.OwnerDTO;
 import goo.owner.model.OwnerService;
 import goo.placedetail.model.Gooppl_PlaceDetailDTO;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
+import goo.review.model.ReviewDTO;
 import goo.sigungu.model.SigunguDTO;
 import goo.sigungu.model.SigunguService;
 
 @Controller
 public class MapController {
+
+	List<MapInfoDTO> daynum = null;
+	List<MapInfoDTO> routenum = null;
+	
+	
+	
 
 	@Autowired
 	private SigunguService sigunguService;
@@ -46,6 +58,10 @@ public class MapController {
 	private Gooppl_PlaceDetailService gooppl_placedetailService;
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
+	private AdService adService;
+	@Autowired
+	private MemberService memberService;
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -53,31 +69,6 @@ public class MapController {
 	@RequestMapping("/sigungu.do")
 	public String sigungu() {
 		return "map/sigungu";
-	}
-	
-	@RequestMapping("/kyumap.do")
-	public String kyumap() {
-		return "map/kyumap";
-	}
-	
-	@RequestMapping("/createMap2.do")
-	public ModelAndView newMap(
-			@RequestParam(value = "areacode", defaultValue="1") int areacode,
-			@RequestParam(value = "sigungucode", defaultValue="0") int sigungucode
-			) {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("member_idx", 1);
-		List<AreaDTO> arealist = areaService.areaList();
-		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
-		mav.addObject("arealist", arealist);
-		mav.addObject("sigungulist", sigungulist);
-		mav.addObject("adlist", adlist);
-		mav.addObject("areacode", areacode);
-		mav.addObject("sigungucode", sigungucode);
-		mav.setViewName("map/newMapAdTest");
-		return mav;
 	}
 	
 	@RequestMapping("/addSigunguTable.do")
@@ -101,7 +92,11 @@ public class MapController {
 		ModelAndView mav = new ModelAndView();
 		List<AreaDTO> arealist = areaService.areaList();
 		List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-		List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+		List<Integer> ownerIdxList=adService.getOwnerIdx();
+		List<OwnerDTO> adlist=new ArrayList<OwnerDTO>();
+		if(ownerIdxList.size()>0) {
+			adlist = ownerService.allOwnerSelect(ownerIdxList);
+		}
 		mav.addObject("arealist", arealist);
 		mav.addObject("sigungulist", sigungulist);
 		mav.addObject("adlist", adlist);
@@ -239,7 +234,11 @@ public class MapController {
 				Gooppl_mapDTO mapDto=gooppl_mapService.getMapt(map_idx);
 				List<AreaDTO> arealist = areaService.areaList();
 				List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-				List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+				List<Integer> ownerIdxList=adService.getOwnerIdx();
+				List<OwnerDTO> adlist=new ArrayList<OwnerDTO>();
+				if(ownerIdxList.size()>0) {
+					adlist = ownerService.allOwnerSelect(ownerIdxList);
+				}
 				mav.addObject("open_login", 0);
 				mav.addObject("member_idx", map_member_idx);
 				mav.addObject("mapdto", mapDto);
@@ -253,12 +252,12 @@ public class MapController {
 				if(list.size()!=0) {
 					List<Gooppl_PlaceDetailDTO> tripList=gooppl_placedetailService.getThisDateDetail(list);
 					mav.addObject("tripList", tripList);
-				}
-				if(list.size()!=0) {
 					int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num);
 					mav.addObject("areacode", lastAreacode);
+					mav.addObject("tripNum", tripList.size());
 				}else {
 					mav.addObject("areacode", 1);
+					mav.addObject("tripNum", 0);
 				}
 				mav.setViewName("map/existMap");
 			}
@@ -266,53 +265,41 @@ public class MapController {
 		return mav;
 	}
 	
-	@RequestMapping("/existMap2.do")
-	public ModelAndView moveExistMap2(
+	@RequestMapping("/delDateData.do")
+	public ModelAndView delDateData(
 			@RequestParam("map_idx") int map_idx,
-			@RequestParam("day_num") int day_num,
-			HttpSession session) {
+			@RequestParam("starty") int starty,
+			@RequestParam("startm") int startm,
+			@RequestParam("startd") int startd,
+			@RequestParam("endy") int endy,
+			@RequestParam("endm") int endm,
+			@RequestParam("endd") int endd,
+			@RequestParam("day") int day) {
+		String startdate_s=starty+"-"+startm+"-"+startd;
+		String enddate_s=endy+"-"+endm+"-"+endd;
+		Date startdate=Date.valueOf(startdate_s);
+		Date enddate=Date.valueOf(enddate_s);
+		
 		ModelAndView mav = new ModelAndView();
-		String session_Nickname=(String)session.getAttribute("sessionNickname");
-		System.out.println(session_Nickname);
-		if(session_Nickname==null||session_Nickname.equals("")) {
-			mav.addObject("open_login", 1);
-			mav.setViewName("redirect:index.do");
-		}else {	
-			int enroll_idx=(Integer)session.getAttribute("sessionMember_idx");
-			System.out.println(enroll_idx);
-			int map_member_idx=gooppl_mapService.getMemberIdx(map_idx);
-			if(enroll_idx!=map_member_idx) {
-				mav.addObject("msg", "접근 권한이 없습니다.");
-				mav.addObject("goPage", "index.do");
-				mav.setViewName("map/mapMove");
-			}else {
-				Gooppl_mapDTO mapDto=gooppl_mapService.getMapt(map_idx);
-				List<AreaDTO> arealist = areaService.areaList();
-				List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-				List<OwnerDTO> adlist = ownerService.allOwnerSelect();
-				mav.addObject("open_login", 0);
-				mav.addObject("member_idx", map_member_idx);
-				mav.addObject("mapdto", mapDto);
-				mav.addObject("arealist", arealist);
-				mav.addObject("sigungulist", sigungulist);
-				mav.addObject("adlist", adlist);
-				mav.addObject("sigungucode", 0);
-				mav.addObject("map_idx", map_idx);
-				mav.addObject("day_num", day_num);
-				List<Integer> list=mapinfoService.getThisMapInfo(map_idx, day_num);
-				if(list.size()!=0) {
-					List<Gooppl_PlaceDetailDTO> tripList=gooppl_placedetailService.getThisDateDetail(list);
-					mav.addObject("tripList", tripList);
-				}
-				if(list.size()!=0) {
-					int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num);
-					mav.addObject("areacode", lastAreacode);
-				}else {
-					mav.addObject("areacode", 1);
-				}
-				mav.setViewName("map/existMap2");
-			}
+		int result=gooppl_mapService.updateMapDate(map_idx, startdate, enddate);
+		if(result>0) {
+			int result2=mapinfoService.deleteMapDay(map_idx, day);
 		}
+		String msg=result>0?"성공":"실패";
+		mav.addObject("msg", msg);
+		mav.setViewName("map/mapMsg");
+		return mav;
+	}
+	
+	@RequestMapping("/delThisDayAllInfo.do")
+	public ModelAndView delThisDayAllInfo(
+			@RequestParam("map_idx") int map_idx,
+			@RequestParam("day_num") int day_num
+			) {
+		ModelAndView mav=new ModelAndView();
+		int result=mapinfoService.delThisDayAllInfo(map_idx, day_num);
+		mav.addObject("msg", result);
+		mav.setViewName("map/mapMsg");
 		return mav;
 	}
 	
@@ -389,5 +376,125 @@ public class MapController {
 			return result;
 		}
 	}
+	
+	/**#################        SHARE          #########################*/
+	
+	@ResponseBody
+	@RequestMapping("/planDelete.do")
+	public int planDelete(int map_idx) {
+		int result = gooppl_mapService.planDelete(map_idx);
+		
+		return result;
+	}
+	
+	
+	/** 게시판 목록 */
+	@RequestMapping("/share.do")
+	public ModelAndView shareList(
+			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+		int listSize=16;
+		int pageSize=10;
+		int totalCnt=gooppl_mapService.getShareCnt();
+		List<Gooppl_mapDTO> list = gooppl_mapService.mapList(cp,listSize);
+		String sharePageStr=goo.page.PageModule.makePage("share.do", totalCnt, listSize, pageSize, cp);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.addObject("sharePageStr",sharePageStr);
+		mav.setViewName("share/share_list");
+		return mav;
+	}
+	
+	
+	
+	@RequestMapping("/shareContent.do")
+	   public ModelAndView shareContent(
+	         @RequestParam("map_idx")int map_idx,
+	         @RequestParam("member_idx")int member_idx) {
+	      //int map_idx로 day_num ,route_num의 쵀댓 값을 구함
+	      int daynum = mapinfoService.getMaxDaynum(map_idx);
+	      int routenum[]=new int[daynum]; 
+	      
+	      List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
+	      for(int i=1;i<=daynum;i++) {
+	         routenum[i-1]=mapinfoService.getMaxRoutenum(map_idx, i);
+	      }
+	      List<Integer> contentids=new ArrayList<Integer>();;
+	      for(int i=0;i<drlist.size();i++) {
+	            contentids.add(drlist.get(i).getContentid());
+	      }
+	      List<Gooppl_PlaceDetailDTO> pdlist=gooppl_placedetailService.getThisDateDetail(contentids);
+	      List<AreaDTO> arealist = areaService.getAreaInfo(contentids);
+	      //List<AreaDTO> arealist = areaService.areaList();
+	      List<SigunguDTO> sigungulist = sigunguService.sigunguList();
+	      
+	      Gooppl_mapDTO gmdto = gooppl_mapService.getMapt(map_idx);
+	      MemberDTO mdto = memberService.memberInfo(member_idx); 
+
+	      ModelAndView mav=new ModelAndView();
+	      mav.addObject("drlist",drlist);
+	      mav.addObject("pdlist",pdlist);
+	      mav.addObject("arealist", arealist);
+	      mav.addObject("sigungulist", sigungulist);
+	      mav.addObject("gmdto", gmdto);
+	      mav.addObject("mdto", mdto);
+	      
+	      mav.setViewName("share/share_content");
+	      return mav;
+	   }
+
+		@RequestMapping("/getFirstImg.do")
+		@ResponseBody
+		public ModelAndView getFirstImg(
+				@RequestParam("map_idx")int map_idx) {
+			String firstImg = gooppl_placedetailService.getFirstImg(map_idx);
+			System.out.println("확인="+firstImg);
+			ModelAndView mav= new ModelAndView();
+			mav.addObject("firstImg",firstImg );
+			mav.setViewName("share/share_list");
+			return mav;
+		}
+	
+	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	@ResponseBody
+	@RequestMapping("/planShareCancel.do")
+	public int planShereCancel(int map_idx) {
+		int result = gooppl_mapService.planShareCancel(map_idx);
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+	
+
+
+	
+	
 	
 }

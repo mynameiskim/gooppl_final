@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import goo.ad.model.AdService;
 import goo.area.model.*;
 import goo.kakao.KakaoApi;
 import goo.naver.NaverLoginBO;
@@ -36,6 +37,8 @@ public class IndexController {
 	private StartAreaDAO startAreaDao;
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
+	private AdService adService;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -107,6 +110,24 @@ public class IndexController {
 			//카카오
 			mav.addObject("kakao_url", kakaoUrl);
 			mav.addObject("login_result",login_result );
+		}else if(login_result.equals("need")) {
+			/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+			String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+			/* 카카오 아이디로 인증 URL을 생성하기 위해 KakaoApi 클래스의 겟오토라이즈션Url 메서드 호출*/
+			String kakaoUrl = KakaoApi.getAuthorizationUrl(session);
+	
+	
+			// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+			// redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+			System.out.println("네이버:" + naverAuthUrl);
+			System.out.println("카카오:" + kakaoUrl);
+	
+			// 네이버
+			mav.addObject("naver_url", naverAuthUrl);
+
+			//카카오
+			mav.addObject("kakao_url", kakaoUrl);
+			mav.addObject("login_result",login_result );
 		}
 		
 		if(join_result.equals("ok")) {
@@ -137,7 +158,11 @@ public class IndexController {
 			mav.addObject("member_idx", session_idx);
 			List<AreaDTO> arealist = areaService.areaList();
 			List<SigunguDTO> sigungulist = sigunguService.sigunguList();
-			List<OwnerDTO> adlist = ownerService.allOwnerSelect();
+			List<Integer> ownerIdxList=adService.getOwnerIdx();
+			List<OwnerDTO> adlist=new ArrayList<OwnerDTO>();
+			if(ownerIdxList.size()>0) {
+				adlist = ownerService.allOwnerSelect(ownerIdxList);
+			}
 			mav.addObject("arealist", arealist);
 			mav.addObject("sigungulist", sigungulist);
 			mav.addObject("adlist", adlist);

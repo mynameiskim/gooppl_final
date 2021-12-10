@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +18,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
+    <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
     
 </head>
@@ -51,10 +52,10 @@
     }
     </style>
 <body>
-    <!-- Navigation-->
+   <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">GooPPl</a>
+            <a class="navbar-brand" href="index.do">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -63,57 +64,98 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
+                    <c:choose>
+						<c:when test="${!empty sessionNickname}">
+							<li class="nav-item dropdown dropend">
+								  <c:if test="${sessionScope.sessionMemberType=='M' }">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								    <label class="bg-primary text-center"
+								    	style="
+                                        width: 30px;
+                                        border-radius: 50%;
+                                        color: #fff;
+                                        font-weight: 600;
+                                        font-size: 1.2rem;">${profileNick}</label>
+								  </a>
+								  </c:if>
+								  <c:if test="${sessionScope.sessionMemberType=='O' }">
+									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+									    <label class="bg-secondary text-center"
+									    	style="
+	                                        width: 30px;
+	                                        border-radius: 50%;
+	                                        color: #fff;
+	                                        font-weight: 600;
+	                                        font-size: 1.2rem;">${profileNick}</label>
+									  </a>
+								  </c:if>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
                 </ul>
             </div>
         </div>
     </nav>
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
         <div class="container-sm mb-5">
 
-            
+           
                 <div class="row">
                     <!-- 페이지경로 -->
                     <div id="pagepath" class="col-md-4">
-                       <span><a href="">커뮤니티</a>&gt;&gt;<a href="">일정 공유 게시판</a>&gt;&gt;~의 일정or일정 제목</span> 
+                       <span><a href="community.do">커뮤니티</a>&gt;&gt;<a href="share.do">일정 공유 게시판</a>&gt;&gt;${mdto.nickname }의 일정</span> 
                     </div>
                     <!-- 제목-->
                     <div id="title" class="col-md-4">
-                        <label>~의 일정or일정 제목</label>
+                        <label>${gmdto.map_title }</label>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
                 <!-- 컨텐츠 영역-->
                 <div class="row"></div>
                 <div class="row" style="margin-top: 32px;">
-                    <div class="col-md-9 col-sm-9">
-                    <div class="row" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
-                        <!--여행 일차-->
-                        <div class="col-md-2 col-xs-3 fw-bold" style="background-color: #78C2AD; color: whitesmoke; border-top-left-radius: 10px; text-align: center; font-size: x-large;">
-                            Day1
-                        </div>
-                        <div class="col-md-10 col-xs-9" style=" border-bottom:#78C2AD solid 0.5px;">
-                            <div class="row">
+               
+                
+                    <!-- #### 일정 카드 영역 #### -->
+                    <div class="row ">
                                 <!--여행 날짜(yyyy-mm-dd-(요일))-->
-                                <div class="col-xs-9" style="font-size: xx-small; ">
-                                    2021-11-22-(화)
+                                <div class="col-xs-9 mb-3" style="font-size: medium; ">
+                                   <strong>여행 기간 : ${gmdto.startdate }~${gmdto.enddate }</strong>
                                 </div>
                             </div>
+                   <c:forEach var="dto" items="${drlist }"  varStatus="status">
+                    <div class="col-md-9 col-sm-9">
+                     <div class="row" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
+                        <!--여행 일차-->
+                        <div class="col-md-2 col-xs-3 fw-bold" style="background-color: #78C2AD; color: whitesmoke; border-top-left-radius: 10px; text-align: center; font-size: x-large;">
+                            Day${dto.day_num }
+                        </div>
+                        <div class="col-md-10 col-xs-9" style=" border-bottom:#78C2AD solid 0.5px;">
+                            
                             <div class="row">
                                 <!--여행도시-->
                                 <div class="col-xs-9 fw-bold">
-                                    서울
+                                   ${arealist[status.index].areaname } 
                                 </div>
                             </div>
                         </div>
                         <!--일정 순번 -->
                         <div class="col-md-2">
-                            <p style="text-align: center; font-size: xx-large; padding-top: 24px;">1</p>
+                            <p style="text-align: center; font-size: xx-large; padding-top: 24px;">${dto.route_num }</p>
                         </div>
                         <div class="col-md-10">
                             <div class="row">
@@ -122,25 +164,28 @@
                                     <div class="row" style="width: auto; " >
                                         <div class="row g-0" style="border-left: solid 0.5px rgb(230, 227, 227);">
                                           <div class="col-md-3 " >
-                                            <img src="https://ww.namu.la/s/957178fa99b1b9ecf53065b2aa8be8b3c82d4a801e3b1a340364a3babf1547477bdae6bae6045d338f63e0ae4ef8d03d0f38545ed5236774026e6dd1f22a5fbc6e95db146d8da9111bb86dc71ad3d7bae0b12cf1313ae4f4fb9e5c0563e34381" class="img-fluid " alt="..." style="padding: 8px;" >
+                                            <img src="${pdlist[status.index].firstimage }" class="img-fluid " alt="..." style="padding: 8px;" >
                                           </div>
                                           <div class="col-md-7" style="padding-left: 8px;" >
                                             
-                                              <h5 class="fw-bold" style="padding-top: 8px;">롯데월드 타워</h5>
-                                              <p class="text">태그 + 평가 +소감?</p>
-                                              <p class="text"><small class="text-muted">안적은사람도있음 예)공항/롯데월드타워 도착 오후9시</small></p>
+                                              <h5 class="fw-bold" style="padding-top: 8px;">${pdlist[status.index].title }</h5>
+                                              <p class="text">${pdlist[status.index].addr }</p>
+                                              <p class="text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 360px;">
+                                              <small class="text-muted">자세한내용은 "i"아이콘 클릭!</small></p>
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
-                                            <a href=""><img src="https://img.icons8.com/fluency/24/000000/information.png"/></a> 
+                                          <c:url var="contentUrl" value="goPlaceDetail.do">
+											<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
+											<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
+											<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
+											</c:url>
+                              			 	<h5 class="card-title mb-5"><a href="${contentUrl }">
+                              			 	<img src="https://img.icons8.com/fluency/24/000000/information.png"/></a></h5>
                                           </div>
                                           <div class="col-md-1 col-sm-12">&nbsp;</div>
                                         </div>
                                       </div>
-                                </div>
-                                <!-- 관광지 정보 + -->
-                                <div class="col-xs-3">
-
                                 </div>
                             </div>
                         </div>
@@ -151,8 +196,12 @@
                         </div>
                     </div>
                     </div>
+                   </c:forEach> 
+                               
+                    
                     <!-- 되면 들어갈 지도영역-->
                     <div class="col-md-3"></div>
+                    
                 </div>
                     <!-- 추가 컨텐츠영역-->
                 <div class="row"></div>

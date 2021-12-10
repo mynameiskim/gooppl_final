@@ -1,17 +1,125 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goo.ad">
 	<insert id="startAD" parameterType="goo.ad.model.AdDTO">
-	insert into
-		ad_info
+	INSERT INTO
+		AD_INFO
 	values(
 		ad_info_idx.nextval,
 		#{owner_idx},
 		#{imp_uid},
-		sysdate
+		#{ad_period},
+		sysdate,
+		SYSDATE + #{ad_period}*30,
+		#{ad_state}
 	)
 	</insert>
+	<update id="admin_refundAd_Del" parameterType="String">
+		UPDATE
+			AD_INFO
+		SET
+			AD_STATE = '광고내림'
+		WHERE
+			IMP_UID = #{imp_uid}
+	</update>
+	<select id="getAdInfo" parameterType="integer" resultType="goo.ad.model.AdDTO">
+		SELECT
+			*
+		FROM
+			ad_info
+		WHERE
+			OWNER_IDX = #{owner_idx}
+	</select>
+	<select id="getOwnerIdx" resultType="Integer">
+		SELECT 
+			owner_idx 
+		FROM 
+			AD_INFO 
+		WHERE 
+			ad_state='광고중'
+	</select>
 	
+	<select id="total_AdInfo" resultType="Integer">
+		SELECT
+  			count(*)
+  		FROM
+  			AD_INFO
+	</select>
+	<select id="total_ingAdInfo" resultType="Integer">
+		SELECT
+  			count(*)
+  		FROM
+  			AD_INFO
+  		WHERE
+  			ad_state='광고중'
+	</select>
+	<select id="total_endAdInfo" resultType="Integer">
+		SELECT
+  			count(*)
+  		FROM
+  			AD_INFO
+  		WHERE
+  			ad_state='광고내림'
+	</select>
+	
+	<select id="all_AdInfo" parameterType="Map" resultType="goo.ad.model.AdDTO">
+  		SELECT * FROM
+  			(SELECT rownum AS rnum, a.* FROM
+  			(SELECT * FROM AD_INFO ORDER BY AD_STARTDATE DESC)a)b
+  		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="all_ingAdInfo" parameterType="Map" resultType="goo.ad.model.AdDTO">
+  		SELECT * FROM
+  			(SELECT rownum AS rnum, a.* FROM
+  			(SELECT * FROM AD_INFO WHERE ad_state='광고중' ORDER BY AD_STARTDATE DESC)a)b
+  		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="all_endAdInfo" parameterType="Map" resultType="goo.ad.model.AdDTO">
+  		SELECT * FROM
+  			(SELECT rownum AS rnum, a.* FROM
+  			(SELECT * FROM AD_INFO WHERE ad_state='광고내림' ORDER BY AD_STARTDATE DESC)a)b
+  		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="ad_info" parameterType="Integer" resultType="goo.ad.model.AdDTO">
+  		SELECT
+  			*
+  		FROM
+  			ad_info
+  		WHERE
+  			ad_idx = #{ad_idx}
+  	</select>
+  	<update id="admin_adState_up" parameterType="Integer">
+  		UPDATE
+  			ad_info
+  		SET
+  			AD_STATE = '광고중'
+  		WHERE
+  			owner_idx = #{owner_idx}
+  	</update>
+  	<update id="admin_adState_down" parameterType="Integer">
+  		UPDATE
+			ad_info
+		SET
+			AD_STATE = '광고내림'
+		WHERE
+			owner_idx = #{owner_idx}
+  	</update>
+  	<select id="ckAd_info" parameterType="Integer" resultType="Integer">
+  		SELECT
+  			count(*)
+  		FROM
+  			AD_INFO
+  		WHERE
+  			OWNER_IDX = #{owner_idx}
+  	</select>
+  	<update id="pay_Update_ad_info" parameterType="Integer">
+  		UPDATE
+  			AD_INFO
+  		SET
+  			AD_STATE = '광고중'
+  		WHERE
+  			OWNER_IDX = #{owner_idx}
+  	</update>
 </mapper>

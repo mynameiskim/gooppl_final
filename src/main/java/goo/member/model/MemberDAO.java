@@ -22,4 +22,5 @@ public interface MemberDAO {
 	public MemberDTO memberInfo(int member_idx); //회원 정보
 	public int admin_ownerAppli_typeChange(int member_idx);
 	public int searchTotalMember(String search_type,String search,String start_date,String end_date);
+	public int admin_changeOwnerType(int member_idx);
 }

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -32,7 +32,7 @@ table{
 	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 80%;
     align: center;
-}
+
 </style>
 </head>
 <link href="resource/css/styles.css" rel="stylesheet" />
@@ -159,8 +159,7 @@ function setTable(){
 		}
 	}
 	
-	document.getElementById('placenum').innerHTML='검색결과 : '+contentids.length+'개';
-
+	document.getElementById('placenum').innerHTML='검색결과 :<strong> '+contentids.length+'개</strong>';
 	var cp=1;
 	tableSet(cp);
 	pagingModule(cp);
@@ -232,16 +231,30 @@ function tableSet(cp){
 		var tdNode=document.createElement('td');
 		var imgNode=document.createElement('img');
 	    imgNode.setAttribute('src', images[i]);
-	    imgNode.setAttribute('style', 'width: 200px; height: 200px;');
+	    imgNode.setAttribute('style', 'width: 200px; height: 200px; border-radius: 15px; cursor: pointer;');
 	    var pNode=document.createElement('p');
-	    var pTextNode=document.createTextNode(titles[i]);
+	    pNode.setAttribute('style','font-size:10px;');
+	    var temp=[]; 
+	    temp = titles[i].split("[");
+	    var title;
+	    if(temp.length==1){
+	    	title=titles[i];
+	    }else{
+	    	title=temp[0];
+	    }
+	    temp =  titles[i].split("(");
+	    if(temp.length==1){
+	    	title=title;
+	    }else{
+	    	title=temp[0];
+	    }
+	    var pTextNode=document.createTextNode(title);
 	    pNode.appendChild(pTextNode);
 	    var pNode2=document.createElement('span');
 	    var pTextNode2=document.createTextNode(addrs[i]);
 	    pNode2.appendChild(pTextNode2);
 	    tdNode.appendChild(imgNode);
 	    tdNode.appendChild(pNode);
-	    tdNode.appendChild(pNode2);
 	    trNode.appendChild(tdNode);
 	    if(titles[i].substr(0, 3)=='[AD'){
 	    	tdNode.setAttribute('onclick', 'getAdPlaceDetail('+contentids[i]+','+paramAreacodes[i]+','+paramSigungucodes[i]+')');
@@ -277,7 +290,7 @@ function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 	location.href='goPlaceDetail.do?contentid='+contentid+'&areacode='+paramAreacode+'&sigungucode='+paramSigungucode;
 }
 </script>
-<body onload="show()">
+<body id="page-top" onload="show()" style="background-color: white;">
 <div id="adInfo" style="display:none;">
 	<table id="adSite">
 		<c:if test="${empty adlist }">
@@ -291,7 +304,7 @@ function getPlaceDetail(contentid, paramAreacode, paramSigungucode){
 			<tr>
 				<td class="adlist">
 					<span class="ad_idx">${addto.owner_idx }</span>
-					<span class="adimg">${addto.firstimg }</span>
+					<span class="adimg" style="cursor: pointer;">${addto.firstimg }</span>
 					<span class="adaddr">${addto.addr }</span>
 					<span class="adtitle">${addto.title }</span>
 					<span class="adcontenttype">${addto.contenttype }</span>
@@ -328,43 +341,166 @@ if(datay_n!='undefined'){
 	}
 }
 </script>
-<section class="signup-section">
+ <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <c:choose>
+						<c:when test="${!empty sessionNickname}">
+						
+							<li class="nav-item dropdown dropend">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								   <c:if test="${sessionScope.sessionMemberType=='M'}">
+										<label class="bg-primary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+									</c:if>
+									<c:if test="${sessionScope.sessionMemberType=='O'}">
+										<label class="bg-secondary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+									</c:if>	
+								  </a>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" onclick="placeLogin()">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
+                </ul>
+            </div>
+        </div>
+    </nav>
+ <section class="signup-section bg-light" id="signup"
+        style="padding-top: 7rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
 	<div class="container-sm text-center">
-		<select name="contenttype" id="contenttype">
-			<option value="12">관광지</option>
-			<option value="14">문화시설</option>
-			<option value="32">숙박</option>
-			<option value="38">쇼핑</option>
-			<option value="39">음식점</option>
-		</select>
-		<select name="areacode" id="areacode" onchange="changeAreacode()">
-			<c:forEach var="areadto" items="${arealist }">
-				<option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
-			</c:forEach>
-		</select>
-		<select name="sigungucode" id="sigungucode">
-		    <option value="">==전체==</option>
-			<c:forEach var="sigungudto" items="${sigungulist }">
-				<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
-			</c:forEach>
-		</select>
-		<input type="button" id="searchBtn" onclick="show()" value="검색">
-		<table border="1">
-			<tr>
-				<td colspan="4" id="placenum">검색결과 : 0개</td>
-			</tr>
-		</table>
-		<table name="viewTable" id="viewTable" style="word-break:break-all;width:900px;align:center;text-align: center;">
-		</table>
-		<div id="pageModule" style="align:center;">
-			<div class="row justify-content-md-center">
-		         <div class="col-md-3 ">
-		             <ul class="pagination">
-		             </ul>
-		         </div>
+		<div class="row justify-content-md-center mb-3">
+			<div class="col-md-2">
+				<select name="contenttype" id="contenttype">
+					<option value="12">관광지</option>
+					<option value="14">문화시설</option>
+					<option value="32">숙박</option>
+					<option value="38">쇼핑</option>
+					<option value="39">음식점</option>
+				</select>
+			</div>
+			<div class="col-md-2">
+				<select name="areacode" id="areacode" onchange="changeAreacode()">
+					<c:forEach var="areadto" items="${arealist }">
+						<option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="col-md-2">
+				<select name="sigungucode" id="sigungucode">
+				    <option value="">==전체==</option>
+					<c:forEach var="sigungudto" items="${sigungulist }">
+						<option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="col-md-2">
+				<input type="button" class="btn btn-secondary" id="searchBtn" onclick="show()" value="검색" style="width:100%; height:100%;">
+			</div>
+		</div>
+		<div class="row justify-content-md-center mb-3">
+			<div class="col-md-8">
+				<div class="col-md-10">
+				
+				</div>
+				<div class="col-md-2">
+				<table>
+					<tr>
+						<td colspan="4" id="placenum"><strong>검색결과 : 0개</strong></td>
+					</tr>
+				</table>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-md-center mb-3 ">
+			<div class="col-md-8" style="margin:0px auto;">
+				<table name="viewTable" id="viewTable" style="word-break:break-all;width:100%;align:center;text-align: center;">
+				</table>
+			</div>
+			<div id="pageModule" style="align:center; margin-top:30px;">
+				<div class="row justify-content-md-center">
+			         <div class="col-md-6 ">
+			         	<div class="col-md-8" style="margin:0px auto;">
+			             <ul class="pagination justify-content-center">
+			             </ul>
+			            </div>
+			         </div>
+				</div>
 			</div>
 		</div>
 	</div>
 </section>
+	<!-- Contact-->
+	<section class="contact-section bg-light align-items-center">
+		<div class="container px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-md-center">
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center" style="padding: 2rem 1rem;">
+							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">Address</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">은평구 동서로 101-2</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center" style="padding: 2rem 1rem;">
+							<i class="fas fa-envelope text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">Email</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">
+								<a href="#">hello@yourdomain.com</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center" style="padding: 2rem 1rem;">
+							<i class="fas fa-mobile-alt text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">FAQ</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">
+								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script>
+		function placeLogin(){
+			location.href="index.do?login_result=need";
+		}
+	</script>
+	<!-- Footer-->
+	<%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<footer class="footer bg-light small text-center">
+		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
+	</footer>
+  <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/gooppl/resource/js/scripts.js"></script>
 </body>
 </html>

@@ -6,19 +6,29 @@ public class AdDTO {
 	private int ad_idx;
 	private int owner_idx;
 	private String imp_uid;
+	private int ad_period;
 	private Date ad_startDate;
 	private Date ad_endDate;
 	private String ad_state;
 	public AdDTO() {
 		super();
 	}
-	public AdDTO(int ad_idx, int owner_idx, String imp_uid, Date ad_startDate, Date ad_endDate, String ad_state) {
+	public AdDTO(int ad_idx, int owner_idx, String imp_uid, int ad_period, Date ad_startDate, Date ad_endDate, String ad_state) {
 		super();
 		this.ad_idx = ad_idx;
 		this.owner_idx = owner_idx;
 		this.imp_uid = imp_uid;
+		this.ad_period = ad_period;
 		this.ad_startDate = ad_startDate;
 		this.ad_endDate = ad_endDate;
+		this.ad_state = ad_state;
+	}
+	
+	public AdDTO(int owner_idx, String imp_uid, int ad_period, String ad_state) {
+		super();
+		this.owner_idx = owner_idx;
+		this.imp_uid = imp_uid;
+		this.ad_period = ad_period;
 		this.ad_state = ad_state;
 	}
 	public int getAd_idx() {
@@ -38,6 +48,12 @@ public class AdDTO {
 	}
 	public void setImp_uid(String imp_uid) {
 		this.imp_uid = imp_uid;
+	}
+	public int getAd_period() {
+		return ad_period;
+	}
+	public void setAd_period(int ad_period) {
+		this.ad_period = ad_period;
 	}
 	public Date getAd_startDate() {
 		return ad_startDate;

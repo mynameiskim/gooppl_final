@@ -20,6 +20,9 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="resource/css/styles.css" rel="stylesheet" />
     <link href="resource/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="resource/js/httpRequest.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>
     <script>
     	function changeInquiryType(){
     		var divNode = document.getElementById('changeType');
@@ -29,9 +32,6 @@
     		
     		var contentNode1 = labelNode.nextSibling;
     		var contentNode2 = labelNode.nextSibling.nextSibling;
-    		//console.log('태그1 이름'+contentNode1.nodeName);
-    		//console.log('태그2 이름'+contentNode2.nodeName);
-    		//console.log('라벨노드'+labelNode.nodeName);
     		
     		
     		var inquiry_typeValue = document.getElementById('inquiry_type').value;
@@ -128,7 +128,15 @@
     		}
     	}
     </script>
+<script>
+function adInquiry(){
+	
+}
+</script>
 </head>
+<script>
+	
+</script>
 
 <body id="page-top">
    <!-- Navigation-->
@@ -165,7 +173,6 @@
                     <div class="col-md-4">
                         <select class="form-select" id="inquiry_type" name="inquiry_type" onchange="changeInquiryType()" required>
                             <option value="광고신청" selected>광고 신청</option>
-                            <option value="광고수정">광고 수정</option>
                             <option value="광고취소">광고 취소</option>
                         </select>
                     </div>

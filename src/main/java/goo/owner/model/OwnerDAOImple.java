@@ -1,5 +1,6 @@
 package goo.owner.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,16 @@ public class OwnerDAOImple implements OwnerDAO {
 		return dto;
 	}
 	
-	public List<OwnerDTO> allOwnerSelect() {
-		List<OwnerDTO> list =sqlMap.selectList("allOwnerSelect");
+	public List<OwnerDTO> allOwnerSelect(List<Integer> ownerIdxList) {
+		List<OwnerDTO> list=new ArrayList<OwnerDTO>();
+		for(int i=0;i<ownerIdxList.size();i++) {
+			int owner_idx=ownerIdxList.get(i);
+			OwnerDTO dto = sqlMap.selectOne("selectOwnerDetail", owner_idx);
+			list.add(dto);
+		}
 		return list;
 	}
+	
 	public OwnerDTO getOwnerDetail(int owner_idx) {
 		OwnerDTO dto = sqlMap.selectOne("selectOwnerDetail", owner_idx);
 		return dto;
@@ -77,4 +84,25 @@ public class OwnerDAOImple implements OwnerDAO {
 		int result = sqlMap.update("admin_ownerUpdate", dto);
 		return result;
 	}
+	
+	public int ckBusinessNum(String business_number) {
+		int result = sqlMap.selectOne("ckBusinessNum",business_number);
+		return result;
+	}
+	
+	public int admin_owner_del(int owner_idx) {
+		int result = sqlMap.delete("admin_owner_del", owner_idx);
+		return result;
+	}
+	
+	public int update_ownerInfo_withFile(OwnerDTO dto) {
+		int result = sqlMap.update("update_ownerInfo_withFile", dto);
+		return result;
+	}
+	
+	public int update_ownerInfo_withoutFile(OwnerDTO dto) {
+		int result = sqlMap.update("update_ownerInfo_withoutFile", dto);
+		return result;
+	}
+	
 }

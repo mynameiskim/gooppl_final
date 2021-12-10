@@ -11,7 +11,7 @@
                 margin-bottom: 20px;">
             <div class="row">
                 <div class="col-md-12 mb-1">
-                    <h5>광고주 신청 정보</h5>
+                    <h5>광고 신청 정보</h5>
                 </div>
             </div>
                 <div class="row">
@@ -64,8 +64,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3" class="text-center">
-                                        <input class="bt btn-primary" type="button" onclick="appliD_Ok(${idto.owner_idx})" value="승인">
-                                        <input class="bt btn-secondary" type="button" onclick="appliD_Delete(${idto.owner_idx})" value="거절">
+                                        <input class="bt btn-primary" type="button" onclick="admin_adInquiryD_Ok(${idto.inquiry_idx})" value="승인">
+                                        <input class="bt btn-secondary" type="button" onclick="admin_adInquiryD_del(${idto.inquiry_idx})" value="거절">
                                     </td>
                                 </tr>
                             </table>

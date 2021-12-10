@@ -101,4 +101,9 @@ public class MemberServiceImple implements MemberService {
 		int result = memberDao.admin_ownerAppli_typeChange(member_idx);
 		return result;
 	}
+	
+	public int admin_changeOwnerType(int member_idx) {
+		int result = memberDao.admin_changeOwnerType(member_idx);
+		return result;
+	}
 }

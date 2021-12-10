@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -54,5 +54,36 @@
   			del_ok=#{del_ok}
   		where
   			map_idx=#{map_idx}
+  	</update>
+  	<update id="updateMapDate" parameterType="goo.map_t.model.Gooppl_mapDTO">
+  		update
+  			mapt
+  		set 
+  			startdate=#{startdate},
+  			enddate=#{enddate}
+  		where
+  			map_idx=#{map_idx}
+  	</update>
+  	<!-- share LIST -->
+  	<select id="sharetotalCnt" resultType="Integer">
+  		select count(*) from mapt
+  	</select>
+  	<select id="shareMapAllList" parameterType="Map" resultType="goo.map_t.model.Gooppl_mapDTO">
+		select * from
+		(select rownum as rnum,a.* from
+		(select * from mapt order by map_idx desc)a)b
+		where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end} order by registdate desc
+	</select>
+  	<select id="getMap" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
+  		select * from mapt where member_idx =#{member_idx} and del_ok = 'n'
+  	</select>
+  	<delete id="planDelete" parameterType="Integer">
+  		update mapt set del_ok = 'y' where map_idx = #{map_idx}
+  	</delete>
+  	<update id="planShare" parameterType="Integer">
+  		update mapt set share_ok = 'y' where map_idx= #{map_idx}
+  	</update>
+  	<update id="planShareCancel" parameterType="Integer">
+  		update mapt set share_ok = 'n' where map_idx= #{map_idx}
   	</update>
   </mapper>

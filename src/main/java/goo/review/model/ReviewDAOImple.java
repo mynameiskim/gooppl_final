@@ -1,4 +1,4 @@
-package goo.review.model;
+﻿package goo.review.model;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,13 @@ public class ReviewDAOImple implements ReviewDAO {
 	}
 
 	public int writeReview(ReviewDTO dto) {
-		int result=sqlMap.insert("reviewInsert", dto);
+		int result =0;
+		if(dto.getContent()==null||dto.getPrologue()==null
+				||dto.getSubject()==null||dto.getEpilogue()==null) {
+			result=-1;
+		}else {
+			result=sqlMap.insert("reviewInsert", dto);
+		}
 		return result;
 	}
 
@@ -40,4 +46,16 @@ public class ReviewDAOImple implements ReviewDAO {
 		return count;
 	}
 
+	public int updateReview(ReviewDTO dto) {
+		int count=sqlMap.update("reviewUpdate", dto);
+		return count;
+	}
+	public int getMaxReview() {
+		int count = sqlMap.selectOne("getMaxReview");
+		return count;
+	}
+	public List<ReviewDTO> getReview(int member_idx) {
+		List<ReviewDTO> reviewDTO = sqlMap.selectList("getReview",member_idx);
+		return reviewDTO;
+	}
 }

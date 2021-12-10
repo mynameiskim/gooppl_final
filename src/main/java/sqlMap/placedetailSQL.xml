@@ -61,4 +61,27 @@
   				   												mapinfo 
   				   											WHERE map_idx=#{map_idx} AND day_num=#{day_num}))
   	</select>
+  	<select id="getFirstImg" parameterType="Integer" resultType="String">
+  	SELECT 
+  		FIRSTIMAGE 
+  	FROM 
+  		placedetail 
+  	WHERE 
+  		contentid=(SELECT 
+  					contentid 
+  				   FROM 
+  				   	mapinfo 
+  				   WHERE 
+  				   	map_idx=#{map_idx} AND day_num= 1 AND route_num= 1)
+  	
+  	</select>
+  	<select id="getPlaceInfo" parameterType="goo.mapinfo.model.MapInfoDTO" resultType="goo.placedetail.model.Gooppl_PlaceDetailDTO">
+  		select 
+  			* 
+  		from 
+  			placedetail
+		where 
+			contentid=(select contentid from
+		(select * from mapinfo where map_idx=#{map_idx} and day_num =#{day_num} and route_num=#{route_num}))
+  	</select>
   </mapper>

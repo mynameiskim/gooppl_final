@@ -11,12 +11,17 @@
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet"/>
    	<link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
+    <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
 <style>
 select{
@@ -49,24 +54,15 @@ input[type="text"]{
 	border-radius: 5px;
 }
 input[type="date"]{
-	background-color: #64a19d;
+	background-color: #78c2ad;
 	outline: none;
 	border: none;
-	font-family: "Roboto Mono",monospace;
 	color: white;
 	border-radius: 5px;
-	font-size: 11px;
+	font-size:14px;
+	width:130px;
 }
 input[type="button"]{
-	border: 0;
-	background-color: #f3969a;
-	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 80%;
-    border-radius: 5px;
-	color: white;
-    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
-}
-#del_Bt{
 	border: 0;
 	background-color: #f3969a;
 	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -106,6 +102,7 @@ table{
       crossorigin="anonymous"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
+
 var member_idx=${member_idx}
 var areacodes=[];
 var sigungucodes=[];
@@ -114,6 +111,7 @@ var setSigungucode;
 var setContenttype;
 var map_idx;
 var moveDay;
+var isClick=false;
 
 var adContents=[];
 <c:if test="${empty adlist }">
@@ -157,6 +155,7 @@ $(function () {
 /**추가한 여행지 전체삭제*/
 $(function () {
     $('#del_Bt').click( function() {
+    	
         $('#savedList').empty();
         
         hideLines();
@@ -169,9 +168,11 @@ $(function () {
         images.splice(0, images.length);
         addrs.splice(0, addrs.length);
         contentids.splice(0, contentids.length);
+        contenttypeids.splice(0, contentids.length);
         count2 = 0;
     });
 });
+
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
 $(function() {
@@ -180,6 +181,9 @@ $(function() {
         $('#savedList').empty();
         hideLines();
         hideMarkers();
+        
+        var trid = contentids[click_id];
+        $('#'+trid).show();
         
         latly.splice(click_id, 1);
         drawLines.splice(click_id-1, 1);
@@ -190,13 +194,42 @@ $(function() {
         images.splice(click_id, 1);
         addrs.splice(click_id, 1);    
         contentids.splice(click_id, 1);
-        listItems.splice(click_id, 1);        
+        contenttypeids.splice(click_id, 1);
+        listItems.splice(click_id, 1);     
         
     	for(var i=0; i<mapys.length; i++){
     		
-    	   	var marker = new kakao.maps.Marker({
-    	        position: new kakao.maps.LatLng(mapys[i], mapxs[i])
-    	    });
+    	    var imageSrc;
+    	    var imageSrc2;
+    	    
+    	    if(contenttypeids[i]==12){ //관광지
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
+    	    }else if(contenttypeids[i]==39){ //음식점
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
+    	    }else if(contenttypeids[i]==32){ //숙박
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
+    	    }else if(contenttypeids[i]==38){ //쇼핑
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
+    	    }
+    	    
+    	    // 결과값으로 받은 위치를 마커로 표시합니다
+    		var imageSize = new kakao.maps.Size(26, 36), // 마커이미지의 크기입니다
+    		    imageOption = {offset: new kakao.maps.Point(12, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    		
+    		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+    			markerImage2 = new kakao.maps.MarkerImage(imageSrc2, imageSize, imageOption),
+    		    markerPosition = new kakao.maps.LatLng(mapys[i], mapxs[i]); // 마커가 표시될 위치입니다
+    		
+    		// 마커를 생성합니다
+    		var marker = new kakao.maps.Marker({
+    		  position: markerPosition,
+    		  image: markerImage // 마커이미지 설정 
+    		});
     	    
     	    var xy = {
     	   		position: new kakao.maps.LatLng(mapys[i], mapxs[i])
@@ -204,9 +237,20 @@ $(function() {
     	    
     	    latly[i]= xy.position;
 
-    	    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    	 // 인포윈도우로 장소에 대한 설명을 표시합니다
     	    var infowindow = new kakao.maps.InfoWindow({
-    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+			    			'<tr style="margin-top:0px;">'+
+			    				'<td><img src="'+images[i]+'" style="width:155px;height:100px;"></td>'+
+			    			'</tr>'+
+			    			'<tr style="height:80px;">'+
+			    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+			    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+titles[i]+'</p>'+
+			    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addrs[i]+'<br>'+
+			    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentids[i]+')">'+
+			    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+			    			'</tr>'+
+						'</table>'
     	    });
     	    
     	    // 이동할 위도 경도 위치를 생성합니다 
@@ -218,13 +262,23 @@ $(function() {
     	    
     	    markers[i] = marker;
     	    
+    	    isClick = false;
+    	    
     	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
     	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     	    
     	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
-    	   	 closeOverlay();
-    	        overlay.setMap(map);
+    	   	 //closeOverlay();
+    	        //overlay.setMap(map)
+    	    	if(!isClick){
+    	        	isClick=true;
+    	        };
+    	    });
+    	    
+    	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+    	        isClick=false;
+    	        infowindow.close();
     	    });
     	    
     	    var linePath;
@@ -240,19 +294,32 @@ $(function() {
                 
             }
             
-    		var drawLine = new daum.maps.Polyline({
-    		    path : linePath,
-    		    strokeWeight : 3, // 선의 두께입니다 
-    		    strokeColor : '#db4040', // 선의 색깔입니다
-    		    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-    		    strokeStyle : 'solid' // 선의 스타일입니다
-    		});
+            var strokeColors;
+            
+            if(contenttypeids[i]==12){
+            	strokeColors = '#db4040'; // 선의 색깔입니다
+            }else if(contenttypeids[i]==39){
+            	strokeColors = '#f39a24'; // 선의 색깔입니다
+            }else if(contenttypeids[i]==32){
+            	strokeColors = '#1ee09c'; // 선의 색깔입니다
+            }else if(contenttypeids[i]==38){
+            	strokeColors = '#a024f3'; // 선의 색깔입니다
+            }
+        	var drawLine = new daum.maps.Polyline({
+        	    path : linePath,
+        	    strokeWeight : 6, // 선의 두께입니다
+        	    strokeColor: strokeColors,
+        	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+        	    strokeStyle : 'dashed' // 선의 스타일입니다
+        	});
+
 
             drawLines[i] = drawLine;
             drawLine.setMap(map);
             
-    	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+         // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
     	    function makeOverListener(map, marker, infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.open(map, marker);
     	        };
@@ -260,6 +327,7 @@ $(function() {
     		
     	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     	    function makeOutListener(infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.close();
     	        };
@@ -267,27 +335,6 @@ $(function() {
 
     	    // 마커를 지도에 표시합니다.
     		marker.setMap(map);
-    	       
-    	    
-    	    /*
-     		var savedList = document.getElementById('savedList');
-    		var listitem = savedList.innerHTML;
-
-    	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
-    		    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+i+'</span>';
-    		    listitem+= '<div class="draggable" draggable="true">';
-    			    listitem+= '<p class="placeinfo" style="display:inline;">';
-    				    listitem+= '<img src="'+images[i]+'" style="width: 80px; height: 80px;">';
-    				    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+titles[i]+'</span>';
-    			    listitem+= '</p>';
-    			    listitem+= '<input type="button" id="'+i+'" class="del_Bt2" value="-">';
-    			    listitem+= '<input type="hidden" name="cotentid" value="'+contentids[i]+'" class="contentid">';
-    		    listitem+= '</div>';
-    	    listitem+= '</li>';
-    	    
-    		savedList.innerHTML=listitem;
-
-    	    */
     	    
     		var savedList = document.getElementById('savedList');
     	    
@@ -348,23 +395,39 @@ function newlist(){
         hideLines();
         hideMarkers();  
         
-        /**
-        latly.splice(0, latly.length);
-        drawLines.splice(0, drawLines.length);
-		markers.splice(0, markers.length);
-        mapys.splice(0, mapys.length);
-        mapxs.splice(0, mapxs.length);
-        titles.splice(0, titles.length);
-        images.splice(0, images.length);
-        addrs.splice(0, addrs.length);
-        contentids.splice(0, contentids.length);
-        */
-        
     	for(var i=0; i<mapys.length; i++){
     		
-    	   	var marker = new kakao.maps.Marker({
-    	        position: new kakao.maps.LatLng(mapys[i], mapxs[i])
-    	    });
+    	    var imageSrc;
+    	    var imageSrc2;
+    	    
+    	    if(contenttypeids[i]==12){ //관광지
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
+    	    }else if(contenttypeids[i]==39){ //음식점
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
+    	    }else if(contenttypeids[i]==32){ //숙박
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
+    	    }else if(contenttypeids[i]==38){ //쇼핑
+    	    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
+    	    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
+    	    }
+    	    
+    	    // 결과값으로 받은 위치를 마커로 표시합니다
+    		var imageSize = new kakao.maps.Size(26, 36), // 마커이미지의 크기입니다
+    		    imageOption = {offset: new kakao.maps.Point(12, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    		
+    		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+    			markerImage2 = new kakao.maps.MarkerImage(imageSrc2, imageSize, imageOption),
+    		    markerPosition = new kakao.maps.LatLng(mapys[i], mapxs[i]); // 마커가 표시될 위치입니다
+    		
+    		// 마커를 생성합니다
+    		var marker = new kakao.maps.Marker({
+    		  position: markerPosition,
+    		  image: markerImage // 마커이미지 설정 
+    		});
     	    
     	    var xy = {
     	   		position: new kakao.maps.LatLng(mapys[i], mapxs[i])
@@ -372,9 +435,20 @@ function newlist(){
     	    
     	    latly[i]= xy.position;
 
-    	    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    	 // 인포윈도우로 장소에 대한 설명을 표시합니다
     	    var infowindow = new kakao.maps.InfoWindow({
-    	        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+titles[i]+'</th></tr>'+'<tr><td><img src="'+images[i]+'" style="width: 100px; height: 100px;"></td><td>'+addrs[i]+'</td></tr></table>'
+    	        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+			    			'<tr style="margin-top:0px;">'+
+			    				'<td><img src="'+images[i]+'" style="width:155px;height:100px;"></td>'+
+			    			'</tr>'+
+			    			'<tr style="height:80px;">'+
+			    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+			    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+titles[i]+'</p>'+
+			    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addrs[i]+'<br>'+
+			    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentids[i]+')">'+
+			    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+			    			'</tr>'+
+						'</table>'
     	    });
     	    
     	    // 이동할 위도 경도 위치를 생성합니다 
@@ -384,15 +458,25 @@ function newlist(){
     	    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
     	    map.panTo(moveLatLon);
     	    
+    	    isClick=false;
+    	    
     	    markers[i] = marker;
     	    
     	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
     	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     	    
-    	    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    	 // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     	    kakao.maps.event.addListener(marker, 'click', function() {
-    	   	 closeOverlay();
-    	        overlay.setMap(map);
+    	   	 //closeOverlay();
+    	        //overlay.setMap(map);
+    	    	if(!isClick){
+    	        	isClick=true;
+    	        }
+    	    });
+    	 
+    	    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+    	        isClick=false;
+    	        infowindow.close();
     	    });
     	    
     	    var linePath;
@@ -408,19 +492,33 @@ function newlist(){
                 
             }
             
-    		var drawLine = new daum.maps.Polyline({
-    		    path : linePath,
-    		    strokeWeight : 3, // 선의 두께입니다 
-    		    strokeColor : '#db4040', // 선의 색깔입니다
-    		    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-    		    strokeStyle : 'solid' // 선의 스타일입니다
-    		});
+            var strokeColors;
+            
+            if(contenttypeids[i]==12){
+            	strokeColors = '#db4040'; // 선의 색깔입니다
+            }else if(contenttypeids[i]==39){
+            	strokeColors = '#f39a24'; // 선의 색깔입니다
+            }else if(contenttypeids[i]==32){
+            	strokeColors = '#1ee09c'; // 선의 색깔입니다
+            }else if(contenttypeids[i]==38){
+            	strokeColors = '#a024f3'; // 선의 색깔입니다
+            }
+            
+        	var drawLine = new daum.maps.Polyline({
+        	    path : linePath,
+        	    strokeWeight : 6, // 선의 두께입니다
+        	    strokeColor: strokeColors,
+        	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+        	    strokeStyle : 'dashed' // 선의 스타일입니다
+        	});
+
 
             drawLines[i] = drawLine;
             drawLine.setMap(map);
             
-    	    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+         // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
     	    function makeOverListener(map, marker, infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.open(map, marker);
     	        };
@@ -428,6 +526,7 @@ function newlist(){
     		
     	    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     	    function makeOutListener(infowindow) {
+    	    	if(isClick){return;}
     	        return function() {
     	            infowindow.close();
     	        };
@@ -435,27 +534,6 @@ function newlist(){
 
     	    // 마커를 지도에 표시합니다.
     		marker.setMap(map);
-    	       
-    	    
-    	    /*
-    		var savedList = document.getElementById('savedList');
-    		var listitem = savedList.innerHTML;
-
-    	    listitem+= '<li class="listName" id="li"'+i+'" data-index="'+i+'">';
-    		    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+i+'</span>';
-    		    listitem+= '<div class="draggable" draggable="true">';
-    			    listitem+= '<p class="placeinfo" style="display:inline;">';
-    				    listitem+= '<img src="'+images[i]+'" style="width: 80px; height: 80px;">';
-    				    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+titles[i]+'</span>';
-    			    listitem+= '</p>';
-    			    listitem+= '<input type="button" id="'+i+'" class="del_Bt2" value="-">';
-    			    listitem+= '<input type="hidden" name="cotentid" value="'+contentids[i]+'" class="contentid">';
-    		    listitem+= '</div>';
-    	    listitem+= '</li>';
-    	    
-    		savedList.innerHTML=listitem;
-
-    	    */
     	    
     		var savedList = document.getElementById('savedList');
     	    
@@ -537,26 +615,38 @@ function changeAreacode(){
 	map.panTo(moveLatLon);
 }
 
+/**중복 선택 막는 쿼리*/
+$(function() {
+	$(document).on("click",".add_Bt",function(){
+        var click_id = $(this).attr('id');
+		for(var i=0; i<contentids.length; i++){
+			if(contentids[i]==click_id){
+				$('#'+click_id).hide();
+			}
+		}
+     });
+});
+
 /**데이터 검색 테이블 생성*/
 function show(){
-	var areacodeSelector=document.getElementById('areacode');
-	var sigungucodeSelector=document.getElementById('sigungucode');
-	var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
-	var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
-	var contenttype=document.getElementById('cate').value;
-	sigungucode=sigungucode==0?'':sigungucode;
-	setAreacode=areacode;
-	setSigungucode=sigungucode;
-	setContenttype=contenttype;
-	if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
-		var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
-		sendRequest(url, param, showResult, 'GET');   
-	}else{
-		var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
-		var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
-		sendRequest(url, param, showResult, 'GET');   
-	}
+   var areacodeSelector=document.getElementById('areacode');
+   var sigungucodeSelector=document.getElementById('sigungucode');
+   var areacode=areacodeSelector.options[areacodeSelector.selectedIndex].value;
+   var sigungucode=sigungucodeSelector.options[sigungucodeSelector.selectedIndex].value;
+   var contenttype=document.getElementById('cate').value;
+   sigungucode=sigungucode==0?'':sigungucode;
+   setAreacode=areacode;
+   setSigungucode=sigungucode;
+   setContenttype=contenttype;
+   if(areacode!=''&&(document.getElementById('areaC').value==''||document.getElementById('areaC').value==null)){
+      var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList'; /*URL*/
+      var param = 'ServiceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&contentTypeId='+document.getElementById('cate').value+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=O&numOfRows=100&pageNo=1';
+      sendRequest(url, param, showResult, 'GET');   
+   }else{
+      var url='http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword'; /*URL*/
+      var param = 'serviceKey=fX3lnf27RmPng52xVKCEdpQCWJLVPWN%2Fz4fBH0k1vtwxf%2BhoF9j%2Fvu5ZuJ%2FgYC5FK2AETjgxz0eeSMWThJbCYw%3D%3D&MobileApp=AppTest&MobileOS=ETC&pageNo=1&numOfRows=1000&listYN=Y&arrange=O&contentTypeId='+contenttype+'&areaCode='+areacode+'&sigunguCode='+sigungucode+'&keyword='+document.getElementById('areaC').value;
+      sendRequest(url, param, showResult, 'GET');   
+   }
 }
 function showResult(){
    if(XHR.readyState==4){
@@ -567,117 +657,119 @@ function showResult(){
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
          if(adContents.length!=0){
-      		for(var i=0;i<adContents.length;i++){
-      			if(setSigungucode==''){
-      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
-      					var title=adContents[i].title;
-      					var contentid=adContents[i].contentid;
-      					var addr=adContents[i].addr;
-      					var image=adContents[i].image;
-      					var mapx=adContents[i].mapx;
-      					var mapy=adContents[i].mapy;
-      					
-      					var trNode = document.createElement('tr');
-      		             var tdNode2 = document.createElement('td');
-      		             var tdTextNode2 = document.createTextNode(title);
-      		             var tdNode3 = document.createElement('td');
-      		             var tdTextNode3 = document.createTextNode(addr);
-      		             var tdNode4 = document.createElement('td');
-      		            
-      		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);
-      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
-      		          
-      		             var tdNode5 = document.createElement('td');
-      		             var addBt = document.createElement('input');
-      		             addBt.setAttribute('type','button');
-      		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
-      		             table.appendChild(trNode);
-      		             trNode.appendChild(tdNode2);
-      		             trNode.appendChild(tdNode3);
-      		             trNode.appendChild(tdNode4);
-      		             trNode.appendChild(tdNode5);
-      		             tdNode2.appendChild(tdTextNode2);
-      		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(imgNode);
-      		             tdNode5.appendChild(addBt);
-      		             console.log(trNode);
-      				}
-      			}else{
-      				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
-      					var title=adContents[i].title;
-      					var contentid=adContents[i].contentid;
-      					var addr=adContents[i].addr;
-      					var image=adContents[i].image;
-      					var mapx=adContents[i].mapx;
-      					var mapy=adContents[i].mapy;
-      					
-      					var trNode = document.createElement('tr');
-      		             var tdNode2 = document.createElement('td');
-      		             var tdTextNode2 = document.createTextNode(title);
-      		             var tdNode3 = document.createElement('td');
-      		             var tdTextNode3 = document.createTextNode(addr);
-      		             var tdNode4 = document.createElement('td');
-      		            
-      		             var imgNode = document.createElement('img');
-      		             imgNode.setAttribute('src', image);
-      		             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px;');
-      		          
-      		             var tdNode5 = document.createElement('td');
-      		             var addBt = document.createElement('input');
-      		             addBt.setAttribute('type','button');
-      		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
-      		             
-      		             table.appendChild(trNode);
-      		             trNode.appendChild(tdNode2);
-      		             trNode.appendChild(tdNode3);
-      		             trNode.appendChild(tdNode4);
-      		             trNode.appendChild(tdNode5);
-      		             tdNode2.appendChild(tdTextNode2);
-      		             tdNode3.appendChild(tdTextNode3);
-      		             tdNode4.appendChild(imgNode);
-      		             tdNode5.appendChild(addBt);
-      		             
-      		             
-      				}
-      			}
-      		}
-      	}
+            for(var i=0;i<adContents.length;i++){
+               if(setSigungucode==''){
+                  if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
+                     var title=adContents[i].title;
+                     var contentid=adContents[i].contentid;
+                     var addr=adContents[i].addr;
+                     var image=adContents[i].image;
+                     var mapx=adContents[i].mapx;
+                     var mapy=adContents[i].mapy;
+                     var contenttype=adContents[i].contenttype;
+                     
+                         var trNode = document.createElement('tr');
+                         var tdNode2 = document.createElement('td');
+                         tdNode2.setAttribute('style', 'height: 100px;');
+                         var imgNode = document.createElement('img');
+                         imgNode.setAttribute('src', image);   
+                         imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+                         
+                         var tdNode3 = document.createElement('td');
+                         tdNode3.setAttribute('style', 'width: 90px;');
+                         var tdTextNode3 = document.createTextNode(title);
+
+                      
+                         var tdNode4 = document.createElement('td');
+                         var addBt = document.createElement('input');
+                         addBt.setAttribute('type','button');
+                         addBt.setAttribute('value','+');
+                         addBt.className = 'add_Bt';
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         table.appendChild(trNode);
+                         trNode.appendChild(tdNode2);
+                         trNode.appendChild(tdNode3);
+                         trNode.appendChild(tdNode4);
+
+                         tdNode2.appendChild(imgNode);
+                         tdNode3.appendChild(tdTextNode3);
+                         tdNode4.appendChild(addBt);
+                  }
+               }else{
+                  if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
+                     var title=adContents[i].title;
+                     var contentid=adContents[i].contentid;
+                     var addr=adContents[i].addr;
+                     var image=adContents[i].image;
+                     var mapx=adContents[i].mapx;
+                     var mapy=adContents[i].mapy;
+                     var contenttype=adContents[i].contenttype;
+                     
+                         var trNode = document.createElement('tr');
+                         var tdNode2 = document.createElement('td');
+                         tdNode2.setAttribute('style', 'height: 100px;');
+                         var imgNode = document.createElement('img');
+                         imgNode.setAttribute('src', image);   
+                         imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+                         
+                         var tdNode3 = document.createElement('td');
+                         tdNode3.setAttribute('style', 'width: 90px;');
+                         var tdTextNode3 = document.createTextNode(title);
+
+                      
+                         var tdNode4 = document.createElement('td');
+                         var addBt = document.createElement('input');
+                         addBt.setAttribute('type','button');
+                         addBt.setAttribute('value','+');
+                         addBt.className = 'add_Bt';
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         
+                         table.appendChild(trNode);
+                         trNode.appendChild(tdNode2);
+                         trNode.appendChild(tdNode3);
+                         trNode.appendChild(tdNode4);
+
+                         tdNode2.appendChild(imgNode);
+                         tdNode3.appendChild(tdTextNode3);
+                         tdNode4.appendChild(addBt);
+                  }
+               }
+            }
+         }
+
          for(var i=0;i<items.length;i++){
              var item = items[i];
              var count=i+1;
              var title;
              var addr;
- 			var mapx;
- 			var mapy;
- 			var contentid = item.getElementsByTagName('contentid').item(0).firstChild.nodeValue;
+          var mapx;
+          var mapy;
+          var contentid = item.getElementsByTagName('contentid').item(0).firstChild.nodeValue;
              var image;
              
              if(item.getElementsByTagName('title').length==0){
- 	       		 title='0';
- 	       	 }else{
- 	       		 title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
- 	       		 title=title_s.split('(');
- 	       		 title=title[0];
- 	       	 }
- 	       	 
- 	       	 if(item.getElementsByTagName('addr1').length==0){
- 	       		 addr='0';
- 	       	 }else{
- 	       		 addr=item.getElementsByTagName('addr1').item(0).firstChild.nodeValue;
- 	       	 }
- 	       	if(item.getElementsByTagName('mapx').length==0){
- 	       		 mapx=0;
- 	       	 }else{
- 	       		 mapx=item.getElementsByTagName('mapx').item(0).firstChild.nodeValue;
- 	       	 }
- 	       	 if(item.getElementsByTagName('mapy').length==0){
- 	       		 mapy=0;
- 	       	 }else{
- 	       		 mapy=item.getElementsByTagName('mapy').item(0).firstChild.nodeValue;
- 	       	 }
+                  title='0';
+               }else{
+                  title_s=item.getElementsByTagName('title').item(0).firstChild.nodeValue;
+                  title=title_s.split('(');
+                  title=title[0];
+               }
+               
+               if(item.getElementsByTagName('addr1').length==0){
+                  addr='0';
+               }else{
+                  addr=item.getElementsByTagName('addr1').item(0).firstChild.nodeValue;
+               }
+              if(item.getElementsByTagName('mapx').length==0){
+                  mapx=0;
+               }else{
+                  mapx=item.getElementsByTagName('mapx').item(0).firstChild.nodeValue;
+               }
+               if(item.getElementsByTagName('mapy').length==0){
+                  mapy=0;
+               }else{
+                  mapy=item.getElementsByTagName('mapy').item(0).firstChild.nodeValue;
+               }
              
              if(item.getElementsByTagName('firstimage').length==0){
                 image='resource/img/noimage.png';
@@ -685,41 +777,58 @@ function showResult(){
                 image=item.getElementsByTagName('firstimage').item(0).firstChild.nodeValue;
              }
   
+             if(item.getElementsByTagName('contenttypeid').length==0){
+                contenttypeid=0;
+              }else{
+                contenttypeid=item.getElementsByTagName('contenttypeid').item(0).firstChild.nodeValue;
+              }
+               
              var trNode = document.createElement('tr');
+             trNode.id = contentid;
              if(mapx==0||mapy==0){
-             	trNode.setAttribute('style', 'display:none;');
+                trNode.setAttribute('style', 'display:none;');
              }
+             
+             for(var j=0; j<contentids.length; j++){
+                if(contentid==contentids[j]){
+                   trNode.setAttribute('style', 'display:none;');
+                }
+             }
+
              var tdNode2 = document.createElement('td');
-             var tdTextNode2 = document.createTextNode(title);
-             var tdNode3 = document.createElement('td');
-             var tdTextNode3 = document.createTextNode(addr);
-             var tdNode4 = document.createElement('td');
-            
+             tdNode2.setAttribute('style', 'height: 100px;');
              var imgNode = document.createElement('img');
-             imgNode.setAttribute('src', image);
-             imgNode.setAttribute('style', 'width: 90px; height: 90px; border-radius: 8px; ');
+             imgNode.setAttribute('src', image);   
+             imgNode.setAttribute('style', 'width: 85px; height: 85px; border-radius: 12px; ');
+             
+             var tdNode3 = document.createElement('td');
+             tdNode3.setAttribute('style', 'width: 90px;');
+             var tdTextNode3 = document.createTextNode(title);
+
           
-             var tdNode5 = document.createElement('td');
+             var tdNode4 = document.createElement('td');
              var addBt = document.createElement('input');
              addBt.setAttribute('type','button');
              addBt.setAttribute('value','+');
-             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttypeid+'")');
              addBt.className = 'add_Bt';
+             
+             addBt.id = contentid;
              
              table.appendChild(trNode);
              trNode.appendChild(tdNode2);
              trNode.appendChild(tdNode3);
              trNode.appendChild(tdNode4);
-             trNode.appendChild(tdNode5);
-             tdNode2.appendChild(tdTextNode2);
+
+             tdNode2.appendChild(imgNode);
              tdNode3.appendChild(tdTextNode3);
-             tdNode4.appendChild(imgNode);
-             tdNode5.appendChild(addBt);
+             tdNode4.appendChild(addBt);
           }
          
       }
    }
 }
+
 
 function placeDetailInfo(contentid){
 	if(contentid<1000){
@@ -849,7 +958,6 @@ function saveAdDetail(contentid){
 		     	 	homepage:homepage,
 		     	 	firstimage:image,
 		     	 };
-			 console.log(placeDetail);
 	     	 placeDetails.push(placeDetail);
 		}
 	}
@@ -867,11 +975,22 @@ var titles = [];
 var images = [];
 var addrs = [];
 var contentids = [];
+var contenttypeids = [];
 
 
   
 /**추가 버튼 누른후 마커생성*/
-function makeMarker(contentid, mapy, mapx, title, image, addr){
+	
+function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
+
+	if(document.getElementById('endDate').value==''){
+		Swal.fire(
+			'여행 날짜를 정해주세요',
+			'Day를 선택하셔야 일정을 담을 수 있습니다!',
+			'warning'
+			);
+	return;
+	}
 	placeDetailInfo(contentid);
 	
     mapys.push(mapy);
@@ -880,12 +999,39 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     images.push(image);
     addrs.push(addr);
     contentids.push(contentid);
-	
+    contenttypeids.push(contenttypeid);
+    
+    var imageSrc;
+    var imageSrc2;
+    
+    if(contenttypeid==12){ //관광지
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_def.png'; // 마커이미지의 주소입니다
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker1_on.png'; // 마커이미지의 주소입니다
+    }else if(contenttypeid==39){ //음식점
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_def.png';
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker6_on.png';
+    }else if(contenttypeid==32){ //숙박
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_def.png';
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker5_on.png';
+    }else if(contenttypeid==38){ //쇼핑
+    	imageSrc = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_def.png';
+    	imageSrc2 = 'https://korean.visitkorea.or.kr/resources/images/sub/ico_marker4_on.png';
+    }
+    
     // 결과값으로 받은 위치를 마커로 표시합니다
-  
-   	var marker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(mapy, mapx)
-    });
+	var imageSize = new kakao.maps.Size(26, 36), // 마커이미지의 크기입니다
+	    imageOption = {offset: new kakao.maps.Point(12, 38)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+	
+	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+		markerImage2 = new kakao.maps.MarkerImage(imageSrc2, imageSize, imageOption),
+	    markerPosition = new kakao.maps.LatLng(mapy, mapx); // 마커가 표시될 위치입니다
+	
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	  position: markerPosition,
+	  image: markerImage // 마커이미지 설정 
+	});
     
     var xy = {
    		position: new kakao.maps.LatLng(mapy, mapx)
@@ -893,9 +1039,20 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     
     latly.push(xy.position);
     
-    // 인포윈도우로 장소에 대한 설명을 표시합니다
+ // 인포윈도우로 장소에 대한 설명을 표시합니다
     var infowindow = new kakao.maps.InfoWindow({
-        content: '<table border="1"; width=250px; height=120px;><tr><th style="background-color: pink;" colspan="2">'+title+'</th></tr>'+'<tr><td><img src="'+image+'" style="width: 100px; height: 100px;"></td><td>'+addr+'</td></tr></table>'
+        content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
+	    			'<tr style="margin-top:0px;">'+
+	    				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
+	    			'</tr>'+
+	    			'<tr style="height:80px;">'+
+	    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
+	    				'<i class="fas fa-map-marker-alt"style="color:#64a19d;font-size:15px;"></i>&nbsp;&nbsp;'+title+'</p>'+
+	    				'<p style="font-size:10px;padding-left:7px;padding-right:7px;word-break:break-all;">'+addr+'<br>'+
+	    				'<span style="font-size:17px;float:right;padding:3px;" onclick="popup('+contentid+')">'+
+	    				'<i class="fas fa-info-circle" style="color:#64a19d;">'+
+	    			'</tr>'+
+				'</table>'
     });
     
     // 이동할 위도 경도 위치를 생성합니다 
@@ -905,15 +1062,26 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
     map.panTo(moveLatLon);
     
+    isClick = false;
+    
     markers.push(marker);
     
     kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
     kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     
-    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+ // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
     kakao.maps.event.addListener(marker, 'click', function() {
-   	 closeOverlay();
-        overlay.setMap(map);
+   	 //closeOverlay();
+        //overlay.setMap(map);
+        popup(contentid);
+    	if(!isClick){
+        	isClick=true;
+        }
+    });
+    
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        isClick=false;
+        infowindow.close();
     });
     
     var linePath;
@@ -931,19 +1099,32 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
         
     }
  
+    var strokeColors;
+    
+    if(contenttypeid==12){
+    	strokeColors = '#db4040'; // 선의 색깔입니다
+    }else if(contenttypeid==39){
+    	strokeColors = '#f39a24'; // 선의 색깔입니다
+    }else if(contenttypeid==32){
+    	strokeColors = '#1ee09c'; // 선의 색깔입니다
+    }else if(contenttypeid==38){
+    	strokeColors = '#a024f3'; // 선의 색깔입니다
+    }
+    
 	var drawLine = new daum.maps.Polyline({
 	    path : linePath,
-	    strokeWeight : 3, // 선의 두께입니다 
-	    strokeColor : '#db4040', // 선의 색깔입니다
+	    strokeWeight : 6, // 선의 두께입니다
+	    strokeColor: strokeColors,
 	    strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-	    strokeStyle : 'solid' // 선의 스타일입니다
+	    strokeStyle : 'dashed' // 선의 스타일입니다
 	});
 
     drawLines.push(drawLine);
     drawLine.setMap(map);
     
-    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+ // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
     function makeOverListener(map, marker, infowindow) {
+    	if(isClick){return;}
         return function() {
             infowindow.open(map, marker);
         };
@@ -951,11 +1132,11 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
 
     // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
     function makeOutListener(infowindow) {
+    	if(isClick){return;}
         return function() {
-            infowindow.close();
+        	infowindow.close();
         };
     }
-
     // 마커를 지도에 표시합니다.
 	marker.setMap(map);
        
@@ -1007,33 +1188,50 @@ function makeMarker(contentid, mapy, mapx, title, image, addr){
     savedList.appendChild(listitem);
     
     count2++;
-    //---------------------------------------------
-    
-    /*
-	var savedList = document.getElementById('savedList');
-	var listitem = savedList.innerHTML;
-    
-    listitem+= '<li class="listName" id="li"'+count2+'" data-index="'+(count2)+'">';
-	    listitem+= '<span class="tripnum" style="vertical-align:middle;text-align:center;">'+count2+'</span>';
-	    listitem+= '<div class="draggable" draggable="true">';
-		    listitem+= '<p class="placeinfo" style="display:inline;">';
-			    listitem+= '<img src="'+image+'" style="width: 80px; height: 80px; border-radius: 8px;">';
-			    listitem+= '<span class="tripdis" style="word-break: break-all;display:inline-block; vertical-align: top;">'+title+'</span>';
-		    listitem+= '</p>';
-		    listitem+= '<input type="button" id="'+count2+'" class="del_Bt2" value="-">';
-		    listitem+= '<input type="hidden" name="cotentid" value="'+contentid+'" class="contentid">';
-	    listitem+= '</div>';
-    listitem+= '</li>';
-    
-	savedList.innerHTML=listitem;
-	
-	count2++;
-	*/
 	
     listItems.push(listitem);
 
     addEventListeners();
     
+}
+
+function popup(contentid){
+	var title;
+	var areacode;
+	var sigungucode;
+	var overview;
+	var firstimage;
+	var areatxt;
+	var sigungutxt;
+	for(var i=0;i<placeDetails.length;i++){
+		if(contentid==placeDetails[i].contentid){
+			title=placeDetails[i].title;
+			areacode=placeDetails[i].areacode;
+			sigungucode=placeDetails[i].sigungucode;
+			overview=placeDetails[i].overview.replace(/\'/gi,"");
+			firstimage=placeDetails[i].firstimage;
+		}
+	}
+	<c:forEach var="areadto" items="${arealist }">
+		if(${areadto.areacode}==areacode){
+			areatxt='${areadto.areaname}';
+		}
+	</c:forEach>
+	<c:forEach var="sigungudto" items="${sigungulist}">
+		if(${sigungudto.areacode}==areacode && ${sigungudto.sigungucode}==sigungucode){
+			sigungutxt='${sigungudto.sigungu_name}';
+		}
+	</c:forEach>
+	var modal_title=document.getElementById('staticBackdropLabel');
+	var modalTitle='<strong>'+title+'</strong>';
+	modalTitle += '<br><span style="font-size:13px;color:dimgray;padding:5px;">&nbsp;&nbsp;'+areatxt+'&nbsp;>&nbsp;'+sigungutxt+'</span>';
+	modal_title.innerHTML=modalTitle;
+	var modal_body=document.getElementById('modal-body');
+	var modalBody='';
+	modalBody+='<img src="'+firstimage+'" style="width:458px;">';
+	modalBody+='<br><p style="font-size:13px;padding-top:10px;word-break:break-all;">'+overview+'</p>';
+	modal_body.innerHTML=modalBody;
+	document.getElementById('modalBtn').click();
 }
 
 function addEventListeners() {
@@ -1093,6 +1291,7 @@ function addEventListeners() {
 	  [images[dragStartIndex], images[dragEndIndex]] = [images[dragEndIndex], images[dragStartIndex]];
 	  [addrs[dragStartIndex], addrs[dragEndIndex]] = [addrs[dragEndIndex], addrs[dragStartIndex]];
 	  [contentids[dragStartIndex], contentids[dragEndIndex]] = [contentids[dragEndIndex], contentids[dragStartIndex]];
+	  [contenttypeids[dragStartIndex], contenttypeids[dragEndIndex]] = [contenttypeids[dragEndIndex], contenttypeids[dragStartIndex]];
 	  
 	  for(var i=0;i<delBtns.length;i++){
 		  var tripnum=tripnums[i].firstChild.nodeValue;
@@ -1122,13 +1321,59 @@ function addEventListeners() {
 			listItems[i+1].appendChild(temp);
 		}
 	}
+	
 </script>
 </head>
-<body id="page-top" onload="show()">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
+<body id="page-top" onload="show()" style="background-color: white;">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="modalBtn" style="display:none;"></button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+	aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				 <div class="modal-header">
+				 <h5 class="modal-title" id="staticBackdropLabel"></h5>
+				</div>
+				<div class="modal-body" id="modal-body">
+				  ...
+	      		</div>
+	      		<div class="modal-footer">
+		      		<button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn">Close</button>
+	      		</div>
+      		</div>
+		</div>
+	</div>
+	<script>
+// 모달 버튼에 이벤트를 건다.
+$('#modalBtn').on('click', function(){
+$('#staticBackdrop').modal('show');
+idClick=false;
+});
+// 모달 안의 취소 버튼에 이벤트를 건다.
+$('#closeModalBtn').on('click', function(){
+$('#staticBackdrop').modal('hide');
+});
+function alertSave(moveUrl){
+	Swal.fire({
+		  title: '변경된 데이터가 저장되지 않을 수 있습니다!',
+		  text: "페이지를 이동하시겠습니까?",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: 'YES'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    location.href=moveUrl;
+		  }
+		});
+}
+</script>
+ <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')" style="cursor: pointer">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1137,19 +1382,55 @@ function addEventListeners() {
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('comunity.do')">Community</a></li>
+                    <c:choose>
+						<c:when test="${!empty sessionNickname}">
+							<li class="nav-item dropdown dropend">
+								  <c:if test="${sessionScope.sessionMemberType=='M' }">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								    <label class="bg-primary text-center"
+								    	style="
+                                        width: 30px;
+                                        border-radius: 50%;
+                                        color: #fff;
+                                        font-weight: 600;
+                                        font-size: 1.2rem;">${profileNick}</label>
+								  </a>
+								  </c:if>
+								  <c:if test="${sessionScope.sessionMemberType=='O' }">
+									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+									    <label class="bg-secondary text-center"
+									    	style="
+	                                        width: 30px;
+	                                        border-radius: 50%;
+	                                        color: #fff;
+	                                        font-weight: 600;
+	                                        font-size: 1.2rem;">${profileNick}</label>
+									  </a>
+								  </c:if>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" onclick="alertSave('mypage.do')">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" onclick="alertSave('logout.do')">Logout</a></li>
+							</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- Signup-->
-    <section class="signup-section bg-light" id="signup"
-        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
-    <div class="container" style="margin-bottom: 40px; margin-top: -60px;">
-    	<div class="col-sm-1 col-md-12">
+    <section
+        style="padding-top: 9rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
+    <div class="container-fluid" style="margin-bottom: 40px; margin-top: -60px;" >
+    	<div class="col-sm-1 col-md-12" >
         	<div class="row">
         		<div class="col-md-12">
         			<input type="text" placeholder="여행 제목을 입력해주세요." style="width: 400px;" id="map_title">
@@ -1180,7 +1461,7 @@ function addEventListeners() {
         	</div>
         </div>
     </div>
-    <div class="container">
+    <div class="container-fluid" style="margin-bottom:100px;" >
     <div class="row">
         <div class="col-sm-1 col-md-12">
         	<div class="row">
@@ -1191,10 +1472,10 @@ function addEventListeners() {
 								<div id="calender" style="border:1px;width: 130px;height:700px;align:center;overflow: auto;">
 									<div style="text-align: center;">
 										<form>
-										시작일<br>
-										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
-										종료일<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()"><br>
+										Start<br>
+										<input type="date" name="startDate" id="startDate" id="startDate"onchange="createDay()"><br>
+										End<br>
+										<input type="date" name="endDate" id="endDate" id="endDate" onchange="createDay()"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1205,41 +1486,39 @@ function addEventListeners() {
 								</div>
 							</div>
 				        </div>
-				        <div class="col-md-7" >
-				        	<div style="height: 665px; overflow: auto;">
-				        		<div style="text-align: center;">추가한 여행지</div>
-								<ul id="savedList" style="width:100%;" class="savedList">
+				        <div class="col-md-7">
+				        	<div style="height: 658px; overflow: auto;">
+				        		<div style="text-align: center;">My Travel</div>
+								<ul id="savedList" style="width:100%; font-size: 14px;" class="savedList">
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">전체삭제</button>
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveAll()" id="save_Bt">저장하기</button>
+	                       		<button type="button" class="btn btn-secondary" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">Delete</button>
+	                       		<button type="button" class="btn btn-primary" style="padding: 0.5rem 0.5em;" onclick="saveThisDay(1)" id="save_Bt">Saved</button>
 	                    	</div>
 				        </div>
 				    </div>
 		        </div>
-		        <div class="col-md-7" style="width: 690px;">
+		        <div class="col-md-7">
 		        	<div id="map" style="width:100%; height:700px;float:right;"></div>
 		        </div>
-		        <div class="col-md-2" style="text-align: center; width: 300px;">
-		        	<select id="cate">
-						<option value="12">관광지</option>
-						<option value="32">숙박</option>
-						<option value="39">음식점</option>
-						<option value="38">쇼핑</option>
-					</select>
-					<div style="height: 4px;"></div>
-		        	<input type="text" name="areaCode" id="areaC">
+		        <div class="col-md-2" style="text-align: center;">
+		        	<div class="input-group mb-3">
+			        	<select id="cate">
+							<option value="12">관광지</option>
+							<option value="32">숙박</option>
+							<option value="39">음식점</option>
+							<option value="38">쇼핑</option>
+						</select>
+			        	<input class="form-control" type="text" name="areaCode" id="areaC">
+		        	</div>
 		        	<div class="row">
-	                    <div class="col-md-12" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">여행지 검색</button>
+	                    <div class="col-md-12" style="text-align: center; margin-top: -6px; margin-bottom: 16px;">
+	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">Search</button>
 	                    </div>
 	                </div>
-					<div style="height: 584px; overflow: auto;">
+					<div style="height: 601px; overflow: auto;">
 						<table id="setTable" style="width: 100%; text-align: center;">
-							<tr>
-								<th colspan="5">여행지를 검색해 주세요</th>
-							</tr>
 						</table>
 					</div>
 		        </div>
@@ -1249,6 +1528,19 @@ function addEventListeners() {
 </div>
  </section>
 <script>
+(async () => {
+    const { value: getName } = await Swal.fire({
+        title: '여행 제목을 입력해주세요!',
+        text: '당신만의 일정을 만들어보세요.',
+        input: 'text',
+        inputPlaceholder: '여행 제목을 입력해주세요'
+    })
+
+    if (getName) {
+    	document.getElementById('map_title').value=getName;
+    }
+})();
+
 var setMapx;
 var setMapy;
 //초기 지도 중심좌표 처리 
@@ -1306,7 +1598,6 @@ function setLines(map) {
 function hideMarkers() {
     setMarkers(null);
     listItems.splice(0, listItems.length);
-    placeDetails.splice(0, placeDetails.length);
     markers.splice(0, placeDetails.length);
 }
 function hideLines() {
@@ -1325,7 +1616,11 @@ function createDay() {
 	var day = (InputDate_e-InputDate_s)/(60*60*24*1000)+1;
 	
 	if(day<=0){
-		window.alert('여행 종료일이 여행 시작일보다 빠를 수 없습니다.');
+		Swal.fire(
+				  '여행 일정을 확인해주세요',
+				  '종료일이 시작일보다 빠를 수 없습니다!',
+				  'warning'
+				);
 		document.getElementById('endDate').value='';
 	}else{
 		$("#dayBtDiv").empty();
@@ -1335,8 +1630,13 @@ function createDay() {
 			count++;
 			var dayBt = document.createElement('input');
 			dayBt.setAttribute('type','button');
+			dayBt.className=count;
 			dayBt.setAttribute('value','Day'+count);
-			dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			if(count==1){
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;');
+			}else{
+				dayBt.setAttribute('style','width: 90px; height: 30px; margin-bottom: 10px;background-color:#64a19d;');
+			}
 			dayBt.setAttribute('onclick','saveThisDay('+count+')');
 			var div = document.getElementById('calender');
 			dayBtDiv.appendChild(dayBt);
@@ -1346,28 +1646,51 @@ function createDay() {
 	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
 
 function saveThisDay(dayCount){
-	if (confirm("일정을 저장하시겠습니까?") == true) { //확인
-		var map_title=document.getElementById('map_title').value;
-		if(map_title==''){
-			window.alert('일정 제목을 입력해주세요.');
+	Swal.fire({
+		  title: '일정을 저장하시겠습니까?',
+		  text: "나만의 여행 일정을 만들어보세요!",
+		  icon: 'question',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Save'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  var map_title=document.getElementById('map_title').value;
+			  if(map_title==''){
+					Swal.fire(
+							  '일정 이름이 무엇인가요?',
+							  '여행에 이름을 지어주세요!',
+							  'warning'
+							);
+					return;
+				}else if(listItems.length==0){
+					Swal.fire(
+							  '원하는 여행지를 선택해주세요',
+							  '적어도 한 곳은 담아주세요!',
+							  'warning'
+							);
+					return;
+				}else if(document.getElementById('endDate').value==''){
+					Swal.fire(
+							  '여행 날짜를 정해주세요!',
+							  '일정은 언제든지 수정 가능합니다',
+							  'warning'
+							);
+					return;
+				}else{
+					var people_num = document.getElementById('people_num').value;
+					var trip_type= document.getElementById('trip_type').value;
+					var startdate = document.getElementById('startDate').value;
+					var enddate = document.getElementById('endDate').value;
+					var start2=startdate.split("-"); 
+					var end2=enddate.split("-"); 
+					moveToDay(map_title,member_idx,people_num,trip_type,start2[0],start2[1],start2[2],end2[0],end2[1],end2[2],'n','n',dayCount);
+				}
+		  }else { //취소
 			return;
-		}else if(listItems.length==0){
-			window.alert('일정을 선택해주세요.');
-			return;
-		}else if(document.getElementById('endDate').value==''){
-			window.alert('여행 기간을 다시 확인해주세요.');
-		}else{
-			var people_num = document.getElementById('people_num').value;
-			var trip_type= document.getElementById('trip_type').value;
-			var startdate = document.getElementById('startDate').value;
-			var enddate = document.getElementById('endDate').value;
-			var start2=startdate.split("-"); 
-			var end2=enddate.split("-"); 
-			moveToDay(map_title,member_idx,people_num,trip_type,start2[0],start2[1],start2[2],end2[0],end2[1],end2[2],'n','n',dayCount);
 		}
-	} else { //취소
-		return;
-	}
+	});
 }
 function moveToDay(map_title,member_idx,people_num,trip_type,starty,startm,startd,endy,endm,endd,share_ok,del_ok,dayCount){
 	moveDay=dayCount;
@@ -1398,7 +1721,6 @@ function getResultAdd(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
-			console.log(data);
 			savePlaceDetailData();
 		}
 	}
@@ -1408,8 +1730,11 @@ function savePlaceDetailData(){
 	var contentid=placeDetails[0].contentid;
 	param+='&contentid='+contentid;
 	var title=placeDetails[0].title;
+	//title=encodeURI(decodeURI(title));
+	title=encodeURIComponent(title);
 	param+='&title='+title;
 	var addr=placeDetails[0].addr;
+	addr=encodeURIComponent(addr);
 	param+='&addr='+addr;
 	var areacode=placeDetails[0].areacode;
 	param+='&areacode='+areacode;
@@ -1423,12 +1748,14 @@ function savePlaceDetailData(){
 	if(overview.length>900){
 		overview=overview.substr(0, 900)+'...';
 	}
-	overview=encodeURI(decodeURI(overview));
+	//overview=encodeURI(decodeURI(overview));
+	overview=encodeURIComponent(overview);
 	param+='&overview='+overview;
 	var readnum=1;
 	param+='&readnum='+readnum;
 	var homepage=placeDetails[0].homepage;
-	homepage=encodeURI(decodeURI(homepage));
+	//homepage=encodeURI(decodeURI(homepage));
+	homepage=encodeURIComponent(homepage);
 	param+='&homepage='+homepage;
 	var firstimage=placeDetails[0].firstimage;
 	param+='&firstimage='+firstimage;
@@ -1439,62 +1766,69 @@ function getResultAdd2(){
 	if(XHR.readyState==4){
 		if(XHR.status==200){
 			var data = XHR.responseText;
-			console.log(data);
 			placeDetails.splice(0,1);
 			if(placeDetails.length!=0){
 				savePlaceDetailData();
 			}else{
-				location.href='existMap.do?map_idx='+map_idx+'&day_num='+1;
+				Swal.fire(
+					'저장되었습니다',
+					'다음 일정도 계획해보세요!',
+					'success'
+				);
+				setTimeout(function() {
+					location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
+				}, 500);
 			}
 		}
 	}
 }
+ 
 </script>
-    <!-- Contact-->
-    <section class="contact-section bg-primary align-items-center">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-md-center">
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">은평구 동서로 101-2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Email</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">hello@yourdomain.com</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">FAQ</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">문의하기</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="social d-flex justify-content-center">
-                <a class="mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                <a class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-    </section>
-    <footer class="footer bg-primary small text-center text-white-50">
-        <div class="container px-4 px-lg-5">Copyright &copy; Your Website 2021</div>
-    </footer>
+	<!-- Contact-->
+	<section class="contact-section bg-primary align-items-center">
+		<div class="container px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-md-center">
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center">
+							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">Address</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">은평구 동서로 101-2</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center">
+							<i class="fas fa-envelope text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">Email</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">
+								<a href="#">hello@yourdomain.com</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
+					<div class="card py-1 h-100">
+						<div class="card-body text-center">
+							<i class="fas fa-mobile-alt text-primary mb-2"></i>
+							<h4 class="text-uppercase m-0">FAQ</h4>
+							<hr class="my-4 mx-auto" />
+							<div class="small text-black-50">
+								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<footer class="footer bg-primary small text-center text-white-50">
+		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
+	</footer>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
