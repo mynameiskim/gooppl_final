@@ -103,8 +103,8 @@
                 </div>
                 <!--         제목 -->
 
-                <div id="title" class="col-md-4 text-center">
-                    <label>Community</label>
+                <div id="title" class="col-md-4">
+                    <h5 class="display-6 fw-bolder text-center">Community</h5>
                 </div>
                 <div class="col-md-4"></div>
             </div>
@@ -139,7 +139,6 @@
                         <div class="card-img-overlay">
                             <h5 class="card-title">여행 후기게시판</h5>
                             <p class="card-text">멋진 경험들과 여행의 즐거움을 다른사람들과 함께 나누세요.</p>
-                            <p class="card-text " style="margin-top: -64px; margin-left: 800px; "><a href="review.do" style="color:whitesmoke; text-decoration: none;">이동하기</a></p>
                         </div>
                     </div></a>
                 </div>
