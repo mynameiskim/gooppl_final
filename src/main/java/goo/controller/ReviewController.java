@@ -59,7 +59,7 @@ public class ReviewController {
 	
 	@RequestMapping(value = "/reviewWrite.do", method = RequestMethod.GET)
 	public String reviewWriteForm() {
-		return "review/review_writeform2";
+		return "review/review_writeform";
 	}
 	/** 리뷰 등록 */
 	@RequestMapping(value = "/writeReviewSubmit.do" , method = RequestMethod.POST)

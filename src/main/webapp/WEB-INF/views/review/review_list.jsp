@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -229,10 +230,9 @@
                     <div class="col-md-8">
                         <div class="card mb-3">
                             <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="http://www.outdoornews.co.kr/news/photo/201707/24502_76816_822.jpg"
-                                        class="img-fluid rounded-start" alt="썸네일" style="width: 100%;">
-                                </div>
+	                            <div class="col-md-4">
+	                            	${dto.content }
+	                            </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <div class="row">
@@ -269,7 +269,6 @@
             </div>
         </div>
 	</section>
-
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
