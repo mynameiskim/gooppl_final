@@ -79,7 +79,9 @@
 	<bean id="payment_infoDao" class="goo.payment_info.model.Payment_infoDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
-	
+	<bean id="replyDao" class="goo.reply.model.ReplyDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	
 	<!-- service -->	
    <bean id="memberService" class="goo.member.model.MemberServiceImple">
@@ -126,5 +128,8 @@
 	</bean>
 	<bean id="payment_infoService" class="goo.payment_info.model.Payment_infoServiceImple">
 		<property name="payment_infoDao" ref="payment_infoDao"></property>
+	</bean>
+	<bean id="replyService" class="goo.reply.model.ReplyServiceImple">
+		<constructor-arg ref="replyDao"></constructor-arg>
 	</bean>
 </beans>

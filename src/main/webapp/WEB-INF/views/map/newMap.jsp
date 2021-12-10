@@ -173,7 +173,6 @@ $(function () {
     });
 });
 
-
 /**동적으로 생성된 태그에 접근*/
 /**선택한 여행지 삭제*/
 $(function() {
@@ -1374,7 +1373,7 @@ function alertSave(moveUrl){
  <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" onclick="alertSave('index.do')">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')" style="cursor: pointer">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1429,7 +1428,7 @@ function alertSave(moveUrl){
     </nav>
     <!-- Signup-->
     <section
-        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
+        style="padding-top: 9rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
     <div class="container-fluid" style="margin-bottom: 40px; margin-top: -60px;" >
     	<div class="col-sm-1 col-md-12" >
         	<div class="row">

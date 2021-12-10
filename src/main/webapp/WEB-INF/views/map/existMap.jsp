@@ -160,17 +160,23 @@ $(function () {
         $('#setTable').empty();
     });
 });
-
-/**중복 선택 막는 쿼리*/
-$(function() {
-   $(document).on("click",".add_Bt",function(){
-        var click_id = $(this).attr('id');
-      for(var i=0; i<contentids.length; i++){
-         if(contentids[i]==click_id){
-            $('#'+click_id).hide();
-         }
-      }
-     });
+/**추가한 여행지 전체삭제*/
+$(function () {
+    $('#del_Bt').click( function() {
+        $('#savedList').empty();
+        hideLines();
+        latly.splice(0, latly.length);
+        drawLines.splice(0, drawLines.length);
+		markers.splice(0, markers.length);
+        mapys.splice(0, mapys.length);
+        mapxs.splice(0, mapxs.length);
+        titles.splice(0, titles.length);
+        images.splice(0, images.length);
+        addrs.splice(0, addrs.length);
+        contentids.splice(0, contentids.length);
+        contenttypeids.splice(0, contentids.length);
+        count2 = 0;
+    });
 });
 
 /**동적으로 생성된 태그에 접근*/
@@ -660,6 +666,16 @@ function showResult(){
    if(XHR.readyState==4){
       if(XHR.status==200){
 		// alert("${mapinfolist[0].contentid}");
+		
+		if(roopState==false){
+			<c:forEach items="${mapinfolist}" var="item1">
+			
+			contentids2.push("${item1.contentid}");
+			
+			</c:forEach>
+			Info2(contentids2[0]);
+		}
+		
          var doc = XHR.responseXML;
          var items = doc.getElementsByTagName('item');
          var table = document.getElementById('setTable');
@@ -674,6 +690,7 @@ function showResult(){
        					var image=adContents[i].image;
        					var mapx=adContents[i].mapx;
        					var mapy=adContents[i].mapy;
+       					var contenttype=adContents[i].contenttype;
        					
      		             var trNode = document.createElement('tr');
       		             if(mapx==0||mapy==0){
@@ -698,7 +715,7 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttype+'")');
       		             addBt.className = 'add_Bt';
       		             
       		             table.appendChild(trNode);
@@ -718,6 +735,7 @@ function showResult(){
        					var image=adContents[i].image;
        					var mapx=adContents[i].mapx;
        					var mapy=adContents[i].mapy;
+       					var contenttype=adContents[i].contenttype;
        					
      		             var trNode = document.createElement('tr');
       		             if(mapx==0||mapy==0){
@@ -738,7 +756,7 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'")');
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttype+'")');
       		             addBt.className = 'add_Bt';
       		             
       		             table.appendChild(trNode);
@@ -841,15 +859,7 @@ function showResult(){
              tdNode2.appendChild(imgNode);
              tdNode3.appendChild(tdTextNode3);
              tdNode4.appendChild(addBt);
-             
-             if(roopState==false){
-            	 <c:forEach items="${mapinfolist}" var="item1">
 
-            	 contentids2.push("${item1.contentid}");
-
-            	 </c:forEach>
-            	 Info2(contentids2[0]);
-             }
           }
          
          if(once==false){
@@ -1524,7 +1534,7 @@ function alertSave(moveUrl){
  <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" onclick="alertSave('index.do')">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')" style="cursor: pointer;">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1579,7 +1589,7 @@ function alertSave(moveUrl){
     </nav>
     <!-- Signup-->
     <section class="signup-section bg-light" id="signup"
-        style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
+        style="padding-top: 9rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
     <div class="container" style="margin-bottom: 40px; margin-top: -60px;">
     	<div class="col-sm-1 col-md-12">
         	<div class="row">
@@ -1917,7 +1927,6 @@ function createDay() {
 	}
 	
 }
-
 function delDateData(starty,startm,startd,endy,endm,endd,day){
 	var param='map_idx='+${map_idx}+'&starty='+starty+'&startm='+startm+'&startd='+startd+'&endy='+endy+'&endm='+endm+'&endd='+endd+'&day='+day;
 	sendRequest('delDateData.do',param,delDateDataResult,'GET');
