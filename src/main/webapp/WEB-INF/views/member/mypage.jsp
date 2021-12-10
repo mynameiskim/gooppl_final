@@ -27,6 +27,17 @@
 	<script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
+<style>
+.tb_hover{
+       --bs-table-hover-bg: lightgray !important;
+}
+.tr_bg{
+       --bs-table-accent-bg: #78c2ad !important;
+}
+.tr_aling{
+	vertical-align: middle;
+}
+</style>
 <script>
 //이미 신청한 광고주
 function ckOwerAppli(member_idx){
@@ -67,8 +78,9 @@ function ckOwerAppli(member_idx){
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -177,6 +189,7 @@ function ckOwerAppli(member_idx){
                 	$('#myReviewArea').css("display","none");
                 	$('#myStoreArea').css("display","none");
 					document.getElementById("myPlanArea").scrollIntoView();
+					$('#myInquiryArea').css("display","none");
                 }
                 </script>
                 
@@ -191,6 +204,22 @@ function ckOwerAppli(member_idx){
                 	$('#myReviewArea').css("display","");
                 	$('#myStoreArea').css("display","none");
                 	document.getElementById("myReviewArea").scrollIntoView();
+                	$('#myInquiryArea').css("display","none");
+                }
+                </script>
+                
+                <div class="col-md-2 text-center">
+                    <h5 class="fw-bolder mb-3 text-center">나의 문의</h5>
+                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary btn-lg" onclick="showMyInquiry()" style="font-size:30px;" id="showMyInquiry_bt">${list.size()}</button></h4>
+                </div>
+                
+                <script>
+                function showMyInquiry(){
+                	$('#myInquiryArea').css("display","");
+                	$('#myPlanArea').css("display","none");
+                	$('#myReviewArea').css("display","none");
+                	$('#myStoreArea').css("display","none");
+                	document.getElementById("myInquiryArea").scrollIntoView();
                 }
                 </script>
                 
@@ -205,6 +234,7 @@ function ckOwerAppli(member_idx){
                 	document.getElementById("myStoreArea").scrollIntoView();
                 	$('#myPlanArea').css("display","none");
                 	$('#myReviewArea').css("display","none");
+                	$('#myInquiryArea').css("display","none");
                 }
                 </script>
                 </c:if>
@@ -622,7 +652,7 @@ function ckOwerAppli(member_idx){
 						       <img src="/gooppl/resource/img/이미지아이콘2.png" style="width:30px;height:30px;margin:0px 5px;border-radius:5px;">2
 						       <img src="/gooppl/resource/img/댓글아이콘.png" style="width:25px;height:25px;margin:0px 5px;border-radius:5px;">3
 						       </p>
-								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewUpdateForm.do'">보기</button>
+								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewContent.do?review_idx=${reviewdto.review_idx}">보기</button>
 								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewUpdateForm.do'">수정</button>
 								<button class="btn btn-primary" type="button" >삭제</button>
 						      </div>
@@ -633,47 +663,65 @@ function ckOwerAppli(member_idx){
 			</div>
 			</div>
         </div>
-    </section>
-    <!-- Contact-->
-    <section class="contact-section bg-primary align-items-center">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-md-center">
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">은평구 동서로 101-2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">1:1상담</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">
-								<a href="#">hello@yourdomain.com</a>
-							</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">FAQ</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">
-                            <a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
-                            </div>
-                        </div>
+        <!-- 후기 영역 끝 -->
+        <!-- 문의 영역 시작 -->
+        	<div class="container-sm mb-5" style="padding: 5rem 0; display:none;" id="myInquiryArea">
+            <div class="row justify-content-md-center mb-5">
+                <div class="row">
+                    <div class="col-md-2 text-center">
+                        <h4 class="fw-bolder mb-2 text-center" id="myReviewList">나의 문의</h4>
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-md-center">
+            	<table class="table table-hover tb_hover">
+			  <thead>
+					<tr class="tr_bg">
+						<th class="text-center active text-white text-opacity-75" style="width:2%;">#</th>
+						<th class="text-center active text-white text-opacity-75" style="width:20%;">작성일</th>
+						<th class="text-center active text-white text-opacity-75" style="width:50%;">문의제목</th>
+						<th class="text-center active text-white text-opacity-75" style="width:20%;">답변현황</th>
+					</tr>
+			</thead>
+			  <tbody>
+			  	<c:if test="${empty list}">
+			  		<tr>
+					<td colspan="10" align="center">
+					<b>문의한 내역이 없습니다.</b>
+					</td>
+				</tr>
+			  	</c:if>
+			  	<c:forEach var="list" items="${list}" varStatus="status">
+			  		<tr class="tr_aling" id="iq_list${status.index}">
+				      <td class="text-center list${status.index}" style="width:2%;">${list.inquiry_idx}</td>
+				      <td class="text-center list${status.index}" style="width:20%;">${list.inquiry_writedate}</td>
+				      <!--<td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}"></td> -->
+				      <td class="text-center list${status.index}" style="width:50%;">${list.inquiry_subject}</td>
+					      <c:if test="${list.inquiry_status=='y'}">
+	    				    <td class="text-center list${status.index}" style="width:20%;color:green;"><label onclick="showAnswer(${status.index})">답변완료</label></td>
+					      </c:if>
+					      <c:if test="${list.inquiry_status=='n'}">
+					      	<td class="text-center list${status.index}" style="width:20%;color:red;" onclick="showContent(${status.index})">답변대기</td>
+					      </c:if>
+			       </tr>
+			       <tr class="tr_aling" id="content${status.index}" style="display:none">
+			       	 <td class="contentArea${status.index}"></td>
+				     <td colspan="1"class="text-end contentArea${status.index}" style="font-weight:600; font-size:15px;">문의내용:</td>
+					 <td colspan="1" class="text-start contentArea${status.index}" style="font-weight:600; font-size:15px;">${list.inquiry_content}</td>
+					 <td class="text-center contentArea${status.index}"><button style="display:none;" class="btn btn-secondary" id="contentClosebt${status.index}" onclick="closeContentbt(${status.index})">닫기</button></td>
+				   </tr>
+			       <tr class="tr_aling" id="answerArea${status.index}" style="display:none">
+			       	 <td class="answerArea${status.index}"></td>
+			         <td class="text-end answerArea${status.index}"><img src="/gooppl/resource/img/re화살표.png" style="width:40px; height:40px"></td>
+			    	 <td class="text-start answerArea${status.index}" colspan="1" style="font-weight:600; font-size:15px;">아 그거는 이러쿵 저러쿵 하면 됩니다. 자세한 문의사항은 minjjal@gmail.com으로 남겨주시면 확인 후 안내드리겠습니다!</td>
+			    	 <td class="text-center answerArea${status.index}"><button class="btn btn-secondary" id="closebt${status.index}" onclick="closeAnswer(${status.index})">닫기</button></td>
+				   </tr>
+			  	</c:forEach>
+			  </tbody>
+			</table>
+			</div>
         </div>
+        <!-- 문의 영역 끝 -->
     </section>
     <script>
     $("#update_profile_bt").click(function(){
@@ -740,10 +788,15 @@ function ckOwerAppli(member_idx){
 						    })
 	            	  }else{
 	            		  Swal.fire({
-							  title: '비밀번호가 다릅니다.',
+							  title: '로그인이 필요합니다..',
 							  icon: 'warning',
-							  confirmButtonText: '확인'
-							})  
+							  confirmButtonText: '확인',
+							  allowOutsideClick:false
+							}).then((result) => {
+						    	if (result.isConfirmed) {
+						    		location.href="lndex.do?login_result=need";
+						    	}
+						    }) 
 	            	  }
 	              }        
 	          });
@@ -759,12 +812,35 @@ function ckOwerAppli(member_idx){
     	}
     }
     </script>
-    
-    <!-- 비밀번호 체크 확인 끝 -->
-    <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
-        <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
-    </footer>
+    <script>
+   		function showAnswer(index){
+   			$('#content'+index).css("display","");
+   			$('#answerArea'+index).css("display","");
+   			$('.answerArea'+index).css("border-bottom","3px solid #56cc9d")
+   			$('#iq_list'+index).css("font-size","20px");
+   			$('#iq_list'+index).css("font-weight","800");
+   		}
+   		function closeAnswer(index){
+   			$('#content'+index).css("display","none");
+   			$('#answerArea'+index).css("display","none");
+   			$('#iq_list'+index).css("font-size","");
+   			$('#iq_list'+index).css("font-weight","");
+   		}
+   		function showContent(index){
+   			$('#content'+index).css("display","");
+   			$('#contentClosebt'+index).css("display","");
+   			$('.contentArea'+index).css("border-bottom","3px solid #ffce67")
+   			$('#iq_list'+index).css("font-size","20px");
+   			$('#iq_list'+index).css("font-weight","800");
+   		}
+   		function closeContentbt(index){
+   			$('#content'+index).css("display","none");
+   			$('#iq_list'+index).css("font-size","");
+   			$('#iq_list'+index).css("font-weight","");
+   		}
+   	</script>
     <%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<%@include file="/WEB-INF/views/member/footer.jsp" %>
       <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

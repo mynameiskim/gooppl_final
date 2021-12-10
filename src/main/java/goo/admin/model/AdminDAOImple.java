@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import goo.member.model.MemberDTO;
+import goo.review.model.ReviewDTO;
 
 public class AdminDAOImple implements AdminDAO {
 	
@@ -50,6 +51,18 @@ public class AdminDAOImple implements AdminDAO {
 		List<MemberDTO> list=sqlMap.selectList("allAdminMemberInfo",map);
 		System.out.println("SQL통과");
 		return list;
+	}
+	
+	//후기게시판 목록
+	public List<ReviewDTO> adminReview(Map map) {
+		List<ReviewDTO> list = sqlMap.selectList("adminReviewList",map);
+		return list;
+	}
+	
+	public int adminReviewTotal() {
+		int totalCnt=sqlMap.selectOne("adminReviewTotal");
+		
+		return totalCnt;
 	}
 	
 	public int adminInsert1(MemberDTO mdto) {

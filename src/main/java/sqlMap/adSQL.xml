@@ -90,22 +90,6 @@
   		WHERE
   			ad_idx = #{ad_idx}
   	</select>
-  	<update id="admin_adState_up" parameterType="Integer">
-  		UPDATE
-  			ad_info
-  		SET
-  			AD_STATE = '광고중'
-  		WHERE
-  			owner_idx = #{owner_idx}
-  	</update>
-  	<update id="admin_adState_down" parameterType="Integer">
-  		UPDATE
-			ad_info
-		SET
-			AD_STATE = '광고내림'
-		WHERE
-			owner_idx = #{owner_idx}
-  	</update>
   	<select id="ckAd_info" parameterType="Integer" resultType="Integer">
   		SELECT
   			count(*)
@@ -121,5 +105,21 @@
   			AD_STATE = '광고중'
   		WHERE
   			OWNER_IDX = #{owner_idx}
+  	</update>
+  	<update id="admin_adState_up" parameterType="Integer">
+  		UPDATE
+  			ad_info
+  		SET
+  			AD_STATE = '광고중'
+  		WHERE
+  			owner_idx = #{owner_idx}
+  	</update>
+  	<update id="admin_adState_down" parameterType="Integer">
+  		UPDATE
+			ad_info
+		SET
+			AD_STATE = '광고내림'
+		WHERE
+			owner_idx = #{owner_idx}
   	</update>
 </mapper>

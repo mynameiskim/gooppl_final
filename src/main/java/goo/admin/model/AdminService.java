@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import goo.member.model.*;
+import goo.review.model.ReviewDTO;
 
 public interface AdminService {
 
@@ -23,4 +24,6 @@ public interface AdminService {
 	public int memberUpdate(MemberDTO mdto);
 	public Map<String, Object> monthStatistics();
 	public Map<String, Object> statistics(Map<String, Object> map);
+	public List<ReviewDTO> adminReview(int cp,int ls);
+	public int adminReviewTotal();
 }
