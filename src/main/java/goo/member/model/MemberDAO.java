@@ -16,10 +16,11 @@ public interface MemberDAO {
 	public int profileUpdate(Map hmp);
 	public int pwdCheck(Map hmp);
 	public int pwdChange(Map hmp);
+	public List<MemberDTO> memberList(Map<String,Object> map);//회원목록
 	public int memberOut(int member_idx);
-	public List<MemberDTO> memberList(Map map);//회원목록
 	public int totalMember();//총 회원수
 	public MemberDTO memberInfo(int member_idx); //회원 정보
 	public int admin_ownerAppli_typeChange(int member_idx);
+	public int searchTotalMember(String search_type,String search,String start_date,String end_date);
 	public int admin_changeOwnerType(int member_idx);
 }

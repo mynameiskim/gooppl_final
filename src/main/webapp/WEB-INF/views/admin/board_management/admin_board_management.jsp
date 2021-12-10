@@ -218,7 +218,7 @@ td{
 			<h4>공유게시판 관리</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="admin_share.do" class="active text-white"
+			<dt><a href="admin_share.do" class="active text-white" style="color: white !important;"
 				>공유게시판 관리</a>
 			</dt>
 			<dd>
@@ -232,7 +232,7 @@ td{
 		</div>
 		<dl class="menu_list">
 			<dt>
-				<a href="admin_review.do" class="active text-white"
+				<a href="admin_review.do" class="active text-white" style="color: white !important;"
 				>후기게시판 관리
 				</a>
 			</dt>
@@ -247,7 +247,7 @@ td{
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href="admin_relpy.do" class="active text-white"
+				<a href="admin_relpy.do" class="active text-white" style="color: white !important;"
 				>댓글 관리
 				</a>
 			</dt>

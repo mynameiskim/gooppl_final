@@ -355,10 +355,9 @@ if(datay_n!='undefined'){
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
                     <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
-						
 							<li class="nav-item dropdown dropend">
 								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
 								   <c:if test="${sessionScope.sessionMemberType=='M'}">

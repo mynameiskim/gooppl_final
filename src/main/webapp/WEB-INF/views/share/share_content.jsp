@@ -52,7 +52,7 @@
     }
     </style>
 <body>
-    <!-- Navigation-->
+   <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="index.do">GooPPl</a>
@@ -66,12 +66,48 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
                     <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="mypage.do">MyPage</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
+                    <c:choose>
+						<c:when test="${!empty sessionNickname}">
+							<li class="nav-item dropdown dropend">
+								  <c:if test="${sessionScope.sessionMemberType=='M' }">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								    <label class="bg-primary text-center"
+								    	style="
+                                        width: 30px;
+                                        border-radius: 50%;
+                                        color: #fff;
+                                        font-weight: 600;
+                                        font-size: 1.2rem;">${profileNick}</label>
+								  </a>
+								  </c:if>
+								  <c:if test="${sessionScope.sessionMemberType=='O' }">
+									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+									    <label class="bg-secondary text-center"
+									    	style="
+	                                        width: 30px;
+	                                        border-radius: 50%;
+	                                        color: #fff;
+	                                        font-weight: 600;
+	                                        font-size: 1.2rem;">${profileNick}</label>
+									  </a>
+								  </c:if>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
                 </ul>
             </div>
         </div>
     </nav>
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
@@ -91,19 +127,20 @@
                 </div>
                 <!-- 컨텐츠 영역-->
                 <div class="row"></div>
-                <div class="row" style="margin-top: 32px;">
+                <div class="row justify-content-md-center" style="margin-top: 32px;">
                
                 
                     <!-- #### 일정 카드 영역 #### -->
-                    <div class="row ">
+                    <div class="row mb-5">
                                 <!--여행 날짜(yyyy-mm-dd-(요일))-->
                                 <div class="col-xs-9 mb-3" style="font-size: medium; ">
                                    <strong>여행 기간 : ${gmdto.startdate }~${gmdto.enddate }</strong>
                                 </div>
-                            </div>
+                   	</div>
+                 
                    <c:forEach var="dto" items="${drlist }"  varStatus="status">
-                    <div class="col-md-9 col-sm-9">
-                     <div class="row" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
+                    <div class="col-md-9 col-sm-9 ">
+                     <div class="row mb-2" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
                         <!--여행 일차-->
                         <div class="col-md-2 col-xs-3 fw-bold" style="background-color: #78C2AD; color: whitesmoke; border-top-left-radius: 10px; text-align: center; font-size: x-large;">
                             Day${dto.day_num }
@@ -121,8 +158,8 @@
                         <div class="col-md-2">
                             <p style="text-align: center; font-size: xx-large; padding-top: 24px;">${dto.route_num }</p>
                         </div>
-                        <div class="col-md-10">
-                            <div class="row">
+                        <div class="col-md-10 ">
+                            <div class="row ">
                                 <!--카드 삽입-->
                                 <div class="col-xs-9" >
                                     <div class="row" style="width: auto; " >
@@ -154,21 +191,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-md-center">
+                    <div class="row justify-content-md-center mb-3"> 
                         <div class="col-md-12" style="text-align: center;">
                         <img src="https://img.icons8.com/color/36/26e07f/menu-2.png"/>
                         </div>
                     </div>
                     </div>
                    </c:forEach> 
-                               
+				</div>                          
+                             
                     
-                    <!-- 되면 들어갈 지도영역-->
-                    <div class="col-md-3"></div>
-                    
-                </div>
+                   
                     <!-- 추가 컨텐츠영역-->
-                <div class="row"></div>
+                <div class="row justify-content-md-center">
+                	<div class="col-md-9" style="background-color: white; height:120px; border-radius: 14px;">
+                		<h5 class="display-6 fw-bolder text-center" style="margin-top: 35px;">일정 끝 ~!</h5>
+                	</div>
+                </div>
             
 
 

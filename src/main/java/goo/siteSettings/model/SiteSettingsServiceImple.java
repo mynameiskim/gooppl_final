@@ -1,6 +1,5 @@
 package goo.siteSettings.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class SiteSettingsServiceImple implements SiteSettingsService {
 
@@ -29,4 +28,5 @@ public class SiteSettingsServiceImple implements SiteSettingsService {
 		SiteSettingsDTO dto = siteSettingsDao.getSiteSettings();
 		return dto;
 	}
+	
 }

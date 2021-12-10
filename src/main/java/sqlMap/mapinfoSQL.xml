@@ -63,10 +63,4 @@
   			mapinfo
   		where map_idx=#{map_idx} and day_num=#{day_num}
   	</delete>
-  	
-  	
-  	
-  	
-  	
-  	
   </mapper>

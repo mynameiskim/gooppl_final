@@ -57,12 +57,13 @@
 }
 
 .slick-next:before {
+	margin: 15px;
 	content:
 		url(https://img.icons8.com/flat-round/48/000000/circled-right-2--v1.png);
 }
 
 .slick-prev:before {
-	padding: -64px;
+	margin: -50px;
 	content:
 		url(https://img.icons8.com/flat-round/48/000000/circled-left-2--v1.png);
 }
@@ -71,25 +72,62 @@
 
 <body onload="getFirstImg();">
 	<!-- Navigation-->
-	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="index.do">GooPPl</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false"
-				aria-label="Toggle navigation">
-				Menu <i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-					<li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-					<li class="nav-item"><a class="nav-link" href="mypage.do">MyPage</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	 <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.do">GooPPl</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
+                    <c:choose>
+						<c:when test="${!empty sessionNickname}">
+							<li class="nav-item dropdown dropend">
+								  <c:if test="${sessionScope.sessionMemberType=='M' }">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								    <label class="bg-primary text-center"
+								    	style="
+                                        width: 30px;
+                                        border-radius: 50%;
+                                        color: #fff;
+                                        font-weight: 600;
+                                        font-size: 1.2rem;">${profileNick}</label>
+								  </a>
+								  </c:if>
+								  <c:if test="${sessionScope.sessionMemberType=='O' }">
+									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+									    <label class="bg-secondary text-center"
+									    	style="
+	                                        width: 30px;
+	                                        border-radius: 50%;
+	                                        color: #fff;
+	                                        font-weight: 600;
+	                                        font-size: 1.2rem;">${profileNick}</label>
+									  </a>
+								  </c:if>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<section class="signup-section bg-light" id="signup"
 		style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255/ 42%) 0%, rgb(207 255 203/ 28%) 75%, #f6f2f2 100%);">
 		<h1 class="display-6 fw-bolder mb-5 text-center"></h1>
@@ -153,21 +191,49 @@
 			<!-- 지도이미지로 표현되는 일정 목록 -->
 			<div class="row">
 				<div class="slider conter" style="padding-left: 40px;">
-					<c:forEach var="dto" items="${list}">
+					<c:forEach var="dto" items="${list}" varStatus="status">
 
-						<div class="col-md--4 " style="padding-left: 40px;">
+						<div class="col-md-5 " style="padding-left: 40px;">
 							<div class="card mb-3">
 								<div class="row g-0">
 									<div class="col-md-9">
-										<img
-											src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
-											class="img-fluid rounded-start" alt="..."
-											style="width: 100%; height: auto;">
+										<c:url var="contentUrl" value="shareContent.do">
+										<c:param name="map_idx">${dto.map_idx}</c:param>
+										<c:param name="member_idx">${dto.member_idx}</c:param>
+										</c:url>
+											<a href="${contentUrl }" >
+												<img
+												src="${firstImg[status.index]}"
+												class="img-fluid rounded-start" alt="..."
+												style="width: 100%; height: 360px;">
+											</a>
 									</div>
 									<div class="col-md-3">
-										<div class="card-body">
-											<h5 class="card-title">${dto.map_title }</h5>
-											<p class="card-text">${dto.trip_type }</p>
+											<div class="card-body">
+											
+											<h5 class="card-title"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title }</a></h5>
+											<c:choose>
+												<c:when test="${dto.trip_type==1}">
+													<p class="card-text">여행타입 : 홀로여행</p>
+												</c:when>
+											</c:choose>
+											<c:choose>
+												<c:when test="${dto.trip_type==2}">
+													<p class="card-text">여행타입 : 우정여행</p>
+												</c:when>
+											</c:choose>
+											<c:choose>
+												<c:when test="${dto.trip_type==3}">
+													<p class="card-text">여행타입 : 커플여행</p>
+												</c:when>
+											</c:choose>
+											<c:choose>
+												<c:when test="${dto.trip_type==4}">
+													<p class="card-text">여행타입 : 가족여행</p>
+												</c:when>
+											</c:choose>
+											<p class="card-text" style="font-size: small;">
+											작성자 :	${member[status.index].nickname }</p>
 											<p class="card-text">
 												<small class="text-muted">${dto.registdate }</small>
 											</p>
@@ -183,7 +249,7 @@
 			<script>
 				$('.slider').slick({
 					centerMode : true,
-					centerPadding : '60px',
+					centerPadding : '0px',
 					slidesToShow : 1.7,
 					responsive : [ {
 						breakpoint : 768,
@@ -191,7 +257,7 @@
 							arrows : false,
 							centerMode : true,
 							centerPadding : '40px',
-							slidesToShow : 1
+							slidesToShow : 5
 						}
 					}, {
 						breakpoint : 480,
@@ -199,7 +265,7 @@
 							arrows : false,
 							centerMode : true,
 							centerPadding : '40px',
-							slidesToShow : 1
+							slidesToShow : 5
 						}
 					} ]
 				});
@@ -229,50 +295,47 @@
 				</c:if>
 				<div class="collapse row" id="collapseExample"
 					style="margin-top: 32px;">
-					<c:forEach var="dto" items="${list }">
+					<c:forEach var="dto" items="${list }" varStatus="status">
 						<div class="col-md-3" style="margin-top: 32px;">
 							<div class="card">
-								<img
-									src="${firstImg }"
-									class="card-img-top" alt="...">
-								<div class="card-body">
 								<c:url var="contentUrl" value="shareContent.do">
 								<c:param name="map_idx">${dto.map_idx}</c:param>
 								<c:param name="member_idx">${dto.member_idx}</c:param>
 								</c:url>
-                               	<h5 class="card-title mb-5"><a href="${contentUrl }">${dto.map_title}</a></h5>
-									<p class="card-text">trip_type : ${dto.trip_type }</p>
+									<a href="${contentUrl }" >
+										<img id="${dto.map_idx }"
+										src="${firstImg[status.index]}"
+										class="card-img-top" alt="..." style="height:160px;">
+									</a>
+								<div class="card-body">
+                               	<h5 class="card-title mb-5"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title}</a></h5>
+									<c:choose>
+										<c:when test="${dto.trip_type==1}">
+											<p class="card-text">여행타입 : 홀로여행</p>
+										</c:when>
+									</c:choose>
+									<c:choose>
+										<c:when test="${dto.trip_type==2}">
+											<p class="card-text">여행타입 : 우정여행</p>
+										</c:when>
+									</c:choose>
+									<c:choose>
+										<c:when test="${dto.trip_type==3}">
+											<p class="card-text">여행타입 : 커플여행</p>
+										</c:when>
+									</c:choose>
+									<c:choose>
+										<c:when test="${dto.trip_type==4}">
+											<p class="card-text">여행타입 : 가족여행</p>
+										</c:when>
+									</c:choose>
 									<p class="card-text" style="font-size: small;">
-									작성자 :	${dto.member_idx }</p>
+									작성자 :	${member[status.index].nickname }</p>
 									<p class="card-text" style="font-size: small;">
 										작성일 : ${dto.registdate }</p>
 								</div>
 							</div>
 						</div>
-					<script>
-				function getFirstImg(){
-					var map_idx=${dto.map_idx}
-					$.ajax({
-						url:"getFirstImg.do",
-						type:'GET',
-						data: {map_idx},
-						success:function(data){
-				            alert("완료!");
-				            window.opener.location.reload();
-				            $(".dlaa").imgsrc = al
-				            self.close();
-				        },
-
-				       //에러가 발생되면 출력되는 메시지
-
-				        error:function(jqXHR, textStatus, errorThrown){
-				            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-				            self.close();
-				        }
-				    });
-					}
-				
-				</script>
 					</c:forEach>
 				<div class="row justify-content-md-center text-center mb-5">
 					<div class="col-md-4">
