@@ -21,4 +21,17 @@ public interface AdminDAO {
 	public int adminDelete2(int member_idx);
 	public int memberDelete(int member_idx);
 	public int memberUpdate(MemberDTO mdto);
+	public int totalMemberNum();
+	public int currentMemberNum();
+	public int adminNum();
+	public int ownerNum();
+	public int memberNum();
+	public int memberOutNum();
+	public int monthJoinNum(Map<String, Object> map);
+	public int searchTotalMemberNum(Map<String, Object> map);
+	public int searchCurrentMemberNum(Map<String, Object> map);
+	public int searchAdminNum(Map<String, Object> map);
+	public int searchOwnerNum(Map<String, Object> map);
+	public int searchMemberNum(Map<String, Object> map);
+	public int searchMemberOutNum(Map<String, Object> map);
 }

@@ -1,6 +1,5 @@
 package goo.siteSettings.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class SiteSettingsServiceImple implements SiteSettingsService {
 
@@ -30,8 +29,4 @@ public class SiteSettingsServiceImple implements SiteSettingsService {
 		return dto;
 	}
 	
-	public int faviconUpload(String favicon) {
-		int count = siteSettingsDao.faviconUpload(favicon);
-		return count;
-	}
 }

@@ -13,6 +13,26 @@
 .tr_bg{
        --bs-table-accent-bg: #24292f !important;
 }
+.tr_align{
+	vertical-align: middle;
+}
+.form_control {
+    display: block;
+    width: 190px;
+    padding: -0.625rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
 </style>
 <script>
 function memberOutDelete(index){
@@ -119,18 +139,18 @@ function searchStart(){
 		<form name="search">
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
-				<th style="width:20%">조건 검색</th>
-				<td style="width:80%">
-					<select id="search_type" style="height: 22px;">
+				<th style="width:20%; vertical-align: middle; text-align: center;">조건 검색</th>
+				<td style="width:80%;">
+					<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="display:inline-block; width:100px;" id="search_type"">
 						<option value="id" ${id_selected}>아이디</option>
 						<option value="out_reason" ${out_reason_selected}>탈퇴사유</option>
 					</select>
-					<input id="search" type="text" style="width: 300px;" value="${search}">
+					<input id="search" type="text" class="form_control" id="search" type="text" style="display:inline-block;" value="${search}">
 				</td>
 			</tr>
 			<tr>
-				<th>탈퇴일</th>
-				<td><input id="start_date" value="${start_date}" type="date">~<input id="end_date" value="${end_date}" type="date"></td>
+				<th style="width:20%; vertical-align: middle; text-align: center;">탈퇴일</th>
+				<td style="width:80%;"><input id="start_date" value="${start_date}" type="date">~<input id="end_date" value="${end_date}" type="date"></td>
 			</tr>
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
@@ -138,12 +158,17 @@ function searchStart(){
 					<input type="button" class="bt btn-dark" style="border-radius: 3px;" value="검색하기" onclick="searchStart()">
 				</div>	
 			</div>
-			<div class="row">
-				<div class="col-md-3 text-left">
-					<label><b>총 회원수:${totalMemberOut}</b> <b>검색수: ${search_num}</b></label>
-				</div>
-			</div>
 		</form>
+		<fieldset style="padding: 12px 14px 10px;
+		margin-bottom: 5px;">
+		<div>
+			<div class="col-md-12 text-left">
+				<label><b>총 회원수:${totalMemberOut}</b></label>
+				<c:if test="${search_num!=0}">
+					<label><b>검색수: ${search_num}</b></label>
+				</c:if>
+			</div>
+		</div>
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
@@ -187,6 +212,7 @@ function searchStart(){
 		  	</c:forEach>
 		  </tbody>
 		</table>
+		</fieldset>
 		</div>
 	</div>
 </div>

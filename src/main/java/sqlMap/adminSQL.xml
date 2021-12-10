@@ -75,7 +75,10 @@
 			, #{member_idx}
 			, #{admin_phone}
 			, #{admin_tel}
+			, #{admin_postcode}
 			, #{admin_addr}
+			, #{admin_extra_addr}
+			, #{admin_detail_addr}
 			, sysdate)
   	</insert>
   	<update id="adminUpdate1" parameterType="goo.member.model.MemberDTO">
@@ -93,7 +96,10 @@
   		SET 
   			  admin_tel = #{admin_tel}
   			, admin_phone = #{admin_phone}
+  			, admin_postcode = #{admin_postcode}
   			, admin_addr = #{admin_addr}
+  			, admin_extra_addr = #{admin_extra_addr}
+  			, admin_detail_addr = #{admin_detail_addr}
   		WHERE 
   			member_idx = #{member_idx}
   	</update>
@@ -112,7 +118,7 @@
   	<select id="memberList" parameterType="Map" resultType="goo.member.model.MemberDTO">
   		SELECT * FROM
 		(SELECT rownum as rnum,a.* FROM
-		(SELECT * FROM member WHERE member_type = 'M' AND del = 'N' ORDER BY member_idx DESC)a)b
+		(SELECT * FROM member WHERE NOT member_type = 'A' AND del = 'N' ORDER BY member_idx DESC)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
   	<select id="totalMember" resultType="integer">
@@ -121,7 +127,7 @@
   		FROM 
   			member
   		WHERE 
-  			member_type = 'M' 
+  			NOT member_type = 'A' 
   		AND del = 'N'
   		ORDER BY 
   			member_idx DESC
@@ -154,7 +160,7 @@
   		FROM
   			member
   		WHERE ${search_type} LIKE '%' || #{search} || '%'
-  		AND member_type = 'M' AND del = 'N'
+  		AND NOT member_type = 'A' AND del = 'N'
 	</select>
 	<select id="joinDateTotalMember" parameterType="Map" resultType="Integer">
 		SELECT 
@@ -162,9 +168,9 @@
   		FROM 
   			member 
   		WHERE 
-  			join_date <![CDATA[>=]]> #{start_date} 
-  		AND join_date <![CDATA[<=]]> #{end_date}
-  		AND member_type = 'M' 
+  			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} 
+  		AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+  		AND NOT member_type = 'A' 
   		AND del = 'N'
 	</select>
 	<select id="twoSearchTotalMember" parameterType="Map" resultType="Integer">
@@ -175,28 +181,28 @@
   		WHERE 
   			${search_type} LIKE '%' || #{search} || '%' 
   		AND 
-  			join_date <![CDATA[>=]]> #{start_date} AND join_date <![CDATA[<=]]> #{end_date}
+  			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
   		AND 
-  			member_type = 'M' 
+  			NOT member_type = 'A' 
   		AND 
   			del = 'N'
 	</select>
-	<select id="memberSearchList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
+	<select id="memberSearchList" parameterType="Map" resultType="goo.member.model.MemberDTO">
   		SELECT * FROM
 		(SELECT rownum as rnum,a.* FROM
-		(SELECT * FROM member WHERE ${search_type} LIKE '%' || #{search} || '%' AND member_type = 'M' AND del = 'N' ORDER BY member_idx desc)a)b
+		(SELECT * FROM member WHERE ${search_type} LIKE '%' || #{search} || '%' AND NOT member_type = 'A' AND del = 'N' ORDER BY member_idx desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
-	<select id="memberJoinDateList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
+	<select id="memberJoinDateList" parameterType="Map" resultType="goo.member.model.MemberDTO">
   		SELECT * FROM
 		(SELECT rownum as rnum,a.* FROM
-		(SELECT * FROM member WHERE join_date <![CDATA[>=]]> #{start_date} AND join_date <![CDATA[<=]]> #{end_date} AND member_type = 'M' AND del = 'N' ORDER BY member_idx desc)a)b
+		(SELECT * FROM member WHERE TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date} AND NOT member_type = 'A' AND del = 'N' ORDER BY member_idx desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
-  	<select id="memberTwoSearchList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
+  	<select id="memberTwoSearchList" parameterType="Map" resultType="goo.member.model.MemberDTO">
   		SELECT * FROM
 		(SELECT rownum as rnum,a.* FROM
-		(SELECT * FROM member WHERE join_date LIKE '%' || #{search} || '%' AND join_date <![CDATA[>=]]> #{start_date} AND join_date <![CDATA[<=]]> #{end_date} AND member_type = 'M' AND del = 'N' ORDER BY member_idx desc)a)b
+		(SELECT * FROM member WHERE ${search_type} LIKE '%' || #{search} || '%' AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date} AND NOT member_type = 'A' AND del = 'N' ORDER BY member_idx desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
   </mapper>

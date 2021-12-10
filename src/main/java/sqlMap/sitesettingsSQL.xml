@@ -16,11 +16,6 @@
   			  web_browser_title = #{web_browser_title}
   			, keyword = #{keyword} 
   			, description = #{description}
-  	</update>
-  	<update id="faviconUpload" parameterType="String">
-  		UPDATE
-  			site_settings
-  		SET
-  			favicon = #{favicon}
+  			, favicon = #{favicon}
   	</update>
   </mapper>

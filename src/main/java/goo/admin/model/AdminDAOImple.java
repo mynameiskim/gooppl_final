@@ -99,4 +99,71 @@ public class AdminDAOImple implements AdminDAO {
 		int count = sqlMap.update("memberUpdate", mdto);
 		return count;
 	}
+	
+	public int totalMemberNum() {
+		int count = sqlMap.selectOne("totalMemberNum");
+		return count;
+	}
+	
+	public int currentMemberNum() {
+		int count = sqlMap.selectOne("currentMemberNum");
+		return count;
+	}
+	
+	public int adminNum() {
+		int count = sqlMap.selectOne("adminNum");
+		return count;
+	}
+	
+	public int ownerNum() {
+		int count = sqlMap.selectOne("ownerNum");
+		return count;
+	}
+	
+	public int memberNum() {
+		int count = sqlMap.selectOne("memberNum");
+		return count;
+	}
+	
+	public int memberOutNum() {
+		int count = sqlMap.selectOne("memberOutNum");
+		return count;
+	}
+	
+	public int monthJoinNum(Map<String,Object> map) {
+		System.out.println("SQL 전");
+		int count = sqlMap.selectOne("monthJoinNum",map);
+		System.out.println("SQL 통과");
+		return count;
+	}
+	
+	public int searchCurrentMemberNum(Map<String, Object> map) {
+		int count = sqlMap.selectOne("searchCurrentMemberNum",map);
+		return count;
+	}
+	
+	public int searchAdminNum(Map<String, Object> map) {
+		int count = sqlMap.selectOne("searchAdminNum",map);
+		return count;
+	}
+	
+	public int searchOwnerNum(Map<String, Object> map) {
+		int count = sqlMap.selectOne("searchOwnerNum",map);
+		return count;
+	}
+	
+	public int searchMemberNum(Map<String, Object> map) {
+		int count = sqlMap.selectOne("searchMemberNum",map);
+		return count;
+	}
+	
+	public int searchMemberOutNum(Map<String, Object> map) {
+		int count = sqlMap.selectOne("searchMemberOutNum",map);
+		return count;
+	}
+	
+	public int searchTotalMemberNum(Map<String, Object> map) {
+		int count = sqlMap.selectOne("searchTotalMemberNum",map);
+		return count;
+	}
 }

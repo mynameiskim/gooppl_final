@@ -44,6 +44,11 @@ public class AdminMemberManagement {
 	public ModelAndView memberList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
 			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
+		if(!start_date.equals("")) {
+			end_date = start_date;
+		}else if(!end_date.equals("")) {
+			start_date = end_date;
+		}
 		int listSize=5;
 		int pageSize=5;
 		int totalMember = memberService.totalMember();
@@ -81,6 +86,11 @@ public class AdminMemberManagement {
 	public ModelAndView memberOutList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
 			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
+		if(!start_date.equals("")) {
+			end_date = start_date;
+		}else if(!end_date.equals("")) {
+			start_date = end_date;
+		}
 		System.out.println("memberOutList ok");
 		System.out.println("search_type="+search_type);
 		System.out.println("search="+search);
@@ -174,20 +184,22 @@ public class AdminMemberManagement {
 	}
 	
 	@RequestMapping("/member_update.do")
-	public  ModelAndView memberUpdate(MemberDTO mdto){
+	@ResponseBody
+	public  Map<String,Object> memberUpdate(MemberDTO mdto){
 		int result = adminService.memberUpdate(mdto);
-		
-		ModelAndView mav = new ModelAndView();
+		int code = 0;
+		Map<String,Object> map = new HashMap<String,Object>();
 		if(result>0) {
 			System.out.println("수정성공 ok");
-			mav.addObject("msg", mdto.getMember_idx()+"번 회원의 닉네임이 수정되었습니다.");
+			code = 1;
+			map.put("msg", mdto.getMember_idx()+"번 회원의 닉네임이 수정되었습니다.");
 		}else {
 			System.out.println("수정실패 ok");
-			mav.addObject("msg", "ERROR");
+			code = 0;
+			map.put("msg", "ERROR");
 		}
-		mav.addObject("goPage", "admin_member_list.do");
-		mav.setViewName("admin/basic_settings/msg");
-		return mav;
+		map.put("code", code);
+		return map;
 	}
 	
 	//폼메일

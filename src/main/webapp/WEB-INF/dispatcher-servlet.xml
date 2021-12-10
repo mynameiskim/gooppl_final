@@ -41,7 +41,7 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	         </beans:props>
 	      </beans:property>
 	   </beans:bean>
-		
+
 		<!--  vss  -->
 		<beans:bean id="gooDown" class="goo.view.DownloadView"/>
 		

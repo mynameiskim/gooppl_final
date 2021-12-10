@@ -31,13 +31,13 @@
   	<select id="memberOutDateList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
   		SELECT * FROM
 		(SELECT rownum as rnum,a.* FROM
-		(SELECT * FROM member_out WHERE outdate <![CDATA[>=]]> #{start_date} AND outdate <![CDATA[<=]]> #{end_date} ORDER BY out_no desc)a)b
+		(SELECT * FROM member_out WHERE TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date} ORDER BY out_no desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
   	<select id="memberOutTwoSearchList" parameterType="Map" resultType="goo.memberout.model.MemberOutDTO">
   		SELECT * FROM
 		(SELECT rownum as rnum,a.* FROM
-		(SELECT * FROM member_out WHERE ${search_type} LIKE '%' || #{search} || '%' AND outdate <![CDATA[>=]]> #{start_date} AND outdate <![CDATA[<=]]> #{end_date} ORDER BY out_no desc)a)b
+		(SELECT * FROM member_out WHERE ${search_type} LIKE '%' || #{search} || '%' AND TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date} ORDER BY out_no desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
   	<select id="outDateTotalMemberOut" parameterType="Map" resultType="Integer">
@@ -46,8 +46,8 @@
   		FROM 
   			member_out 
   		WHERE 
-  			outdate <![CDATA[>=]]> #{start_date} 
-  		AND outdate <![CDATA[<=]]> #{end_date}
+  			TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} 
+  		AND TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
   	</select>
   	<select id="twoSearchTotalMemberOut" parameterType="Map" resultType="Integer">
   		SELECT 
@@ -56,7 +56,7 @@
   			member_out 
   		WHERE 
   			${search_type} LIKE '%' || #{search} || '%' AND 
-  		outdate <![CDATA[>=]]> #{start_date} AND outdate <![CDATA[<=]]> #{end_date}
+  		TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(outdate,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
   	</select>
   	<insert id="insertMemberOut">
   		insert into member_out values(member_out_idx.nextval,#{goo_id},#{out_reason},sysdate)

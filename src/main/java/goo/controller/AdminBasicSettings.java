@@ -4,12 +4,19 @@ import java.util.HashMap;
 
 
 
+
 import java.util.List;
 import java.util.Map;
+
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.*;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +28,11 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import goo.admin.model.AdminService;
+import goo.formmail.model.FormmailDTO;
+import goo.formmail.model.FormmailService;
 import goo.member.model.MemberDTO;
+import goo.siteSettings.model.SiteSettingsDAO;
 import goo.siteSettings.model.SiteSettingsDTO;
-import goo.siteSettings.model.SiteSettingsService;
 import goo.admin.model.*;
 
 @Controller
@@ -32,8 +41,14 @@ public class AdminBasicSettings {
 	@Autowired
 	private AdminService adminService;
 	@Autowired
-	private SiteSettingsService siteSettingsService;
-
+	private SiteSettingsDAO siteSettingsDao;
+	@Autowired
+	private JavaMailSender mailSender;
+	@Autowired
+	private FormmailService formmailService;
+	private static final int EMAIL_JOIN_FORMMAIL_NO = 1;
+	public static final String FAVICON_PATH="C:\\Users\\nojiw\\git\\final_git1\\src\\main\\webapp\\resource\\assets\\img\\";
+	
 	@RequestMapping("/admin_basic_settings.do")
 	public String adminBasicSettings() {
 		return "admin/basic_settings/admin_basic_settings";
@@ -87,12 +102,14 @@ public class AdminBasicSettings {
 	}
 	
 	@RequestMapping(value = "/admin_insert.do",method = RequestMethod.POST)
-	public ModelAndView addAdmin(MemberDTO mdto,AdminDTO adto) {
+	@ResponseBody
+	public Map<String,Object> addAdmin(MemberDTO mdto,AdminDTO adto) {
 		System.out.println("admin_insert.do ok");
 		System.out.println(mdto.getGoo_id());
 		System.out.println(adto.getAdmin_phone());
 		int result1 = adminService.adminInsert1(mdto);
-		ModelAndView mav = new ModelAndView();
+		int code = 0;
+		Map<String,Object> map = new HashMap<String, Object>();
 		if(result1>0) {
 			mdto= adminService.adminMemberInfo(mdto.getGoo_id());
 			int member_idx=mdto.getMember_idx();
@@ -101,38 +118,68 @@ public class AdminBasicSettings {
 			System.out.println("adto.getAdmin_addr="+adto.getAdmin_addr());
 			int result2 = adminService.adminInsert2(adto);
 			if(result2>0) {
-				mav.addObject("msg", "관리자 등록완료");
-			}else {
+				code = 2;
+				map.put("msg", "관리자 등록완료");
 				
-				mav.addObject("msg", "관리자 등록실패");
+				FormmailDTO fdto = formmailService.emailTokenFormmail(EMAIL_JOIN_FORMMAIL_NO);
+				/* 이메일 보내기 */
+		        String setFrom = "w12310@naver.com";
+		        String toMail = mdto.getGoo_id();
+		        String title = fdto.getForm_title();
+		        String content = fdto.getForm_content();
+		        title = title.replace("{{NICKNAME}}", mdto.getNickname());
+		        content = content.replace("{{NICKNAME}}", mdto.getNickname());
+		        
+		        try {
+		            
+		            MimeMessage message = mailSender.createMimeMessage();
+		            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		            helper.setFrom(setFrom);
+		            helper.setTo(toMail);
+		            helper.setSubject(title);
+		            helper.setText(content,true);
+		            mailSender.send(message);
+		            
+		        }catch(Exception e) {
+		            e.printStackTrace();
+		        }
+				
+			}else {
+				code = 1;
+				map.put("msg", "관리자 등록실패");
 			}
 		}else {
-			mav.addObject("msg", "관리자 등록실패");
+			code = 0;
+			map.put("msg", "관리자 등록실패");
 		}
-		mav.setViewName("admin/basic_settings/admin_insert_result_msg");
-		return mav;
+		map.put("code", code);
+		return map;
 	}
 	
 	@RequestMapping("/admin_update.do")
-	public ModelAndView admin_update(MemberDTO mdto,AdminDTO adto) {
+	@ResponseBody
+	public Map<String,Object> admin_update(MemberDTO mdto,AdminDTO adto) {
 		System.out.println("admin_update OK");
 		System.out.println(mdto.getMember_idx());
 		System.out.println(adto.getMember_idx());
+		int code = 0;
 		int result1 = adminService.adminUpdate1(mdto);
-		ModelAndView mav = new ModelAndView();
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(result1>0) {
 			int result2 = adminService.adminUpdate2(adto);
 			if(result2>0) {
-				mav.addObject("msg", "관리자정보 수정완료");
+				code = 2;
+				map.put("msg", "관리자정보 수정완료");
 			}else {
-				mav.addObject("msg", "관리자정보 수정실패");
+				code = 1;
+				map.put("msg", "관리자정보 수정실패");
 			}
 		}else {
-			mav.addObject("msg", "관리자정보 수정실패");
+			code = 0;
+			map.put("msg", "관리자정보 수정실패");
 		}
-		mav.addObject("goPage", "admin_settings.do");
-		mav.setViewName("admin/basic_settings/msg");
-		return mav;
+		map.put("code", code);
+		return map;
 	}
 	
 	@RequestMapping("/admin_delete")
@@ -184,40 +231,55 @@ public class AdminBasicSettings {
 		return mav;
 	}
 	
-	@RequestMapping("/faviconUpload.do")
+	@RequestMapping("/site_settings_update.do")
 	@ResponseBody
-	public Map<String,Object> faviconUpload(SiteSettingsDTO	sdto){
-		System.out.println("faviconUpload ok");
-		String favicon=sdto.getFavicon();
-		int result = siteSettingsService.faviconUpload(favicon);
+	public Map<String, Object> siteSettingsUpdate(SiteSettingsDTO sdto,@RequestParam(value ="faviconFile", required = false )MultipartFile faviconFile
+			,HttpServletRequest req) {
+		System.out.println(faviconFile);
+		System.out.println(sdto.getWeb_browser_title());
 		
-		Map<String,Object> map = new HashMap<String, Object>();
+		String realPath = req.getRealPath("/");
+		String contextPath = req.getContextPath();
+		faviconCopyInto(faviconFile,realPath);
+		System.out.println("realPath="+realPath);
+		
+		String favicon = contextPath+"/resource/assets/img/"+faviconFile.getOriginalFilename();
+		System.out.println(favicon);
+		sdto.setFavicon(favicon);
+		int result = siteSettingsDao.siteSettingsUpdate(sdto);
+		int code = 0;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		
 		if(result>0) {
-			map.put("msg","성공");
+			code = 1;
+			map.put("msg", "수정 완료");
 		}else {
-			map.put("msg","실패");
+			code = 0;
+			map.put("msg", "수정 실패");
 		}
-		
-		map.put("favicon", favicon);
+		map.put("code", code);
 		return map;
 	}
-	
-	
+
 	/**실제 파일 복사 관련 메서드*/
-	public void copyInto(MultipartFile upload) {
+	public File faviconCopyInto(MultipartFile upload,String realPath) {
 		
 		System.out.println("올릴파일명:"+upload.getOriginalFilename());
-		
+		File faviconFile=null;
 		try {
 			byte[] bytes=upload.getBytes();
 			//복사본정보
-			File outFile=new File("C:\\Users\\nojiw\\Desktop\\노지원\\upload/"+upload.getOriginalFilename());
-			FileOutputStream fos=new FileOutputStream(outFile);
+			faviconFile= new File(realPath+"/resource/assets/img/"+upload.getOriginalFilename());
+			FileOutputStream fos=new FileOutputStream(faviconFile);
 			fos.write(bytes);
 			fos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return faviconFile;
 	}
 }
