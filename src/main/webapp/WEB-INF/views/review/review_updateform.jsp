@@ -138,7 +138,7 @@
         style="padding-top: 6rem; background: white">
        <div class="container-sm mb-5">
             <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-			<form id="review_form" class="form-inline" name="updatereview" action="reviewUpdate.do" method="post" enctype="multipart/form-data">
+			<form id="review_form" class="needs-validation" name="updatereview" action="reviewUpdate.do" method="post" enctype="multipart/form-data" novalidate="novalidate">
             <input type="hidden" name="member_idx" value="${sessionScope.sessionMember_idx }">
             <input type="hidden" name="nickname" value="${sessionScope.sessionNickname}">
             <input type="hidden" name="review_idx" value="${param.review_idx}">
@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="col-md-offset-1 col-md-4">
-                    <!-- 	제목 -->
+                  
                     <div id="title">
                         <h5 class="display-6 fw-bolder text-center ">
                         	Review 수정
@@ -165,23 +165,24 @@
     		 <!--########################## 작성폼 ####################### -->
              <div class="row justify-content-md-center">
                <div class="col-md-8">
-		           		 <!--프롤로그 입력-->
+                 		<!-- 	제목 -->
 			             <div class="row mb-2">
 			                 <div class="col-xs-12">
-		                   		 <input class="form-control" type="text" id="subject" name="subject" value="${dto.subject }" placeholder="제목을 입력해주세요.">
+		                   		 <input class="form-control" type="text" id="subject" name="subject" value="${dto.subject }" placeholder="제목을 입력해주세요." required="required">
 			                 </div>
 			                  
+		           		 <!--프롤로그 입력-->
 			                 <div class="col-xs-12">
 			                 </div>
 			                 <div class="col-xs-12">
-		                         <textarea class="form-control" id="exampleFormControlTextarea1"  placeholder="간단한 소개글을 적어주세요~" rows="3" name="prologue">${dto.prologue }</textarea>
+		                         <textarea class="form-control" id="exampleFormControlTextarea1"  placeholder="간단한 소개글을 적어주세요~" rows="3" name="prologue" required="required">${dto.prologue }</textarea>
 			                 </div>
 			                  
 				         </div>    
 		                 <!-- 이미지 업로드 양식 -->
 			             <div class="row img_container">
 			                 <div class="col-xs-12 ">
-			                   <textarea class="form-control" id="summernote" name="content" rows="20" cols="100">
+			                   <textarea class="form-control" id="summernote" name="content" rows="20" cols="100" required="required">
 			                   ${dto.content }</textarea> 
 			                   <!-- textarea 밑에 script 작성하기 -->
 								<!-- #### 섬머노트 세팅 #### -->
@@ -217,6 +218,21 @@
 								        }
 								        
 									});
+									<!--##### 유효성 검사 #####-->
+									var forms = document.querySelectorAll('.needs-validation')
+
+									  // Loop over them and prevent submission
+									  Array.prototype.slice.call(forms)
+									    .forEach(function (form) {
+									      form.addEventListener('submit', function (event) {
+									        if (!form.checkValidity()) {
+									          event.preventDefault()
+									          event.stopPropagation()
+									        }
+
+									        form.classList.add('was-validated')
+									      }, false)
+									    })
 								});
 									
 /**
@@ -246,7 +262,7 @@ function uploadSummernoteImageFile(file, el) {
 		                      <div class="col-xs-12 ">
 		                          <div class="mb-3">
 		                              <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" name="epilogue"
-		                                  placeholder="작성 후기 또는 느낀점">${dto.epilogue }</textarea>
+		                                  placeholder="작성 후기 또는 느낀점" required="required">${dto.epilogue }</textarea>
 		                          </div>
 		                      </div>
 		                  </div>
@@ -271,40 +287,7 @@ function uploadSummernoteImageFile(file, el) {
         
    
     
-           <!--##### 유효성 검사 #####-->
-    <script>
-    var subject;
-    var prologue;
-    var content;
-    var epilogue;
-    
-    $( document ).ready(function(){
-    function checkForm(){
-    	alert('tetetet');
-    	$(#review_form).addEventListener("click",function(){
-    		var subject = $(#subject).val();
-    		var prologue = $(#exampleFormControlTextarea1).val();
-    		var content = $(#summernote).val();
-    		var epilogue = $(#exampleFormControlTextarea2).val();
-    		
-    		if(subject==""){
-    			alert('제목을 입력해주세요');
-    			$(#subject).focus();
-    		}else if(prologue==""){
-    			alert('소개를 입력해주세요');
-    			$(#exampleFormControlTextarea1).focus();
-    		}else if(content==""){
-    			alert('내용을 입력해주세요');
-    			$(#summernote).focus();
-    		}else if(epilogue==""){
-    			alert('후기를 입력해주세요');
-    			$(#exampleFormControlTextarea2).focus();
-    		}
-    		document.getElementById("postForm").submit();
-    		})
-    	}
-    }
-    </script>       
+          
            
 
 
