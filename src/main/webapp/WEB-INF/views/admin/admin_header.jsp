@@ -5,10 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
 <title>${sessionScope.dto.web_browser_title}</title>
 <meta name="description" content="${sessionScope.dto.description}">
 <meta name="keyword" content="${sessionScope.dto.keyword}">
-<meta name="favicon" content="${sessionScope.dto.favicon}">
+<link rel="shortcut icon" href="${sessionScope.dto.favicon}" type="image/x-icon" />
+<link rel="icon" href="${sessionScope.dto.favicon}" type="image/x-icon" />
 <link href="${pageContext.request.contextPath}/resource/css/admin_header.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resource/css/admin_common.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resource/css/admin_footer.css" type="text/css" rel="stylesheet">
@@ -22,8 +24,8 @@
 <header class="text-light bg_c_n">
   <nav class="navbar navbar-expand-lg navbar-light p-1 text-light bg-opacity-10">
     <div class="container-fluid">
-    	<div class="welcome"><b>${sessionScope.sessionNickname}님 안녕하세요</b> <br>today :${sessionScope.now}</div>&nbsp;&nbsp;&nbsp;
-      관리자페이지
+    	<div class="welcome"><b>${sessionScope.sessionNickname}님 안녕하세요</b> <br>Today:&nbsp;${sessionScope.now}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span><a href="admin_basic_settings.do" style="color: white !important;"><b style="font-size:18px;">관리자페이지</b></a></span>&nbsp;&nbsp;
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -59,4 +61,3 @@
   </nav>
 </header>
 </body>
-</html>

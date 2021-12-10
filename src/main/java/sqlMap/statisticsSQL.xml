@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goo.statistics">
+	<select id="totalMemberNum" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			member
+	</select>
+	<select id="currentMemberNum" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+	</select>
+	<select id="adminNum" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+		AND
+			member_type = 'A'
+	</select>
+	<select id="ownerNum" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+		AND
+			member_type = 'O'
+	</select>
+	<select id="memberNum" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+		AND
+			member_type = 'M'
+	</select>
+	<select id="memberOutNum" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'Y'
+	</select>
+	<select id="monthJoinNum" parameterType="map" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date}
+		AND 
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+	</select>
+	<select id="searchTotalMemberNum" parameterType="map" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			member
+		WHERE
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+	</select>
+	<select id="searchCurrentMemberNum" parameterType="map" resultType="Integer"> 
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+		AND
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date}
+		AND 
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+	</select>
+	<select id="searchAdminNum" parameterType="map" resultType="Integer"> 
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+		AND
+			member_type = 'A'
+		AND
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date}
+		AND 
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+	</select>
+	<select id="searchOwnerNum" parameterType="map" resultType="Integer"> 
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+		AND
+			member_type = 'O'
+		AND
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date}
+		AND 
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+	</select>
+	<select id="searchMemberNum" parameterType="map" resultType="Integer"> 
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'N'
+		AND
+			member_type = 'M'
+		AND
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date}
+		AND 
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+	</select>
+	<select id="searchMemberOutNum" parameterType="map" resultType="Integer"> 
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			del = 'Y'
+		AND
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date}
+		AND 
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+	</select>
+</mapper>
