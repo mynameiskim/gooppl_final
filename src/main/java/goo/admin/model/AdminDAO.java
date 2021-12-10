@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.Map;
 
 import goo.member.model.MemberDTO;
+import goo.review.model.ReviewDTO;
 
 public interface AdminDAO {
 
@@ -34,4 +35,6 @@ public interface AdminDAO {
 	public int searchOwnerNum(Map<String, Object> map);
 	public int searchMemberNum(Map<String, Object> map);
 	public int searchMemberOutNum(Map<String, Object> map);
+	public List<ReviewDTO> adminReview(Map map);
+	public int adminReviewTotal();
 }
