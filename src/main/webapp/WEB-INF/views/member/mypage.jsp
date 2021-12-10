@@ -145,7 +145,7 @@
             	
                 <div class="col-md-2 text-center">
                     <h5 class="fw-bolder mb-3 text-center">나의 일정</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><button onclick="showMyPlan()" class="btn btn-primary" style="font-size:30px;" id="showMyPlan_bt">${mapDTO.size()}</button></h4>
+                    <h4 class="fw-bolder mb-3 text-center"><button onclick="showMyPlan()" class="btn btn-primary btn-lg" style="font-size:30px;" id="showMyPlan_bt">${mapDTO.size()}</button></h4>
                 </div>
                 <script>
                 function showMyPlan(index){
@@ -158,7 +158,7 @@
                 
                 <div class="col-md-2 text-center">
                     <h5 class="fw-bolder mb-3 text-center">나의 후기</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary" onclick="showMyReview()" style="font-size:30px;">3</button></h4>
+                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary btn-lg" onclick="showMyReview()" style="font-size:30px;" id="showMyReview_bt">${reviewDTO.size()}</button></h4>
                 </div>
                 
                 <script>
@@ -173,7 +173,7 @@
                 <c:if test="${sessionScope.sessionMemberType=='O'}">
                 	<div class="col-md-2 text-center">
                     <h5 class="fw-bolder mb-3 text-center">나의 업장</h5>
-                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary" onclick="showMyStore()" style="font-size:30px;">1</button></h4>
+                    <h4 class="fw-bolder mb-3 text-center"><button  class="btn btn-primary btn-lg" onclick="showMyStore()" style="font-size:30px;">1</button></h4>
                 </div>
                 <script>
                 function showMyStore(){
@@ -425,6 +425,9 @@
                                 <div class="col-md-12 fw-bolder">    
                                     <div class="row justify-content-md-center mb-2">
 	                                        <div class="col-md-3 col-sm-3">
+                                            	<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">보기</button>
+                                        	</div>
+	                                        <div class="col-md-3 col-sm-3">
 	                                            <c:if test="${mapdto.share_ok=='n'}">
 	                                            	<button id="planShare_bt${status.index}" type="button" class="btn btn-primary btn-sm planShare_bt" style="padding: 0.5rem 2.5em;" onclick="planShare(${mapdto.map_idx},${status.index});">공유</button>
 	                                            	<button id="planShare_cbt${status.index}" type="button" class="btn btn-primary btn-sm planShare_cbt" style="padding: 0.5rem 2.5em; display:none;" onclick="planShareCancel(${mapdto.map_idx},${status.index});">취소</button>
@@ -566,55 +569,44 @@
                     </div>
                 </div>
             </div>
-            <c:if test="${empty mapDTO}">
+            <c:if test="${empty reviewDTO}">
             	<div class="row justify-content-md-center mb-5">
             		<div class="col-md-6">
             		  <div class="img-wrapper" style="position: relative; text-align:center; margin:0px auto;">
-            			<a href="#"><img class="rounded img-responsive" alt="..." src ="/gooppl/resource/img/마이페이지리뷰쓰기.png"></a>
+            			<a href="reviewWrite.do"><img class="rounded img-responsive" alt="..." src ="/gooppl/resource/img/마이페이지리뷰쓰기.png"></a>
 					  </div>    
             		</div>
             	</div>
             </c:if>
-           	<div class="row row-cols-1 row-cols-md-4 g-4 justify-content-md-center mb-4">
-			  <div class="col">
-			    <div class="card h-100">
-			      <img src="/gooppl/resource/img/suwon.jpg" class="card-img-top" alt="...">
-			      <div class="card-body">
-			        <h5 class="card-title">Card title</h5>
-			        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			      </div>
-			      <div class="card-footer">
-					<button class="btn btn-primary" type="button">수정</button>
-					<button class="btn btn-primary" type="button">삭제</button>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="col">
-			    <div class="card h-100">
-			      <img src="/gooppl/resource/img/yeosu.jpg" class="card-img-top" alt="...">
-			      <div class="card-body">
-			        <h5 class="card-title">Card title</h5>
-			        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-			      </div>
-			      <div class="card-footer">
-			        <button class="btn btn-primary" type="button">수정</button>
-					<button class="btn btn-primary" type="button">삭제</button>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="col">
-			    <div class="card h-100">
-			      <img src="/gooppl/resource/img/chuncheon.jpg" class="card-img-top" alt="...">
-			      <div class="card-body">
-			        <h5 class="card-title">Card title</h5>
-			        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-			      </div>
-			      <div class="card-footer">
-			        <button class="btn btn-primary" type="button">수정</button>
-					<button class="btn btn-primary" type="button">삭제</button>
-			      </div>
-			    </div>
-			  </div>
+            <div class="row justify-content-md-center">
+            <div class="col-md-10">
+	           	<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+				  <c:forEach var="reviewdto" items="${reviewDTO}" varStatus="status">
+					  <div class="col">
+						  <div class="card h-100" style="max-width: 500px;">
+						      <div class="card-body">
+						        <h5 class="card-title mb-2">
+						        	<label class="bg-warning text-center" style=" width: 40px;color: #fff;font-weight: 600;font-size: 1.2rem;">${status.index+1}</label>
+						        </h5>
+						        <p class="card-text">
+						        	&quot;${reviewdto.subject}&quot;
+						        </p>
+						      </div>
+						      <div class="card-footer">
+						       <p class="fs-5 fw-bold">
+						       <label class="text-muted">${reviewdto.writedate }</label>
+						       <img src="/gooppl/resource/img/이미지아이콘2.png" style="width:30px;height:30px;margin:0px 5px;border-radius:5px;">2
+						       <img src="/gooppl/resource/img/댓글아이콘.png" style="width:25px;height:25px;margin:0px 5px;border-radius:5px;">3
+						       </p>
+								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewUpdateForm.do'">보기</button>
+								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewUpdateForm.do'">수정</button>
+								<button class="btn btn-primary" type="button" >삭제</button>
+						      </div>
+							   </div>
+					  </div>
+				  </c:forEach>
+				</div>
+			</div>
 			</div>
         </div>
     </section>

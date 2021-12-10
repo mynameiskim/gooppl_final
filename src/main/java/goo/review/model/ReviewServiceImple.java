@@ -56,4 +56,8 @@ public class ReviewServiceImple implements ReviewService {
 		int count = reviewDao.updateReview(dto);
 		return count;
 	}
+	public List<ReviewDTO> getReview(int member_idx){
+		List<ReviewDTO> reviewDTO = reviewDao.getReview(member_idx);
+		return reviewDTO;
+	}
 }

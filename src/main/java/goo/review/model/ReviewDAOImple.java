@@ -44,4 +44,8 @@ public class ReviewDAOImple implements ReviewDAO {
 		int count=sqlMap.update("reviewUpdate", dto);
 		return count;
 	}
+	public List<ReviewDTO> getReview(int member_idx) {
+		List<ReviewDTO> reviewDTO = sqlMap.selectList("getReview",member_idx);
+		return reviewDTO;
+	}
 }

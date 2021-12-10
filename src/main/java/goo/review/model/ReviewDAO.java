@@ -10,4 +10,5 @@ public interface ReviewDAO {
 	public int getTotalCnt();
 	public int delReview(int review_idx);
 	public int updateReview(ReviewDTO dto);
+	public List<ReviewDTO> getReview(int member_idx);
 }

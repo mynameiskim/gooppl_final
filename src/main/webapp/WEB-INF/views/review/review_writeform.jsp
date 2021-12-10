@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -138,8 +139,8 @@
        <div class="container-sm mb-5">
             <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
             <form id="review_form" class="form-inline" name="writereview" action="writeReviewSubmit.do" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="member_idx" value="1111">
-            <input type="hidden" name="nickname" value="홍길동">
+            <input type="hidden" name="member_idx" value="${sessionScope.sessionMember_idx }">
+            <input type="hidden" name="nickname" value="${sessionScope.sessionNickname}">
             <div class="row">
                 <div class="col-md-4" style="height: 128px;">
                     <!-- 페이지 경로 -->
