@@ -3,9 +3,11 @@
 
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import goo.ad_inquery.model.Ad_inquiryService;
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
+import goo.inquiry.model.InquiryDTO;
+import goo.inquiry.model.InquiryService;
 import goo.map_t.model.Gooppl_mapDTO;
 import goo.map_t.model.Gooppl_mapService;
 import goo.mapinfo.model.MapInfoDTO;
@@ -58,6 +64,8 @@ public class MainController {
 	private OwnerService ownerService;
 	@Autowired
 	private ReviewService reviewService;
+	@Autowired
+	private InquiryService InquiryService;
 	
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	private static final int EMAIL_PWD_FIND_FORMMAIL_NO = 3;
@@ -65,32 +73,40 @@ public class MainController {
 	@RequestMapping("/mypage.do")
 	public ModelAndView mypage(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
-		String ad_inquiry_state = ad_inquiryService.ckAdInquiry(member_idx);
-		session.setAttribute("ad_inquiry_state", ad_inquiry_state);
-		
-		OwnerDTO odto = ownerService.ckOwnerInfo(member_idx);
-		
-		List<Gooppl_mapDTO> mapDTO = gooppl_mapService.getMap(member_idx);
-		int totalPlaceCount[] = new int[mapDTO.size()];
-		String firstImg[] = new String[mapDTO.size()];
-		List<ReviewDTO> reviewDTO = reviewService.getReview(member_idx);
-		               
-		for(int i=0;i<mapDTO.size();i++) {
+		if(session.getAttribute("sessionMember_idx")==null || session.getAttribute("sessionMember_idx").equals("")) {
+			mav.setViewName("redirect:/index.do");
+			mav.addObject("open_login", 1);
+			return mav;
+		}else {
+			int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+			String ad_inquiry_state = ad_inquiryService.ckAdInquiry(member_idx);
+			session.setAttribute("ad_inquiry_state", ad_inquiry_state);
 			
-			totalPlaceCount[i] = mapInfoService.getTotalPlace(mapDTO.get(i).getMap_idx());
-			firstImg[i] = gooppl_PlaceDetailService.getFirstImg(mapDTO.get(i).getMap_idx());
+			OwnerDTO odto = ownerService.ckOwnerInfo(member_idx);
 			
+			List<Gooppl_mapDTO> mapDTO = gooppl_mapService.getMap(member_idx);
+			int totalPlaceCount[] = new int[mapDTO.size()];
+			String firstImg[] = new String[mapDTO.size()];
+			List<ReviewDTO> reviewDTO = reviewService.getReview(member_idx);
+			               
+			for(int i=0;i<mapDTO.size();i++) {
+				
+				totalPlaceCount[i] = mapInfoService.getTotalPlace(mapDTO.get(i).getMap_idx());
+				firstImg[i] = gooppl_PlaceDetailService.getFirstImg(mapDTO.get(i).getMap_idx());
+				
+			}
+			
+			List<InquiryDTO> list = InquiryService.inquiryList(member_idx);
+			
+			mav.addObject("odto", odto);
+			mav.addObject("mapDTO",mapDTO);
+			mav.addObject("reviewDTO",reviewDTO);
+			mav.addObject("totalPlaceCount", totalPlaceCount);
+			mav.addObject("firstImg",firstImg);
+			mav.addObject("list", list);
+			mav.setViewName("member/mypage");
+			return mav;
 		}
-		
-		
-		mav.addObject("odto", odto);
-		mav.addObject("mapDTO",mapDTO);
-		mav.addObject("reviewDTO",reviewDTO);
-		mav.addObject("totalPlaceCount", totalPlaceCount);
-		mav.addObject("firstImg",firstImg);
-		mav.setViewName("member/mypage");
-		return mav;
 	}
 	
 	@RequestMapping("/newPwd.do")
@@ -206,6 +222,31 @@ public class MainController {
         
         return emailToken;
 		
+	}
+	
+	@RequestMapping(value="/inquiryWrite.do",method=RequestMethod.GET)
+	public ModelAndView inquiryWriteForm(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		if(session.getAttribute("sessionMember_idx") == null || session.getAttribute("sessoinMemeber_idx") == "") {
+			mav.addObject("open_login",1);
+			mav.setViewName("redirect:/index.do");
+			return mav;
+		}else {
+			mav.setViewName("member/inquiryWrite");
+			return mav;
+		}
+	}
+	
+	@RequestMapping(value="inquiryWrite.do",method=RequestMethod.POST) 
+	@ResponseBody
+	public int inquiryWrite(HttpSession session,@RequestParam("inquiry_subject")String inquiry_subject , @RequestParam("inquiry_content")String inquiry_content) {
+		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		Map hmp = new HashMap();
+		hmp.put("member_idx", member_idx);
+		hmp.put("inquiry_subject", inquiry_subject);
+		hmp.put("inquiry_content", inquiry_content);
+		int result = InquiryService.addInquiry(hmp);
+		return result;
 	}
 	
 }

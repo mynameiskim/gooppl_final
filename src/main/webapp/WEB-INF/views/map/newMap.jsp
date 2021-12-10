@@ -1384,7 +1384,7 @@ function alertSave(moveUrl){
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
                     <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="alertSave('comunity.do')">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('community.do')">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
