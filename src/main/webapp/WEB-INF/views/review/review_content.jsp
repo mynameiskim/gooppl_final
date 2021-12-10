@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +14,6 @@
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
     <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet" />
@@ -45,6 +43,7 @@
             margin-top: 24px;
         }
     </style>
+    <script src="//code.jquery.com/jquery.min.js"></script>
     <script>
     function deleteCon() {
     	
@@ -68,10 +67,10 @@
 </head>
 
 <body>
-    <!-- Navigation-->
+ <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">GooPPl</a>
+            <a class="navbar-brand" href="index.do">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -80,20 +79,42 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <c:choose>
+						<c:when test="${!empty sessionNickname}">
+						
+							<li class="nav-item dropdown dropend">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								   <c:if test="${sessionScope.sessionMemberType=='M'}">
+										<label class="bg-primary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+									</c:if>
+									<c:if test="${sessionScope.sessionMemberType=='O'}">
+										<label class="bg-secondary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
+									</c:if>	
+								  </a>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" onclick="placeLogin()">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
                 </ul>
             </div>
         </div>
     </nav>
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
         <div class="container-sm mb-5">
-
-
         <form name="reviewContent" action="reviewUpdateForm.do"  method="post" enctype="multipart/form-data">
         <input type="hidden" id="review_idx" name="review_idx" value="${dto.review_idx }">
         <input type="hidden" name="subject" value='${dto.subject }' >
@@ -181,188 +202,115 @@
             <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  댓글 영역-->
 
-            <div class="container">
-                <!--style="background-color: white; border: whitesmoke solid 1px; border-radius: 4px; margin-top: 128px;">
-                    -->
-                <div class="row justify-content-md-center">
-                    <div class="wrap col-md-9 "
-                        style="border: lightgray solid 0.5px; border-radius: 10px; background-color: white;">
-
-
-                        <!-- 목록 -->
-                        <div class="row justify-content-md-center" style="margin-top: 16px;">
-                            <!-- 댓글 목록 해더-->
-                            <div class="row mb-5">
-                                <div class="col-md-1 fw-bold" style="font-size: larger;">
-                                    댓글
-                                </div>
-                                <div class="col-md-10"></div>
-                                <div class="col-md-1" style="font-size: small;">
-                                    3개
-                                </div>
-                            </div>
-                            <!--댓글 메인-->
-                            <div class="row justify-content-md-center mb-2" style="margin-top: 12px;">
-                                <div class="col-md-10" style="border-top: solid 0.5px #78C2AD;">
-                                    <div class="row replycon">
-                                        <!--프로필 이미지-->
-                                        <div class="col-md-1">
-                                            <div class="row">
-                                                <div style="display: flex;
-                                                justify-content: center;
-                                                align-items: center;
-                                                width: 30px;
-                                                height: 30px;
-                                                border-radius: 50%;
-                                                background-color: #78C2AD;
-                                                color: #fff;
-                                                margin: 0px auto;
-                                                font-weight: 700;">홍
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-7" style="font-size: smaller;">
-                                            <div class="row">
-                                                <div class="fw-bold" style="margin-bottom: 16px;">
-                                                    작성자
-                                                </div>
-                                                <div class="row" id="replycontent">
-                                                    <p>
-                                                        본문 내요임ㄴ;ㅇ럼;니앎ㄴ;이러ㅏ;ㅁ니아러ㅣ;ㅏㄴㅁ어리ㅏㅁ넝리ㅓ;<br>
-                                                    </p>
-                                                </div>
-                                                <div class="row" style="font-size: x-small;">
-                                                    <div class="col-md-3">
-                                                        2021-11-30
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <a href="#" style="font-size: x-small;">답글 쓰기</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="row justify-content-md-center">
-                                                <div class="col-md-8"></div>
-                                                <div class="col-md-4">
-                                                    <a href="#" style="font-size: xx-small;">수정</a>
-                                                    <a href="#" style="font-size: xx-small;">삭제</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--댓글 메인-->
-                            <div class="row justify-content-md-center mb-2" style="margin-top: 12px;">
-                                <div class="col-md-10" style="border-top: solid 0.5px #78C2AD;">
-                                    <div class="row replycon">
-                                        <!--프로필 이미지-->
-                                        <div class="col-md-1">
-                                            <div class="row">
-                                                <div style="display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                            width: 30px;
-                                            height: 30px;
-                                            border-radius: 50%;
-                                            background-color: #78C2AD;
-                                            color: #fff;
-                                            margin: 0px auto;
-                                            font-weight: 700;">홍
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-7" style="font-size: smaller;">
-                                            <div class="row">
-                                                <div class="fw-bold" style="margin-bottom: 16px;">
-                                                    작성자
-                                                </div>
-                                                <div class="row mb-4" id="replycontent">
-                                                    <p>
-                                                        본문 내요임ㄴ;ㅇ럼;니앎ㄴ;이러ㅏ;ㅁ니아러ㅣ;ㅏㄴㅁ어리ㅏㅁ넝리ㅓ;<br>
-                                                    </p>
-                                                </div>
-                                                <div class="row" style="font-size: x-small;">
-                                                    <div class="col-md-3">
-                                                        2021-11-30
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <a href="#" style="font-size: x-small;">답글 쓰기</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="row justify-content-md-center">
-                                                <div class="col-md-8"></div>
-                                                <div class="col-md-4">
-                                                    <a href="#" style="font-size: xx-small;">수정</a>
-                                                    <a href="#" style="font-size: xx-small;">삭제</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--댓글 작성-->
-                            <div class="row justify-content-md-center mb-5" style="margin-top: 12px;">
-                                <div class="col-md-10 " style="border: solid 3px #78C2AD; border-radius: 10px;">
-                                    <div class="row replycon">
-                                        <!--프로필 이미지-->
-                                        <div class="col-md-1">
-                                            <div class="row">
-                                                <div style="display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                            width: 30px;
-                                            height: 30px;
-                                            border-radius: 50%;
-                                            background-color: #78C2AD;
-                                            color: #fff;
-                                            margin: 0px auto;
-                                            font-weight: 700;">홍
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-11">
-                                            <div class="row">
-                                                <div class="fw-bold" style="margin-bottom: 16px;">
-                                                    작성자
-                                                </div>
-                                            </div>
-                                            <div class="row mb-5" id="replycontent">
-                                                <div class="col-md-10">
-                                                    <textarea class="form-control" id="exampleTextarea" rows="3"
-                                                        style="border: solid 1px lightgray; font-size: small;"
-                                                        placeholder="댓글 작성시 비속어를 쓰지맙시다"></textarea>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <a role="button" class="btn btn-success"
-                                                        style="font-size: xx-small;">등록</a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <!--경계선-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+		<!-- Comments Form -->
+		<div>
+		<h2>Comments</h2>
+		<hr>
+		</div>
+		<div id="reply">
+		</div>
+		<div class="card my-4">
+			<h5 class="card-header">Leave a Comment:</h5>
+			<div class="card-body">
+				<form name="comment-form" action="replyWrite.do" method="post" autocomplete="off">
+					<div class="form-group">
+						<input type="hidden" name="review_idx" value="${param.review_idx}" />
+						<input type="hidden" name="result" value="${param.result}" />
+						<input type="hidden" name="nick" value="${sessionNickname}" />
+						<textarea name="content" class="form-control" rows="3"></textarea>
+					</div>
+					<div style="height: 5px;"></div>
+					<div style="text-align: right;">
+						<button id="replyWrite" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
     </section>
+    <script>
+    $(function() {
+    	   $(document).ready(function(){
+    		   var result = $('input[name=result]').val();
+    		   if(result=='fail'){
+    			   alert('로그인 후 이용가능합니다.');
+    			   getRelplyList();
+    		   }else{
+    		   	getRelplyList();
+    		   }
+    	     });
+    	});
+    
+    function getRelplyList(){
+    	var review_idx = $('input[name=review_idx]').val();
+    	var nick = $('input[name=nick]').val();
+    	$.ajax({
+    		type: 'GET',
+    		url: 'getRelplyList.do',
+    		data: {review_idx},
+    		success: function(result){
+    			console.log(result);
+    			for(var i=0; i<result.length; i++){
+    				if(result[i].nickname==nick){
+    	 				var str = "<div class=\"reply\" style=\"float: left;\">"
+            				str += result[i].content+"</div></hr>"
+            				str += "<div style=\"text-align: right;\"><label class=\"replyDel\" id=\""+result[i].ridx+"\" style=\"cursor: pointer;\">❌</label></div>"
+            				str += "<div style=\"text-align: right; font-size: 10px;\">"+result[i].nickname+"</div>"
+            				$("#reply").append(str);
+    				}else{
+        				var str = "<div class=\"reply\" style=\"float: left;\">"
+            				str += result[i].content+"</div></hr>"
+            				str += "<div style=\"text-align: right;\"><label onclick=\"#\">-</label></div>"
+            				str += "<div style=\"text-align: right; font-size: 10px;\">"+result[i].nickname+"</div>"
+            				$("#reply").append(str);
+    				}
+    			}
+    		},
+    		error: function(result){
+    		},
+    		complete: function(){
+    		}
+    	})
+    }
+    
+    $(function() {
+    	   $(document).on("click",".replyDel",function(){
+    	        var ridx = $(this).attr('id');
+    	     	$.ajax({
+    	    		type: 'GET',
+    	    		url: 'delRelply.do',
+    	    		data: {ridx},
+    	    		success: function(result){
+    	    			console.log(result);
+    	    			},
+    	    		error: function(result){
+    	    		},
+    	    		complete: function(){
+    	    			location.reload();
+    	    		}
+    	    	})
+    	     });
+    	});
+    
+    $(function() {
+ 	   $(document).on("click","#replyWrite",function(){
+ 	        
+ 	     	$.ajax({
+ 	    		type: 'GET',
+ 	    		url: 'replyWrite.do',
+ 	    		success: function(result){
+ 	    			console.log(result);
+ 	    			},
+ 	    		error: function(result){
+ 	    		},
+ 	    		complete: function(){
+ 	    			location.reload();
+ 	    		}
+ 	    	})
+ 	     });
+ 	});
+    </script>
+    
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

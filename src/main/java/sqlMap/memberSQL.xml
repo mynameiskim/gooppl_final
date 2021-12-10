@@ -88,5 +88,12 @@
 		WHERE
 			MEMBER_IDX = #{member_idx}
 	</update>
-	
+	<select id="findMemberInfo" parameterType="Integer" resultType="goo.member.model.MemberDTO">
+		select 
+			* 
+		from 
+			member
+		where
+			member_idx=#{member_idx}
+	</select>
 </mapper>

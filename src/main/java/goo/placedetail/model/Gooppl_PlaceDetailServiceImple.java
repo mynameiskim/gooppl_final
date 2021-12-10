@@ -2,6 +2,8 @@ package goo.placedetail.model;
 
 import java.util.*;
 
+import org.apache.commons.collections.map.HashedMap;
+
 import goo.mapinfo.model.MapInfoDTO;
 
 public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService {
@@ -52,8 +54,4 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 		return firstImg;
 	}
 	
-	public List<Gooppl_PlaceDetailDTO> getPlaceInfo(MapInfoDTO dto) {
-		List<Gooppl_PlaceDetailDTO> pdlist = gooppl_placedetailDao.getPlaceInfo(dto);
-		return pdlist;
-	}
 }

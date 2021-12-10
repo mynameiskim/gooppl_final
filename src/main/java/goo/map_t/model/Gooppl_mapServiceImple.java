@@ -75,5 +75,12 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		int count = gooppl_mapDao.planDelete(map_idx);
 		return count;
 	}
-	
+	public int planShare(int map_idx) {
+		int count = gooppl_mapDao.planShare(map_idx);
+		return count;
+	}
+	public int planShareCancel(int map_idx) {
+		int count = gooppl_mapDao.planShareCancel(map_idx);
+		return count;
+	}
 }

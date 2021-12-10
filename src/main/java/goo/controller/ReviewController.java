@@ -1,11 +1,14 @@
 package goo.controller;
 
 import java.io.*;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
@@ -30,15 +33,15 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 
-	@RequestMapping("/comunity.do")
+	@RequestMapping("/community.do")
 	public ModelAndView showComunity() {
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("review/comunity");
+		mav.setViewName("review/community");
 		return mav;
 	}
 	/** 리뷰게시판 목록 */
-	@RequestMapping("/reivew.do")
+	@RequestMapping("/review.do")
 	public ModelAndView reivewList(
 			@RequestParam(value="cp",defaultValue = "1" )int cp) {
 		int listSize=4;
@@ -56,7 +59,7 @@ public class ReviewController {
 	
 	@RequestMapping(value = "/reviewWrite.do", method = RequestMethod.GET)
 	public String reviewWriteForm() {
-		return "review/review_writeform";
+		return "review/review_writeform2";
 	}
 	/** 리뷰 등록 */
 	@RequestMapping(value = "/writeReviewSubmit.do" , method = RequestMethod.POST)
@@ -124,37 +127,50 @@ public class ReviewController {
 	}
 	
 	
-	
-	@RequestMapping(value="/uploadSummernoteImageFile.do", produces = "application/json; charset=utf8")
+	@RequestMapping("/uploadSummernoteImageFile.do")
 	@ResponseBody
-	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request )  {
-		JsonObject jsonObject = new JsonObject();
-		
-        /*
-		 * String fileRoot = "C:\\summernote_image\\"; // 외부경로로 저장을 희망할때.
-		 */
-		
-		// 내부경로로 저장
-		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
-		String fileRoot = contextRoot+"resources/fileupload/";
-		System.out.println(fileRoot);
-		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
-		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-		
-		File targetFile = new File(fileRoot + savedFileName);	
-		try {
-			InputStream fileStream = multipartFile.getInputStream();
-			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
-			jsonObject.addProperty("url", "/summernote/resources/fileupload/"+savedFileName); // contextroot + resources + 저장할 내부 폴더명
-			jsonObject.addProperty("responseCode", "success");
-				
-		} catch (IOException e) {
-			FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
-			jsonObject.addProperty("responseCode", "error");
-			e.printStackTrace();
-		}
-		String a = jsonObject.toString();
-		return a;
+	public void summer_image(MultipartFile file, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		System.out.println("컨트롤러 진입~~!!");
+		int review_idx=reviewService.getMaxReview()+1;
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String file_name = file.getOriginalFilename();
+		System.out.println("file_name="+file.getOriginalFilename());
+		String server_file_name = fileDBName(file_name, review_idx);
+		System.out.println("server file : " + server_file_name);
+		file.transferTo(new File(review_idx + server_file_name));
+		out.println("resources/upload"+server_file_name);
+		out.close();
 	}
+    private String fileDBName(String fileName, int review_idx) {
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int date = c.get(Calendar.DATE);
+
+		String homedir = review_idx + year + "-" + month + "-" + date;
+		System.out.println(homedir);
+		File path1 = new File(homedir);
+		if (!(path1.exists())) {
+			path1.mkdir();
+		}
+		Random r = new Random();
+		int random = r.nextInt(100000000);
+
+		int index = fileName.lastIndexOf(".");
+
+		String fileExtension = fileName.substring(index + 1);
+		System.out.println("fileExtension = " + fileExtension);
+
+		String refileName = "bbs" + year + month + date + random + "." + fileExtension;
+		System.out.println("refileName = " + refileName);
+
+		String fileDBName = "/" + year + "-" + month + "-" + date + "/" + refileName;
+		System.out.println("fileDBName = " + fileDBName);
+
+		return fileDBName;
+	}
+	
+	
 }	
