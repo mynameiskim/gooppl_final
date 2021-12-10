@@ -75,7 +75,10 @@
 			, #{member_idx}
 			, #{admin_phone}
 			, #{admin_tel}
+			, #{admin_postcode}
 			, #{admin_addr}
+			, #{admin_extra_addr}
+			, #{admin_detail_addr}
 			, sysdate)
   	</insert>
   	<update id="adminUpdate1" parameterType="goo.member.model.MemberDTO">
@@ -93,7 +96,10 @@
   		SET 
   			  admin_tel = #{admin_tel}
   			, admin_phone = #{admin_phone}
+  			, admin_postcode = #{admin_postcode}
   			, admin_addr = #{admin_addr}
+  			, admin_extra_addr = #{admin_extra_addr}
+  			, admin_detail_addr = #{admin_detail_addr}
   		WHERE 
   			member_idx = #{member_idx}
   	</update>
@@ -148,4 +154,55 @@
 		WHERE
 			member_idx = #{member_idx}
 	</select>
+	<select id="searchTotalMember" parameterType="Map" resultType="Integer">
+		SELECT
+  			COUNT(*)
+  		FROM
+  			member
+  		WHERE ${search_type} LIKE '%' || #{search} || '%'
+  		AND NOT member_type = 'A' AND del = 'N'
+	</select>
+	<select id="joinDateTotalMember" parameterType="Map" resultType="Integer">
+		SELECT 
+  			COUNT(*) 
+  		FROM 
+  			member 
+  		WHERE 
+  			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} 
+  		AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+  		AND NOT member_type = 'A' 
+  		AND del = 'N'
+	</select>
+	<select id="twoSearchTotalMember" parameterType="Map" resultType="Integer">
+		SELECT 
+  			COUNT(*)
+  		FROM
+  			member 
+  		WHERE 
+  			${search_type} LIKE '%' || #{search} || '%' 
+  		AND 
+  			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+  		AND 
+  			NOT member_type = 'A' 
+  		AND 
+  			del = 'N'
+	</select>
+	<select id="memberSearchList" parameterType="Map" resultType="goo.member.model.MemberDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member WHERE ${search_type} LIKE '%' || #{search} || '%' AND NOT member_type = 'A' AND del = 'N' ORDER BY member_idx desc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+	<select id="memberJoinDateList" parameterType="Map" resultType="goo.member.model.MemberDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member WHERE TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date} AND NOT member_type = 'A' AND del = 'N' ORDER BY member_idx desc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="memberTwoSearchList" parameterType="Map" resultType="goo.member.model.MemberDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+		(SELECT * FROM member WHERE ${search_type} LIKE '%' || #{search} || '%' AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date} AND NOT member_type = 'A' AND del = 'N' ORDER BY member_idx desc)a)b
+		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
   </mapper>

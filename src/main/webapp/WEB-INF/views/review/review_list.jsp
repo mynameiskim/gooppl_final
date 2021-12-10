@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,8 +71,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -159,7 +160,7 @@
                         </div>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="http://travelview.co.kr/wp-content/uploads/2020/08/image_5055254061598263756353.jpg"
+                                <img src="https://www.50plus.or.kr/upload/im/2019/01/d3c19df5-37b2-4eab-9a97-51423b7cb419.jpg"
                                     class="d-block w-100" alt="..." style="width: auto; height:500px; border-radius:8px;">
                                 <div class="carousel-caption d-none d-md-block">
                                 </div>
@@ -202,12 +203,12 @@
                 </a>
             </div>
             
-            <div class="collapse" id="collapseExample">
-             <div id="search" class="row justify-content-md-center mb-5">
+          <div class="collapse" id="collapseExample">
+          <div id="search" class="row justify-content-md-center mb-5">
                 <div class="col-md-6" style="float: right">
                     <div class="container-fluid">
-                        <form class="d-flex" name="reivew_search" action="#">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <form class="d-flex" name="reivew_search" action="reviewFind.do">
+                            <input class="form-control me-2" type="search" name="keywards" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
@@ -217,7 +218,6 @@
                     <button class="btn btn-outline-success btn-sm" style="float: right;" onclick="location.href='reviewWrite.do'">후기작성하기</button>
                 </div>
             </div>
-
             <!--     전체 후기 목록  -->
             <c:if test="${empty list }">
             	 <div class="collapse" id="collapseExample">
@@ -229,10 +229,9 @@
                     <div class="col-md-8">
                         <div class="card mb-3">
                             <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="http://www.outdoornews.co.kr/news/photo/201707/24502_76816_822.jpg"
-                                        class="img-fluid rounded-start" alt="썸네일" style="width: 100%;">
-                                </div>
+	                            <div class="col-md-4">
+	                            	${dto.content }
+	                            </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <div class="row">
@@ -269,7 +268,6 @@
             </div>
         </div>
 	</section>
-
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

@@ -82,4 +82,19 @@ public class AdServiceImple implements AdService {
 		List<AdDTO> list = adDao.all_endAdInfo(map);
 		return list;
 	}
+	
+	public AdDTO ad_info(int ad_idx) {
+		AdDTO dto = adDao.ad_info(ad_idx);
+		return dto;
+	}
+	
+	public int ckAd_info(int owner_idx) {
+		int result = adDao.ckAd_info(owner_idx);
+		return result;
+	}
+	
+	public int pay_Update_ad_info(int owner_idx) {
+		int result = adDao.pay_Update_ad_info(owner_idx);
+		return result;
+	}
 }

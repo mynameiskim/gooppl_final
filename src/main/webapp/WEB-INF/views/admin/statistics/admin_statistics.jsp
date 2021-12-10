@@ -21,17 +21,15 @@ td{
 </style>
 </head>
 <body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>통계/분석</b></h5>
 		<dl>
 			<dt>통계/분석</dt>
 			<dd>
-				- <a href='/nmanager/setup/config_manager.do' style="color: white !important;"
-				>접속자분석</a><br />
-				- <a href='/nmanager/setup/config_manager.do' style="color: white !important;"
+				- <a href='member_statistics.do' style="color: white !important;"
 				>회원통계</a><br />
 				- <a href='/nmanager/setup/config_m6anager.do' style="color: white !important;"
 				>게시판통계 </a>
@@ -44,24 +42,11 @@ td{
 				<li>사이트에 관련된 일반적인 통계를 분석합니다.</li>
 			</ul>
 		<div class="section_head">
-			<h4>접속자분석</h4>
-		</div>					
-		<dl class="menu_list">
-			<dt><a href="/final/admin_member_list.jsp"
-				>접속자분석</a>
-			</dt>
-			<dd>
-				<a href="/final/admin_member_list.jsp"
-				>사이트 접속자를 파악하고 그래프로 분석이 가능한 메뉴 입니다.
-				</a>
-			</dd>
-		</dl>
-		<div class="section_head">
 			<h4>회원 통계</h4>
 		</div>
 		<dl class="menu_list">
 			<dt>
-				<a href="/final/admin_member_out.jsp"
+				<a href="/final/admin_member_out.jsp" style="color: white !important;"
 				>회원 통계
 				</a>
 			</dt>
@@ -76,7 +61,7 @@ td{
 		</div>					
 		<dl class="menu_list">
 			<dt>
-				<a href="/final/admin_formMail_settings.jsp"
+				<a href="/final/admin_formMail_settings.jsp" style="color: white !important;"
 				>게시판통계
 				</a>
 			</dt>
