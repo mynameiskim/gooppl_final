@@ -240,12 +240,15 @@ public class AdminBasicSettings {
 		
 		String realPath = req.getRealPath("/");
 		String contextPath = req.getContextPath();
-		faviconCopyInto(faviconFile,realPath);
-		System.out.println("realPath="+realPath);
 		
-		String favicon = contextPath+"/resource/assets/img/"+faviconFile.getOriginalFilename();
-		System.out.println(favicon);
-		sdto.setFavicon(favicon);
+		System.out.println("realPath="+realPath);
+		String favicon;
+		if(faviconFile != null || !faviconFile.equals("")) {
+			faviconCopyInto(faviconFile,realPath);
+			favicon = contextPath+"/resource/assets/img/"+faviconFile.getOriginalFilename();
+			sdto.setFavicon(favicon);
+		}
+		
 		int result = siteSettingsDao.siteSettingsUpdate(sdto);
 		int code = 0;
 		

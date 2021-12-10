@@ -44,9 +44,9 @@ public class AdminMemberManagement {
 	public ModelAndView memberList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
 			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
-		if(!start_date.equals("")) {
+		if(!start_date.equals("")&&end_date.equals("")) {
 			end_date = start_date;
-		}else if(!end_date.equals("")) {
+		}else if(!end_date.equals("")&&start_date.equals("")) {
 			start_date = end_date;
 		}
 		int listSize=5;
@@ -86,9 +86,9 @@ public class AdminMemberManagement {
 	public ModelAndView memberOutList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
 			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
-		if(!start_date.equals("")) {
+		if(!start_date.equals("")&&end_date.equals("")) {
 			end_date = start_date;
-		}else if(!end_date.equals("")) {
+		}else if(!end_date.equals("")&&start_date.equals("")) {
 			start_date = end_date;
 		}
 		System.out.println("memberOutList ok");

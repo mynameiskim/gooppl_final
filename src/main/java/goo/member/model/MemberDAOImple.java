@@ -140,6 +140,7 @@ public class MemberDAOImple implements MemberDAO {
 			
 		}
 		return count;
+	}
 	public int admin_changeOwnerType(int member_idx) {
 		int result = sqlMap.update("admin_changeOwnerType", member_idx);
 		return result;
