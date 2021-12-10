@@ -18,6 +18,9 @@
 caption{
 	display:none;
 }
+.table>:not(:first-child) {
+	border-top:2px solid #e3e3e3 !important;
+}
 </style>
 </head>
 <body>
@@ -126,12 +129,12 @@ function formmailUpdate(form_no){
 	</script>
 	
 	<form name="Frm" action="formmail_update.do" method="post">
-			<table class="table table-bordered">
+			<table class="table table-bordered" >
 			<caption>폼메일 수정</caption>
 			<colgroup><col width="130"><col width="*"></colgroup>
 			<thead style="border-top:none !important;">
 				<tr>
-					<th class="text-center tr_bg active text-white">폼메일</th>
+					<th class="text-center tr_bg active text-white" style="border-top:1px solid #e3e3e3 !important;">폼메일</th>
 					<td>
 					<select id='form_type' name='form_type' onChange='changeCode(this);' >
 						<c:forEach var="list" items="${list}">

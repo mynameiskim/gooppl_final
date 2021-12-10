@@ -10,7 +10,7 @@ public class MemberOutDTO {
 	private Date outdate;
 	
 	public MemberOutDTO() {
-		
+		super();
 	}
 
 	public MemberOutDTO(int out_no, String id, String out_reason, Date outdate) {
@@ -19,12 +19,6 @@ public class MemberOutDTO {
 		this.id = id;
 		this.out_reason = out_reason;
 		this.outdate = outdate;
-	}
-
-	@Override
-	public String toString() {
-		return "MemberOutDTO [out_no=" + out_no + ", id=" + id + ", out_reason=" + out_reason + ", outdate=" + outdate
-				+ "]";
 	}
 
 	public int getOut_no() {
@@ -58,6 +52,5 @@ public class MemberOutDTO {
 	public void setOutdate(Date outdate) {
 		this.outdate = outdate;
 	}
-	
 	
 }

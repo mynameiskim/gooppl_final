@@ -13,4 +13,7 @@ public interface AdService {
 	public List<AdDTO> all_AdInfo(int cp, int ls);
 	public List<AdDTO> all_ingAdInfo(int cp, int ls);
 	public List<AdDTO> all_endAdInfo(int cp, int ls);
+	public AdDTO ad_info(int ad_idx);
+	public int ckAd_info(int owner_idx);
+	public int pay_Update_ad_info(int owner_idx);
 }

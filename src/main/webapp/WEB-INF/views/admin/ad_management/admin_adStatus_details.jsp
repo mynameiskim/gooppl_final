@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <div id="paymentDetail">
+    <div id="di2">
         <fieldset style="border: 3px solid #0000008c; padding: 12px 14px 10px;
                 margin-bottom: 20px;">
             <div class="row">
@@ -23,8 +23,8 @@
                                 <td rowspan="7" style="width:400px;">
                                 	<img src="${odto.firstimg}" style="width:100%; height:100%;"/>
                                 </td>
-                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">결제번호</th>
-                                    <td>${pdto.imp_uid}
+                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">광고번호</th>
+                                    <td>${adto.ad_idx}
                                         <input type="hidden" value="${odto.member_idx}" name="member_idx" id="member_idx">
                                         <input type="hidden" value="${odto.owner_idx}" name="owner_idx" id="owner_idx">
                                         <input type="hidden" value="${pdto.amount}" name="amount" id="amount">
@@ -44,16 +44,16 @@
                                     <td>${odto.email}</td>
                                 </tr>
                                 <tr>
-                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">결제일</th>
-                                    <td>${pdto.payDate}</td>
+                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">광고시작일</th>
+                                    <td>${adto.ad_startDate}</td>
                                 </tr>
                                 <tr>
-                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">결제금액</th>
-                                    <td>${pdto.amount} \</td>
+                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">광고종료일</th>
+                                    <td>${adto.ad_endDate}</td>
                                 </tr>
                                 <tr>
-                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">결제상태</th>
-                                    <td>${pdto.status}</td>
+                                    <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">광고상태</th>
+                                    <td>${adto.ad_state}</td>
                                 </tr>
 	                            
                             </table>

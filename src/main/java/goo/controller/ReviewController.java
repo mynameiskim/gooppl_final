@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
@@ -34,11 +35,17 @@ public class ReviewController {
 	private ReviewService reviewService;
 
 	@RequestMapping("/community.do")
-	public ModelAndView showComunity() {
-		
+	public ModelAndView showComunity(
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("review/community");
-		return mav;
+		if(session.getAttribute("sessionMember_idx")==null||session.getAttribute("sessionMember_idx").equals("")) {
+			mav.addObject("open_login", 1);
+			mav.setViewName("redirect:/index.do");
+			return mav;
+		}else {
+			mav.setViewName("review/community");
+			return mav;
+		}
 	}
 	/** 리뷰게시판 목록 */
 	@RequestMapping("/review.do")

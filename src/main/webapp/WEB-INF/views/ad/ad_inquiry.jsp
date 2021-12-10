@@ -32,9 +32,6 @@
     		
     		var contentNode1 = labelNode.nextSibling;
     		var contentNode2 = labelNode.nextSibling.nextSibling;
-    		//console.log('태그1 이름'+contentNode1.nodeName);
-    		//console.log('태그2 이름'+contentNode2.nodeName);
-    		//console.log('라벨노드'+labelNode.nodeName);
     		
     		
     		var inquiry_typeValue = document.getElementById('inquiry_type').value;
@@ -131,6 +128,11 @@
     		}
     	}
     </script>
+<script>
+function adInquiry(){
+	
+}
+</script>
 </head>
 <script>
 	

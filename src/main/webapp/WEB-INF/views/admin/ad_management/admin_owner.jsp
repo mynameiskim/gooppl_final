@@ -125,7 +125,11 @@ function showResult(){
 	}
 }
 
+
+
 //광고주 정보 수정
+var form = $('ownerForm')[0];
+var formData = new FormData(form);
 function ownerD_Update(owner_idx){
 	Swal.fire({
 		title: '수정하시겠습니까?',
@@ -139,11 +143,14 @@ function ownerD_Update(owner_idx){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		
-	  		
 			$.ajax({
-				type: "GET",
-				url: 'admin_ownerUpdate.do?owner_idx='+owner_idx,
+				type: "POST",
+				enctype:'multipart/form-data',
+				url: 'admin_ownerUpdate.do',
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache:false,
 				dataType: "json",
 				error: function(result){
 					
@@ -306,8 +313,6 @@ function ownerD_Delete(owner_idx, member_idx){
 			<dd>
 				<a href='admin_adAppli.do' style="color: white !important;"
 				>-광고 신청 관리</a><br />
-				<a href='admin_adRevise.do' style="color: white !important;"
-				>-광고 수정 관리</a><br/>
 				<a href='admin_adCancel.do' style="color: white !important;"
 				>-광고 취소 관리</a>
 			</dd>

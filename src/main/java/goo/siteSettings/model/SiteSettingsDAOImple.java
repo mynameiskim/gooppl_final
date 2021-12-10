@@ -30,4 +30,10 @@ public class SiteSettingsDAOImple implements SiteSettingsDAO {
 		System.out.println("SQL통과");
 		return dto;
 	}
+	
+	public int siteSettingsUpdate(SiteSettingsDTO dto) {
+		System.out.println("SiteSettingsDTOImple 진입");
+		int count = sqlMap.update("siteSettingsUpdate", dto);
+		return count;
+	}
 }

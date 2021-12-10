@@ -36,11 +36,13 @@ public class OwnerController {
 	/**광고주 정보 입력창으로 가기 위한 명령어*/
 	@RequestMapping("/adInfo.do")
 	public ModelAndView adInfo(
-	      @RequestParam("member_idx")int member_idx,
+			HttpSession session,
 	      @RequestParam(value = "areacode", defaultValue="1") int areacode,
 	      @RequestParam(value = "sigungucode", defaultValue="1") int sigungucode
 	      ) {
-		System.out.println("addInfo1도착");
+	   System.out.println("addInfo1도착");
+	   int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+	   System.out.println("member_idx:"+member_idx);
 	   ModelAndView mav = new ModelAndView();
 	   List<AreaDTO> arealist = areaService.areaList();
 	   List<SigunguDTO> sigungulist = sigunguService.sigunguList();
@@ -61,23 +63,20 @@ public class OwnerController {
 	
 	/**광고주 신청 상태 확인*/
 	@RequestMapping("/ckOwnerAppli.do")
-	public ModelAndView ckOwnerAppli(@RequestParam("member_idx")int member_idx) {
-		System.out.println("ckOwnerAppli.do 들어왔다");
+	@ResponseBody
+	public Map<String, Object> ckOwnerAppli(@RequestParam("member_idx")int member_idx) {
+		System.out.println("ckOwnerAppli2.do 들어왔다");
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code=0;
 		OwnerDTO dto = ownerService.ckOwnerInfo(member_idx);
-		ModelAndView mav = new ModelAndView();
 		if(dto == null) {
-			mav.addObject("goUrl","adInfo.do?member_idx="+member_idx);
-			mav.setViewName("ad/adBridge");
+			code = 1;
 		}else {
+			code = 0;
 			System.out.println("dto 있따");
-			if(dto.getState().equals("대기")) {
-				
-				mav.addObject("msg", "관리자 승인 대기 중입니다.");
-				mav.addObject("goUrl", "mypage.do");
-				mav.setViewName("ad/adMsg");
-			}
 		}
-		return mav;
+		map.put("code", code);
+		return map;
 	}
 	
 	/**업로드 폴더 생성 관련 메서드*/
@@ -134,12 +133,15 @@ public class OwnerController {
 	}
 	
 	
-	
 	/**광고주 정보 등록 관련 명령어*/
 	@RequestMapping("/addOwnerInfo.do")
-	public ModelAndView addOwnerInfo(@ModelAttribute("dto")OwnerDTO dto) {
+	@ResponseBody
+	public  Map<String, Object> addOwnerInfo(
+			@ModelAttribute("dto")OwnerDTO dto,
+			@RequestParam("upload")MultipartFile upload) {
 		System.out.println("정보등록 진입");
-		//int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code = 0;
 		int member_idx = dto.getMember_idx();
 		System.out.println("member_idx:"+member_idx);
 		String imgUrl = userFolderExist(member_idx);
@@ -155,12 +157,17 @@ public class OwnerController {
 		System.out.println("db 등록 전");
 		int result = ownerService.addOwnerInfo(dto);
 		System.out.println("db 등록 후");
-		String msg = result>0?"신청이 완료되었습니다.":"신청에 실패했습니다.";
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("msg", msg);
-		mav.addObject("goUrl","mypage.do");
-		mav.setViewName("ad/adMsg");
-		return mav;
+		if(result>0) {
+			System.out.println("신청 완료");
+			map.put("msg", "신청이 완료되었습니다.");
+			code = 1;
+		}else {
+			System.out.println("신청 실패");
+			map.put("msg", "신청에 실패했습니다.");
+			code = 0;
+		}
+		map.put("code", code);
+		return map;
 	}
 	
 	/**광고주 정보 수정 페이지 이동 명령어*/
@@ -217,5 +224,47 @@ public class OwnerController {
 		mav.addObject("goUrl","mypage.do");
 		mav.setViewName("ad/adMsg");
 		return mav;
+	}
+	
+	/**광고주 정보 업데이트 관련 명령어(관리자)*/
+	@RequestMapping("/admin_ownerUpdate.do")
+	@ResponseBody
+	public Map<String, Object> admin_ownerUpdate(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("admin_owner정보수정 진입");
+		int code = 0;
+		
+		int member_idx = dto.getMember_idx();
+		System.out.println("member_idx: "+member_idx);
+		String firstimg = null;
+		// 파일 업로드 처리
+	    MultipartFile uploadFile = dto.getUpload();
+	    if (uploadFile.isEmpty()) {
+	        
+			System.out.println("upload가 널");
+			//result = ownerService.update_ownerInfo_withoutFile(dto);
+			OwnerDTO originDto = ownerService.ckOwnerInfo(member_idx);
+			firstimg = originDto.getFirstimg();
+			System.out.println("without_firstimg  "+firstimg);
+		}else {
+			String imgUrl = userFolderExist(member_idx);
+			System.out.println("imgUrl:"+ imgUrl+"member_idx:"+ member_idx);
+			firstimg = copyInto(imgUrl, member_idx, dto.getUpload());
+			System.out.println("with:"+firstimg);
+		}
+		dto.setFirstimg(firstimg);
+		
+		System.out.println("db 등록 전");
+		int result = ownerService.update_ownerInfo_withFile(dto);
+		System.out.println("db 등록 후");
+		if(result>0) {
+			map.put("msg", "수정 완료");
+			code=1;
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
+		map.put("code", code);
+		return map;
 	}
 }

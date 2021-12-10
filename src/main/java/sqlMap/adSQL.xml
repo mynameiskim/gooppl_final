@@ -30,8 +30,6 @@
 		FROM
 			ad_info
 		WHERE
-			AD_STATE = '광고중'
-		AND
 			OWNER_IDX = #{owner_idx}
 	</select>
 	<select id="getOwnerIdx" resultType="Integer">
@@ -84,4 +82,44 @@
   			(SELECT * FROM AD_INFO WHERE ad_state='광고내림' ORDER BY AD_STARTDATE DESC)a)b
   		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
+  	<select id="ad_info" parameterType="Integer" resultType="goo.ad.model.AdDTO">
+  		SELECT
+  			*
+  		FROM
+  			ad_info
+  		WHERE
+  			ad_idx = #{ad_idx}
+  	</select>
+  	<update id="admin_adState_up" parameterType="Integer">
+  		UPDATE
+  			ad_info
+  		SET
+  			AD_STATE = '광고중'
+  		WHERE
+  			owner_idx = #{owner_idx}
+  	</update>
+  	<update id="admin_adState_down" parameterType="Integer">
+  		UPDATE
+			ad_info
+		SET
+			AD_STATE = '광고내림'
+		WHERE
+			owner_idx = #{owner_idx}
+  	</update>
+  	<select id="ckAd_info" parameterType="Integer" resultType="Integer">
+  		SELECT
+  			count(*)
+  		FROM
+  			AD_INFO
+  		WHERE
+  			OWNER_IDX = #{owner_idx}
+  	</select>
+  	<update id="pay_Update_ad_info" parameterType="Integer">
+  		UPDATE
+  			AD_INFO
+  		SET
+  			AD_STATE = '광고중'
+  		WHERE
+  			OWNER_IDX = #{owner_idx}
+  	</update>
 </mapper>
