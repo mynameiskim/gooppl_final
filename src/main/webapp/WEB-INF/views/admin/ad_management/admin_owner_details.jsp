@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<form name="ownerForm" action="admin_ownerUpdate.do" method="post" enctype="multipart/form-data">
     <div id="ownerDetail">
         <fieldset style="border: 3px solid #0000008c; padding: 12px 14px 10px;
 			margin-bottom: 20px;">
@@ -28,7 +29,7 @@
                           </select>  
                           </div>
                           <div class="col-md-6">
-                           <select class="form-select" name="sigungucode" id="sigungucode"  required>
+                           <select class="form-select" name="sigungucode" id="sigungucode">
 	                        <c:forEach var="sigungudto" items="${sigungulist}">
 	                           <option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
 	                        </c:forEach>
@@ -93,7 +94,7 @@
 		       
 		    </script>
                 <div class="row">
-                        <form name="ownerForm" action="admin_ownerUpdate.do" method="post" enctype="multipart/form-data">
+                        
                             <table class="table table-bordered" style="font-size: 13px;">
                                 <tr>
                                 <td rowspan="9" style="width:400px;">
@@ -136,7 +137,7 @@
                                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">주소</th>
                                     <td>
                                     <input type="text" id="addr" name="addr" value="${dto.addr}" required>
-                                    <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+                                    <input type="button" onclick="sample6_execDaumPostcode()" value="주소찾기"><br>
                                     <input type="text" id="detailed_addr" name="detailed_addr" value="${dto.detailed_addr}">
                                     
                                     <input type="hidden" id="mapx" name="mapx" value="${dto.mapx}">
@@ -147,7 +148,7 @@
                                 </tr>
                                 <tr>
                                 	<td>
-                                		<input type="file" id="firstimg" name="firstimg">
+                                		<input type="file" id="upload" name="upload" accept=".jpg, .jpeg, .png, .JPG, .JPEG">
                                 	</td>
                                 </tr>
                                 <tr>
@@ -160,14 +161,15 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3" class="text-center">
-                                        <input class="bt btn-secondary" type="submit" value="수정">
+                                        <input class="bt btn-secondary" type="button" onclick="ownerD_Update(${dto.owner_idx})" value="수정">
                                         <input class="bt btn-danger" type="button" value="삭제" onclick="ownerD_delete(${dto.owner_idx},${dto.member_idx})">
                                     </td>
                                 </tr>
                             </table>
-                        </form>
+                       
                 </div>
         </fieldset>
     </div>
+     </form>
 </body>
 </html>

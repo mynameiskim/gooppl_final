@@ -48,7 +48,53 @@
        }
 
     </script>
-    
+    <script>
+    //광고주 정보 입력
+    function addOwnerInfo(){
+    	$.ajax({
+				type: "POST",
+				data: new FormData($("#adForm")[0]),
+				url: 'addOwnerInfo.do',
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				cache: false,
+				dataType: "json",
+				error: function(result){
+				},
+				success: function(result){
+					if(result.code==1){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'success',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}else {
+						Swal.fire({
+					      title: result.msg,
+					      icon:'error',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}
+				}
+			
+		});
+    }
+    </script>
 
 </head>
 
@@ -86,7 +132,7 @@
                     <div class="col-md-5">
                        <div class="row">
                           <div class="col-md-6">
-                           <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required>
+                           <select class="form-select" id="areacode" name="areacode" onchange="changeAreacode()" required="required">
                                <option value="" selected disabled>지역선택</option>
                                <c:forEach var="areadto" items="${arealist}">
                            <option value="${areadto.areacode}" data-value="${areadto.latitude },${areadto.longitude}">${areadto.areaname }</option>
@@ -94,7 +140,7 @@
                            </select>  
                           </div>
                           <div class="col-md-6">
-                           <select class="form-select" name="sigungucode" id="sigungucode" required>
+                           <select class="form-select" name="sigungucode" id="sigungucode" required="required">
                          <option value="" selected disabled>선택해주세요</option>
                         <c:forEach var="sigungudto" items="${sigungulist}">
                            <option value="${sigungudto.sigungucode }" class="${sigungudto.areacode }" style="display:none;">${sigungudto.sigungu_name }</option>
@@ -230,13 +276,13 @@
                         <div class="row">
                             <div class="col-md-4 form-group">
                                 <label for="title" class="form-label">상호명</label>
-                                <input type="text" class="form-control mb-2" id="title" name="title" required>
+                                <input type="text" class="form-control mb-2" id="title" name="title" required="required">
                                 
                             </div>
                             <div class="col-md-5 form-group">
 	                                <label for="business_number" class="form-label">사업자번호</label>
                                 <div class="input-group mb-3">
-	                                <input type="text" class="form-control" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required>
+	                                <input type="text" class="form-control" id="business_number" name="business_number" placeholder="ex)123-45-67890" pattern="^\d{3}-\d{2}-\d{5}$" required="required">
 	                            	<button class="btn btn-outline-primary" id="ckBusinessNum" name="ckBusinessNum">중복체크</button>
 								</div>
                             </div>
@@ -256,25 +302,25 @@
                                 <label for="email" class="form-label">이메일</label>
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control mb-2" id="email" name="email"
-                                        aria-describedby="inputGroupPrepend" pattern="^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$" required>
+                                        aria-describedby="inputGroupPrepend" pattern="^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$" required="required">
                                 </div>
                             </div>
 
                             <div class="col-md-4 form-group">
                                 <label for="business_tel" class="form-label">업체 전화번호</label>
-                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" placeholder="ex)02-123-4567" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required>
+                                <input type="text" class="form-control mb-2" id="business_tel" name="business_tel" placeholder="ex)02-123-4567" pattern="^0\d{1,2}-\d{3,4}-\d{4}$" required="required">
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="name" class="form-label">이름</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" class="form-control mb-2" id="name" name="name" aria-describedby="inputGroupPrepend" required>
+                                    <input type="text" class="form-control mb-2" id="name" name="name" aria-describedby="inputGroupPrepend" required="required">
                                 </div>
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="tel" class="form-label">번호</label>
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control mb-2" id="tel" name="tel"
-                                        aria-describedby="inputGroupPrepend" pattern="^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$" required>
+                                        aria-describedby="inputGroupPrepend" pattern="^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$" required="required">
                                 </div>
                             </div>
                             <div class="col-md-5 form-group">
@@ -287,7 +333,7 @@
                                 <label for="addr" class="form-label">주소</label>
                                 <div class="input-group has-validation">
                                     <input type="text" class="form-control" id="addr" name="addr"
-                                        aria-describedby="inputGroupPrepend" readonly required>
+                                        aria-describedby="inputGroupPrepend" readonly required="required">
                                 </div>
                             </div>
                             <div class="col-md-3 mb-2 form-group">
@@ -318,19 +364,19 @@
                            </div>
                                
                                <div class="input-group has-validation">
-                                   <textarea class="form-control" name="ad_content" rows="5" required></textarea>
+                                   <textarea class="form-control" name="ad_content" rows="5" required="required"></textarea>
                                </div>
                            </div>
                            <div class="col-md-12 form-group">
                                <div class="form-check">
-                                   <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                   <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required="required">
                                    <label class="form-check-label" for="invalidCheck">
                                        약관 동의 및 광고주 등급 신청
                                    </label>
                                </div>
                            </div>
                            <div class="col-12">
-                               <button class="btn btn-primary" id="ownerJoinBtn" type="submit">광고주 등록 신청</button>
+                               <button class="btn btn-primary" id="ownerJoinBtn" type="button" onclick="addOwnerInfo()">광고주 등록 신청</button>
                            </div>
                        </div>
                     </div>
