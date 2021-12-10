@@ -80,4 +80,8 @@ public class ReviewDAOImple implements ReviewDAO {
 		int count = sqlMap.selectOne("getTotalFindCnt",keywards);
 		return count;
 	}
+	public int updateReadnum(int review_idx) {
+		int count = sqlMap.update("updateReadnum", review_idx);
+		return count;
+	}
 }

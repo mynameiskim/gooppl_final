@@ -14,4 +14,5 @@ public interface ReviewService {
 	public int getMaxReview();
 	public List<ReviewDTO> getReview(int member_idx);
 	public List<ReviewDTO> findReview(String keywards);
+	public int updateReadnum(int review_idx);
 }

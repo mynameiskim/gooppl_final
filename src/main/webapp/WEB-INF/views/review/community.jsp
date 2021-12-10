@@ -103,8 +103,8 @@
                 </div>
                 <!--         제목 -->
 
-                <div id="title" class="col-md-4 text-center">
-                    <label>Community</label>
+                <div id="title" class="col-md-4">
+                    <h5 class="display-6 fw-bolder text-center">Community</h5>
                 </div>
                 <div class="col-md-4"></div>
             </div>

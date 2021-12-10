@@ -73,4 +73,8 @@ public class ReviewServiceImple implements ReviewService {
 		int count = reviewDao.getTotalFindCnt(keywards);
 		return count;
 	}
+	public int updateReadnum(int review_idx) {
+		int count = reviewDao.updateReadnum(review_idx);
+		return count;
+	}
 }
