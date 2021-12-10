@@ -392,12 +392,32 @@ public class MapController {
 	@RequestMapping("/share.do")
 	public ModelAndView shareList(
 			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+		
+		ModelAndView mav = new ModelAndView();
 		int listSize=16;
 		int pageSize=10;
 		int totalCnt=gooppl_mapService.getShareCnt();
+		mav.addObject("totalCnt",totalCnt);
+		// 쿼리에서 불러온 List
 		List<Gooppl_mapDTO> list = gooppl_mapService.mapList(cp,listSize);
+		List<String> firstImg = new ArrayList<String>();
+		List<MemberDTO> mlist = new ArrayList<MemberDTO>(); 
+		
+		int map_idx;
+		int member_idx;
+		for(int i=0; i<list.size(); i++) {
+			map_idx = list.get(i).getMap_idx();
+			member_idx = list.get(i).getMember_idx();
+			String first =  gooppl_placedetailService.getFirstImg(map_idx);
+			MemberDTO dto = memberService.memberInfo(member_idx);
+			firstImg.add(first);
+			mlist.add(dto);
+		}
+		mav.addObject("firstImg",firstImg);
+		mav.addObject("member",mlist);
+				
 		String sharePageStr=goo.page.PageModule.makePage("share.do", totalCnt, listSize, pageSize, cp);
-		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("list", list);
 		mav.addObject("sharePageStr",sharePageStr);
 		mav.setViewName("share/share_list");
@@ -444,14 +464,12 @@ public class MapController {
 
 		@RequestMapping("/getFirstImg.do")
 		@ResponseBody
-		public ModelAndView getFirstImg(
+		public String getFirstImg(
 				@RequestParam("map_idx")int map_idx) {
 			String firstImg = gooppl_placedetailService.getFirstImg(map_idx);
 			System.out.println("확인="+firstImg);
-			ModelAndView mav= new ModelAndView();
-			mav.addObject("firstImg",firstImg );
-			mav.setViewName("share/share_list");
-			return mav;
+
+			return firstImg;
 		}
 	
 	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
