@@ -205,4 +205,13 @@
 		(SELECT * FROM member WHERE ${search_type} LIKE '%' || #{search} || '%' AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{start_date} AND TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date} AND NOT member_type = 'A' AND del = 'N' ORDER BY member_idx desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
+  	<select id="adminReviewList" parameterType="Map" resultType="goo.review.model.ReviewDTO">
+  		SELECT * FROM
+		(SELECT rownum as rnum,a.* FROM
+  		(SELECT * FROM REVIEW ORDER BY review_idx DESC)a)b
+  		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+  	</select>
+  	<select id="adminReviewTotal" resultType="Integer">
+  		SELECT COUNT(*) FROM REVIEW
+  	</select>
   </mapper>
