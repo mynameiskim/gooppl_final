@@ -118,41 +118,6 @@ var setSigungucode;
 var setContenttype;
 var isClick=false;
 
-//전체 광고 리스트
-var adContents=[];
-<c:if test="${empty adlist }">
-	console.log('없음.');
-</c:if>
-<c:forEach var="addto" items="${adlist }">
-	var ad_idx=${addto.owner_idx };
-	var adtitle='[AD] ${addto.title }';
-	var adaddr='${addto.addr }';
-	var adareacode=${addto.areacode };
-	var adsigungucode=${addto.sigungucode };
-	var admapx=${addto.mapx };
-	var admapy=${addto.mapy };
-	var adoverview='${addto.ad_content }';
-	var adreadnum=1;
-	var adhomepage='${addto.business_tel }';
-	var adimg='${addto.firstimg }';
-	var adcontenttype=${addto.contenttype };
-	var adContent={
-		contentid:ad_idx,
-		title:adtitle,
-		addr:adaddr,
-		areacode:adareacode,
-		sigungucode:adsigungucode,
-		mapx:admapx,
-		mapy:admapy,
-		overview:adoverview,
-		readnum:adreadnum,
-		homepage:adhomepage,
-		image:adimg,
-		contenttype:adcontenttype
-	};
-	adContents.push(adContent);
-</c:forEach>
-
 
 /**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
@@ -1697,8 +1662,75 @@ function alertSave(moveUrl){
         </div>
     </div>
 </div>
+ <div id="adInfo" style="display:none;">
+	<table id="adSite">
+		<c:if test="${empty adlist }">
+			<tr class="noContent">
+				<td colspan="5" align="center">
+				등록된 광고가 없습니다.
+				</td>
+			</tr>
+		</c:if>
+		<c:forEach var="addto" items="${adlist }">
+			<tr>
+				<td class="adlist">
+					<span class="ad_idx">${addto.owner_idx }</span>
+					<span class="adimg" style="cursor: pointer;">${addto.firstimg }</span>
+					<span class="adaddr">${addto.addr }</span>
+					<span class="adtitle">[AD] ${addto.title }</span>
+					<span class="adcontenttype">${addto.contenttype }</span>
+					<span class="adareacode">${addto.areacode }</span>
+					<span class="adsigungucode">${addto.sigungucode }</span>
+					<span class="admapx">${addto.mapx }</span>
+					<span class="admapy">${addto.mapy }</span>
+					<span class="adoverview">${addto.ad_content }</span>
+					<span class="adreadnum">1</span>
+					<span class="adhomepage">${addto.business_tel }</span>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
  </section>
 <script>
+
+var adContents=[];
+var table=document.getElementById('adSite');
+var datay_n=document.getElementsByClassName('noContent')[0];
+if(datay_n!='undefined'){
+	adList=table.getElementsByClassName('adlist');
+	for(var i=0;i<adList.length;i++){
+		var ad_idx=adList[i].getElementsByClassName('ad_idx')[0].firstChild.nodeValue;
+		var adaddr=adList[i].getElementsByClassName('adaddr')[0].firstChild.nodeValue;
+		var adimage=adList[i].getElementsByClassName('adimg')[0].firstChild.nodeValue;
+		var adtitle=adList[i].getElementsByClassName('adtitle')[0].firstChild.nodeValue;
+		var adcontenttype=adList[i].getElementsByClassName('adcontenttype')[0].firstChild.nodeValue;
+		var adareacode=adList[i].getElementsByClassName('adareacode')[0].firstChild.nodeValue;
+		var adsigungucode=adList[i].getElementsByClassName('adsigungucode')[0].firstChild.nodeValue;
+		var adhomepage=adList[i].getElementsByClassName('adhomepage')[0].firstChild.nodeValue;
+		var admapx=adList[i].getElementsByClassName('admapx')[0].firstChild.nodeValue;
+		var admapy=adList[i].getElementsByClassName('admapy')[0].firstChild.nodeValue;
+		var adoverview=adList[i].getElementsByClassName('adoverview')[0].firstChild.nodeValue;
+		var adreadnum=adList[i].getElementsByClassName('adreadnum')[0].firstChild.nodeValue;
+		var adContent={
+			contentid:ad_idx,
+			title:adtitle,
+			addr:adaddr,
+			areacode:adareacode,
+			sigungucode:adsigungucode,
+			mapx:admapx,
+			mapy:admapy,
+			overview:adoverview,
+			readnum:adreadnum,
+			homepage:adhomepage,
+			image:adimage,
+			contenttype:adcontenttype
+		};
+		adContents.push(adContent);
+	}
+}
+
+
 var setMapx;
 var setMapy;
 function deleteThisday(){
@@ -2065,7 +2097,7 @@ function savePlaceDetailData(){
 		var firstimage=placeDetails[0].firstimage;
 		param+='&firstimage='+firstimage;
 		console.log(param);
-		sendRequest('savePlaceDetail.do', param, getResultAdd2, 'GET');
+		sendRequest('savePlaceDetail.do', param, getResultAdd2, 'POST');
 	}else{
 		location.href='existMap.do?map_idx='+map_idx+'&day_num='+moveDay;
 	}

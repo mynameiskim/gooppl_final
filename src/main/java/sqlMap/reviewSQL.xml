@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -24,6 +24,9 @@
   	<!-- review LIST -->
   	<select id="totalCnt" resultType="Integer">
   		select count(*) from review
+  	</select>
+  	<select id="getTotalFindCnt" parameterType="String" resultType="Integer">
+  		select count(*) from review where subject like '%#{keywards}%'
   	</select>
   	<select id="reviewAllList" parameterType="Map" resultType="goo.review.model.ReviewDTO">
 		select * from
@@ -69,9 +72,18 @@
   			review_idx=#{review_idx}
   		
   	</update>
+  	<select id="getMaxReview" resultType="Integer">
+  		select max(review_idx) from review
+	</select>
   	<select id="getReview" parameterType="Integer" resultType="goo.review.model.ReviewDTO">
   		select * from review where member_idx=#{member_idx} order by review_idx desc
   	</select>
+  	<select id="findReview" parameterType="String" resultType="goo.review.model.ReviewDTO">
+		select * from review where SUBJECT LIKE '%#{keywards}%' 		
+  	</select>
+  	<update id="updateReadnum" parameterType="Integer">
+  		update review set readnum=readnum+1 where review_idx=#{review_idx}
+  	</update>
   </mapper>
   
   

@@ -39,7 +39,31 @@
 }
 </style>
 <script>
+//이미 신청한 광고주
+function ckOwerAppli(member_idx){
+		$.ajax({
+			type: "GET",
+			url: 'ckOwnerAppli.do?member_idx='+member_idx,
+			dataType: "json",
+			error: function(result){
+				
+			},
+			success: function(result){
+				if(result.code==0){
+					Swal.fire(
+						'관리자 승인 대기 중입니다.',
+						'관리자 승인이 날 때까지 기다려주세요',
+						'info'
+					);
+				return;
+			}else{
+				location.href='adInfo.do';
+			}
+		}
+	});
+}
 
+//
 </script>
 <body>
     <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
@@ -147,7 +171,7 @@
                         프로필수정
                     </button>
                     <c:if test="${sessionScope.sessionMemberType=='M'}">
-                    	<button class="btn btn-secondary" onclick="location.href='ckOwnerAppli.do?member_idx=${sessionScope.sessionMember_idx}'">광고주 신청</button>
+                    	<button class="btn btn-secondary" onclick="ckOwerAppli(${sessionScope.sessionMember_idx})">광고주 신청</button>
                     	
                     </c:if>
                 </div>

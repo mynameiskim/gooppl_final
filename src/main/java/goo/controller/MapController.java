@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -255,8 +256,20 @@ public class MapController {
 					mav.addObject("areacode", lastAreacode);
 					mav.addObject("tripNum", tripList.size());
 				}else {
-					mav.addObject("areacode", 1);
-					mav.addObject("tripNum", 0);
+					if(day_num==1) {
+						mav.addObject("areacode", 1);
+						mav.addObject("tripNum", 0);
+					}else {
+						List<Integer> list2=mapinfoService.getThisMapInfo(map_idx, day_num-1);
+						if(list2.size()!=0) {
+							int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num-1);
+							mav.addObject("areacode", lastAreacode);
+							mav.addObject("tripNum", 0);
+						}else {
+							mav.addObject("areacode", 1);
+							mav.addObject("tripNum", 0);
+						}
+					}
 				}
 				mav.setViewName("map/existMap");
 			}
@@ -391,12 +404,32 @@ public class MapController {
 	@RequestMapping("/share.do")
 	public ModelAndView shareList(
 			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+		
+		ModelAndView mav = new ModelAndView();
 		int listSize=16;
 		int pageSize=10;
 		int totalCnt=gooppl_mapService.getShareCnt();
+		mav.addObject("totalCnt",totalCnt);
+		// 쿼리에서 불러온 List
 		List<Gooppl_mapDTO> list = gooppl_mapService.mapList(cp,listSize);
+		List<String> firstImg = new ArrayList<String>();
+		List<MemberDTO> mlist = new ArrayList<MemberDTO>(); 
+		
+		int map_idx;
+		int member_idx;
+		for(int i=0; i<list.size(); i++) {
+			map_idx = list.get(i).getMap_idx();
+			member_idx = list.get(i).getMember_idx();
+			String first =  gooppl_placedetailService.getFirstImg(map_idx);
+			MemberDTO dto = memberService.memberInfo(member_idx);
+			firstImg.add(first);
+			mlist.add(dto);
+		}
+		mav.addObject("firstImg",firstImg);
+		mav.addObject("member",mlist);
+				
 		String sharePageStr=goo.page.PageModule.makePage("share.do", totalCnt, listSize, pageSize, cp);
-		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("list", list);
 		mav.addObject("sharePageStr",sharePageStr);
 		mav.setViewName("share/share_list");
@@ -412,6 +445,7 @@ public class MapController {
 	      //int map_idx로 day_num ,route_num의 쵀댓 값을 구함
 	      int daynum = mapinfoService.getMaxDaynum(map_idx);
 	      int routenum[]=new int[daynum]; 
+	      
 	      List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
 	      for(int i=1;i<=daynum;i++) {
 	         routenum[i-1]=mapinfoService.getMaxRoutenum(map_idx, i);
@@ -421,8 +455,8 @@ public class MapController {
 	            contentids.add(drlist.get(i).getContentid());
 	      }
 	      List<Gooppl_PlaceDetailDTO> pdlist=gooppl_placedetailService.getThisDateDetail(contentids);
-	      
-	      List<AreaDTO> arealist = areaService.areaList();
+	      List<AreaDTO> arealist = areaService.getAreaInfo(contentids);
+	      //List<AreaDTO> arealist = areaService.areaList();
 	      List<SigunguDTO> sigungulist = sigunguService.sigunguList();
 	      
 	      Gooppl_mapDTO gmdto = gooppl_mapService.getMapt(map_idx);
@@ -440,6 +474,15 @@ public class MapController {
 	      return mav;
 	   }
 
+		@RequestMapping("/getFirstImg.do")
+		@ResponseBody
+		public String getFirstImg(
+				@RequestParam("map_idx")int map_idx) {
+			String firstImg = gooppl_placedetailService.getFirstImg(map_idx);
+			System.out.println("확인="+firstImg);
+
+			return firstImg;
+		}
 	
 	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
 	@ResponseBody

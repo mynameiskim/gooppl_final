@@ -65,7 +65,7 @@ function showResult(){
 	}
 }
 
-//리스트에서 환불 승인
+//상세보기에서 환불 승인
 function cancelPay(index){
 	Swal.fire({
 		title: '환불하시겠습니까?',
@@ -87,7 +87,7 @@ function cancelPay(index){
 		  
 		  console.log('imp_uid:'+imp_uid);
 		  console.log('merchant_uid:'+merchant_uid);
-		  console.log('inquiry_idx: '+index)
+		  console.log('inquiry_idx: '+index);
 		  
 		  jQuery.ajax({
 				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=a9531fe35530a571423df67ca500d95acc9a3990", // 예: http://www.myservice.com/payments/cancel
@@ -223,59 +223,6 @@ function appli_Delete(index){
 	})	
 }
 
-//상세보기의 승인
-function appliD_Ok(owner_idx,member_idx){
-	Swal.fire({
-		title: '승인하시겠습니까?',
-		text: "해당회원은 광고주 회원으로 변경됩니다.",
-		icon: 'info',
-		showCancelButton: true,
-		confirmButtonColor: '#d33',
-		cancelButtonColor: '#000000',
-		confirmButtonText: '확인',
-		cancelButtonText: '취소',
-		showLoaderOnConfirm: true,
-		allowOutsideClick: () => !Swal.isLoading()
-	}).then((result) => {
-	  if (result.isConfirmed) {
-	  		
-	  		
-			$.ajax({
-				type: "GET",
-				url: 'admin_ownerAppli_ok.do?owner_idx='+owner_idx+'&member_idx='+member_idx,
-				dataType: "json",
-				error: function(result){
-					
-				},
-				success: function(result){
-					if(result.code==1){
-						Swal.fire({
-					      title: result.msg,
-					      icon:'success',
-					      confirmButtonText: '확인',
-					      confirmButtonColor: '#A4C399'
-					    }).then((result) => {
-					    	if (result.isConfirmed) {
-					    		location.reload();
-					    	}
-					    })
-					}else {
-						Swal.fire({
-					      title: result.msg,
-					      icon:'error',
-					      confirmButtonText: '확인',
-					      confirmButtonColor: '#d33'
-					    }).then((result) => {
-					    	if (result.isConfirmed) {
-					    		location.reload();
-					    	}
-					    })
-					}
-				}
-			});
-	  }
-	})
-}
 
 //상세보기의 거절
 function appliD_Delete(index){

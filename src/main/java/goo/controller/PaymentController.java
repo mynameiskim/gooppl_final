@@ -53,12 +53,21 @@ public class PaymentController {
 			@RequestParam("ad_period")int ad_period) {
 		
 		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
+		int ad_ck = adService.ckAd_info(owner_idx);
 		
+		int ad_result = 0;
 		Payment_infoDTO pdto = new Payment_infoDTO(imp_uid, owner_idx, member_idx, merchant_uid, amount, status);
-		AdDTO adto = new AdDTO(owner_idx, imp_uid, ad_period, "광고중");
+		System.out.println("결제 상태 여기까지는 옴");
+		if(ad_ck>0) {
+			System.out.println("원래 광고 정보가 있었따");
+			ad_result = adService.pay_Update_ad_info(owner_idx);
+		}else {
+			System.out.println("광고 처음 신청하는 사람");
+			AdDTO adto = new AdDTO(owner_idx, imp_uid, ad_period, "광고중");
+			ad_result = adService.startAD(adto);
+		}
 		int result = payment_infoService.savePayInfo(pdto);
 		int inquiry_result = ad_inquiryService.payOk_InquiryDel(owner_idx);
-		int ad_result = adService.startAD(adto);
 		if(result>0&&inquiry_result>0) {
 			 session.removeAttribute("ad_inquiry_state");
 		}

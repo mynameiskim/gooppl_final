@@ -16,5 +16,6 @@
   			  web_browser_title = #{web_browser_title}
   			, keyword = #{keyword} 
   			, description = #{description}
+  			, favicon = #{favicon}
   	</update>
   </mapper>

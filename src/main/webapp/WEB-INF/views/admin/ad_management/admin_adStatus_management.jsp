@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,14 +20,14 @@
 }
 </style>
 <script>
-function memberInfo(index,size){
-	var param=document.getElementById("member_idx"+index).value;
+function adInfo(index,size){
+	var param=document.getElementById("ad_idx"+index).value;
 	var btn=document.getElementById("btn"+index);
 	
 	console.log(size);
 		
 	if(btn.value=='상세보기'){
-		sendRequest('member_info.do?member_idx='+param,null,showResult,'GET');
+		sendRequest('admin_ad_info.do?ad_idx='+param,null,showResult,'GET');
 		for(var i=0;i<size;i++){
 			btn=document.getElementById("btn"+i);
 			if(i==index){
@@ -134,8 +135,6 @@ function memberDelete(index){
 			<dd>
 				<a href='admin_adAppli.do' style="color: white !important;"
 				>-광고 신청 관리</a><br />
-				<a href='admin_adRevise.do' style="color: white !important;"
-				>-광고 수정 관리</a><br/>
 				<a href='admin_adCancel.do' style="color: white !important;"
 				>-광고 취소 관리</a>
 			</dd>
@@ -209,15 +208,20 @@ function memberDelete(index){
 		  		<tr class="tr_aling">
 			      <td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}</td>
 			      <td class="text-center" style="width:12%;">${list.ad_idx}
-			      	<input id="imp_uid${status.index}" type="hidden" value="${list.imp_uid}">
+			      	<input id="ad_idx${status.index}" type="hidden" value="${list.ad_idx}">
 			      </td>
 			      <td class="text-center" style="width:10%;">${list.owner_idx}</td>
 			      <td class="text-center" style="width:15%;">${list.ad_startDate}</td>
 			      <td class="text-center" style="width:15%;">${list.ad_endDate}</td>
 			      <td class="text-center" style="width:10%;">${list.ad_state}</td>
 			      <td class="text-center" style="width:20%;">
-			      <input id="btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-secondary" value="상세보기" onclick="memberInfo(${status.index},${size})">
-			      <input id="delete_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="삭제" onclick="memberDelete(${status.index})">
+			      <input id="btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-secondary" value="상세보기" onclick="adInfo(${status.index},${size})">
+			      <c:if test="${list.ad_state.equals('광고중')}">
+				      <input id="adDown_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="광고내림" onclick="adDown(${status.index})">
+			      </c:if>
+			      <c:if test="${list.ad_state.equals('광고내림')}">
+			      	  <input id="adUp_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="광고올림" onclick="adUp(${status.index})">
+			      </c:if>
 			      </td>
 			    </tr>
 		  	</c:forEach>
