@@ -44,8 +44,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -115,15 +115,15 @@
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-md-8">
+                    <a href="share.do" style="color:whitesmoke; text-decoration: none;">
                     <div class="card bg-dark text-white" style="border: ghostwhite 0.5px solid;">
-                        <img src="https://blog.kakaocdn.net/dn/bQSqGM/btrklWSBhPM/4X8XC9gwOKlgfn92FaKJX1/img.jpg" class="card-img" alt="..."
+                        <img src="http://img.etoday.co.kr/pto_db/2017/08/20170811033432_1111517_710_340.jpg" class="card-img" alt="..."
                             style="width: 95%; height:360px;">
                         <div class="card-img-overlay">
                             <h5 class="card-title">일정 공유게시판</h5>
                             <p class="card-text">다른 사람들과 함께 여행 일정을 공유하세요.</p>
-                            <p class="card-text" style="margin-top: -64px; margin-left: 800px; "><a href="share.do" style="color:whitesmoke; text-decoration: none;">이동하기</a></p>
                         </div>
-                    </div>
+                    </div></a>
                 </div>
             </div>
             <!--     후기게시판 컨텐츠 이동  -->
@@ -132,15 +132,15 @@
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-md-8">
+                <a href="review.do" style="color:whitesmoke; text-decoration: none;">
                     <div class="card bg-primary text-white" style="border: ghostwhite 0.5px solid;">
-                        <img src="http://travelview.co.kr/wp-content/uploads/2020/08/image_5055254061598263756353.jpg"
+                        <img src="https://youimg1.tripcdn.com/target/0104x1200067h0lsdB5F1_C_640_320_Q70.jpg_.webp?proc=source%2Ftrip"
                             class="card-img" alt="..." style="width: 95%; height: 360px;">
                         <div class="card-img-overlay">
                             <h5 class="card-title">여행 후기게시판</h5>
                             <p class="card-text">멋진 경험들과 여행의 즐거움을 다른사람들과 함께 나누세요.</p>
-                            <p class="card-text " style="margin-top: -64px; margin-left: 800px; "><a href="reivew.do" style="color:whitesmoke; text-decoration: none;">이동하기</a></p>
                         </div>
-                    </div>
+                    </div></a>
                 </div>
             </div>
 
