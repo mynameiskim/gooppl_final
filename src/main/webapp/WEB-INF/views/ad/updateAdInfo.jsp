@@ -25,7 +25,54 @@
     <!-- jquery -->
 	<script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-
+	
+	<script>
+	//광고주 정보 수정
+    function updateOwnerInfo(){
+    	$.ajax({
+				type: "POST",
+				data: new FormData($("#adForm")[0]),
+				url: 'updateOwnerInfo2.do',
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				cache: false,
+				dataType: "json",
+				error: function(result){
+				},
+				success: function(result){
+					if(result.code==1){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'success',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}else {
+						Swal.fire({
+					      title: result.msg,
+					      icon:'error',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}
+				}
+			
+		});
+    }
+	</script>
     
 
 </head>
@@ -354,7 +401,7 @@
                                </div>
                            </div>
                            <div class="col-12">
-                               <button class="btn btn-primary" id="ownerJoinBtn" type="submit">광고 정보 수정</button>
+                               <button class="btn btn-primary" id="ownerUpdateBtn" type="button" onclick="updateOwnerInfo()">광고 정보 수정</button>
                            </div>
                        </div>
                     </div>

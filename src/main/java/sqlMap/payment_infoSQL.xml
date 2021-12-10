@@ -33,8 +33,6 @@
   			FROM
   				PAYMENT_INFO
   			WHERE
-  				status = 'paid'
-  			AND
   				owner_idx = #{owner_idx}
   			ORDER BY
   				paydate DESC)

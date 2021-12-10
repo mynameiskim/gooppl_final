@@ -9,7 +9,6 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Grayscale - Start Bootstrap Theme</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -23,6 +22,10 @@
     <script src="resource/js/httpRequest.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=454cf995c30c224dddca3632f6bb1f65&libraries=services"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<!-- jquery -->
+	<script type="text/javascript"
+	  src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script>
     	function changeInquiryType(){
     		var divNode = document.getElementById('changeType');
@@ -130,7 +133,61 @@
     </script>
 <script>
 function adInquiry(){
-	
+	$.ajax({
+		type: "GET",
+		
+		data: $("#inquiryForm").serialize(),
+		url: 'adInquiry.do',
+		processData: false,
+		contentType: false,
+		cache: false,
+		dataType: "json",
+		error: function(result){
+		},
+		success: function(result){
+			if(result.code==1){
+				Swal.fire({
+			      title: result.msg,
+			      icon:'success',
+			      confirmButtonText: '확인',
+			      confirmButtonColor: '#A4C399',
+			      showLoaderOnConfirm: true,
+			      allowOutsideClick: false
+			    }).then((result) => {
+			    	if (result.isConfirmed) {
+			    		location.href='/gooppl/mypage.do';
+			    	}
+			    })
+			}else if(result.code==0) {
+				Swal.fire({
+			      title: result.msg,
+			      icon:'warning',
+			      confirmButtonText: '확인',
+			      confirmButtonColor: '#d33',
+			      showLoaderOnConfirm: true,
+			      allowOutsideClick: false
+			    }).then((result) => {
+			    	if (result.isConfirmed) {
+			    		location.href='/gooppl/mypage.do';
+			    	}
+			    })
+			}
+			else if(result.code==2) {
+				Swal.fire({
+			      title: result.msg,
+			      icon:'error',
+			      confirmButtonText: '확인',
+			      confirmButtonColor: '#d33',
+			      showLoaderOnConfirm: true,
+			      allowOutsideClick: false
+			    }).then((result) => {
+			    	if (result.isConfirmed) {
+			    		location.href='/gooppl/mypage.do';
+			    	}
+			    })
+			}
+		}
+	});
 }
 </script>
 </head>
@@ -162,7 +219,7 @@ function adInquiry(){
     
     <section class="signup-section" id="sigup">
     	<div class="container px-5 my-5" style="width:55%">
-    	<form name="inquiryForm" action="adInquiry.do" method="post">
+    	<form name="inquiryForm" id="inquiryForm" action="adInquiry.do">
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
@@ -171,7 +228,7 @@ function adInquiry(){
                         <input type="hidden" name="owner_idx" value="${owner_idx}">
                     </div>
                     <div class="col-md-4">
-                        <select class="form-select" id="inquiry_type" name="inquiry_type" onchange="changeInquiryType()" required>
+                        <select class="form-select" id="inquiry_type" name="inquiry_type" onchange="changeInquiryType()" required="required">
                             <option value="광고신청" selected>광고 신청</option>
                             <option value="광고취소">광고 취소</option>
                         </select>
@@ -190,16 +247,16 @@ function adInquiry(){
                                 <label class="form-label" style="color:#6c757d">사업자번호</label>
                                 <input type="text" class="form-control" id="business_number" name="business_number" value="${business_number}" readonly>
                             </div>
-							<div class="col-4 mb-4" id="changeType"><label class="form-label" style="color:#6c757d" id="notice">광고기간(개월)</label><input type="number" class="form-control" id="ad_period" name="ad_period" required><input type="hidden" name="reason" value="n"></div>
+							<div class="col-4 mb-4" id="changeType"><label class="form-label" style="color:#6c757d" id="notice">광고기간(개월)</label><input type="number" class="form-control" id="ad_period" name="ad_period" required="required"><input type="hidden" name="reason" value="N"></div>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label class="form-label" style="color:#6c757d">이메일</label>
-                        <input type="email" class="form-control" name="email" placeholder="ex)gooppl@gmail.com" value="${email}" required>
+                        <input type="email" class="form-control" name="email" placeholder="ex)gooppl@gmail.com" value="${email}" required="required">
                     </div>
                     <div class="mb-4">
                         <label class="form-label" style="color:#6c757d">문의내용</label>
-                        <textarea class="form-control" name="inquiry_content" rows="10" required></textarea>
+                        <textarea class="form-control" name="inquiry_content" rows="10" required="required"></textarea>
                     </div>
                     <div class="mb-1 form-check">
                         <label>상담하시고자 하는 내용을 보내주세요.<br>빠른 시일내에 담당자가 연락드리겠습니다.<br></label>
@@ -210,11 +267,11 @@ function adInquiry(){
                             그 밖에 사항은 <a href="#" style="color:blue">개인정보 처리방침</a>에 대하여 동의하셔야합니다.<br>
                             고객님은 동의를 거부하실 수 있으며, 거부 시 문의 등록을 하실 수 없습니다.
                         </label><br>
-                        <input type="checkbox" class="form-check-input" id="check1" required>
+                        <input type="checkbox" class="form-check-input" id="check1" required="required">
                         <label class="form-check-label">개인정보 수집·이용에 대하여 동의합니다.</label>
                     </div>
                     <div class="d-grid gap-2">
-                        <input type="submit" class="btn btn-primary" value="확인" >
+                        <input type="button" onclick="adInquiry()" class="btn btn-primary" value="확인" >
                     </div>
             </div>
     	</form>
@@ -272,7 +329,6 @@ function adInquiry(){
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

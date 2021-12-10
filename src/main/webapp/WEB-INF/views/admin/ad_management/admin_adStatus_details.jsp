@@ -13,7 +13,7 @@
                 margin-bottom: 20px;">
             <div class="row">
                 <div class="col-md-12 mb-1">
-                    <h5>결제 내역 정보</h5>
+                    <h5>광고 정보</h5>
                 </div>
             </div>
                 <div class="row">

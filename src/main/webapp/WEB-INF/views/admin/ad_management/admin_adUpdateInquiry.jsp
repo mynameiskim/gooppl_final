@@ -297,8 +297,6 @@ function appliD_Delete(index){
 			<dd>
 				<a href='admin_adAppli.do' style="color: white !important;"
 				>-광고 신청 관리</a><br />
-				<a href='admin_adRevise.do' style="color: white !important;"
-				>-광고 수정 관리</a><br/>
 				<a href='admin_adCancel.do' style="color: white !important;"
 				>-광고 취소 관리</a>
 			</dd>

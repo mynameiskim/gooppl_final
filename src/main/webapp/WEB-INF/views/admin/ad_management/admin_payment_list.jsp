@@ -85,7 +85,7 @@ function payment_refund(index){
 	  		
 	  		
 			jQuery.ajax({
-				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=bc4659bff8d33f99b74245c56b465eadf4735715", // 예: http://www.myservice.com/payments/cancel
+				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=478cae913fdd742bed389727283c1c5e21395711", // 예: http://www.myservice.com/payments/cancel
 			    "type": "POST",
 			    "contentType": "application/json",
 			    "data": JSON.stringify({
@@ -236,8 +236,6 @@ function admin_refundD(imp_uid, merchant_uid, amount){
 			<dd>
 				<a href='admin_adAppli.do' style="color: white !important;"
 				>-광고 신청 관리</a><br />
-				<a href='admin_adRevise.do' style="color: white !important;"
-				>-광고 수정 관리</a><br/>
 				<a href='admin_adCancel.do' style="color: white !important;"
 				>-광고 취소 관리</a>
 			</dd>
@@ -255,31 +253,10 @@ function admin_refundD(imp_uid, merchant_uid, amount){
     	<ul class='helpbox'>
 				<li>결제 내역을 확인하고 관리할 수 있는 메뉴입니다.</li>
 			</ul>
-		<table class="table table-bordered" style="font-size: 13px;">
-			<tr>
-				<th style="border: 1px solid #0000008c;">조건 검색</th>
-				<td style="border: 1px solid #0000008c;">
-					<select id="condition" name="condition" style="height: 22px;">
-						<option value="payState">결제상태</option>
-						<option value="payImp_uid">주문번호</option>
-						<option>내용</option>
-					</select>
-					<input type="text" style="width: 300px;">
-				</td>
-			</tr>
-			<tr>
-				<th style="border: 1px solid #0000008c;">결제일</th>
-				<td style="border: 1px solid #0000008c;"><input type="date">~<input type="date"></td>
-			</tr>
-		</table>
-			<div class="row justify-content-md-center" style="padding: 20px 0px;">
-				<div class="col-md-5 text-center">
-					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="검색하기" >
-				</div>	
-			</div>
+		
 			<div class="row">
 				<div class="col-md-12 text-left">
-					<label><b>총 결제수:${totalPayment}</b>&nbsp; <b>검색수:</b></label>
+					<label><b>총 결제수:${totalPayment}</b></label>
 				</div>
 			</div>
 		<table class="table table-hover tb_hover">
