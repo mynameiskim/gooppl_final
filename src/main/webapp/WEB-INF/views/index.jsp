@@ -106,7 +106,7 @@
 			<!-- 추천카드 jstl -->
 			<c:forEach var="list" items="${dto}" varStatus="status">
 				<div class="col">
-					<div class="card h-100 cardDiv" id="card-a-div">
+					<div class="card h-100 cardDiv" id="card-a-div" style="box-shadow:1px 4px 1px 2px #78c2ad;">
 						<a class="card-a" href="#" role="button" data-bs-toggle="modal"
 							data-bs-target="#card${list.start_area_idx}"> <img src="${list.start_area_img }" class="card-img-top" alt="...">
 							<div class="card-body">
@@ -143,7 +143,7 @@
 										<h6 class="card-title">${list.kr_name}</h6>
 										<p class="card-text" style="font-size: 18px;">${list.area_description }</p>
 										<br>
-										<button type="button" class="btn btn-primary btn-lg">일정만들기</button>
+										<button type="button" class="btn btn-primary btn-lg" onclick="javascript: location.href='createMap.do?areacode=${list.areacode }&sigungucode=${list.sigungucode }'">일정만들기</button>
 										<button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">닫기</button>
 									</div>
 								</div>
@@ -156,7 +156,7 @@
 	</c:forEach>
 	<!--추천 지역 모달 끝-->
 	<!-- Contact-->
-	<section class="contact-section bg-light align-items-center">
+	<section class="contact-section bg-primary align-items-center">
 		<div class="container px-4 px-lg-5">
 			<div class="row gx-4 gx-lg-5 justify-content-md-center">
 				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
@@ -517,7 +517,7 @@
     </div>
 	<!--  비밀번호 찾기 모달 끝------------------------------------------------------------------------------------------- -->
 	<!-- Footer-->
-	<footer class="footer bg-light small text-center">
+	<footer class="footer bg-primary small text-center text-white-50">
 		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
 	</footer>
 	<!-- 이메일 인증 관련 -->
@@ -591,6 +591,8 @@
 					  icon: 'warning',
 					  confirmButtonText: '확인'
 					})
+			}else if(login_result=='need'){
+				document.getElementById('login_bt').click();
 			}
 			
 			var open_login  = '${open_login}';

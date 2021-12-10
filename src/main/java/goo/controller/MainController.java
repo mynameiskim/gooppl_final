@@ -30,6 +30,8 @@ import goo.mapinfo.model.MapInfoDTO;
 import goo.mapinfo.model.MapInfoService;
 import goo.member.model.MemberService;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
+import goo.review.model.ReviewDTO;
+import goo.review.model.ReviewService;
 import goo.payment_info.model.Payment_infoService;
 import goo.owner.model.*;
 
@@ -54,6 +56,8 @@ public class MainController {
 	private Payment_infoService payment_infoService;
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
+	private ReviewService reviewService;
 	
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	private static final int EMAIL_PWD_FIND_FORMMAIL_NO = 3;
@@ -70,7 +74,7 @@ public class MainController {
 		List<Gooppl_mapDTO> mapDTO = gooppl_mapService.getMap(member_idx);
 		int totalPlaceCount[] = new int[mapDTO.size()];
 		String firstImg[] = new String[mapDTO.size()];
-		
+		List<ReviewDTO> reviewDTO = reviewService.getReview(member_idx);
 		               
 		for(int i=0;i<mapDTO.size();i++) {
 			
@@ -82,6 +86,7 @@ public class MainController {
 		
 		mav.addObject("odto", odto);
 		mav.addObject("mapDTO",mapDTO);
+		mav.addObject("reviewDTO",reviewDTO);
 		mav.addObject("totalPlaceCount", totalPlaceCount);
 		mav.addObject("firstImg",firstImg);
 		mav.setViewName("member/mypage");

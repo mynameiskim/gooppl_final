@@ -441,7 +441,7 @@ public class MapController {
 	      mav.setViewName("share/share_content");
 	      return mav;
 	   }
-	
+
 		@RequestMapping("/getFirstImg.do")
 		@ResponseBody
 		public ModelAndView getFirstImg(
@@ -454,8 +454,13 @@ public class MapController {
 			return mav;
 		}
 	
-	
-	/**#################        SHARE          #########################*/
+	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
+	@ResponseBody
+	@RequestMapping("/planShareCancel.do")
+	public int planShereCancel(int map_idx) {
+		int result = gooppl_mapService.planShareCancel(map_idx);
+		return result;
+	}
 	
 	
 	
@@ -487,6 +492,7 @@ public class MapController {
 	
 		
 	
+
 
 	
 	
