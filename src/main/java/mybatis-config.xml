@@ -22,6 +22,7 @@
   		<mapper resource="sqlMap/startAreaSQL.xml"></mapper>
   		<mapper resource="sqlMap/statisticsSQL.xml"></mapper>
   		<mapper resource="sqlMap/replySQL.xml"></mapper>
+  		<mapper resource="sqlMap/inquirySQL.xml"></mapper>
   	</mappers>
   </configuration>
   

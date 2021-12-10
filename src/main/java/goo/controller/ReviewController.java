@@ -84,6 +84,7 @@ public class ReviewController {
 	@RequestMapping("/reviewContent.do")
 	public ModelAndView reviewContent(@RequestParam(value = "review_idx", defaultValue = "0") int review_idx) {
 		ReviewDTO dto = reviewService.reviewContent(review_idx);
+		reviewService.updateReadnum(review_idx);
 		ModelAndView mav=new ModelAndView();
 		if (dto == null) {
 			mav.addObject("msg","잘못된접근 또는 삭제된 게시글입니다.");
@@ -135,11 +136,13 @@ public class ReviewController {
 	/**리뷰 검색*/
 	@RequestMapping("/reviewFind.do")
 	public ModelAndView reviewFind(
-			@RequestParam(value="keywards" ,defaultValue = "")String keywards,
+			@RequestParam("keywards")String keywards,
 			@RequestParam(value="cp",defaultValue = "1" )int cp) {
 			int listSize=4;
 			int pageSize=4;
+			System.out.println(keywards);
 			int totalCnt=reviewService.getTotalFindCnt(keywards);
+			System.out.println(totalCnt);
 		List<ReviewDTO> flist = reviewService.findReview(keywards);
 		String pageStr=goo.page.PageModule.makePage("review.do", totalCnt, listSize, pageSize, cp);
 		ModelAndView mav = new ModelAndView();

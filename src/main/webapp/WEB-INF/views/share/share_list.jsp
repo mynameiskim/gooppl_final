@@ -57,12 +57,13 @@
 }
 
 .slick-next:before {
+	margin: 15px;
 	content:
 		url(https://img.icons8.com/flat-round/48/000000/circled-right-2--v1.png);
 }
 
 .slick-prev:before {
-	padding: -64px;
+	margin: -50px;
 	content:
 		url(https://img.icons8.com/flat-round/48/000000/circled-left-2--v1.png);
 }
@@ -192,18 +193,25 @@
 				<div class="slider conter" style="padding-left: 40px;">
 					<c:forEach var="dto" items="${list}" varStatus="status">
 
-						<div class="col-md--4 " style="padding-left: 40px;">
+						<div class="col-md-5 " style="padding-left: 40px;">
 							<div class="card mb-3">
 								<div class="row g-0">
 									<div class="col-md-9">
-										<img
-											src="${firstImg[status.index]}"
-											class="img-fluid rounded-start" alt="..."
-											style="width: 100%; height: auto;">
+										<c:url var="contentUrl" value="shareContent.do">
+										<c:param name="map_idx">${dto.map_idx}</c:param>
+										<c:param name="member_idx">${dto.member_idx}</c:param>
+										</c:url>
+											<a href="${contentUrl }" >
+												<img
+												src="${firstImg[status.index]}"
+												class="img-fluid rounded-start" alt="..."
+												style="width: 100%; height: 360px;">
+											</a>
 									</div>
 									<div class="col-md-3">
-										<div class="card-body">
-											<h5 class="card-title">${dto.map_title }</h5>
+											<div class="card-body">
+											
+											<h5 class="card-title"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title }</a></h5>
 											<c:choose>
 												<c:when test="${dto.trip_type==1}">
 													<p class="card-text">여행타입 : 홀로여행</p>
@@ -241,7 +249,7 @@
 			<script>
 				$('.slider').slick({
 					centerMode : true,
-					centerPadding : '60px',
+					centerPadding : '0px',
 					slidesToShow : 1.7,
 					responsive : [ {
 						breakpoint : 768,
@@ -249,7 +257,7 @@
 							arrows : false,
 							centerMode : true,
 							centerPadding : '40px',
-							slidesToShow : 1
+							slidesToShow : 5
 						}
 					}, {
 						breakpoint : 480,
@@ -257,7 +265,7 @@
 							arrows : false,
 							centerMode : true,
 							centerPadding : '40px',
-							slidesToShow : 1
+							slidesToShow : 5
 						}
 					} ]
 				});
@@ -290,15 +298,17 @@
 					<c:forEach var="dto" items="${list }" varStatus="status">
 						<div class="col-md-3" style="margin-top: 32px;">
 							<div class="card">
-								<img id="${dto.map_idx }"
-									src="${firstImg[status.index]}"
-									class="card-img-top" alt="...">
-								<div class="card-body">
 								<c:url var="contentUrl" value="shareContent.do">
 								<c:param name="map_idx">${dto.map_idx}</c:param>
 								<c:param name="member_idx">${dto.member_idx}</c:param>
 								</c:url>
-                               	<h5 class="card-title mb-5"><a href="${contentUrl }">${dto.map_title}</a></h5>
+									<a href="${contentUrl }" >
+										<img id="${dto.map_idx }"
+										src="${firstImg[status.index]}"
+										class="card-img-top" alt="..." style="height:160px;">
+									</a>
+								<div class="card-body">
+                               	<h5 class="card-title mb-5"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title}</a></h5>
 									<c:choose>
 										<c:when test="${dto.trip_type==1}">
 											<p class="card-text">여행타입 : 홀로여행</p>

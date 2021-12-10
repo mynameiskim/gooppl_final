@@ -428,7 +428,7 @@ function closeOverlay() {
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
                     <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -527,6 +527,8 @@ function closeOverlay() {
 	<footer class="footer bg-light small text-center">
 		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
 	</footer>
+	  <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=33817b3ae46352524552aa3d23525140"></script>
 </body>
 </html>

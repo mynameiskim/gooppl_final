@@ -166,11 +166,10 @@
 		           		 <!--프롤로그 입력-->
 			             <div class="row mb-2">
 			                 <div class="col-xs-12">
-		                   		 <input class="form-control" type="text" name="subject" placeholder="제목을 입력해주세요.">
+		                   		 <input class="form-control" type="text" id="subject" name="subject" placeholder="제목을 입력해주세요.">
 			                 </div>
 			                  
 			                 <div class="col-xs-12">
-		                         <label for="exampleFormControlTextarea1" class="form-label">프롤로그</label>
 			                 </div>
 			                 <div class="col-xs-12">
 		                         <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="간단한 소개글을 적어주세요~" rows="3" name="prologue"></textarea>
@@ -186,26 +185,36 @@
 
 									
 								<script>
-$('#summernote').summernote({
-			height: 300,                 // 에디터 높이
-			tabsize:2,
-			minHeight: null,             // 최소 높이
-			maxHeight: null,             // 최대 높이
-			focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-			lang: "ko-KR",					// 한글 설정
-			placeholder: '최대 2048자까지 쓸 수 있습니다',	//placeholder 설정
-			callbacks: {	//여기 부분이 이미지를 첨부하는 부분
-				 
-	            	onImageUpload : function(files, editor, welEditable) {
-	                    // 파일 업로드(다중업로드를 위해 반복문 사용)
-	                    for (var i = files.length - 1; i >= 0; i--) {
-	                    uploadSummernoteImageFile(files[i],
-	                    this);
-	                    		}
-	                    	}
-	                    }
-			
-			});
+								$(document).ready(function() {
+									$('#summernote').summernote({
+										  height: 588,                 // 에디터 높이
+										  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+										  lang: "ko-KR",					// 한글 설정
+										  placeholder: '내용',
+								          disableResizeEditor: true,	// 크기 조절 기능 삭제
+								          toolbar: [
+								            ['fontname', ['fontname']],
+								            ['fontsize', ['fontsize']],
+								            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+								            ['color', ['forecolor','color']],
+								            ['table', ['table']],
+								            ['para', ['ul', 'ol', 'paragraph']],
+								            ['height', ['height']],
+								            ['insert',['picture','link','video']],
+								            ['view', ['fullscreen', 'help']]
+								          ],
+								        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+								        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+								        callback:{
+								        	onImageUpload: function(files, editor, welEditable) {
+								        		for(var i = files.length -1; i>=0; i--) {
+								        			uploadSummernoteImageFile(files[i], this);
+								        		}
+								        	}
+								        }
+								        
+									});
+								});
 									
 /**
 * 이미지 파일 업로드
@@ -233,15 +242,14 @@ function uploadSummernoteImageFile(file, el) {
 		                  <div class="row">
 		                      <div class="col-xs-12 ">
 		                          <div class="mb-3">
-		                              <label for="exampleFormControlTextarea1" class="form-label">후기를 마치며 ...</label>
-		                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="epilogue"
+		                              <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" name="epilogue"
 		                                  placeholder="작성 후기 또는 느낀점"></textarea>
 		                          </div>
 		                      </div>
 		                  </div>
 		                  <div class="row">
 		                      <div class="col-xs-12 " style="text-align: center;">
-		                          <button type="submit" class="btn btn-success "
+		                          <button type="submit" id="writebutton" class="btn btn-success "
 		                              style="font-size: medium; margin-top:32px;">작성하기</button>
 		                          <button type="reset" class="btn btn-light "
 		                              style="font-size: medium; margin-top:32px;">다시쓰기</button>
@@ -256,8 +264,40 @@ function uploadSummernoteImageFile(file, el) {
         
    
     
-           <!--##### 파일 업로드 #####-->
-           
+           <!--##### 유효성 검사 #####-->
+    <script>
+    var subject;
+    var prologue;
+    var content;
+    var epilogue;
+    
+    $( document ).ready(function(){
+    function checkForm(){
+    	alert('tetetet');
+    	$(#review_form).addEventListener("click",function(){
+    		var subject = $(#subject).val();
+    		var prologue = $(#exampleFormControlTextarea1).val();
+    		var content = $(#summernote).val();
+    		var epilogue = $(#exampleFormControlTextarea2).val();
+    		
+    		if(subject==""){
+    			alert('제목을 입력해주세요');
+    			$(#subject).focus();
+    		}else if(prologue==""){
+    			alert('소개를 입력해주세요');
+    			$(#exampleFormControlTextarea1).focus();
+    		}else if(content==""){
+    			alert('내용을 입력해주세요');
+    			$(#summernote).focus();
+    		}else if(epilogue==""){
+    			alert('후기를 입력해주세요');
+    			$(#exampleFormControlTextarea2).focus();
+    		}
+    		document.getElementById("postForm").submit();
+    		})
+    	}
+    }
+    </script>       
            
 
 

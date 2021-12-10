@@ -81,6 +81,9 @@
   	<select id="findReview" parameterType="String" resultType="goo.review.model.ReviewDTO">
 		select * from review where SUBJECT LIKE '%#{keywards}%' 		
   	</select>
+  	<update id="updateReadnum" parameterType="Integer">
+  		update review set readnum=readnum+1 where review_idx=#{review_idx}
+  	</update>
   </mapper>
   
   

@@ -139,27 +139,7 @@ function adInquiry(){
 </script>
 
 <body id="page-top">
-   <!-- Navigation-->
-   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#page-top">GooPPl</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-            aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-    
+<%@include file="/WEB-INF/views/member/header.jsp" %>
     <section class="signup-section" id="sigup">
     	<div class="container px-5 my-5" style="width:55%">
     	<form name="inquiryForm" action="adInquiry.do" method="post">
@@ -222,53 +202,8 @@ function adInquiry(){
     </section>
     
     
-    <!-- Contact-->
-    <section class="contact-section bg-primary align-items-center">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-md-center">
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">은평구 동서로 101-2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Email</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">hello@yourdomain.com</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">FAQ</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">문의하기</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="social d-flex justify-content-center">
-                <a class="mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                <a class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer-->
-    <footer class="footer bg-primary small text-center text-white-50">
-        <div class="container px-4 px-lg-5">Copyright &copy; Your Website 2021</div>
-    </footer>
+	<%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<%@include file="/WEB-INF/views/member/footer.jsp" %>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

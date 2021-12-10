@@ -256,8 +256,20 @@ public class MapController {
 					mav.addObject("areacode", lastAreacode);
 					mav.addObject("tripNum", tripList.size());
 				}else {
-					mav.addObject("areacode", 1);
-					mav.addObject("tripNum", 0);
+					if(day_num==1) {
+						mav.addObject("areacode", 1);
+						mav.addObject("tripNum", 0);
+					}else {
+						List<Integer> list2=mapinfoService.getThisMapInfo(map_idx, day_num-1);
+						if(list2.size()!=0) {
+							int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num-1);
+							mav.addObject("areacode", lastAreacode);
+							mav.addObject("tripNum", 0);
+						}else {
+							mav.addObject("areacode", 1);
+							mav.addObject("tripNum", 0);
+						}
+					}
 				}
 				mav.setViewName("map/existMap");
 			}
