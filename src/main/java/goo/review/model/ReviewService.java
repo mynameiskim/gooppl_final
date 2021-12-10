@@ -8,8 +8,10 @@ public interface ReviewService {
 	public List<ReviewDTO> reviewList(int cp,int ls);
 	public ReviewDTO reviewContent(int idx);
 	public int getTotalCnt();
+	public int getTotalFindCnt(String keywards);
 	public int delReview(int review_idx);
 	public int updateReview(ReviewDTO dto);
 	public int getMaxReview();
 	public List<ReviewDTO> getReview(int member_idx);
+	public List<ReviewDTO> findReview(String keywards);
 }

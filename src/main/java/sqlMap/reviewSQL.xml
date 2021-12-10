@@ -25,6 +25,9 @@
   	<select id="totalCnt" resultType="Integer">
   		select count(*) from review
   	</select>
+  	<select id="getTotalFindCnt" parameterType="String" resultType="Integer">
+  		select count(*) from review where subject like '%#{keywards}%'
+  	</select>
   	<select id="reviewAllList" parameterType="Map" resultType="goo.review.model.ReviewDTO">
 		select * from
 		(select rownum as rnum,a.* from
@@ -75,7 +78,9 @@
   	<select id="getReview" parameterType="Integer" resultType="goo.review.model.ReviewDTO">
   		select * from review where member_idx=#{member_idx} order by review_idx desc
   	</select>
-  	
+  	<select id="findReview" parameterType="String" resultType="goo.review.model.ReviewDTO">
+		select * from review where SUBJECT LIKE '%#{keywards}%' 		
+  	</select>
   </mapper>
   
   

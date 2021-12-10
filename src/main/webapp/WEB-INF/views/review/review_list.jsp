@@ -203,8 +203,17 @@
             </div>
             
           <div class="collapse" id="collapseExample">
-          	<div id="search" class="row justify-content-md-center mb-5">
-                <div id="writereview" class="col-md-8 col-xs-2">
+          <div id="search" class="row justify-content-md-center mb-5">
+                <div class="col-md-6" style="float: right">
+                    <div class="container-fluid">
+                        <form class="d-flex" name="reivew_search" action="reviewFind.do">
+                            <input class="form-control me-2" type="search" name="keywards" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="writereview" class="col-md-2 col-xs-2">
                     <button class="btn btn-outline-success btn-sm" style="float: right;" onclick="location.href='reviewWrite.do'">후기작성하기</button>
                 </div>
             </div>

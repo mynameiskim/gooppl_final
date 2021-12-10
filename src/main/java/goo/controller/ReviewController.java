@@ -132,7 +132,22 @@ public class ReviewController {
 		mav.setViewName("review/reviewMsg");
 		return mav;
 	}
-	
+	/**리뷰 검색*/
+	@RequestMapping("/reviewFind.do")
+	public ModelAndView reviewFind(
+			@RequestParam(value="keywards" ,defaultValue = "")String keywards,
+			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+			int listSize=4;
+			int pageSize=4;
+			int totalCnt=reviewService.getTotalFindCnt(keywards);
+		List<ReviewDTO> flist = reviewService.findReview(keywards);
+		String pageStr=goo.page.PageModule.makePage("review.do", totalCnt, listSize, pageSize, cp);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("flist", flist);
+		mav.addObject("pageStr", pageStr);
+		mav.setViewName("review/review_list");
+		return mav;
+	}
 	
 	@RequestMapping("/uploadSummernoteImageFile.do")
 	@ResponseBody

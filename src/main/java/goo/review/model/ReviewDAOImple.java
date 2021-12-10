@@ -58,4 +58,12 @@ public class ReviewDAOImple implements ReviewDAO {
 		List<ReviewDTO> reviewDTO = sqlMap.selectList("getReview",member_idx);
 		return reviewDTO;
 	}
+	public List<ReviewDTO> findReview(String keywards) {
+		List<ReviewDTO> flist = sqlMap.selectList("findReview", keywards);
+		return flist;
+	}
+	public int getTotalFindCnt(String keywards) {
+		int count = sqlMap.selectOne("getTotalFindCnt",keywards);
+		return count;
+	}
 }
