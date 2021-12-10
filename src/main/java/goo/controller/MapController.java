@@ -492,7 +492,12 @@ public class MapController {
 		return result;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/planShare.do")
+	public int planShere(int map_idx) {
+		int result = gooppl_mapService.planShare(map_idx);
+		return result;
+	}
 	
 	
 	

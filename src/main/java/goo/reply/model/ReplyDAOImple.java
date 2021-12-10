@@ -27,4 +27,8 @@ public class ReplyDAOImple implements ReplyDAO {
 		int result = sqlMap.delete("replyDel", ridx);
 		return result;
 	}
+	public int getReplyCount(int review_idx) {
+		int count = sqlMap.selectOne("getReplyCount",review_idx);
+		return count;
+	}
 }

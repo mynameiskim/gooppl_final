@@ -96,7 +96,7 @@ public class ReviewController {
 		return mav;
 	}
 	/** 리뷰 삭제 */
-	@RequestMapping("/reviewDelete.do")
+	@RequestMapping(value="/reviewDelete.do",method=RequestMethod.GET)
 	public ModelAndView reviewDelete(@RequestParam("review_idx")int review_idx) {
 		System.out.println("진입성공");
 		int result = reviewService.delReview(review_idx);
@@ -106,7 +106,12 @@ public class ReviewController {
 		mav.setViewName("review/reviewMsg");
 		return mav;
 	}
-
+	@RequestMapping(value="/reviewDel.do",method=RequestMethod.POST)
+	@ResponseBody
+	public int reviewDel(int review_idx) {
+		int result = reviewService.reviewDel(review_idx);
+		return result;
+	}
 	/**	리뷰수정 */
 	@RequestMapping("/reviewUpdateForm.do")
 	public ModelAndView reviewUpdateForm(@RequestParam(value = "review_idx", defaultValue = "0") int review_idx) {
