@@ -56,4 +56,9 @@ public class ReviewServiceImple implements ReviewService {
 		int count = reviewDao.updateReview(dto);
 		return count;
 	}
+/**		리뷰 IDX 최댓값*/
+	public int getMaxReview() {
+		int count = reviewDao.getMaxReview();
+		return count;
+	}
 }

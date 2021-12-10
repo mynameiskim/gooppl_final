@@ -69,6 +69,10 @@
   			review_idx=#{review_idx}
   		
   	</update>
+  	<select id="getMaxReview" resultType="Integer">
+  		select max(review_idx) from review
+  	</select>
+  	
   </mapper>
   
   

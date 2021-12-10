@@ -79,7 +79,7 @@
   	</select>
   	
   	
-  	<delete id="planDelete">
-  		delete from mapt where map_idx = #{map_idx}
-  	</delete>
+<!--   	<delete id="planDelete"> -->
+<!--   		delete from mapt where map_idx = #{map_idx} -->
+<!--   	</delete> -->
   </mapper>

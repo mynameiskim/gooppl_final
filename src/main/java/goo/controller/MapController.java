@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -412,6 +413,7 @@ public class MapController {
 	      //int map_idx로 day_num ,route_num의 쵀댓 값을 구함
 	      int daynum = mapinfoService.getMaxDaynum(map_idx);
 	      int routenum[]=new int[daynum]; 
+	      
 	      List<MapInfoDTO> drlist = mapinfoService.shareContent(map_idx); //map 에서 가져옴
 	      for(int i=1;i<=daynum;i++) {
 	         routenum[i-1]=mapinfoService.getMaxRoutenum(map_idx, i);
@@ -421,8 +423,8 @@ public class MapController {
 	            contentids.add(drlist.get(i).getContentid());
 	      }
 	      List<Gooppl_PlaceDetailDTO> pdlist=gooppl_placedetailService.getThisDateDetail(contentids);
-	      
-	      List<AreaDTO> arealist = areaService.areaList();
+	      List<AreaDTO> arealist = areaService.getAreaInfo(contentids);
+	      //List<AreaDTO> arealist = areaService.areaList();
 	      List<SigunguDTO> sigungulist = sigunguService.sigunguList();
 	      
 	      Gooppl_mapDTO gmdto = gooppl_mapService.getMapt(map_idx);
@@ -440,7 +442,17 @@ public class MapController {
 	      return mav;
 	   }
 	
-	
+		@RequestMapping("/getFirstImg.do")
+		@ResponseBody
+		public ModelAndView getFirstImg(
+				@RequestParam("map_idx")int map_idx) {
+			String firstImg = gooppl_placedetailService.getFirstImg(map_idx);
+			System.out.println("확인="+firstImg);
+			ModelAndView mav= new ModelAndView();
+			mav.addObject("firstImg",firstImg );
+			mav.setViewName("share/share_list");
+			return mav;
+		}
 	
 	
 	/**#################        SHARE          #########################*/

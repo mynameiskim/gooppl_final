@@ -55,7 +55,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">GooPPl</a>
+            <a class="navbar-brand" href="index.do">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -64,9 +64,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mypage.do">MyPage</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
                 </ul>
             </div>
@@ -81,7 +81,7 @@
                 <div class="row">
                     <!-- 페이지경로 -->
                     <div id="pagepath" class="col-md-4">
-                       <span><a href="">커뮤니티</a>&gt;&gt;<a href="">일정 공유 게시판</a>&gt;&gt;${mdto.nickname }의 일정</span> 
+                       <span><a href="community.do">커뮤니티</a>&gt;&gt;<a href="share.do">일정 공유 게시판</a>&gt;&gt;${mdto.nickname }의 일정</span> 
                     </div>
                     <!-- 제목-->
                     <div id="title" class="col-md-4">
@@ -95,7 +95,12 @@
                
                 
                     <!-- #### 일정 카드 영역 #### -->
-                    
+                    <div class="row ">
+                                <!--여행 날짜(yyyy-mm-dd-(요일))-->
+                                <div class="col-xs-9 mb-3" style="font-size: medium; ">
+                                   <strong>여행 기간 : ${gmdto.startdate }~${gmdto.enddate }</strong>
+                                </div>
+                            </div>
                    <c:forEach var="dto" items="${drlist }"  varStatus="status">
                     <div class="col-md-9 col-sm-9">
                      <div class="row" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
@@ -104,16 +109,11 @@
                             Day${dto.day_num }
                         </div>
                         <div class="col-md-10 col-xs-9" style=" border-bottom:#78C2AD solid 0.5px;">
-                            <div class="row">
-                                <!--여행 날짜(yyyy-mm-dd-(요일))-->
-                                <div class="col-xs-9" style="font-size: xx-small; ">
-                                    2021-11-22-(화)
-                                </div>
-                            </div>
+                            
                             <div class="row">
                                 <!--여행도시-->
                                 <div class="col-xs-9 fw-bold">
-                                    서울
+                                   ${arealist[status.index].areaname } 
                                 </div>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                                               <h5 class="fw-bold" style="padding-top: 8px;">${pdlist[status.index].title }</h5>
                                               <p class="text">${pdlist[status.index].addr }</p>
                                               <p class="text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 360px;">
-                                              <small class="text-muted">자세한내용은 우측아이콘 클릭!</small></p>
+                                              <small class="text-muted">자세한내용은 "i"아이콘 클릭!</small></p>
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
@@ -151,10 +151,6 @@
                                         </div>
                                       </div>
                                 </div>
-                                <!-- 관광지 정보 + -->
-                                <div class="col-xs-3">
-
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,6 +161,7 @@
                     </div>
                     </div>
                    </c:forEach> 
+                               
                     
                     <!-- 되면 들어갈 지도영역-->
                     <div class="col-md-3"></div>

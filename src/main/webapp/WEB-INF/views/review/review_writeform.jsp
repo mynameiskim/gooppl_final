@@ -80,7 +80,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" style="box-shadow:1px 1px 1px 0px lightgray;">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">GooPPl</a>
+            <a class="navbar-brand" href="index.do">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -89,9 +89,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="comunity.do">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
+                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mypage.do">MyPage</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
                 </ul>
             </div>
@@ -152,7 +152,7 @@
 $('#summernote').summernote({
 			height: 300,                 // 에디터 높이
 			tabsize:2,
-			minHeight: 300,             // 최소 높이
+			minHeight: null,             // 최소 높이
 			maxHeight: null,             // 최대 높이
 			focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
 			lang: "ko-KR",					// 한글 설정
@@ -173,7 +173,7 @@ $('#summernote').summernote({
 /**
 * 이미지 파일 업로드
 */
-				alert('콜백 진입')
+				
 function uploadSummernoteImageFile(file, el) {
 			data = new FormData();
 			data.append("file", file);

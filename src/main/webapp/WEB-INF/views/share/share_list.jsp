@@ -69,11 +69,11 @@
 </style>
 </head>
 
-<body>
+<body onload="getFirstImg();">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
 		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="#page-top">GooPPl</a>
+			<a class="navbar-brand" href="index.do">GooPPl</a>
 			<button class="navbar-toggler navbar-toggler-right" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false"
@@ -82,9 +82,9 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
+					<li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
+					<li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
+					<li class="nav-item"><a class="nav-link" href="mypage.do">MyPage</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
 				</ul>
 			</div>
@@ -149,7 +149,7 @@
 					</div>
 				</div>
 			</div>
-
+			
 			<!-- 지도이미지로 표현되는 일정 목록 -->
 			<div class="row">
 				<div class="slider conter" style="padding-left: 40px;">
@@ -221,7 +221,7 @@
 						class="ir_su display-10 fw-bolder text-center">전체메뉴 보기</span>
 					</a>
 				</div>
-
+				
 				<!--     전체 일정 목록  -->
 				<c:if test="${empty list }">
 					<div class="collapse row" id="collapseExample"
@@ -233,7 +233,7 @@
 						<div class="col-md-3" style="margin-top: 32px;">
 							<div class="card">
 								<img
-									src="https://spi.maps.daum.net/map2/map/imageservice?IW=600&IH=350&MX=400205&MY=-11702&SCALE=2.5&CX=400206&CY=-11702&service=open"
+									src="${firstImg }"
 									class="card-img-top" alt="...">
 								<div class="card-body">
 								<c:url var="contentUrl" value="shareContent.do">
@@ -249,6 +249,30 @@
 								</div>
 							</div>
 						</div>
+					<script>
+				function getFirstImg(){
+					var map_idx=${dto.map_idx}
+					$.ajax({
+						url:"getFirstImg.do",
+						type:'GET',
+						data: {map_idx},
+						success:function(data){
+				            alert("완료!");
+				            window.opener.location.reload();
+				            $(".dlaa").imgsrc = al
+				            self.close();
+				        },
+
+				       //에러가 발생되면 출력되는 메시지
+
+				        error:function(jqXHR, textStatus, errorThrown){
+				            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+				            self.close();
+				        }
+				    });
+					}
+				
+				</script>
 					</c:forEach>
 				<div class="row justify-content-md-center text-center mb-5">
 					<div class="col-md-4">
@@ -257,7 +281,7 @@
 					</div>
 				</div>
 				</div>
-
+				
 				<!--목록 경계선 -->
 			</div>
 		</div>
