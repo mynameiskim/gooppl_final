@@ -90,7 +90,7 @@ function cancelPay(index){
 		  console.log('inquiry_idx: '+index);
 		  
 		  jQuery.ajax({
-				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=a9531fe35530a571423df67ca500d95acc9a3990", // 예: http://www.myservice.com/payments/cancel
+				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=478cae913fdd742bed389727283c1c5e21395711", // 예: http://www.myservice.com/payments/cancel
 			    "type": "POST",
 			    "contentType": "application/json",
 			    "data": JSON.stringify({
@@ -170,7 +170,7 @@ function showResult2(){
 
 
 //리스트의 거절
-function appli_Delete(index){
+function admin_delInquiry_Delete(index){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -184,11 +184,11 @@ function appli_Delete(index){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var owner_idx=document.getElementById("owner_idx"+index).value;
+	  		var inquiry_idx=document.getElementById("inquiry_idx"+index).value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_ownerAppli_del.do?owner_idx='+owner_idx,
+				url: 'admin_delInquiry_Delete.do?inquiry_idx='+inquiry_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -225,7 +225,7 @@ function appli_Delete(index){
 
 
 //상세보기의 거절
-function appliD_Delete(index){
+function admin_delInquiryD_Delete(inquiry_idx){
 	Swal.fire({
 		title: '요청을 거절하시겠습니까?',
 		text: "신청된 정보는 삭제됩니다.",
@@ -239,11 +239,10 @@ function appliD_Delete(index){
 		allowOutsideClick: () => !Swal.isLoading()
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var owner_idx=document.getElementById("owner_idx").value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'admin_ownerAppli_del.do?owner_idx='+owner_idx,
+				url: 'admin_delInquiry_Delete.do?inquiry_idx='+inquiry_idx,
 				dataType: "json",
 				error: function(result){
 					
@@ -297,8 +296,6 @@ function appliD_Delete(index){
 			<dd>
 				<a href='admin_adAppli.do' style="color: white !important;"
 				>-광고 신청 관리</a><br />
-				<a href='admin_adRevise.do' style="color: white !important;"
-				>-광고 수정 관리</a><br/>
 				<a href='admin_adCancel.do' style="color: white !important;"
 				>-광고 취소 관리</a>
 			</dd>

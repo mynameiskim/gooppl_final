@@ -34,12 +34,7 @@
   			map_idx=#{map_idx}
   	</select>
   	<select id="getMapt" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
-  	 	select
-  	 		* 
-  	 	from 
-  	 		mapt
-  	 	where
-  	 		map_idx=#{map_idx}
+		select * from mapt where member_idx =#{member_idx} and share_ok = 'y' and del_ok = 'n'
   	</select>
   	<update id="updateMap" parameterType="goo.map_t.model.Gooppl_mapDTO">
   		update

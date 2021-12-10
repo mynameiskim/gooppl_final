@@ -27,8 +27,6 @@
 			<dd>
 				<a href='admin_adAppli.do' style="color: white !important;"
 				>-광고 신청 관리</a><br />
-				<a href='admin_adRevise.do' style="color: white !important;"
-				>-광고 수정 관리</a><br/>
 				<a href='admin_adCancel.do' style="color: white !important;"
 				>-광고 취소 관리</a>
 			</dd>
@@ -83,18 +81,6 @@
 			<dd>
 				<a href='admin_adAppli.do'
 					>광고 신청관련 문의를 확인 및 승인/거절할 수 있는 메뉴입니다.
-				</a>
-			</dd>
-		</dl>
-		<dl class="menu_list">
-			<dt>
-				<a href='admin_adRevise.do' style="color: white !important;"
-				>광고 수정 문의
-				</a>
-			</dt>
-			<dd>
-				<a href='admin_adRevise.do'
-					>광고를 수정관련 문의를 확인할 수 있는 메뉴입니다.
 				</a>
 			</dd>
 		</dl>

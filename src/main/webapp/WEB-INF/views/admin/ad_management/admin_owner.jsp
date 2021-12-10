@@ -127,62 +127,49 @@ function showResult(){
 
 
 
-//광고주 정보 수정
-var form = $('ownerForm')[0];
-var formData = new FormData(form);
-function ownerD_Update(owner_idx){
-	Swal.fire({
-		title: '수정하시겠습니까?',
-		icon: 'info',
-		showCancelButton: true,
-		confirmButtonColor: '#d33',
-		cancelButtonColor: '#000000',
-		confirmButtonText: '확인',
-		cancelButtonText: '취소',
-		showLoaderOnConfirm: true,
-		allowOutsideClick: () => !Swal.isLoading()
-	}).then((result) => {
-	  if (result.isConfirmed) {
-			$.ajax({
-				type: "POST",
-				enctype:'multipart/form-data',
-				url: 'admin_ownerUpdate.do',
-				data: formData,
-				processData: false,
-				contentType: false,
-				cache:false,
-				dataType: "json",
-				error: function(result){
-					
-				},
-				success: function(result){
-					if(result.code==1){
-						Swal.fire({
-					      title: result.msg,
-					      icon:'success',
-					      confirmButtonText: '확인',
-					      confirmButtonColor: '#A4C399'
-					    }).then((result) => {
-					    	if (result.isConfirmed) {
-					    		location.reload();
-					    	}
-					    })
-					}else {
-						Swal.fire({
-					      title: result.msg,
-					      icon:'error',
-					      confirmButtonText: '확인',
-					      confirmButtonColor: '#d33'
-					    }).then((result) => {
-					    	if (result.isConfirmed) {
-					    		location.reload();
-					    	}
-					    })
-					}
+function ownerD_Update(){
+	$.ajax({
+			type: "POST",
+			data: new FormData($("#ownerForm")[0]),
+			url: 'admin_ownerUpdate.do',
+			enctype: 'multipart/form-data',
+			processData: false,
+			contentType: false,
+			cache: false,
+			dataType: "json",
+			error: function(result){
+			},
+			success: function(result){
+				if(result.code==1){
+					Swal.fire({
+				      title: result.msg,
+				      icon:'success',
+				      confirmButtonText: '확인',
+				      confirmButtonColor: '#A4C399',
+				      showLoaderOnConfirm: true,
+				      allowOutsideClick: false
+				    }).then((result) => {
+				    	if (result.isConfirmed) {
+				    		location.href='/gooppl/admin_allOwner.do';
+				    	}
+				    })
+				}else {
+					Swal.fire({
+				      title: result.msg,
+				      icon:'error',
+				      confirmButtonText: '확인',
+				      confirmButtonColor: '#d33',
+				      showLoaderOnConfirm: true,
+				      allowOutsideClick: false
+				    }).then((result) => {
+				    	if (result.isConfirmed) {
+				    		location.href='/gooppl/admin_allOwner.do';
+				    	}
+				    })
 				}
-			});
-	  }
-	})
+			}
+		
+	});
 }
 
 //리스트의 삭제

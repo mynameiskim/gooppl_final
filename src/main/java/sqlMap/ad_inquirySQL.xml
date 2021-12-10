@@ -137,4 +137,13 @@
 			(SELECT * FROM AD_INQUIRY WHERE inquiry_type = '광고취소' AND inquiry_state = '대기' ORDER BY INQUIRY_IDX ASC)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
 	</select>
+	<delete id="admin_delInquiry_Delete" parameterType="Integer">
+		DELETE FROM
+			AD_INQUIRY
+		WHERE
+			INQUIRY_IDX = #{inquiry_idx}
+	</delete>
+	<select id="ckCancelInquiry" parameterType="Integer" resultType="String">
+		SELECT inquiry_state FROM (SELECT * FROM AD_INQUIRY WHERE member_idx = #{member_idx} AND INQUIRY_TYPE  = '광고취소' ORDER BY writedate desc) WHERE rownum = 1
+	</select>
 </mapper>
