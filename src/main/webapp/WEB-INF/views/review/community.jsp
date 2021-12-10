@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
+    <meta name="description" content="" />8
     <meta name="author" content="" />
     <title>Grayscale - Start Bootstrap Theme</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
@@ -29,11 +29,10 @@
     #title label {
         font-size: xx-large;
         font-weight: lighter;
-        padding-left: 88px;
     }
     </style>
 <body>
-    <!-- Navigation-->
+    <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="index.do">GooPPl</a>
@@ -45,14 +44,50 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="mypage.do">MyPage</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                    <c:choose>
+						<c:when test="${!empty sessionNickname}">
+							<li class="nav-item dropdown dropend">
+								  <c:if test="${sessionScope.sessionMemberType=='M' }">
+								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								    <label class="bg-primary text-center"
+								    	style="
+                                        width: 30px;
+                                        border-radius: 50%;
+                                        color: #fff;
+                                        font-weight: 600;
+                                        font-size: 1.2rem;">${profileNick}</label>
+								  </a>
+								  </c:if>
+								  <c:if test="${sessionScope.sessionMemberType=='O' }">
+									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+									    <label class="bg-secondary text-center"
+									    	style="
+	                                        width: 30px;
+	                                        border-radius: 50%;
+	                                        color: #fff;
+	                                        font-weight: 600;
+	                                        font-size: 1.2rem;">${profileNick}</label>
+									  </a>
+								  </c:if>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
+							</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
+								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
+						</c:otherwise>
+					</c:choose>
                 </ul>
             </div>
         </div>
     </nav>
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
@@ -64,12 +99,12 @@
                 <!--     페이지경로 -->
 
                 <div id="pagepath" class="col-md-4" style="height: 128px;">
-                    <span> 커뮤니티 </span>
+                    <span>커뮤니티</span>
                 </div>
                 <!--         제목 -->
 
-                <div id="title" class="col-md-4">
-                    <label>커뮤니티</label>
+                <div id="title" class="col-md-4 text-center">
+                    <label>Community</label>
                 </div>
                 <div class="col-md-4"></div>
             </div>
@@ -78,16 +113,15 @@
             <div class="row">
                 <div class="col-xs-12" style="height: 32px;"></div>
             </div>
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class=" col-md-10">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
                     <div class="card bg-dark text-white" style="border: ghostwhite 0.5px solid;">
-                        <img src="https://t1.daumcdn.net/cfile/blog/244C94505523281305" class="card-img" alt="..."
-                            style="width: auto; height:360px;">
+                        <img src="https://blog.kakaocdn.net/dn/bQSqGM/btrklWSBhPM/4X8XC9gwOKlgfn92FaKJX1/img.jpg" class="card-img" alt="..."
+                            style="width: 95%; height:360px;">
                         <div class="card-img-overlay">
                             <h5 class="card-title">일정 공유게시판</h5>
                             <p class="card-text">다른 사람들과 함께 여행 일정을 공유하세요.</p>
-                            <p class="card-text " style="margin-top: -64px; margin-left: 800px; "><a href="share.do" style="color:whitesmoke; text-decoration: none;">이동하기</a></p>
+                            <p class="card-text" style="margin-top: -64px; margin-left: 800px; "><a href="share.do" style="color:whitesmoke; text-decoration: none;">이동하기</a></p>
                         </div>
                     </div>
                 </div>
@@ -96,15 +130,15 @@
             <div class="row">
                 <div class="col-xs-12" style="height:32px;">&nbsp;&nbsp;&nbsp;</div>
             </div>
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="card bg-dark text-white" style="border: ghostwhite 0.5px solid;">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoO8SWIR4rq_qHOOplxFU7R5tU3k42XdEqkw&usqp=CAU"
-                            class="card-img" alt="..." style="width: auto; height: 360px;">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
+                    <div class="card bg-primary text-white" style="border: ghostwhite 0.5px solid;">
+                        <img src="http://travelview.co.kr/wp-content/uploads/2020/08/image_5055254061598263756353.jpg"
+                            class="card-img" alt="..." style="width: 95%; height: 360px;">
                         <div class="card-img-overlay">
                             <h5 class="card-title">여행 후기게시판</h5>
                             <p class="card-text">멋진 경험들과 여행의 즐거움을 다른사람들과 함께 나누세요.</p>
-                            <p class="card-text " style="margin-top: -64px; margin-left: 800px; "><a href="review.do" style="color:whitesmoke; text-decoration: none;">이동하기</a></p>
+                            <p class="card-text " style="margin-top: -64px; margin-left: 800px; "><a href="reivew.do" style="color:whitesmoke; text-decoration: none;">이동하기</a></p>
                         </div>
                     </div>
                 </div>
