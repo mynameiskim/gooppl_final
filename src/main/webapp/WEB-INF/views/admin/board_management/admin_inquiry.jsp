@@ -1,18 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<script src="resource/js/httpRequest.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-<!-- jquery -->
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <style>
 .tr_bg{
    --bs-table-accent-bg: #24292f !important;
@@ -30,7 +18,6 @@ tr{
 	--bs-table-hover-bg: lightgray !important;
 }
 </style>
-<title>Insert title here</title>
 <script>
 function inquiry_Details(index,size){
 	var param=document.getElementById("inquiry_idx"+index).value;
@@ -104,10 +91,8 @@ function inquiry_update(inquiry_idx){
 	}
 }
 </script>
-</head>
-<body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>기본설정</b></h5>
@@ -205,5 +190,3 @@ function inquiry_update(inquiry_idx){
 	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>
-</body>
-</html>
