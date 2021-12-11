@@ -156,47 +156,6 @@
 		</div>
 	</c:forEach>
 	<!--추천 지역 모달 끝-->
-	<!-- Contact-->
-	<section class="contact-section bg-primary align-items-center">
-		<div class="container px-4 px-lg-5">
-			<div class="row gx-4 gx-lg-5 justify-content-md-center">
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Address</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">은평구 동서로 101-2</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-envelope text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Email</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#">hello@yourdomain.com</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-mobile-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">FAQ</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 	<!--로그인 모달-->
 	<div class="modal fade" id="loginmd" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginmdLabel"
@@ -368,6 +327,7 @@
     </div>
 	<!--  비밀번호 찾기 모달 끝------------------------------------------------------------------------------------------- -->
 	<!-- Footer-->
+	<%@include file="/WEB-INF/views/member/faq.jsp" %>
 	<%@include file="/WEB-INF/views/member/footer.jsp" %>
 	<!-- 이메일 인증 관련 -->
 

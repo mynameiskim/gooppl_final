@@ -166,7 +166,7 @@
                                     <div class="row" style="width: auto; " >
                                         <div class="row g-0" style="border-left: solid 0.5px rgb(230, 227, 227);">
                                           <div class="col-md-3 " >
-                                            <img src="${pdlist[status.index].firstimage }" class="img-fluid " alt="..." style="padding: 8px;" >
+                                            <img src="${pdlist[status.index].firstimage }" class="img-fluid " alt="..." style="padding: 8px; width:100%; height:150px;" >
                                           </div>
                                           <div class="col-md-7" style="padding-left: 8px;" >
                                             

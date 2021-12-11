@@ -37,7 +37,7 @@ public class ReviewDAOImple implements ReviewDAO {
 				int end=content2.indexOf(">");
 				StringBuffer str=new StringBuffer();
 				str.append(originContent.substring(start, start+end-1));
-				str.append(" alt=\"썸네일\" style=\"width: 100%;\" id=\"img "+i+"\" class=\"img-fluid rounded-start\">");
+				str.append(" alt=\"썸네일\" style=\"width: 100%;\" id=\"img"+i+"\" class=\"img-fluid rounded-start\">");
 				list.get(i).setContent(str.toString());
 			}else {
 				list.get(i).setContent("<img src=\"http://www.outdoornews.co.kr/news/photo/201707/24502_76816_822.jpg\" class=\"img-fluid rounded-start\" alt=\"썸네일\" id=\"img "+i+"\" style=\"width: 100%;\">");
