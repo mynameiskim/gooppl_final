@@ -31,7 +31,7 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 	}
 
 	public Gooppl_mapDTO getMapt(int map_idx) {
-		Gooppl_mapDTO dto=sqlMap.selectOne("getMapt", map_idx);
+		Gooppl_mapDTO dto=sqlMap.selectOne("getMap_t", map_idx);
 		return dto;
 	}
 	

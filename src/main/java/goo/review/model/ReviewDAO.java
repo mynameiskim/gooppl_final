@@ -15,4 +15,5 @@ public interface ReviewDAO {
 	public List<ReviewDTO> getReview(int member_idx);
 	public List<ReviewDTO> findReview(String keywards);
 	public int updateReadnum(int review_idx);
+	public int reviewDel(int review_idx);
 }
