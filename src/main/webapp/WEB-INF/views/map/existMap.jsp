@@ -680,7 +680,8 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttype+'")');
+      		             var image2 = encodeURI(image);
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image2+'","'+addr+'","'+contenttype+'")');
       		             addBt.className = 'add_Bt';
       		             
       		             table.appendChild(trNode);
@@ -721,7 +722,8 @@ function showResult(){
       		             var addBt = document.createElement('input');
       		             addBt.setAttribute('type','button');
       		             addBt.setAttribute('value','+');
-      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'","'+contenttype+'")');
+      		           	 var image2 = encodeURI(image);
+      		             addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image2+'","'+addr+'","'+contenttype+'")');
       		             addBt.className = 'add_Bt';
       		             
       		             table.appendChild(trNode);
@@ -851,7 +853,7 @@ function Info2(contentid){
     	var mapx=${tripdto.mapx};
     	var image='${tripdto.firstimage}';
     	var contenttypeid=77;
-    	makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid);
+    	makeMarker(contentid, mapy, mapx, title, image2, addr, contenttypeid);
     }
  	</c:forEach>
  	if(contentids2.length>1){
@@ -861,7 +863,9 @@ function Info2(contentid){
     }
 }
 
+
 /**createMap에서 가져온 contentid로 DB placedetail에 테이블 조회 후 저장된 정보 가져옴*/
+/**
 function Info(contentid) {
    console.log(contentid);
    $.ajax({
@@ -894,6 +898,7 @@ function Info(contentid) {
 	   roopState==true;
    }
 }
+*/
 
 function placeDetailInfo(contentid){
 	if(contentid<1000){
@@ -907,7 +912,7 @@ function placeDetailInfo(contentid){
 function saveAdDetail(contentid){
 	for(var i=0;i<adContents.length;i++){
 		if(adContents[i].contentid==contentid){
-			var title=adContents[i].title.substr(5, adContents[i].title.length);
+			var title=adContents[i].title.substr(4, adContents[i].title.length);
 			var addr=adContents[i].addr;
 			var areacode=adContents[i].areacode;
 			var sigungucode=adContents[i].sigungucode;
@@ -917,7 +922,7 @@ function saveAdDetail(contentid){
 			var overview=adContents[i].overview;
 			var homepage=adContents[i].homepage;
 			var image=adContents[i].image;
-			
+
 			 var placeDetail={
 		     	 	contentid:contentid,
 		     	 	title:title,
@@ -1063,7 +1068,6 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
 		var overview='${tripdto.overview}'.replace(/\'/gi,"");
 		var homepage='${tripdto.homepage}';
 		var image='${tripdto.firstimage}';
-		
 		 var placeDetail={
 	     	 	contentid:contentid,
 	     	 	title:title,
@@ -1088,7 +1092,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     mapys.push(mapy);
     mapxs.push(mapx);
     titles.push(title);
-    images.push(image);
+    images.push(decodeURI(image));
     addrs.push(addr);
     contentids.push(contentid);
     contenttypeids.push(contenttypeid);
@@ -1139,7 +1143,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     var infowindow = new kakao.maps.InfoWindow({
         content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
         			'<tr style="margin-top:0px;">'+
-        				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
+        				'<td><img src="'+decodeURI(image)+'" style="width:155px;height:100px;"></td>'+
         			'</tr>'+
         			'<tr style="height:80px;">'+
         				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
@@ -1260,9 +1264,8 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     var pNode=document.createElement('span');
     pNode.setAttribute('class', 'placeinfo');
     var imgNode=document.createElement('img');
-    imgNode.setAttribute('src', image);
+    imgNode.setAttribute('src', decodeURI(image));
     imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
-    imgNode.setAttribute('hover', '');
     pNode.appendChild(imgNode);
     var spanNode2=document.createElement('span');
     spanNode2.setAttribute('class', 'tripdis');
@@ -2095,6 +2098,7 @@ function savePlaceDetailData(){
 		homepage=encodeURIComponent(homepage);
 		param+='&homepage='+homepage;
 		var firstimage=placeDetails[0].firstimage;
+		firstimage=encodeURI(firstimage);
 		param+='&firstimage='+firstimage;
 		console.log(param);
 		sendRequest('savePlaceDetail.do', param, getResultAdd2, 'POST');
