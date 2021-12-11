@@ -1503,9 +1503,8 @@ function alertSave(moveUrl){
 }
 
 </script>
- <!-- Navigation-->
- <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
+         <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" onclick="alertSave('index.do')" style="cursor: pointer">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
@@ -1516,9 +1515,9 @@ function alertSave(moveUrl){
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="alertSave('community.do')">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')" style="cursor: pointer">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')" style="cursor: pointer">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('community.do')" style="cursor: pointer">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -1545,9 +1544,9 @@ function alertSave(moveUrl){
 									  </a>
 								  </c:if>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" onclick="alertSave('mypage.do')">myPage</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('mypage.do')" style="cursor: pointer">myPage</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" onclick="alertSave('logout.do')">Logout</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('logout.do')" style="cursor: pointer">Logout</a></li>
 							</ul>
 							</li>
 						</c:when>
@@ -2125,50 +2124,8 @@ function getResultAdd2(){
 }
 </script>
 	<!-- Contact-->
-	<section class="contact-section bg-light align-items-center">
-		<div class="container px-4 px-lg-5">
-			<div class="row gx-4 gx-lg-5 justify-content-md-center">
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Address</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">은평구 동서로 101-2</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-envelope text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Email</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#">hello@yourdomain.com</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-mobile-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">FAQ</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<%@include file="/WEB-INF/views/member/faq.jsp" %>
-	<footer class="footer bg-light small text-center">
-		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
-	</footer>
+    <%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<%@include file="/WEB-INF/views/member/footer.jsp" %>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
