@@ -25,5 +25,9 @@ public class ReplyServiceImple implements ReplyService {
 		int result = replyDao.replyDel(ridx);
 		return result;
 	}
+	public int getReplyCount(int review_idx) {
+		int count = replyDao.getReplyCount(review_idx);
+		return count;
+	}
 
 }

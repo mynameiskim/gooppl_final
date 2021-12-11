@@ -196,7 +196,7 @@ td{
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="container">
 	<div id="aside">
-		<h5><b>게시판관리</b></h5>
+		<h5><b>문의 관리</b></h5>
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>
@@ -205,7 +205,9 @@ td{
 				 <a href='admin_review.do' style="color: white !important;"
 				>-후기게시판 관리</a><br />
 				 <a href='admin_relpy.do' style="color: white !important;"
-				>-댓글 관리 </a>
+				>-댓글 관리 </a><br />
+				 <a href='#' style="color: white !important;"
+				>-문의 관리 </a>
 			</dd>
 		</dl>
 	</div>
@@ -254,6 +256,21 @@ td{
 			<dd>
 				<a href="admin_relpy.do"
 					>모든 게시글의 댓글을 관리하는 곳입니다.
+				</a>
+			</dd>
+		</dl>
+		<div class="section_head">
+			<h4>문의 관리</h4>
+		</div>					
+		<dl class="menu_list">
+			<dt>
+				<a href="admin_relpy.do" class="active text-white" style="color: white !important;"
+				>문의 관리
+				</a>
+			</dt>
+			<dd>
+				<a href="admin_relpy.do"
+					>사용자들의 문의를 관리하는 곳입니다.
 				</a>
 			</dd>
 		</dl>

@@ -1,5 +1,6 @@
 ﻿package goo.review.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +83,10 @@ public class ReviewDAOImple implements ReviewDAO {
 	}
 	public int updateReadnum(int review_idx) {
 		int count = sqlMap.update("updateReadnum", review_idx);
+		return count;
+	}
+	public int reviewDel(int review_idx) {
+		int count = sqlMap.delete("reviewDel", review_idx);
 		return count;
 	}
 }

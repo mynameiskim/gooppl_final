@@ -39,9 +39,6 @@
 
 .div_t {width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-
-
-출처: https://sub0709.tistory.com/114 [쓸데없는 코딩하기]
 </style>
 <script>
 
@@ -291,7 +288,9 @@ function memberUpdate(){
 				 <a href='admin_review.do' style="color: white !important;"
 				>-후기게시판 관리</a><br />
 				 <a href='admin_relpy.do' style="color: white !important;"
-				>-댓글 관리 </a>
+				>-댓글 관리 </a><br />
+				 <a href='#' style="color: white !important;"
+				>-문의 관리 </a>
 			</dd>
 		</dl>
 	</div>

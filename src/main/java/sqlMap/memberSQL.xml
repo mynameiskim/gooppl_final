@@ -13,7 +13,9 @@
 		select count(*) from member where naver_id=#{naverid} and del='N'
 	</select>
 	<select id="getMemberInfo" parameterType="String" resultType="goo.member.model.MemberDTO">
-		select * from member where naver_id=#{id} or goo_id=#{id} or kakao_id=#{id}
+		select * from 
+		(SELECT * FROM MEMBER WHERE naver_id=#{id} or goo_id=#{id} or kakao_id=#{id})a
+		where del = 'N'  
 	</select>
 	<insert id="naverjoin" parameterType="Map">
 		insert into member values(
@@ -75,7 +77,7 @@
 		WHERE member_idx=#{member_idx} and pwd = #{input_pwd_check}
 	</select>
 	<update id="pwdChange" parameterType="Map">
-		update member set pwd = #{pwd} where goo_id=#{goo_id}
+		update member set pwd = #{pwd} where goo_id=#{goo_id} and del='N'
 	</update>
 	<update id="memberOut" parameterType="Integer">
 		update member set del = 'Y' where member_idx=#{member_idx}
