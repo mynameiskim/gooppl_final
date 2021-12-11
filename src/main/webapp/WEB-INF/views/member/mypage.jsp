@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -736,16 +736,21 @@ function ckOwerAppli(member_idx){
 				</tr>
 			  	</c:if>
 			  	<c:forEach var="list" items="${list}" varStatus="status">
-			  		<tr class="tr_aling" id="iq_list${status.index}">
+			  		<c:if test="${list.inquiry_status=='y'}">
+			  		<tr class="tr_aling" id="iq_list${status.index}" onclick="showAnswer(${status.index})">
+			  		</c:if>
+			  		<c:if test="${list.inquiry_status=='n'}">
+			  		<tr class="tr_aling" id="iq_list${status.index}" onclick="showContent(${status.index})">
+			  		</c:if>
 				      <td class="text-center list${status.index}" style="width:2%;">${list.inquiry_idx}</td>
 				      <td class="text-center list${status.index}" style="width:20%;">${list.inquiry_writedate}</td>
 				      <!--<td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}"></td> -->
 				      <td class="text-center list${status.index}" style="width:50%;">${list.inquiry_subject}</td>
 					      <c:if test="${list.inquiry_status=='y'}">
-	    				    <td class="text-center list${status.index}" style="width:20%;color:green;"><label onclick="showAnswer(${status.index})">답변완료</label></td>
+	    				    <td class="text-center list${status.index}" style="width:20%;color:green;"><label>답변완료</label></td>
 					      </c:if>
 					      <c:if test="${list.inquiry_status=='n'}">
-					      	<td class="text-center list${status.index}" style="width:20%;color:red;" onclick="showContent(${status.index})">답변대기</td>
+					      	<td class="text-center list${status.index}" style="width:20%;color:red;">답변대기</td>
 					      </c:if>
 			       </tr>
 			       <tr class="tr_aling" id="content${status.index}" style="display:none">
@@ -757,7 +762,7 @@ function ckOwerAppli(member_idx){
 			       <tr class="tr_aling" id="answerArea${status.index}" style="display:none">
 			       	 <td class="answerArea${status.index}"></td>
 			         <td class="text-end answerArea${status.index}"><img src="/gooppl/resource/img/re화살표.png" style="width:40px; height:40px"></td>
-			    	 <td class="text-start answerArea${status.index}" colspan="1" style="font-weight:600; font-size:15px;">아 그거는 이러쿵 저러쿵 하면 됩니다. 자세한 문의사항은 minjjal@gmail.com으로 남겨주시면 확인 후 안내드리겠습니다!</td>
+			    	 <td class="text-start answerArea${status.index}" colspan="1" style="font-weight:600; font-size:15px;">${list.inquiry_answer}</td>
 			    	 <td class="text-center answerArea${status.index}"><button class="btn btn-secondary" id="closebt${status.index}" onclick="closeAnswer(${status.index})">닫기</button></td>
 				   </tr>
 			  	</c:forEach>

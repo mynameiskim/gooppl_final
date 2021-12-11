@@ -23,5 +23,26 @@ public class InquiryServiceImple implements InquiryService {
 		int count = inquiryDao.addInquiry(hmp);
 		return count;
 	}
-
+	public int totalInquiry() {
+		int count = inquiryDao.totalInquiry();
+		return count;
+	}
+	public List<InquiryDTO> getInquiryList(Map map) {
+		int cp = (Integer) map.get("cp");
+		int ls = (Integer) map.get("listSize");
+		int start=(cp-1)*ls+1;
+		int end=cp*ls;
+		map.put("start", start);
+		map.put("end", end);
+		List<InquiryDTO> list = inquiryDao.getInquiryList(map);
+		return list;
+	}
+	public InquiryDTO inquiryInfo(int inquiry_idx) {
+		InquiryDTO dto = inquiryDao.inquiryInfo(inquiry_idx);
+		return dto;
+	}
+	public int inquiryUpdate(Map map) {
+		int count = inquiryDao.inquiryUpdate(map);
+		return count;
+	}
 }
