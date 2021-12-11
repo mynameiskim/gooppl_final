@@ -907,7 +907,7 @@ function placeDetailInfo(contentid){
 function saveAdDetail(contentid){
 	for(var i=0;i<adContents.length;i++){
 		if(adContents[i].contentid==contentid){
-			var title=adContents[i].title.substr(5, adContents[i].title.length);
+			var title=adContents[i].title.substr(4, adContents[i].title.length);
 			var addr=adContents[i].addr;
 			var areacode=adContents[i].areacode;
 			var sigungucode=adContents[i].sigungucode;
