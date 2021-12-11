@@ -176,7 +176,7 @@
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
-                                          <c:url var="contentUrl" value="goPlaceDetail.do">
+                                          <c:url var="contentUrl" value="goMyPlaceDetail.do">
 											<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
 											<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
 											<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
@@ -205,7 +205,7 @@
                     <!-- 추가 컨텐츠영역-->
                 <div class="row justify-content-md-center">
                 	<div class="col-md-9" style="background-color: white; height:120px; border-radius: 14px;">
-                		<h5 class="display-6 fw-bolder text-center" style="margin-top: 35px;">일정 끝 ~!</h5>
+                		<h5 class="display-6 fw-bolder text-center" style="margin-top: 35px;">The End</h5>
                 	</div>
                 </div>
             
