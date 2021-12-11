@@ -22,6 +22,9 @@
    <link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
     <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
+    	<!-- jquery -->
+	<script type="text/javascript"
+	  src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <style>
     #pagepath a {
@@ -59,6 +62,7 @@
     #thumbNail img{
     	height: 160px;
     }
+    
 </style>
 
 <body>
@@ -314,7 +318,20 @@
     <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
         <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
     </footer>
+<script>
 
+/**생성된 리스트 이미지 넓이 100%로 채우는 쿼리*/
+$(function() {
+	$(document).ready(function(){
+		var length = ${fn:length(list) };
+		for(var i=0; i<length; i++){
+			$('#img'+i).css('width','100%');	
+		}
+       
+     });
+});
+
+</script>
 </body>
 
 </html>
