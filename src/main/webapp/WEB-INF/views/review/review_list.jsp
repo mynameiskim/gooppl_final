@@ -325,12 +325,11 @@ $(function() {
 	$(document).ready(function(){
 		var length = ${fn:length(list) };
 		for(var i=0; i<length; i++){
-			$('#img'+i).css('width','100%');	
+			$('#img'+i).css('width','100%');
 		}
        
      });
 });
-
 </script>
 </body>
 
