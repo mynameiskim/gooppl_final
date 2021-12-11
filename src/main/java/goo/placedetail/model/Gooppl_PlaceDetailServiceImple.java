@@ -41,6 +41,11 @@ public class Gooppl_PlaceDetailServiceImple implements Gooppl_PlaceDetailService
 		return list;
 	}
 	
+	public Gooppl_PlaceDetailDTO getThisDateDetail2(int contentid) {
+		Gooppl_PlaceDetailDTO dto=gooppl_placedetailDao.getThisDateDetail(contentid);
+		return dto;
+	}
+	
 	public int getLastAreacode(int map_idx, int day_num) {
 		Map map = new HashMap();
 		map.put("map_idx", map_idx);

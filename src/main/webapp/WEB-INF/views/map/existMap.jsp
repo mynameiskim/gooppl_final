@@ -2094,7 +2094,6 @@ function savePlaceDetailData(){
 		homepage=encodeURIComponent(homepage);
 		param+='&homepage='+homepage;
 		var firstimage=placeDetails[0].firstimage;
-		firstimage=encodeURI(firstimage);
 		param+='&firstimage='+firstimage;
 		console.log(param);
 		sendRequest('savePlaceDetail.do', param, getResultAdd2, 'POST');
