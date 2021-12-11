@@ -1,26 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="/myweb3/admin_css/admin_common.css" type="text/css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<style>
-td{
-	padding: 10px;
-    border: 1px solid #e3e3e3 !important;
-}
-.tb_hover{
-       --bs-table-hover-bg: lightgray !important;
-}
-.tr_bg{
-       --bs-table-accent-bg: #24292f !important;
-}
-</style>
-</head>
-<body>
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="wrap">
 <div id="container">
@@ -31,8 +10,6 @@ td{
 			<dd>
 				- <a href='member_statistics.do' style="color: white !important;"
 				>회원통계</a><br />
-				- <a href='/nmanager/setup/config_m6anager.do' style="color: white !important;"
-				>게시판통계 </a>
 			</dd>
 		</dl>
 	</div>
@@ -46,34 +23,17 @@ td{
 		</div>
 		<dl class="menu_list">
 			<dt>
-				<a href="/final/admin_member_out.jsp" style="color: white !important;"
+				<a href="member_statistics.do" style="color: white !important;"
 				>회원 통계
 				</a>
 			</dt>
 			<dd>
-				<a href="/final/admin_member_out.jsp"
+				<a href="member_statistics.do"
 				>회원가입 통계 페이지로 그래프 및 데이터로 확인 가능합니다.
 				</a>
 			</dd>
 		</dl>
-		<div class="section_head">
-			<h4>게시판통계</h4>
-		</div>					
-		<dl class="menu_list">
-			<dt>
-				<a href="/final/admin_formMail_settings.jsp" style="color: white !important;"
-				>게시판통계
-				</a>
-			</dt>
-			<dd>
-				<a href="admin_formMail_settings.do"
-					>게시물,코멘트 작성 갯수를 게시판별 / 년별 / 월별로 그래프로 확인 가능합니다.
-				</a>
-			</dd>
-		</dl>
-		</div>
 	</div>
 </div>
+</div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>
-</body>
-</html>

@@ -67,4 +67,12 @@
   		WHERE 
   			out_no = #{out_no}
   	</delete>
+  	<delete id="memberOutDelete2" parameterType="String">
+  		DELETE FROM
+  			member
+  		WHERE 
+  			goo_id = #{id}
+  		AND
+  			DEL = 'Y'
+  	</delete>
   </mapper>

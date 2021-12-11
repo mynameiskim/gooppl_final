@@ -44,11 +44,14 @@
 			<h4>사이트 정보관리</h4>
 		</div>					
 		<dl class="menu_list">
-			<dt><a href="admin_site_info.do?goo_id=${sessionScope.sessionId}" style="color: white !important;"
+			<c:url var="site_info_Url" value="admin_site_info.do">
+				<c:param name="goo_id">${sessionScope.sessionId}</c:param>
+			</c:url>
+			<dt><a href="${site_info_Url}" style="color: white !important;"
 				>사이트 기본정보</a>
 			</dt>
 			<dd>
-				<a href='admin_site_info.do'
+				<a href='${site_info_Url}'
 				>사이트 운영에 필요한 가장 기초적인 정보를 관리하는 메뉴 입니다.<br>
 				관리자 이메일,관리자 휴대폰,관리자 전화번호는 사이트 운영에 영향이 미치는 값으로 정확히 입력해야합니다.
 				</a>

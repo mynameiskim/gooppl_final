@@ -9,54 +9,69 @@ th{
 }
 </style>
 <script>
+/*
 function siteSettingsUpdate(){
 	
-	$.ajax({
-		type: "POST",
-		data : new FormData($("#siteSettings")[0]),
-		url: 'site_settings_update.do',
-		enctype: 'multipart/form-data',
-		processData: false,
-	    contentType: false,
-	    cache: false,
-		dataType: "json",
-		error: function(result){
-			
-		},
-		success: function(result){
-			if(result.code==1){
-				Swal.fire({
-			      title: result.msg,
-			      icon:'success',
-			      confirmButtonText: '확인',
-			      confirmButtonColor: '#d33',
-			      showLoaderOnConfirm: true,
-			      allowOutsideClick:false
-			    }).then((result) => {
-			    	if (result.isConfirmed) {
-			 			location.reload();
-			    	}
-			    })
-			}else if(result.code==0){
-				Swal.fire({
-			      title: result.msg,
-			      icon:'warning',
-			      confirmButtonText: '확인',
-			      confirmButtonColor: '#A4C399',
-			      showLoaderOnConfirm: true,
-			      allowOutsideClick:false
-			    }).then((result) => {
-			    	if (result.isConfirmed) {
-			    		location.reload();
-			    	}
-			    })
+	Swal.fire({
+		title: '수정하시겠습니까?',
+		text: "",
+		icon: 'question',
+		showCancelButton: true,
+		confirmButtonColor: '#e3e3e3',
+		cancelButtonColor: '#000000',
+		confirmButtonText: '수정',
+		cancelButtonText: '취소',
+	    allowOutsideClick:false
+	}).then((result) => {
+	  if (result.isConfirmed) {
+		
+		$.ajax({
+			type: "POST",
+			data : new FormData($("#siteSettings")[0]),
+			url: 'site_settings_update.do',
+			enctype: 'multipart/form-data',
+			processData: false,
+		    contentType: false,
+		    cache: false,
+			dataType: "json",
+			error: function(result){
+				
+			},
+			success: function(result){
+				if(result.code==1){
+					Swal.fire({
+				      title: result.msg,
+				      icon:'success',
+				      confirmButtonText: '확인',
+				      confirmButtonColor: '#d33',
+				      allowOutsideClick:false
+				    }).then((result) => {
+				    	if (result.isConfirmed) {
+				 			location.reload();
+				    	}
+				    })
+				}else if(result.code==0){
+					Swal.fire({
+				      title: result.msg,
+				      icon:'warning',
+				      confirmButtonText: '확인',
+				      confirmButtonColor: '#A4C399',
+				      allowOutsideClick:false
+				    }).then((result) => {
+				    	if (result.isConfirmed) {
+				    		location.reload();
+				    	}
+				    })
+				}
 			}
-		}
-	});
+		});
+	}
+	})
 }
+*/
 </script>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>기본설정</b></h5>
@@ -92,7 +107,7 @@ function siteSettingsUpdate(){
 		<ul class='helpbox'>
 			<li>사이트 환경성정을 관리하는 곳입니다.</li>
 		</ul>
-		<form id="siteSettings" method="post" enctype="multipart/form-data">
+		<form id="siteSettings" action="site_settings_update.do" method="post" enctype="multipart/form-data">
         <fieldset style="border: 3px solid #0000008c; padding: 12px 14px 10px;
 		margin-bottom: 20px;">
             <div class="row">
@@ -149,7 +164,7 @@ function siteSettingsUpdate(){
                 </td>
                 </tr>
                 <tr>
-                	<td colspan="2" class="text-center"><input id="btnSubmit" type="submit" class="btn-dark" style="border-radius: 3px;" onclick="siteSettingsUpdate()" value="확인"></td>
+                	<td colspan="2" class="text-center"><input id="btnSubmit" type="submit" class="btn-dark" style="border-radius: 3px;" value="확인"></td>
                 </tr>
             </table>
         </fieldset>

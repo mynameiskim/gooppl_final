@@ -139,4 +139,14 @@
 		AND 
 			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
 	</select>
+	<select id="dayJoinNum" parameterType="map" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[>=]]> #{date}
+		AND 
+			TO_CHAR(join_date,'YYYY-MM-DD') <![CDATA[<=]]> #{date}
+	</select>
 </mapper>

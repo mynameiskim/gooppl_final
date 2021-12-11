@@ -1,5 +1,7 @@
 package goo.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,39 +46,84 @@ public class AdminMemberManagement {
 	public ModelAndView memberList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
 			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
-		if(!start_date.equals("")&&end_date.equals("")) {
-			end_date = start_date;
-		}else if(!end_date.equals("")&&start_date.equals("")) {
-			start_date = end_date;
-		}
-		int listSize=5;
-		int pageSize=5;
-		int totalMember = memberService.totalMember();
-		int searchTotalMember = memberDao.searchTotalMember(search_type, search,start_date,end_date);
-		List<MemberDTO> list = memberService.memberList(cp,listSize,search_type,search,start_date,end_date);
-		String pageStr=goo.page.PageModule.adminMakePage("admin_member_list.do", searchTotalMember>0?searchTotalMember:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
 		ModelAndView mav = new ModelAndView();
-		
-		if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
-			mav.addObject("search_num", searchTotalMember);
-			if(!search.equals("")) {
-				if(search_type.equals(search_type)) {
-					mav.addObject(search_type+"_selected","selected");
+		if(!start_date.equals("")&&!end_date.equals("")){
+			LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
+			LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
+			
+			if(e_date.isBefore(s_date)) {
+				mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
+				mav.addObject("display", "display : none;");
+			}else if(s_date.isBefore(e_date)) {
+				if(!start_date.equals("")&&end_date.equals("")) {
+					end_date = start_date;
+				}else if(!end_date.equals("")&&start_date.equals("")) {
+					start_date = end_date;
 				}
+				int listSize=5;
+				int pageSize=5;
+				int totalMember = memberService.totalMember();
+				int searchTotalMember = memberDao.searchTotalMember(search_type, search,start_date,end_date);
+				List<MemberDTO> list = memberService.memberList(cp,listSize,search_type,search,start_date,end_date);
+				String pageStr=goo.page.PageModule.adminMakePage("admin_member_list.do", searchTotalMember>0?searchTotalMember:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
+				
+				
+				if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
+					mav.addObject("search_num", searchTotalMember);
+					if(!search.equals("")) {
+						if(search_type.equals(search_type)) {
+							mav.addObject(search_type+"_selected","selected");
+						}
+					}
+				}else {
+					mav.addObject("search_num", 0);
+				}
+				
+				mav.addObject("start_date", start_date);
+				mav.addObject("end_date", end_date);
+				mav.addObject("search", search);
+				mav.addObject("size", list.size());
+				mav.addObject("cp", cp);
+				mav.addObject("listSize", listSize);
+				mav.addObject("list", list);
+				mav.addObject("pageStr", pageStr);
+				mav.addObject("totalMember", totalMember);
 			}
 		}else {
-			mav.addObject("search_num", 0);
+			if(!start_date.equals("")&&end_date.equals("")) {
+				end_date = start_date;
+			}else if(!end_date.equals("")&&start_date.equals("")) {
+				start_date = end_date;
+			}
+			int listSize=5;
+			int pageSize=5;
+			int totalMember = memberService.totalMember();
+			int searchTotalMember = memberDao.searchTotalMember(search_type, search,start_date,end_date);
+			List<MemberDTO> list = memberService.memberList(cp,listSize,search_type,search,start_date,end_date);
+			String pageStr=goo.page.PageModule.adminMakePage("admin_member_list.do", searchTotalMember>0?searchTotalMember:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
+			
+			
+			if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
+				mav.addObject("search_num", searchTotalMember);
+				if(!search.equals("")) {
+					if(search_type.equals(search_type)) {
+						mav.addObject(search_type+"_selected","selected");
+					}
+				}
+			}else {
+				mav.addObject("search_num", 0);
+			}
+			
+			mav.addObject("start_date", start_date);
+			mav.addObject("end_date", end_date);
+			mav.addObject("search", search);
+			mav.addObject("size", list.size());
+			mav.addObject("cp", cp);
+			mav.addObject("listSize", listSize);
+			mav.addObject("list", list);
+			mav.addObject("pageStr", pageStr);
+			mav.addObject("totalMember", totalMember);
 		}
-		
-		mav.addObject("start_date", start_date);
-		mav.addObject("end_date", end_date);
-		mav.addObject("search", search);
-		mav.addObject("size", list.size());
-		mav.addObject("cp", cp);
-		mav.addObject("listSize", listSize);
-		mav.addObject("list", list);
-		mav.addObject("pageStr", pageStr);
-		mav.addObject("totalMember", totalMember);
 		mav.setViewName("admin/member_management/admin_member_list");
 		return mav;
 	}
@@ -86,45 +133,96 @@ public class AdminMemberManagement {
 	public ModelAndView memberOutList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
 			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
-		if(!start_date.equals("")&&end_date.equals("")) {
-			end_date = start_date;
-		}else if(!end_date.equals("")&&start_date.equals("")) {
-			start_date = end_date;
-		}
-		System.out.println("memberOutList ok");
-		System.out.println("search_type="+search_type);
-		System.out.println("search="+search);
-		int listSize=5;
-		int pageSize=5;
-		int totalMemberOut = memberOutDao.totalMemberOut();
 		
-		System.out.println("controller totalMemberOut ok");
-		int searchTotalMemberOut = memberOutDao.searchTotalMemberOut(search_type, search,start_date,end_date);
-		System.out.println("searchTotalMemberOut="+searchTotalMemberOut);
-		System.out.println("controller searchTotalMemberOut ok");
-		List<MemberOutDTO> list = memberOutService.memberOutList(cp,listSize,search_type,search,start_date,end_date);
-		System.out.println("list 불러오기 ok");
-		String pageStr=goo.page.PageModule.adminMakePage("admin_member_out.do", searchTotalMemberOut>0?searchTotalMemberOut:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
 		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("start_date", start_date);
-		mav.addObject("end_date", end_date);
-		mav.addObject("search", search);
-		if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
-			mav.addObject("search_num", searchTotalMemberOut);
-			if(!search.equals("")) {
-				if(search_type.equals(search_type)) {
-					mav.addObject(search_type+"_selected","selected");
+		if(!start_date.equals("")&&!end_date.equals("")){
+			LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
+			LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
+			
+			if(e_date.isBefore(s_date)) {
+				mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
+				mav.addObject("display", "display : none;");
+			}else if(s_date.isBefore(e_date)) {
+				if(!start_date.equals("")&&end_date.equals("")) {
+					end_date = start_date;
+				}else if(!end_date.equals("")&&start_date.equals("")) {
+					start_date = end_date;
 				}
+				System.out.println("memberOutList ok");
+				System.out.println("search_type="+search_type);
+				System.out.println("search="+search);
+				int listSize=5;
+				int pageSize=5;
+				int totalMemberOut = memberOutDao.totalMemberOut();
+				
+				System.out.println("controller totalMemberOut ok");
+				int searchTotalMemberOut = memberOutDao.searchTotalMemberOut(search_type, search,start_date,end_date);
+				System.out.println("searchTotalMemberOut="+searchTotalMemberOut);
+				System.out.println("controller searchTotalMemberOut ok");
+				List<MemberOutDTO> list = memberOutService.memberOutList(cp,listSize,search_type,search,start_date,end_date);
+				System.out.println("list 불러오기 ok");
+				String pageStr=goo.page.PageModule.adminMakePage("admin_member_out.do", searchTotalMemberOut>0?searchTotalMemberOut:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
+				
+				mav.addObject("start_date", start_date);
+				mav.addObject("end_date", end_date);
+				mav.addObject("search", search);
+				if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
+					mav.addObject("search_num", searchTotalMemberOut);
+					if(!search.equals("")) {
+						if(search_type.equals(search_type)) {
+							mav.addObject(search_type+"_selected","selected");
+						}
+					}
+				}else {
+					mav.addObject("search_num", 0);
+				}
+				mav.addObject("cp", cp);
+				mav.addObject("listSize", listSize);
+				mav.addObject("list", list);
+				mav.addObject("pageStr", pageStr);
+				mav.addObject("totalMemberOut", totalMemberOut);
 			}
 		}else {
-			mav.addObject("search_num", 0);
+			if(!start_date.equals("")&&end_date.equals("")) {
+				end_date = start_date;
+			}else if(!end_date.equals("")&&start_date.equals("")) {
+				start_date = end_date;
+			}
+			System.out.println("memberOutList ok");
+			System.out.println("search_type="+search_type);
+			System.out.println("search="+search);
+			int listSize=5;
+			int pageSize=5;
+			int totalMemberOut = memberOutDao.totalMemberOut();
+			
+			System.out.println("controller totalMemberOut ok");
+			int searchTotalMemberOut = memberOutDao.searchTotalMemberOut(search_type, search,start_date,end_date);
+			System.out.println("searchTotalMemberOut="+searchTotalMemberOut);
+			System.out.println("controller searchTotalMemberOut ok");
+			List<MemberOutDTO> list = memberOutService.memberOutList(cp,listSize,search_type,search,start_date,end_date);
+			System.out.println("list 불러오기 ok");
+			String pageStr=goo.page.PageModule.adminMakePage("admin_member_out.do", searchTotalMemberOut>0?searchTotalMemberOut:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
+			
+			mav.addObject("start_date", start_date);
+			mav.addObject("end_date", end_date);
+			mav.addObject("search", search);
+			if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
+				mav.addObject("search_num", searchTotalMemberOut);
+				if(!search.equals("")) {
+					if(search_type.equals(search_type)) {
+						mav.addObject(search_type+"_selected","selected");
+					}
+				}
+			}else {
+				mav.addObject("search_num", 0);
+			}
+			mav.addObject("cp", cp);
+			mav.addObject("listSize", listSize);
+			mav.addObject("list", list);
+			mav.addObject("pageStr", pageStr);
+			mav.addObject("totalMemberOut", totalMemberOut);
 		}
-		mav.addObject("cp", cp);
-		mav.addObject("listSize", listSize);
-		mav.addObject("list", list);
-		mav.addObject("pageStr", pageStr);
-		mav.addObject("totalMemberOut", totalMemberOut);
+		
 		mav.setViewName("admin/member_management/admin_member_out");
 		return mav;
 	}
@@ -140,16 +238,24 @@ public class AdminMemberManagement {
 	
 	@RequestMapping("/member_out_delete.do")
 	@ResponseBody
-	public Map<String, Object> memberOutDelete(@RequestParam("out_no")int out_no){
+	public Map<String, Object> memberOutDelete(@RequestParam("out_no")int out_no,@RequestParam("id")String id){
 		System.out.println("memberOutDelete ok");
 		int result = memberOutDao.memberOutDelete(out_no);
+		int result2 = memberOutDao.memberOutDelete2(id);
 		int code = 0;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(result>0) {
-			System.out.println("삭제성공 ok");
-			map.put("msg", out_no+"번째 탈퇴회원 정보를 삭제했습니다.");
-			code = 1;
+			if(result2>0) {
+				System.out.println("삭제성공 ok");
+				map.put("msg", out_no+"번째 탈퇴회원 정보를 삭제했습니다.");
+				code = 1;
+			}else {
+				System.out.println("삭제실패 ok");
+				map.put("msg", "ERROR");
+				code = 2;
+			}
+			
 		}else {
 			System.out.println("삭제실패 ok");
 			map.put("msg", "ERROR");

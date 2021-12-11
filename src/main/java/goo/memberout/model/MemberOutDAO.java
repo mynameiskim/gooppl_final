@@ -12,4 +12,5 @@ public interface MemberOutDAO {
 	public int totalMemberOut();
 	public int searchTotalMemberOut(String search_type,String search,String start_date,String end_date);
 	public int memberOutDelete(int out_no);
+	public int memberOutDelete2(String goo_id);
 }

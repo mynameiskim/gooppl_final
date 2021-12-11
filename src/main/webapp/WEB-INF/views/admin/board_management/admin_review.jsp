@@ -275,8 +275,8 @@ function memberUpdate(){
 </script>
 </head>
 <body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>게시판관리</b></h5>
