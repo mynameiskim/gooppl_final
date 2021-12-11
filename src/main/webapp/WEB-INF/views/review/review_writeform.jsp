@@ -78,67 +78,12 @@
     
 </head >
 <body>
-    <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-					<c:choose>
-						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend">
-								  <c:if test="${sessionScope.sessionMemberType=='M' }">
-								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-								    <label class="bg-primary text-center"
-								    	style="
-                                        width: 30px;
-                                        border-radius: 50%;
-                                        color: #fff;
-                                        font-weight: 600;
-                                        font-size: 1.2rem;">${profileNick}</label>
-								  </a>
-								  </c:if>
-								  <c:if test="${sessionScope.sessionMemberType=='O' }">
-									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-									    <label class="bg-secondary text-center"
-									    	style="
-	                                        width: 30px;
-	                                        border-radius: 50%;
-	                                        color: #fff;
-	                                        font-weight: 600;
-	                                        font-size: 1.2rem;">${profileNick}</label>
-									  </a>
-								  </c:if>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-							</ul>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
-								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
-						</c:otherwise>
-					</c:choose>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+    <%@include file="/WEB-INF/views/member/header.jsp" %>
     <section class="signup-section" id="signup"
         style="padding-top: 6rem; background: white">
        <div class="container-sm mb-5">
             <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-            <form id="review_form" class="form-inline" name="writereview" action="writeReviewSubmit.do" method="post" enctype="multipart/form-data">
+            <form id="review_form" class="needs-validation" name="writereview" action="writeReviewSubmit.do" method="post" enctype="multipart/form-data" novalidate="novalidate">
             <input type="hidden" name="member_idx" value="${sessionScope.sessionMember_idx }">
             <input type="hidden" name="nickname" value="${sessionScope.sessionNickname}">
             <div class="row">
@@ -166,20 +111,20 @@
 		           		 <!--프롤로그 입력-->
 			             <div class="row mb-2">
 			                 <div class="col-xs-12">
-		                   		 <input class="form-control" type="text" id="subject" name="subject" placeholder="제목을 입력해주세요.">
+		                   		 <input class="form-control" type="text" id="subject" name="subject" placeholder="제목을 입력해주세요." required="required">
 			                 </div>
 			                  
 			                 <div class="col-xs-12">
 			                 </div>
 			                 <div class="col-xs-12">
-		                         <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="간단한 소개글을 적어주세요~" rows="3" name="prologue"></textarea>
+		                         <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="간단한 소개글을 적어주세요~" rows="3" name="prologue" required="required"></textarea>
 			                 </div>
 			                  
 				         </div>    
 		                 <!-- 이미지 업로드 양식 -->
 			             <div class="row img_container">
 			                 <div class="col-xs-12 ">
-			                   <textarea class="form-control" id="summernote" name="content" rows="20" cols="100"></textarea> 
+			                   <textarea class="form-control" id="summernote" name="content" rows="20" cols="100" required="required"></textarea> 
 			                   <!-- textarea 밑에 script 작성하기 -->
 								<!-- #### 섬머노트 세팅 #### -->
 
@@ -214,6 +159,21 @@
 								        }
 								        
 									});
+									<!--##### 유효성 검사 #####-->
+									var forms = document.querySelectorAll('.needs-validation')
+
+									  // Loop over them and prevent submission
+									  Array.prototype.slice.call(forms)
+									    .forEach(function (form) {
+									      form.addEventListener('submit', function (event) {
+									        if (!form.checkValidity()) {
+									          event.preventDefault()
+									          event.stopPropagation()
+									        }
+
+									        form.classList.add('was-validated')
+									      }, false)
+									    })
 								});
 									
 /**
@@ -243,14 +203,14 @@ function uploadSummernoteImageFile(file, el) {
 		                      <div class="col-xs-12 ">
 		                          <div class="mb-3">
 		                              <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" name="epilogue"
-		                                  placeholder="작성 후기 또는 느낀점"></textarea>
+		                                  placeholder="작성 후기 또는 느낀점" required="required"></textarea>
 		                          </div>
 		                      </div>
 		                  </div>
 		                  <div class="row">
 		                      <div class="col-xs-12 " style="text-align: center;">
 		                          <button type="submit" id="writebutton" class="btn btn-success "
-		                              style="font-size: medium; margin-top:32px;">작성하기</button>
+		                              style="font-size: medium; margin-top:32px;" >작성하기</button>
 		                          <button type="reset" class="btn btn-light "
 		                              style="font-size: medium; margin-top:32px;">다시쓰기</button>
 		                      </div>
@@ -265,39 +225,7 @@ function uploadSummernoteImageFile(file, el) {
    
     
            <!--##### 유효성 검사 #####-->
-    <script>
-    var subject;
-    var prologue;
-    var content;
-    var epilogue;
-    
-    $( document ).ready(function(){
-    function checkForm(){
-    	alert('tetetet');
-    	$(#review_form).addEventListener("click",function(){
-    		var subject = $(#subject).val();
-    		var prologue = $(#exampleFormControlTextarea1).val();
-    		var content = $(#summernote).val();
-    		var epilogue = $(#exampleFormControlTextarea2).val();
-    		
-    		if(subject==""){
-    			alert('제목을 입력해주세요');
-    			$(#subject).focus();
-    		}else if(prologue==""){
-    			alert('소개를 입력해주세요');
-    			$(#exampleFormControlTextarea1).focus();
-    		}else if(content==""){
-    			alert('내용을 입력해주세요');
-    			$(#summernote).focus();
-    		}else if(epilogue==""){
-    			alert('후기를 입력해주세요');
-    			$(#exampleFormControlTextarea2).focus();
-    		}
-    		document.getElementById("postForm").submit();
-    		})
-    	}
-    }
-    </script>       
+  
            
 
 

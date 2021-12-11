@@ -58,25 +58,24 @@ function showResult(){
 	}
 }
 
-function memberDelete(index){
+function adUp(index, owner_idx){
 	Swal.fire({
-		title: '정말로 삭제하시겠습니까?',
-		text: "삭제된 계정은 복구가 불가능합니다.",
-		icon: 'warning',
+		title: '광고를 올리시겠습니까?',
+		icon: 'info',
 		showCancelButton: true,
 		confirmButtonColor: '#d33',
 		cancelButtonColor: '#000000',
-		confirmButtonText: '삭제',
+		confirmButtonText: '확인',
 		cancelButtonText: '취소',
 		showLoaderOnConfirm: true,
 		allowOutsideClick:false
 	}).then((result) => {
 	  if (result.isConfirmed) {
-	  		var param=document.getElementById("member_idx"+index).value;
+	  		var param=document.getElementById("owner_idx"+index).value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'member_delete.do?member_idx='+param,
+				url: 'admin_adState_up.do?owner_idx='+param,
 				dataType: "json",
 				error: function(result){
 					
@@ -115,6 +114,63 @@ function memberDelete(index){
 	})
 }
 
+function adDown(index, owner_idx){
+	Swal.fire({
+		title: '광고를 내리겠습니까?',
+		icon: 'info',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#000000',
+		confirmButtonText: '확인',
+		cancelButtonText: '취소',
+		showLoaderOnConfirm: true,
+		allowOutsideClick:false
+	}).then((result) => {
+	  if (result.isConfirmed) {
+	  		var param=document.getElementById("owner_idx"+index).value;
+	  		
+			$.ajax({
+				type: "GET",
+				url: 'admin_adState_down.do?owner_idx='+param,
+				dataType: "json",
+				error: function(result){
+					
+				},
+				success: function(result){
+					if(result.code==0){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'warning',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.reload();
+					    	}
+					    })
+					}else if(result.code==1){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'success',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick:false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.reload();
+					    	}
+					    })
+					}
+				}
+			});
+	  }
+	})
+}
+
+
 </script>
 </head>
 <body>
@@ -152,31 +208,10 @@ function memberDelete(index){
     	<ul class='helpbox'>
 				<li>광고 리스트를 확인하고 관리할 수 있는 메뉴입니다.</li>
 			</ul>
-		<table class="table table-bordered" style="font-size: 13px;">
-			<tr>
-				<th style="border: 1px solid #0000008c;">조건 검색</th>
-				<td style="border: 1px solid #0000008c;">
-					<select id="condition" name="condition" style="height: 22px;">
-						<option value="payState">광고상태</option>
-						<option value="payImp_uid">업장타입</option>
-						<option></option>
-					</select>
-					<input type="text" style="width: 300px;">
-				</td>
-			</tr>
-			<tr>
-				<th style="border: 1px solid #0000008c;">광고시작일</th>
-				<td style="border: 1px solid #0000008c;"><input type="date">~<input type="date"></td>
-			</tr>
-		</table>
-			<div class="row justify-content-md-center" style="padding: 20px 0px;">
-				<div class="col-md-5 text-center">
-					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="검색하기" >
-				</div>	
-			</div>
+		
 			<div class="row">
 				<div class="col-md-12 text-left">
-					<label><b>총 광고수:${totalAd}</b>&nbsp; <b>검색수:</b></label>
+					<label><b>총 광고수:${totalAd}</b></label>
 				</div>
 			</div>
 		<table class="table table-hover tb_hover">
@@ -209,6 +244,7 @@ function memberDelete(index){
 			      <td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}</td>
 			      <td class="text-center" style="width:12%;">${list.ad_idx}
 			      	<input id="ad_idx${status.index}" type="hidden" value="${list.ad_idx}">
+			      	<input id="owner_idx${status.index}" type="hidden" value="${list.owner_idx}">
 			      </td>
 			      <td class="text-center" style="width:10%;">${list.owner_idx}</td>
 			      <td class="text-center" style="width:15%;">${list.ad_startDate}</td>
@@ -217,10 +253,10 @@ function memberDelete(index){
 			      <td class="text-center" style="width:20%;">
 			      <input id="btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-secondary" value="상세보기" onclick="adInfo(${status.index},${size})">
 			      <c:if test="${list.ad_state.equals('광고중')}">
-				      <input id="adDown_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="광고내림" onclick="adDown(${status.index})">
+				      <input id="adDown_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="광고내림" onclick="adDown(${status.index},${list.owner_idx})">
 			      </c:if>
 			      <c:if test="${list.ad_state.equals('광고내림')}">
-			      	  <input id="adUp_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="광고올림" onclick="adUp(${status.index})">
+			      	  <input id="adUp_btn${status.index}" type="button" style="border-radius: 3px;" class="bt btn-danger" value="광고올림" onclick="adUp(${status.index},${list.owner_idx})">
 			      </c:if>
 			      </td>
 			    </tr>

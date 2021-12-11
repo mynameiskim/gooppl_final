@@ -54,7 +54,7 @@
 		//var review_idx=document.getElementById('reviewIdx');
           var review_idx=document.getElementById('review_idx').value;
 		//컨트롤러로이동할 명령어 작성
-		alert(review_idx);
+		//alert(review_idx);
 		location.href="reviewDelete.do?review_idx="+review_idx;
         }
 	}
@@ -115,7 +115,7 @@
         style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
         <div class="container-sm mb-5">
-        <form name="reviewContent" action="reviewUpdateForm.do"  method="post" enctype="multipart/form-data">
+        <form name="reviewContent" action="reviewUpdateForm.do?review_idx=${param.review_idx }"  method="post" enctype="multipart/form-data">
         <input type="hidden" id="review_idx" name="review_idx" value="${dto.review_idx }">
         <input type="hidden" name="subject" value='${dto.subject }' >
         <input type="hidden" name="prologue" value='${dto.prologue}' >
@@ -191,10 +191,19 @@
                 </div>
 	                
 	                <!--#### 수정 삭제 버튼 ####-->
+	                <c:choose>
+	                <c:when test="${sessionMember_idx==dto.member_idx }">
 	            <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
 	                <input type="button" value="삭제하기" class="btn btn-secondary" onclick="deleteCon();"></input>
 	                <button type="submit" class="btn btn-light" >수정하기</button>
-	            </div> 
+	            </div>
+	            	</c:when>
+	            	<c:when test="${sessionMember_idx!=dto.member_idx }">
+	            	</c:when>
+	            	</c:choose>
+	            	<!--#### 수정 삭제 버튼 ####-->
+	            
+	            
             </div>
             </form>  
                 <!--##### 본문 경계선 #####-->

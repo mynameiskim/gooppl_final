@@ -36,6 +36,7 @@ import goo.mapinfo.model.MapInfoDTO;
 import goo.mapinfo.model.MapInfoService;
 import goo.member.model.MemberService;
 import goo.placedetail.model.Gooppl_PlaceDetailService;
+import goo.reply.model.ReplyService;
 import goo.review.model.ReviewDTO;
 import goo.review.model.ReviewService;
 import goo.payment_info.model.Payment_infoService;
@@ -66,6 +67,8 @@ public class MainController {
 	private ReviewService reviewService;
 	@Autowired
 	private InquiryService InquiryService;
+	@Autowired
+	private ReplyService replyService;
 	
 	private static final int EMAIL_AUTH_FORMMAIL_NO = 2;
 	private static final int EMAIL_PWD_FIND_FORMMAIL_NO = 3;
@@ -88,12 +91,17 @@ public class MainController {
 			int totalPlaceCount[] = new int[mapDTO.size()];
 			String firstImg[] = new String[mapDTO.size()];
 			List<ReviewDTO> reviewDTO = reviewService.getReview(member_idx);
+			int totalReplyCount[] = new int[reviewDTO.size()];
 			               
 			for(int i=0;i<mapDTO.size();i++) {
 				
 				totalPlaceCount[i] = mapInfoService.getTotalPlace(mapDTO.get(i).getMap_idx());
 				firstImg[i] = gooppl_PlaceDetailService.getFirstImg(mapDTO.get(i).getMap_idx());
 				
+			}
+			
+			for(int i=0;i<reviewDTO.size();i++) {
+				totalReplyCount[i] = replyService.getReplyCount(reviewDTO.get(i).getReview_idx());
 			}
 			
 			List<InquiryDTO> list = InquiryService.inquiryList(member_idx);
@@ -104,6 +112,7 @@ public class MainController {
 			mav.addObject("totalPlaceCount", totalPlaceCount);
 			mav.addObject("firstImg",firstImg);
 			mav.addObject("list", list);
+			mav.addObject("rp_count", totalReplyCount);
 			mav.setViewName("member/mypage");
 			return mav;
 		}
