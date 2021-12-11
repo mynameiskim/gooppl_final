@@ -646,13 +646,13 @@ function showResult(){
                          tdNode3.setAttribute('style', 'width: 90px;');
                          var tdTextNode3 = document.createTextNode(title);
 
-                      
                          var tdNode4 = document.createElement('td');
                          var addBt = document.createElement('input');
                          addBt.setAttribute('type','button');
                          addBt.setAttribute('value','+');
                          addBt.className = 'add_Bt';
-                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         var image2=encodeURI(image); // 매개변수로 넘길때 \, 한글 경로가 깨짐
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image2+'","'+addr+'",'+contenttype+')');
                          table.appendChild(trNode);
                          trNode.appendChild(tdNode2);
                          trNode.appendChild(tdNode3);
@@ -683,13 +683,13 @@ function showResult(){
                          tdNode3.setAttribute('style', 'width: 90px;');
                          var tdTextNode3 = document.createTextNode(title);
 
-                      
                          var tdNode4 = document.createElement('td');
                          var addBt = document.createElement('input');
                          addBt.setAttribute('type','button');
                          addBt.setAttribute('value','+');
                          addBt.className = 'add_Bt';
-                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         var image2=encodeURI(image); // 매개변수로 넘길때 \, 한글 경로가 깨짐
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image2+'","'+addr+'",'+contenttype+')');
                          
                          table.appendChild(trNode);
                          trNode.appendChild(tdNode2);
@@ -901,7 +901,7 @@ function getResult(){
 function saveAdDetail(contentid){
 	for(var i=0;i<adContents.length;i++){
 		if(adContents[i].contentid==contentid){
-			var title=adContents[i].title.substr(5, adContents[i].title.length);
+			var title=adContents[i].title.substr(4, adContents[i].title.length);
 			var addr=adContents[i].addr;
 			var areacode=adContents[i].areacode;
 			var sigungucode=adContents[i].sigungucode;
@@ -910,7 +910,7 @@ function saveAdDetail(contentid){
 			var mapy=adContents[i].mapy;
 			var overview=adContents[i].overview;
 			var homepage=adContents[i].homepage;
-			var image=adContents[i].image;
+			var image=encodeURI(adContents[i].image);
 			
 			 var placeDetail={
 		     	 	contentid:contentid,
@@ -959,11 +959,11 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
 	return;
 	}
 	placeDetailInfo(contentid);
-	
+
     mapys.push(mapy);
     mapxs.push(mapx);
     titles.push(title);
-    images.push(image);
+    images.push(decodeURI(image)); // 깨짐방지로 인코딩해서 매개변수로 보낸 이미지를 디코드해서 출력해야함
     addrs.push(addr);
     contentids.push(contentid);
     contenttypeids.push(contenttypeid);
@@ -1010,7 +1010,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     var infowindow = new kakao.maps.InfoWindow({
         content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
 	    			'<tr style="margin-top:0px;">'+
-	    				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
+	    				'<td><img src="'+decodeURI(image)+'" style="width:155px;height:100px;"></td>'+
 	    			'</tr>'+
 	    			'<tr style="height:80px;">'+
 	    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
@@ -1126,7 +1126,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     var pNode=document.createElement('span');
     pNode.setAttribute('class', 'placeinfo');
     var imgNode=document.createElement('img');
-    imgNode.setAttribute('src', image);
+    imgNode.setAttribute('src', decodeURI(image));
     imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
     imgNode.setAttribute('hover', '');
     pNode.appendChild(imgNode);
@@ -1790,6 +1790,7 @@ function savePlaceDetailData(){
 	homepage=encodeURIComponent(homepage);
 	param+='&homepage='+homepage;
 	var firstimage=placeDetails[0].firstimage;
+	firstimage=encodeURI(firstimage);
 	param+='&firstimage='+firstimage;
 	console.log(param);
 	sendRequest('savePlaceDetail.do', param, getResultAdd2, 'POST');

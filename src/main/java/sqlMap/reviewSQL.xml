@@ -25,9 +25,7 @@
   	<select id="totalCnt" resultType="Integer">
   		select count(*) from review
   	</select>
-  	<select id="getTotalFindCnt" parameterType="String" resultType="Integer">
-  		select count(*) from review where subject like '%#{keywards}%'
-  	</select>
+  	
   	<select id="reviewAllList" parameterType="Map" resultType="goo.review.model.ReviewDTO">
 		select * from
 		(select rownum as rnum,a.* from
