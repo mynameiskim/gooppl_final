@@ -196,7 +196,7 @@ td{
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="container">
 	<div id="aside">
-		<h5><b>게시판관리</b></h5>
+		<h5><b>문의 관리</b></h5>
 		<dl>
 			<dt>게시판관리</dt>
 			<dd>

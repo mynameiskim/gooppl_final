@@ -110,18 +110,32 @@ function inquiry_update(inquiry_idx){
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="container">
 	<div id="aside">
-		<h5><b>게시판관리</b></h5>
+		<h5><b>기본설정</b></h5>
 		<dl>
-			<dt>게시판관리</dt>
+			<dt>사이트 정보관리</dt>
 			<dd>
-				 <a href='admin_share.do' style="color: white !important;"
-				>-공유게시판 관리</a><br />
-				 <a href='admin_review.do' style="color: white !important;"
-				>-후기게시판 관리</a><br />
-				 <a href='admin_relpy.do' style="color: white !important;"
-				>-댓글 관리 </a><br />
-				 <a href='#' style="color: white !important;"
-				>-문의 관리 </a>
+				<c:url var="site_info_Url" value="admin_site_info.do">
+					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
+				</c:url>
+				<b><a href='${site_info_Url}' style="color: white !important;"
+				>-사이트 기본정보</a></b><br />
+				<b><a href='admin_site_settings.do' style="color: white !important;"
+				>-사이트 환경설정</a></b><br />
+			</dd>
+			<dt>관리자 설정</dt>
+			<dd>
+				<b><a href='admin_settings.do' style="color: white !important;"
+					>-관리자 설정</a></b><br />
+			</dd>
+			<dt>가입약관 및 개인정보보호정책</dt>
+			<dd>
+				<b> <a href='admin_member_config.do' style="color: white !important;"
+				>-약관 및 개인정보보호정책</a></b><br />
+			</dd>
+			<dt>문의 관리</dt>
+			<dd>
+				<b> <a href='admin_inquiry.do' style="color: white !important;"
+				>-문의 관리</a></b><br />
 			</dd>
 		</dl>
 	</div>
