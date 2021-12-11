@@ -26,4 +26,20 @@ public class InquiryDAOImple implements InquiryDAO {
 		int count = sqlMap.insert("addInquiry",hmp);
 		return count;
 	}
+	public int totalInquiry() {
+		int count = sqlMap.selectOne("totalInquiry");
+		return count;
+	}
+	public List<InquiryDTO> getInquiryList(Map map) {
+		List<InquiryDTO> list = sqlMap.selectList("getInquiryList",map);
+		return list;
+	}
+	public InquiryDTO inquiryInfo(int inquiry_idx) {
+		InquiryDTO dto = sqlMap.selectOne("inquiryInfo",inquiry_idx);
+		return dto;
+	}
+	public int inquiryUpdate(Map map) {
+		int count = sqlMap.update("inquiryUpdate",map);
+		return count;
+	}
 }
