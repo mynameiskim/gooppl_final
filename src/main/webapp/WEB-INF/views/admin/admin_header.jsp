@@ -61,7 +61,7 @@
         </ul>
         <span class="navbar-text">
             <li class="li_1">
-              <a href="index.do" class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" >GooPPl</a>
+              <label style="color: #f6f8fa !important;">GooPPl</label>
             </li>
             <li class="li_1">
               <a href="logout.do?sessionId=${sessionScope.sessionId}" class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" >Logout</a>

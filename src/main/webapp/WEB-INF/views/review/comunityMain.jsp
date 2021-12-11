@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@include file="/resource/meta/meta.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 

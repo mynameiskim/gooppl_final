@@ -33,7 +33,7 @@ caption{
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				 <a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
+				 <a href="admin_formmail_settings.do" style="color: white !important;"
 				>-폼메일 관리</a><br />
 			</dd>
 		</dl>
