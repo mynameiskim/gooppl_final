@@ -279,7 +279,7 @@ function memberUpdate(){
 			</dd>
 			<dt>폼메일 관리</dt>
 			<dd>
-				 <a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
+				 <a href="admin_formmail_settings.do" style="color: white !important;"
 				>-폼메일 관리</a><br />
 			</dd>
 		</dl>
@@ -327,8 +327,7 @@ function memberUpdate(){
 		<table class="table table-hover tb_hover">
 		  <thead>
 				<tr class="tr_bg">
-					<th class="text-center active text-white text-opacity-75" style="width:2%;"></th>
-					<th class="text-center active text-white text-opacity-75" style="width:4%;">번호</th>
+					<th class="text-center active text-white text-opacity-75" style="width:6%;">번호</th>
                     <th class="text-center active text-white text-opacity-75" style="width:8%;">회원번호</th>
                     <th class="text-center active text-white text-opacity-75" style="width:8%;">회원유형</th>
                     <th class="text-center active text-white text-opacity-75" style="width:6%;">닉네임</th>
@@ -359,8 +358,7 @@ function memberUpdate(){
 		  	</c:if>
 		  	<c:forEach var="list" items="${list}" varStatus="status">
 		  		<tr class="tr_align">
-			      <th class="text-center" style="width:2%;"><input type="checkbox"></th>
-			      <td class="text-center" style="width:4%;">${(cp-1)*listSize+status.index+1}</td>
+			      <td class="text-center" style="width:6%;">${(cp-1)*listSize+status.index+1}</td>
 			      <td class="text-center" style="width:8%;">${list.member_idx}
 			      	<input id="member_idx${status.index}" type="hidden" value="${list.member_idx}">
 			      </td>

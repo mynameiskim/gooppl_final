@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,23 +40,71 @@ public class AdminMemberManagement {
 	private MemberDAO memberDao;
 	
 	@RequestMapping("/admin_member_management.do")
-	public String memberManagement() {
-		return "/admin/member_management/admin_member_management";
+	public ModelAndView memberManagement(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		if(session.getAttribute("sessionId")==null||!session.getAttribute("sessionMemberType").equals("A")) {
+			mav.addObject("msg", "관리자 계정으로 로그인해주세요");
+			mav.addObject("goPage", "index.do");
+			mav.setViewName("admin/basic_settings/msg");
+		}else {
+			mav.setViewName("/admin/member_management/admin_member_management");
+		}
+		return mav;
 	}
 	
 	@RequestMapping("/admin_member_list.do")
 	public ModelAndView memberList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
-			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
+			,@RequestParam(value = "end_date",defaultValue = "")String end_date,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		if(!start_date.equals("")&&!end_date.equals("")){
-			LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
-			LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
-			
-			if(e_date.isBefore(s_date)) {
-				mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
-				mav.addObject("display", "display : none;");
-			}else if(s_date.isBefore(e_date)) {
+		if(session.getAttribute("sessionId")==null||!session.getAttribute("sessionMemberType").equals("A")) {
+			mav.addObject("msg", "관리자 계정으로 로그인해주세요");
+			mav.addObject("goPage", "index.do");
+			mav.setViewName("admin/basic_settings/msg");
+		}else {
+			if(!start_date.equals("")&&!end_date.equals("")){
+				LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
+				LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
+				
+				if(e_date.isBefore(s_date)) {
+					mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
+					mav.addObject("display", "display : none;");
+				}else if(s_date.isBefore(e_date)) {
+					if(!start_date.equals("")&&end_date.equals("")) {
+						end_date = start_date;
+					}else if(!end_date.equals("")&&start_date.equals("")) {
+						start_date = end_date;
+					}
+					int listSize=5;
+					int pageSize=5;
+					int totalMember = memberService.totalMember();
+					int searchTotalMember = memberDao.searchTotalMember(search_type, search,start_date,end_date);
+					List<MemberDTO> list = memberService.memberList(cp,listSize,search_type,search,start_date,end_date);
+					String pageStr=goo.page.PageModule.adminMakePage("admin_member_list.do", searchTotalMember>0?searchTotalMember:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
+					
+					
+					if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
+						mav.addObject("search_num", searchTotalMember);
+						if(!search.equals("")) {
+							if(search_type.equals(search_type)) {
+								mav.addObject(search_type+"_selected","selected");
+							}
+						}
+					}else {
+						mav.addObject("search_num", 0);
+					}
+					
+					mav.addObject("start_date", start_date);
+					mav.addObject("end_date", end_date);
+					mav.addObject("search", search);
+					mav.addObject("size", list.size());
+					mav.addObject("cp", cp);
+					mav.addObject("listSize", listSize);
+					mav.addObject("list", list);
+					mav.addObject("pageStr", pageStr);
+					mav.addObject("totalMember", totalMember);
+				}
+			}else {
 				if(!start_date.equals("")&&end_date.equals("")) {
 					end_date = start_date;
 				}else if(!end_date.equals("")&&start_date.equals("")) {
@@ -89,42 +139,9 @@ public class AdminMemberManagement {
 				mav.addObject("pageStr", pageStr);
 				mav.addObject("totalMember", totalMember);
 			}
-		}else {
-			if(!start_date.equals("")&&end_date.equals("")) {
-				end_date = start_date;
-			}else if(!end_date.equals("")&&start_date.equals("")) {
-				start_date = end_date;
-			}
-			int listSize=5;
-			int pageSize=5;
-			int totalMember = memberService.totalMember();
-			int searchTotalMember = memberDao.searchTotalMember(search_type, search,start_date,end_date);
-			List<MemberDTO> list = memberService.memberList(cp,listSize,search_type,search,start_date,end_date);
-			String pageStr=goo.page.PageModule.adminMakePage("admin_member_list.do", searchTotalMember>0?searchTotalMember:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
-			
-			
-			if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
-				mav.addObject("search_num", searchTotalMember);
-				if(!search.equals("")) {
-					if(search_type.equals(search_type)) {
-						mav.addObject(search_type+"_selected","selected");
-					}
-				}
-			}else {
-				mav.addObject("search_num", 0);
-			}
-			
-			mav.addObject("start_date", start_date);
-			mav.addObject("end_date", end_date);
-			mav.addObject("search", search);
-			mav.addObject("size", list.size());
-			mav.addObject("cp", cp);
-			mav.addObject("listSize", listSize);
-			mav.addObject("list", list);
-			mav.addObject("pageStr", pageStr);
-			mav.addObject("totalMember", totalMember);
+			mav.setViewName("admin/member_management/admin_member_list");
 		}
-		mav.setViewName("admin/member_management/admin_member_list");
+		
 		return mav;
 	}
 	
@@ -132,17 +149,61 @@ public class AdminMemberManagement {
 	@RequestMapping("/admin_member_out.do")
 	public ModelAndView memberOutList(@RequestParam(value = "cp",defaultValue = "1")int cp,@RequestParam(value = "search_type",defaultValue = "")String search_type
 			,@RequestParam(value = "search",defaultValue = "")String search,@RequestParam(value = "start_date",defaultValue = "")String start_date
-			,@RequestParam(value = "end_date",defaultValue = "")String end_date) {
-		
+			,@RequestParam(value = "end_date",defaultValue = "")String end_date,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		if(!start_date.equals("")&&!end_date.equals("")){
-			LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
-			LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
-			
-			if(e_date.isBefore(s_date)) {
-				mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
-				mav.addObject("display", "display : none;");
-			}else if(s_date.isBefore(e_date)) {
+		if(session.getAttribute("sessionId")==null||!session.getAttribute("sessionMemberType").equals("A")) {
+			mav.addObject("msg", "관리자 계정으로 로그인해주세요");
+			mav.addObject("goPage", "index.do");
+			mav.setViewName("admin/basic_settings/msg");
+		}else {
+			if(!start_date.equals("")&&!end_date.equals("")){
+				LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
+				LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
+				
+				if(e_date.isBefore(s_date)) {
+					mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
+					mav.addObject("display", "display : none;");
+				}else if(s_date.isBefore(e_date)) {
+					if(!start_date.equals("")&&end_date.equals("")) {
+						end_date = start_date;
+					}else if(!end_date.equals("")&&start_date.equals("")) {
+						start_date = end_date;
+					}
+					System.out.println("memberOutList ok");
+					System.out.println("search_type="+search_type);
+					System.out.println("search="+search);
+					int listSize=5;
+					int pageSize=5;
+					int totalMemberOut = memberOutDao.totalMemberOut();
+					
+					System.out.println("controller totalMemberOut ok");
+					int searchTotalMemberOut = memberOutDao.searchTotalMemberOut(search_type, search,start_date,end_date);
+					System.out.println("searchTotalMemberOut="+searchTotalMemberOut);
+					System.out.println("controller searchTotalMemberOut ok");
+					List<MemberOutDTO> list = memberOutService.memberOutList(cp,listSize,search_type,search,start_date,end_date);
+					System.out.println("list 불러오기 ok");
+					String pageStr=goo.page.PageModule.adminMakePage("admin_member_out.do", searchTotalMemberOut>0?searchTotalMemberOut:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
+					
+					mav.addObject("start_date", start_date);
+					mav.addObject("end_date", end_date);
+					mav.addObject("search", search);
+					if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
+						mav.addObject("search_num", searchTotalMemberOut);
+						if(!search.equals("")) {
+							if(search_type.equals(search_type)) {
+								mav.addObject(search_type+"_selected","selected");
+							}
+						}
+					}else {
+						mav.addObject("search_num", 0);
+					}
+					mav.addObject("cp", cp);
+					mav.addObject("listSize", listSize);
+					mav.addObject("list", list);
+					mav.addObject("pageStr", pageStr);
+					mav.addObject("totalMemberOut", totalMemberOut);
+				}
+			}else {
 				if(!start_date.equals("")&&end_date.equals("")) {
 					end_date = start_date;
 				}else if(!end_date.equals("")&&start_date.equals("")) {
@@ -182,48 +243,11 @@ public class AdminMemberManagement {
 				mav.addObject("pageStr", pageStr);
 				mav.addObject("totalMemberOut", totalMemberOut);
 			}
-		}else {
-			if(!start_date.equals("")&&end_date.equals("")) {
-				end_date = start_date;
-			}else if(!end_date.equals("")&&start_date.equals("")) {
-				start_date = end_date;
-			}
-			System.out.println("memberOutList ok");
-			System.out.println("search_type="+search_type);
-			System.out.println("search="+search);
-			int listSize=5;
-			int pageSize=5;
-			int totalMemberOut = memberOutDao.totalMemberOut();
 			
-			System.out.println("controller totalMemberOut ok");
-			int searchTotalMemberOut = memberOutDao.searchTotalMemberOut(search_type, search,start_date,end_date);
-			System.out.println("searchTotalMemberOut="+searchTotalMemberOut);
-			System.out.println("controller searchTotalMemberOut ok");
-			List<MemberOutDTO> list = memberOutService.memberOutList(cp,listSize,search_type,search,start_date,end_date);
-			System.out.println("list 불러오기 ok");
-			String pageStr=goo.page.PageModule.adminMakePage("admin_member_out.do", searchTotalMemberOut>0?searchTotalMemberOut:1, listSize, pageSize, cp ,search_type , search ,start_date, end_date);
-			
-			mav.addObject("start_date", start_date);
-			mav.addObject("end_date", end_date);
-			mav.addObject("search", search);
-			if(!search.equals("")||!start_date.equals("")||!end_date.equals("")) {
-				mav.addObject("search_num", searchTotalMemberOut);
-				if(!search.equals("")) {
-					if(search_type.equals(search_type)) {
-						mav.addObject(search_type+"_selected","selected");
-					}
-				}
-			}else {
-				mav.addObject("search_num", 0);
-			}
-			mav.addObject("cp", cp);
-			mav.addObject("listSize", listSize);
-			mav.addObject("list", list);
-			mav.addObject("pageStr", pageStr);
-			mav.addObject("totalMemberOut", totalMemberOut);
+			mav.setViewName("admin/member_management/admin_member_out");
 		}
 		
-		mav.setViewName("admin/member_management/admin_member_out");
+		
 		return mav;
 	}
 	
@@ -310,19 +334,26 @@ public class AdminMemberManagement {
 	
 	//폼메일
 	@RequestMapping("/admin_formmail_settings.do")
-	public ModelAndView formmailSettings(@RequestParam("form_type")String form_type) {
-		int result = formmailService.selectedUpdate(form_type);
-		if(result>0) {
-			System.out.println("selected 수정완료");
-		}else {
-			System.out.println("selected 수정실패");
-		}
-		FormmailDTO fdto = formmailService.formType(form_type);
-		List<FormmailDTO> list = formmailService.formmail();
+	public ModelAndView formmailSettings(@RequestParam(value = "form_type",defaultValue = "회원가입")String form_type,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("fdto", fdto);
-		mav.addObject("list", list);
-		mav.setViewName("admin/member_management/admin_formmail_settings");
+		if(session.getAttribute("sessionId")==null||!session.getAttribute("sessionMemberType").equals("A")) {
+			mav.addObject("msg", "관리자 계정으로 로그인해주세요");
+			mav.addObject("goPage", "index.do");
+			mav.setViewName("admin/basic_settings/msg");
+		}else {
+			int result = formmailService.selectedUpdate(form_type);
+			if(result>0) {
+				System.out.println("selected 수정완료");
+			}else {
+				System.out.println("selected 수정실패");
+			}
+			FormmailDTO fdto = formmailService.formType(form_type);
+			List<FormmailDTO> list = formmailService.formmail();
+			mav.addObject("fdto", fdto);
+			mav.addObject("list", list);
+			mav.setViewName("admin/member_management/admin_formmail_settings");
+		}
+		
 		return mav;
 	}
 	

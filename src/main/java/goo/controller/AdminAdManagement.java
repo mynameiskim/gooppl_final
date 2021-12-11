@@ -262,6 +262,8 @@ public class AdminAdManagement {
 	
 	@RequestMapping("/admin_adCancel.do")
 	public ModelAndView admin_adCancelList(@RequestParam(value = "cp",defaultValue = "1")int cp) {
+		
+		
 		int listSize=5;
 		int pageSize=5;
 		int totalAdDelInquiry = ad_inquiryService.admin_totalAdDelInquiry();

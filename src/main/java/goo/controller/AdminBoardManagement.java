@@ -59,49 +59,4 @@ public class AdminBoardManagement {
 		
 		return mav;
 	}
-	
-	
-	/*@@@@@@@@@문의 관리@@@@@@@@@*/
-	@RequestMapping("/admin_inquiry.do")
-	public ModelAndView admin_inquiryList(@RequestParam(value = "cp",defaultValue = "1")int cp){
-		ModelAndView mav = new ModelAndView();
-		
-		int totalInquiry = inquiryService.totalInquiry();
-		int listSize=10;
-		int pageSize=10;
-		Map map = new HashMap(); 
-		map.put("cp", cp);
-		map.put("listSize", listSize);
-		List<InquiryDTO> inquiryDTO = inquiryService.getInquiryList(map);
-		String pageStr=goo.page.PageModule.makePage("admin_inquiry.do",totalInquiry , listSize, pageSize, cp);
-		mav.addObject("cp", cp);
-		mav.addObject("size", inquiryDTO.size());
-		mav.addObject("listSize", listSize);
-		mav.addObject("list", inquiryDTO);
-		mav.addObject("pageStr", pageStr);
-		mav.addObject("totalInquiry", totalInquiry);
-		mav.setViewName("admin/board_management/admin_inquiry");
-		return mav;
-	}
-	
-	/**문의 답변*/
-	@RequestMapping("/admin_inquiry_details.do")
-	public ModelAndView admin_inquiry_details(@RequestParam(("inquiry_idx")) int inquiry_idx) {
-		InquiryDTO dto = inquiryService.inquiryInfo(inquiry_idx);
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("dto", dto);
-		mav.setViewName("admin/board_management/admin_inquiry_details");
-		return mav;
-	}
-	
-	@RequestMapping("/admin_inquiry_update.do")
-	@ResponseBody
-	public int admin_inquiry_update(String inquiry_answer,int inquiry_idx) {
-		Map map = new HashMap();
-		map.put("inquiry_answer", inquiry_answer);
-		map.put("inquiry_idx", inquiry_idx);
-		int result = inquiryService.inquiryUpdate(map);
-		
-		return result;
-	}
 }
