@@ -853,7 +853,7 @@ function Info2(contentid){
     	var mapx=${tripdto.mapx};
     	var image='${tripdto.firstimage}';
     	var contenttypeid=77;
-    	makeMarker(contentid, mapy, mapx, title, image2, addr, contenttypeid);
+    	makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid);
     }
  	</c:forEach>
  	if(contentids2.length>1){
