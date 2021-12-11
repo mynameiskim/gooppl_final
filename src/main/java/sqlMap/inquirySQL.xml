@@ -17,4 +17,20 @@
 			default
 		)
 	</insert>
+	<select id="totalInquiry" resultType="Integer">
+		select count(*) from inquiry 
+	</select>
+	<select id="getInquiryList" parameterType="Map" resultType="goo.inquiry.model.InquiryDTO">
+		select * from
+		(select rownum as rnum,a.* from
+		(select * from inquiry order by decode(inquiry_status,'n',1),inquiry_idx desc)a)b
+		where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+		
+	</select>
+	<select id="inquiryInfo" parameterType="Integer" resultType="goo.inquiry.model.InquiryDTO">
+		select * from inquiry where inquiry_idx = #{inquiry_idx}
+	</select>
+	<update id="inquiryUpdate" parameterType="Map">
+		update inquiry set inquiry_status='y',inquiry_answer=#{inquiry_answer} where inquiry_idx = #{inquiry_idx}
+	</update>
 </mapper>

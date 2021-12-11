@@ -32,7 +32,7 @@
     	$.ajax({
 				type: "POST",
 				data: new FormData($("#adForm")[0]),
-				url: 'updateOwnerInfo2.do',
+				url: 'updateOwnerInfo.do',
 				enctype: 'multipart/form-data',
 				processData: false,
 				contentType: false,

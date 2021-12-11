@@ -83,8 +83,8 @@ public class OwnerController {
 	public String userFolderExist(int member_idx) {
 		
 		//이미지 경로
-		String realPath = sc.getRealPath("\\resource\\img\\owner");
-		String imgUrl=realPath+"\\"+member_idx;
+		String realPath = sc.getRealPath("/resource/img/owner");
+		String imgUrl=realPath+"/"+member_idx;
 		
 		File f=new File(imgUrl);
 		if(!f.exists()) {
@@ -114,12 +114,12 @@ public class OwnerController {
 			 byte[] bytes = upload.getBytes();
 			
 			 //복사본 정보
-			 File outFile = new File(imgUrl+"\\"+upload.getOriginalFilename());
+			 File outFile = new File(imgUrl+"/"+upload.getOriginalFilename());
 			 FileOutputStream fos = new FileOutputStream(outFile);
 			 System.out.println("outFile: "+outFile);
 			 
 			 String contextPath = sc.getContextPath();
-			 dbUrl = contextPath + "\\resource\\img\\owner\\" + member_idx + "\\" + upload.getOriginalFilename();
+			 dbUrl = contextPath + "/resource/img/owner/" + member_idx + "/" + upload.getOriginalFilename();
 			 
 			 System.out.println("db에 들어갈 경로:"+dbUrl);
 			 
@@ -187,49 +187,11 @@ public class OwnerController {
 		return mav;
 	}
 	
-	/**광고주 정보 업데이트 관련 명령어*/
-	@RequestMapping("/updateOwnerInfo.do")
-	public ModelAndView updateOwnerInfo(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
-		System.out.println("정보등록 진입");
-		int member_idx = dto.getMember_idx();
-		double mapx = dto.getMapx();
-		String title = dto.getTitle();
-		System.out.println("member_idx:"+member_idx);
-		System.out.println("mapx:" + mapx);
-		System.out.println("title:"+title);
-		String firstimg = null;
-		// 파일 업로드 처리
-	      MultipartFile uploadFile = dto.getUpload();
-	      if (uploadFile.isEmpty()) {
-	        
-			System.out.println("upload가 널");
-			//result = ownerService.update_ownerInfo_withoutFile(dto);
-			OwnerDTO originDto = ownerService.ckOwnerInfo(member_idx);
-			firstimg = originDto.getFirstimg();
-			System.out.println("firstimg  "+firstimg);
-		}else {
-			String imgUrl = userFolderExist(member_idx);
-			System.out.println("imgUrl:"+ imgUrl+"member_idx:"+ member_idx);
-			firstimg = copyInto(imgUrl, member_idx, dto.getUpload());
-			System.out.println(firstimg);
-		}
-		dto.setFirstimg(firstimg);
-		System.out.println("db 등록 전");
-		int result = ownerService.update_ownerInfo_withFile(dto);
-		System.out.println("db 등록 후");
-		String msg = result>0?"수정이 완료되었습니다.":"수정에 실패했습니다.";
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("msg", msg);
-		mav.addObject("goUrl","mypage.do");
-		mav.setViewName("ad/adMsg");
-		return mav;
-	}
 	
 	/**광고주 정보 업데이트 관련 명령어*/
-	@RequestMapping("/updateOwnerInfo2.do")
+	@RequestMapping("/updateOwnerInfo.do")
 	@ResponseBody
-	public Map<String, Object> updateOwnerInfo2(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
+	public Map<String, Object> updateOwnerInfo(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
 		System.out.println("정보등록 진입");
 		Map<String, Object> map = new HashMap<String, Object>();
 		int code;
