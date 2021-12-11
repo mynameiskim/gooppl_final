@@ -1,13 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="${pageContext.request.contextPath}/resource/css/admin_header.css" type="text/css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 .tb_hover{
        --bs-table-hover-bg: lightgray !important;
@@ -269,10 +261,8 @@ function memberUpdate(){
 }
 
 </script>
-</head>
-<body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>회원관리</b></h5>
@@ -316,7 +306,7 @@ function memberUpdate(){
 			</tr>
 			<tr>
 				<th style="width:20%;vertical-align: middle; text-align: center;">회원가입일</th>
-				<td style="width:80%;"><input type="date" id="start_date" value="${start_date}">~<input type="date" id="end_date" value="${end_date}"></td>
+				<td style="width:80%;"><input type="date" id="start_date" value="${start_date}">~<input type="date" id="end_date" value="${end_date}"><label style="color:red;">&nbsp;&nbsp;${msg}</label></td>
 			</tr>
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
@@ -325,16 +315,13 @@ function memberUpdate(){
 				</div>	
 			</div>
 			<fieldset style="padding: 12px 14px 10px;
-		margin-bottom: 5px;">
+		margin-bottom: 5px; ${display}">
 		<div class="row">
 				<div class="col-md-3 text-left">
 					<label><b>총 회원수:${totalMember}</b></label>
 					<c:if test="${search_num!=0}">
 					<label><b>검색수: ${search_num}</b></label>
 					</c:if>
-				</div>
-				<div class="col-md-9 mb-1" style="writing-mode: vertical-rl;">
-					<input type="button" class="bt btn-dark" style="border-radius: 5px;" value="엑셀파일저장"> 
 				</div>
 			</div>
 		<table class="table table-hover tb_hover">
@@ -397,5 +384,3 @@ function memberUpdate(){
 	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>
-</body>
-</html>

@@ -18,42 +18,31 @@ public class AdminDAOImple implements AdminDAO {
 	}
 	
 	public void loginRecode(int member_idx) {
-		System.out.println("DAOImple loginRecode OK");
 		sqlMap.update("loginRecode", member_idx);
-		System.out.println("SQL통과");
 	}
 	
 	public AdminDTO adminInfo(String goo_id) {
-		System.out.println("DAOImple adminInfo OK");
 		AdminDTO dto=sqlMap.selectOne("adminInfo",goo_id);
-		System.out.println("SQL통과");
 		return dto;
 	}
 	
 	public List<AdminDTO> allAdminInfo(Map map) {
-		System.out.println("DAOImple allAdminInfo OK");
 		List<AdminDTO> list=sqlMap.selectList("allAdminInfo",map);
-		System.out.println("SQL통과");
 		return list;
 	}
 	
 	public MemberDTO adminMemberInfo(String goo_id) {
-		System.out.println("DAOImple adminMemberInfo OK");
 		MemberDTO dto=sqlMap.selectOne("adminMemberInfo",goo_id);
-		System.out.println("SQL통과");
 		return dto;
 	}
 	
 	//회원 테이블에서 타입이 관리자인 회원목록 불러오기
 	public List<MemberDTO> allAdminMemberInfo(Map map) {
-		System.out.println("DAOImple allAdminMemberInfo OK");
 		List<MemberDTO> list=sqlMap.selectList("allAdminMemberInfo",map);
-		System.out.println("SQL통과");
 		return list;
 	}
 	
 	public int adminInsert1(MemberDTO mdto) {
-		System.out.println("AdminDAOImple adminInsert1 OK");
 		int count = sqlMap.insert("adminInsert1", mdto);
 		return count;
 	}
@@ -89,9 +78,7 @@ public class AdminDAOImple implements AdminDAO {
 	}
 	
 	public int memberDelete(int member_idx) {
-		System.out.println("DAOImple memberDelete ok");
 		int count = sqlMap.delete("memberDelete", member_idx);
-		System.out.println("SQL통과");
 		return count;
 	}
 	
@@ -131,9 +118,7 @@ public class AdminDAOImple implements AdminDAO {
 	}
 	
 	public int monthJoinNum(Map<String,Object> map) {
-		System.out.println("SQL 전");
 		int count = sqlMap.selectOne("monthJoinNum",map);
-		System.out.println("SQL 통과");
 		return count;
 	}
 	
@@ -166,4 +151,11 @@ public class AdminDAOImple implements AdminDAO {
 		int count = sqlMap.selectOne("searchTotalMemberNum",map);
 		return count;
 	}
+	
+	public int dayJoinNum(Map<String, Object> map) {
+		int count = sqlMap.selectOne("dayJoinNum", map);
+		return count;
+	}
+	
+	
 }

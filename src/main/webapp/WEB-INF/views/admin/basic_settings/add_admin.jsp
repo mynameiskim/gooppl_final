@@ -4,6 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>${sessionScope.dto.web_browser_title}</title>
+<meta name="description" content="${sessionScope.dto.description}">
+<meta name="keyword" content="${sessionScope.dto.keyword}">
+<link rel="shortcut icon" href="${sessionScope.dto.favicon}" type="image/x-icon" />
+<link rel="icon" href="${sessionScope.dto.favicon}" type="image/x-icon" />
 <link href="${pageContext.request.contextPath}/resource/css/admin_common.css" type="text/css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -67,313 +72,6 @@ window.addEventListener('load', () => {
    });
 }, false);
 
- 
-function joinform_check() {
-	
-	var goo_id = document.getElementById("goo_id");
-	var pwd = document.getElementById("pwd");
-	var repwd = document.getElementById("repwd");
-	var nickname = document.getElementById("nickname");
-	var admin_phone = document.getElementById("admin_phone");
-	var admin_tel = document.getElementById("admin_tel");
-	var admin_detail_addr = document.getElementById("sample6_detailAddress");
-	var admin_addr = document.getElementById("sample6_address");
-	var mail_token = document.getElementById("mail_token");
-	var sample6_postcode = document.getElementById("sample6_postcode");
-	
-	
-	if(mail_token.value == null || mail_token.value == ''){
-		Swal.fire({
-		    title: "email인증이 안됐습니다.email인증을 확인해주세요.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("mail_token").style.outline = "3px solid #CC0000";
-					mail_token.focus();
-					return false;
-		 	    }
-		 	})
-	}
-	
-	//비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
-		var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-	
-	if (!pwdCheck.test(pwd.value)) {
-		Swal.fire({
-		    title: "비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("pwd").style.outline = "3px solid #CC0000";
-	   				pwd.focus();
-	   				return false;
-		 	    }
-		 	  })
-	 }
-	 
-	 if (repwd.value !== pwd.value) {
-	 	Swal.fire({
-		    title: "비밀번호가 일치하지 않습니다.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("repwd").style.outline = "3px solid #CC0000";
-	   				repwd.focus();
-	   				return false;
-		 	    }
-		 	  })
-	 }
-	 
-	
-	
-	if (nickname.value == "") {
-		Swal.fire({
-		    title: "이름을 입력하세요.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("nickname").style.outline = "3px solid #CC0000";
-	   				nickname.focus();
-	   				return false;
-		 	    }
-		 	  })
-	 }else{
-	 	document.getElementById("nickname").style.outline = "none";
-	 }
-	 
-	var reg =	/^[가-힣a-zA-Z]+$/  //한글,영어만 입력
-	 
-	 if (!reg.test(nickname.value)) {
-	 	Swal.fire({
-		    title: "숫자,특수문자는 입력할 수 없습니다.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("nickname").style.outline = "3px solid #CC0000";
-	  				nickname.focus();
-	  				return false;
-		 	    }
-		 	  })
-	}else{
-		document.getElementById("nickname").style.outline = "none";
-	}
-	 
-	var reg = /^[0-9]{11}/gi; //숫자만 입력하는 정규식
-	
-	if (!reg.test(admin_phone.value)) {
-		Swal.fire({
-		    title: "핸드폰 번호는 숫자만 입력할 수 있습니다.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("admin_phone").style.outline = "3px solid #CC0000";
-					admin_phone.focus();
-					return false;
-		 	    }
-		 	  })
-	}else{
-		document.getElementById("admin_phone").style.outline = "none";
-	}
-	
-	var reg = /^[0-9]{9,12}/gi; //숫자만 입력하는 정규식
-	
-	if (!reg.test(admin_tel.value)) {
-		Swal.fire({
-		    title: "전화번호는 숫자만 입력할 수 있습니다.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("admin_tel").style.outline = "3px solid #CC0000";
-	  				admin_tel.focus();
-	  				return false;
-		 	    }
-		 	  })
-	}else{
-		document.getElementById("admin_tel").style.outline = "none";
-	}
-	
-	if (sample6_postcode.value == "") {
-		Swal.fire({
-		    title: "주소를 입력해 주세요",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("sample6_postcode").style.outline = "3px solid #CC0000";
-	   				sample6_postcode.focus();
-	   				return false;
-		 	    }
-		 	  })
-	 }else{
-	 	document.getElementById("sample6_postcode").style.outline = "none";
-	 }
-	 
-	 if (sample6_postcode.value == "") {
-		Swal.fire({
-		    title: "주소를 입력해 주세요",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("sample6_postcode").style.outline = "3px solid #CC0000";
-	  				sample6_postcode.focus();
-	  				return false;
-		 	    }
-		 	  })
-	 }else{
-	 	document.getElementById("sample6_postcode").style.outline = "none";
-	 }
-	 
-	 if (admin_addr.value == "") {
-		Swal.fire({
-		    title: "상세주소를 입력해 주세요",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("sample6_address").style.outline = "3px solid #CC0000";
-	   				admin_addr.focus();
-	   				return false;
-		 	    }
-		 	  })
-	 }else{
-	 	document.getElementById("sample6_address").style.outline = "none";
-	 }
-	 
-	 if (admin_detail_addr.value == "") {
-		Swal.fire({
-		    title: "상세주소를 입력해 주세요",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("sample6_detailAddress").style.outline = "3px solid #CC0000";
-	  				admin_detail_addr.focus();
-	  				return false;
-		 	    }
-		 	  })
-	 }else{
-	 	document.getElementById("sample6_detailAddress").style.outline = "none";
-	 }
-	
-	 var reg = /[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/; //특수문자 입력불가
-	 
-	 if (!reg.test(admin_detail_addr.value)) {
-		Swal.fire({
-		    title: "특수문자는 입력할 수 없습니다.",
-		    icon:'warning',
-		    confirmButtonText: '확인',
-		    confirmButtonColor: '#d33',
-		    showLoaderOnConfirm: true,
-		    allowOutsideClick:false
-		  }).then((result) => {
-		    	if (result.isConfirmed) {
-		 			document.getElementById("sample6_detailAddress").style.outline = "3px solid #CC0000";
-					admin_detail_addr.focus();
-					return false;
-		 	    }
-		 	  })
-	}else{
-		document.getElementById("sample6_detailAddress").style.outline = "none";
-	}
-	
-	
-	
-	$.ajax({
-		type: "POST",
-		data : $("#admin_insert").serialize(),
-		url: 'admin_insert.do',
-		dataType: "json",
-		error: function(result){
-			
-		},
-		success: function(result){
-			if(result.code==2){
-				Swal.fire({
-			      title: result.msg,
-			      icon:'warning',
-			      confirmButtonText: '확인',
-			      confirmButtonColor: '#d33',
-			      showLoaderOnConfirm: true,
-			      allowOutsideClick:false
-			    }).then((result) => {
-			    	if (result.isConfirmed) {
-			    		self.close();
-			    		opener.location.reload();
-			    	}
-			    })
-			}else if(result.code==1){
-				Swal.fire({
-			      title: result.msg,
-			      icon:'success',
-			      confirmButtonText: '확인',
-			      confirmButtonColor: '#A4C399',
-			      showLoaderOnConfirm: true,
-			      allowOutsideClick:false
-			    }).then((result) => {
-			    	if (result.isConfirmed) {
-			    		self.close();
-			    		opener.location.reload();
-			    	}
-			    })
-			}else {
-				Swal.fire({
-			      title: result.msg,
-			      icon:'error',
-			      confirmButtonText: '확인',
-			      confirmButtonColor: '#d33',
-			      showLoaderOnConfirm: true,
-			      allowOutsideClick:false
-			    }).then((result) => {
-			    	if (result.isConfirmed) {
-			    		self.close();
-			    		opener.location.reload();
-			    	}
-			    })
-			}
-		}
-	});
-}
 
 function admin_update(){
 	
@@ -899,7 +597,7 @@ function sample6_execDaumPostcode() {
             <h5 class="text-center">관리자 등록</h5>
         </div>
     </div>
-    <form id="admin_insert" name="admin_insert" class="need-validation" novalidate>
+    <form id="admin_insert" name="admin_insert" action="admin_insert.do" method="post" class="need-validation" novalidate>
     <table class="table table-bordered mg_top" style="font-size: 13px;">
     	<tr>
             <th class="tr_bg active text-white">아이디</th>
@@ -956,7 +654,7 @@ function sample6_execDaumPostcode() {
         </tr>
         <tr>
             <td colspan="4" class="text-center">
-                <span><input id="admin_join" class="bt btn-dark" style="border-radius: 3px;" type="button" value="등록" onclick="joinform_check();"></span>
+                <span><input id="admin_join" class="bt btn-dark" style="border-radius: 3px;" type="submit" value="등록"></span>
             </td>
         </tr>
     </table>

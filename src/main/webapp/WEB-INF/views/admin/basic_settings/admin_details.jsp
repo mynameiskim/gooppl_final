@@ -14,7 +14,7 @@
                     <h5>관리자 정보 </h5>
                 </div>
             </div>
-            <form id="admin_update">
+            <form id="admin_update" action="admin_update.do" method="post">
             <table class="table table-bordered" style="font-size: 13px;">
             	<tr>
                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">회원번호	</th>
@@ -41,7 +41,7 @@
 		        </tr>
 		        <tr>
                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">이름</th>
-                    <td style="border: 1px solid #0000008c;"><input type="text" value="${mdto.nickname}"  required="required" name="nickname" id="nickname"><label> &nbsp;숫자와 ,특수문자는 입력할 수 없습니다.</label></td>
+                    <td style="border: 1px solid #0000008c;"><input type="text" value="${mdto.nickname}"  required="required" name="nickname" id="nickname"></td>
                 </tr>
                 <tr>
                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">휴대폰</th>

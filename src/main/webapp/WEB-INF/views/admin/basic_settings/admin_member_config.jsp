@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
     .tb_hover{
        --bs-table-hover-bg: lightgray !important;
@@ -16,10 +11,8 @@
         vertical-align: middle;
     }
     </style>
-</head>
-<body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>기본설정</b></h5>
@@ -402,5 +395,4 @@
 	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>
-</body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

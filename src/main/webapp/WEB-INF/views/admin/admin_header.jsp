@@ -16,6 +16,7 @@
 <link href="${pageContext.request.contextPath}/resource/css/admin_footer.css" type="text/css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="resource/js/httpRequest.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -36,9 +37,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;"  href="admin_member_management.do">회원관리</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="admin_board_management.do">게시판관리</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active text-light text-opacity-75" style="color: #f6f8fa !important;" href="admin_ad_management.do">광고관리</a>

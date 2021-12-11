@@ -1,13 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<script src="resource/js/httpRequest.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
     .tr_bg{
    --bs-table-accent-bg: #24292f !important;
@@ -559,10 +551,8 @@ function keyUpCheck2(){
 	
 }
 </script>
-</head>
-<body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>기본설정</b></h5>

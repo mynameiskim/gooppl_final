@@ -31,6 +31,7 @@ import goo.admin.model.AdminService;
 import goo.formmail.model.FormmailDTO;
 import goo.formmail.model.FormmailService;
 import goo.member.model.MemberDTO;
+import goo.memberout.model.MemberOutDAO;
 import goo.siteSettings.model.SiteSettingsDAO;
 import goo.siteSettings.model.SiteSettingsDTO;
 import goo.admin.model.*;
@@ -102,14 +103,12 @@ public class AdminBasicSettings {
 	}
 	
 	@RequestMapping(value = "/admin_insert.do",method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> addAdmin(MemberDTO mdto,AdminDTO adto) {
+	public ModelAndView addAdmin(MemberDTO mdto,AdminDTO adto) {
 		System.out.println("admin_insert.do ok");
 		System.out.println(mdto.getGoo_id());
 		System.out.println(adto.getAdmin_phone());
 		int result1 = adminService.adminInsert1(mdto);
-		int code = 0;
-		Map<String,Object> map = new HashMap<String, Object>();
+		ModelAndView mav = new ModelAndView();
 		if(result1>0) {
 			mdto= adminService.adminMemberInfo(mdto.getGoo_id());
 			int member_idx=mdto.getMember_idx();
@@ -118,8 +117,7 @@ public class AdminBasicSettings {
 			System.out.println("adto.getAdmin_addr="+adto.getAdmin_addr());
 			int result2 = adminService.adminInsert2(adto);
 			if(result2>0) {
-				code = 2;
-				map.put("msg", "관리자 등록완료");
+				mav.addObject("msg", "관리자 등록완료");
 				
 				FormmailDTO fdto = formmailService.emailTokenFormmail(EMAIL_JOIN_FORMMAIL_NO);
 				/* 이메일 보내기 */
@@ -145,41 +143,37 @@ public class AdminBasicSettings {
 		        }
 				
 			}else {
-				code = 1;
-				map.put("msg", "관리자 등록실패");
+				mav.addObject("msg", "관리자 등록실패");
 			}
 		}else {
-			code = 0;
-			map.put("msg", "관리자 등록실패");
+			mav.addObject("msg", "관리자 등록실패");
 		}
-		map.put("code", code);
-		return map;
+		mav.addObject("goPage", "admin_settings.do");
+		mav.setViewName("admin/basic_settings/msg2");
+		return mav;
 	}
 	
 	@RequestMapping("/admin_update.do")
-	@ResponseBody
-	public Map<String,Object> admin_update(MemberDTO mdto,AdminDTO adto) {
+	public ModelAndView admin_update(MemberDTO mdto,AdminDTO adto) {
 		System.out.println("admin_update OK");
 		System.out.println(mdto.getMember_idx());
 		System.out.println(adto.getMember_idx());
-		int code = 0;
+		String goPage = "admin_settings.do";
 		int result1 = adminService.adminUpdate1(mdto);
-		Map<String, Object> map = new HashMap<String, Object>();
+		ModelAndView mav = new ModelAndView();
 		if(result1>0) {
 			int result2 = adminService.adminUpdate2(adto);
 			if(result2>0) {
-				code = 2;
-				map.put("msg", "관리자정보 수정완료");
+				mav.addObject("msg", "관리자정보 수정완료");
 			}else {
-				code = 1;
-				map.put("msg", "관리자정보 수정실패");
+				mav.addObject("msg", "관리자정보 수정실패");
 			}
 		}else {
-			code = 0;
-			map.put("msg", "관리자정보 수정실패");
+			mav.addObject("msg", "관리자정보 수정실패");
 		}
-		map.put("code", code);
-		return map;
+		mav.addObject("goPage", goPage);
+		mav.setViewName("admin/basic_settings/msg");
+		return mav;
 	}
 	
 	@RequestMapping("/admin_delete")
@@ -232,8 +226,7 @@ public class AdminBasicSettings {
 	}
 	
 	@RequestMapping("/site_settings_update.do")
-	@ResponseBody
-	public Map<String, Object> siteSettingsUpdate(SiteSettingsDTO sdto,@RequestParam(value ="faviconFile", required = false )MultipartFile faviconFile
+	public ModelAndView siteSettingsUpdate(SiteSettingsDTO sdto,@RequestParam(value ="faviconFile", required = false )MultipartFile faviconFile
 			,HttpServletRequest req) {
 		System.out.println(faviconFile);
 		System.out.println(sdto.getWeb_browser_title());
@@ -242,28 +235,26 @@ public class AdminBasicSettings {
 		String contextPath = req.getContextPath();
 		
 		System.out.println("realPath="+realPath);
-		String favicon;
-		if(faviconFile != null || !faviconFile.equals("")) {
+		String favicon="";
+		if(!faviconFile.getOriginalFilename().equals("")) {
 			faviconCopyInto(faviconFile,realPath);
 			favicon = contextPath+"/resource/assets/img/"+faviconFile.getOriginalFilename();
 			sdto.setFavicon(favicon);
+		}else {
+			sdto.setFavicon(favicon);
 		}
-		
 		int result = siteSettingsDao.siteSettingsUpdate(sdto);
-		int code = 0;
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
+		ModelAndView mav = new ModelAndView();
 		
 		if(result>0) {
-			code = 1;
-			map.put("msg", "수정 완료");
+			mav.addObject("msg", "수정 완료");
 		}else {
-			code = 0;
-			map.put("msg", "수정 실패");
+			mav.addObject("msg", "수정 실패");
 		}
-		map.put("code", code);
-		return map;
+		mav.addObject("goPage", "admin_site_settings.do");
+		mav.setViewName("admin/basic_settings/msg");
+		return mav;
 	}
 
 	/**실제 파일 복사 관련 메서드*/

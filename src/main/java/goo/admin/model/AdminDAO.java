@@ -34,4 +34,6 @@ public interface AdminDAO {
 	public int searchOwnerNum(Map<String, Object> map);
 	public int searchMemberNum(Map<String, Object> map);
 	public int searchMemberOutNum(Map<String, Object> map);
+	public int dayJoinNum(Map<String, Object> map);
+	pu
 }

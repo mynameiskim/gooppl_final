@@ -1,12 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <style>
 .tr_bg{
        --bs-table-accent-bg: #24292f !important;
@@ -19,6 +12,28 @@
 <script>
 function month(){
 	sendRequest('month_statistics.do?',null,showResult,'GET');
+	if(day_btn.style.display=='none'){
+				sss.style.display = 'block';
+			}else{
+				sss.style.display = 'block';
+				day_btn.style.display = 'none';
+			}
+}
+
+function day(month){
+	sendRequest('day_statistics.do?month='+month,null,dayResult(),'GET');
+}
+
+function day_select(){
+	var day_btn = document.getElementById("day_btn");
+	var sss = document.getElementById("sss");
+	if(day_btn.style.display=='none'){
+				sss.style.display = 'none';
+				day_btn.style.display = 'block';
+			}else{
+				sss.style.display = 'block';
+				day_btn.style.display = 'none';
+			}
 }
 
 function showResult(){
@@ -26,7 +41,27 @@ function showResult(){
 		if(XHR.status==200){			
 			var data=XHR.responseText;
 			var divNode=document.getElementById("month_join_num");
-			divNode.innerHTML=data;
+			if(divNode.style.display=='none'){
+				divNode.innerHTML=data;
+				divNode.style.display = 'block';
+			}else{
+				divNode.style.display = 'none';
+			}
+		}
+	}
+}
+
+function dayResult(){
+	if(XHR.readyState==4){
+		if(XHR.status==200){			
+			var data=XHR.responseText;
+			var divNode=document.getElementById("day_join_num");
+			if(divNode.style.display=='none'){
+				divNode.innerHTML=data;
+				divNode.style.display = 'block';
+			}else{
+				divNode.style.display = 'none';
+			}
 		}
 	}
 }
@@ -37,11 +72,10 @@ function dateSearchStart(){
 	var end_date = $('#end_date').val();
 	location.href = 'member_statistics.do?start_date='+start_date+'&end_date='+end_date;
 }
+
 </script>
-</head>
-<body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>통계/분석</b></h5>
@@ -50,8 +84,6 @@ function dateSearchStart(){
 			<dd>
 				- <a href='member_statistics.do' style="color: white !important;"
 				>회원통계</a><br />
-				- <a href='/nmanager/setup/config_m6anager.do' style="color: white !important;"
-				>게시판통계 </a>
 			</dd>
 		</dl>
 	</div>
@@ -60,22 +92,34 @@ function dateSearchStart(){
     	<ul class='helpbox'>
 			<li>회원 유형별 통계 그래프를 보여줍니다.</li>
 			<li>현재회원은 탈퇴회원을 제외한 모든 유형의 회원들을 의미합니다.</li>
-			<li>누적회원은 현재회원에 탈퇴회원까지 모두 포함합니다. 날짜 검색 시 마지막 날 기준으로 누적회원수를 나타냅니다.</li>
-			<li>월(일단위)선택은 현재년도의 1~12월까지 가입자 수를 나타냅니다.</li>
+			<li>누적회원은 현재회원에 탈퇴회원까지 모두 포함합니다. 날짜 검색 시 끝나는 날짜 기준으로 누적회원수를 나타냅니다.</li>
+			<li>연(월단위)선택은 올해 1~12월까지 가입자 수를 나타냅니다.</li>
+			<li>월(일단위)선택은 올해 선택한 월의 일별 가입자 수를 나타냅니다.</li>
 			<li>날짜 검색은 지정한 범위의 가입자 수를 나타냅니다.</li>
 		</ul>
 		<form name="search">
 		<table class="table table-bordered" style="font-size: 13px;">
 			<tr>
 				<th style="width:20%;vertical-align: middle; text-align: center;">조건 선택</th>
-				<td style="width:80%;"><input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
-					<label class="btn btn-secondary" for="option1" onclick="month()">월(일단위)</label>
-					<label class="btn btn-secondary" for="option1">요일(일단위)</label>
+				<td style="width:80%;">
+					<input type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
+					<label class="btn btn-secondary" for="option1" onclick="month()">연(월단위)</label>
+					<input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+					<label class="btn btn-secondary" for="option2" onclick="day_select()">월(일단위)</label>
 				</td>
 			</tr>
 			<tr>
+				
 				<th style="width:20%;vertical-align: middle; text-align: center;">날짜 검색</th>
-				<td style="width:80%;"><input id="start_date" value="${start_date}" type="date">~<input id="end_date" value="${end_date}" type="date"></td>
+				<td style="width:80%;">
+				<span id="sss"><input id="start_date" value="${start_date}" type="date">~<input id="end_date" value="${end_date}" type="date"><label style="color:red;">&nbsp;&nbsp;${msg}</label></span>
+				<span id="day_btn" style="display:none;">
+					<c:forEach begin="1" end="12" step="1" varStatus="status">
+						<input type="radio" class="btn-check" name="options" id="day${status.count}" autocomplete="off">
+					<label class="btn btn-secondary" for="day${status.count}" onclick="day(${status.count})">${status.count}월</label>
+					</c:forEach>
+				</span>
+				</td>
 			</tr>
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
@@ -89,7 +133,7 @@ function dateSearchStart(){
 		margin-bottom: 5px;">
 			<div>
 				<div class="col-md-12 text-left">
-					<c:if test="${empty start_date && empty end_date}">
+					<c:if test="${empty start_date && empty end_date && empty msg}">
 					<label><b>&nbsp;Today :&nbsp;${sessionScope.now}까지의 가입현황입니다.</b></label>
 					</c:if>
 					<c:if test="${!empty start_date || !empty end_date}">
@@ -102,7 +146,7 @@ function dateSearchStart(){
 					</c:if>
 				</div>
 			</div>
-		<table class="table table-bordered">
+		<table class="table table-bordered" style="${display}">
 	  		<tr class="tr_align">
   				<th colspan="2" class="text-center active text-white tr_bg">&nbsp;&nbsp;회원통계</th>
 			</tr>
@@ -150,15 +194,12 @@ function dateSearchStart(){
 	  </table>
 	  </fieldset>
 	  </div>
-	  <div id="month_join_num">
-	  </div>
+	  <div id="month_join_num" style="display:none;"></div>
+	  <div id="day_join_num" style="display:none;"></div>
 	</div>
 </div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>
-</body>
-</html>
-
 
 
 

@@ -68,7 +68,6 @@ public class AdminServiceImple implements AdminService {
 		return list;
 	}
 	public int adminInsert1(MemberDTO mdto) {
-		System.out.println("adminInsert1 OK");
 		int count = adminDao.adminInsert1(mdto);
 		return count;
 	}
@@ -121,7 +120,6 @@ public class AdminServiceImple implements AdminService {
         	LocalDate start_date = LocalDate.of(year, i, 1);
         	LocalDate end_date;
             map.put("start_date", start_date);
-            
             
             switch (i) {
 			case 1:
@@ -176,13 +174,11 @@ public class AdminServiceImple implements AdminService {
         }
 		map.put("year", year);
         
-		System.out.println("중간확인");
 		return map;
 	}
 	
 	public Map<String, Object> statistics(Map<String, Object> map) {
 		if(map.get("start_date").equals("")&&map.get("end_date").equals("")) {
-			System.out.println("날짜값 없");
 			int totalMemberNum = adminDao.totalMemberNum();
 			int currentMemberNum = adminDao.currentMemberNum();
 			int adminNum = adminDao.adminNum();
@@ -196,21 +192,12 @@ public class AdminServiceImple implements AdminService {
 			map.put("memberNum", memberNum);
 			map.put("memberOutNum", memberOutNum);
 		}else{
-			System.out.println("서비스 날짜값 진입");
-			System.out.println(map.get("start_date"));
-			System.out.println(map.get("end_date"));
 			int searchTotalMemberNum = adminDao.searchTotalMemberNum(map);
 			int searchCurrentMemberNum = adminDao.searchCurrentMemberNum(map);
 			int searchAdminNum = adminDao.searchAdminNum(map);
 			int searchOwnerNum = adminDao.searchOwnerNum(map);
 			int searchMemberNum = adminDao.searchMemberNum(map);
 			int searchMemberOutNum = adminDao.searchMemberOutNum(map);
-			System.out.println(adminDao.searchTotalMemberNum(map));
-			System.out.println(adminDao.searchCurrentMemberNum(map));
-			System.out.println(adminDao.searchAdminNum(map));
-			System.out.println(adminDao.searchOwnerNum(map));
-			System.out.println(adminDao.searchMemberNum(map));
-			System.out.println(adminDao.searchMemberOutNum(map));
 			map.put("totalMemberNum", searchTotalMemberNum);
 			map.put("currentMemberNum", searchCurrentMemberNum);
 			map.put("adminNum", searchAdminNum);
@@ -220,4 +207,164 @@ public class AdminServiceImple implements AdminService {
 		}
 		return map;
 	}
+	
+	public Map<String, Object> dayStatistics(int month) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        map.put("year", year);
+        map.put("month", month);
+        int days[];
+        for(int i=1;i<=12;i++) {
+        	LocalDate date;
+        	switch (month) {
+			case 1:
+				days= new int[31];
+				for(int j=1;j<=31;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 2:
+				days= new int[28];
+				if(((year%4 == 0)&&(year%100 != 0))||(year%400 == 0)) {
+					for(int j=1;j<=29;j++) {
+						days= new int[29];
+						date = LocalDate.of(year, month, j);
+						map.put("date", date);
+						int day = adminDao.dayJoinNum(map);
+						days[j-1]=day;
+		        	}
+				}else {
+					for(int j=1;j<=28;j++) {
+						date = LocalDate.of(year, month, j);
+						map.put("date", date);
+						int day = adminDao.dayJoinNum(map);
+						days[j-1]=day;
+		        	}
+				}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 3:
+				days= new int[31];
+				for(int j=1;j<=31;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 4:
+				days= new int[30];
+				for(int j=1;j<=30;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 5:
+				days= new int[31];
+				for(int j=1;j<=31;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 6:
+				days= new int[30];
+				for(int j=1;j<=30;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 7:
+				days= new int[31];
+				for(int j=1;j<=31;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 8:
+				days= new int[31];
+				for(int j=1;j<=31;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 9:
+				days= new int[30];
+				for(int j=1;j<=30;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 10:
+				days= new int[31];
+				for(int j=1;j<=31;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 11:
+				days= new int[30];
+				for(int j=1;j<=30;j++) {
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			case 12:
+				days= new int[31];
+				for(int j=1;j<=31;j++) {
+					System.out.println("12월 진입");
+					date = LocalDate.of(year, month, j);
+					map.put("date", date);
+					int day = adminDao.dayJoinNum(map);
+					days[j-1]=day;
+	        	}
+				map.put("days_length",days.length-1);
+				map.put("days", days);
+				break;
+			}
+        	
+        }
+        return map;
+	}
+	
 }

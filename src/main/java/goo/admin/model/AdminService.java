@@ -22,5 +22,6 @@ public interface AdminService {
 	public int memberDelete(int member_idx);
 	public int memberUpdate(MemberDTO mdto);
 	public Map<String, Object> monthStatistics();
+	public Map<String, Object> dayStatistics(int month);
 	public Map<String, Object> statistics(Map<String, Object> map);
 }
