@@ -580,6 +580,9 @@ function changeAreacode(){
 	var moveLatLon = new kakao.maps.LatLng(mapy, mapx);
 	
 	map.panTo(moveLatLon);
+	
+	$('#setTable').empty();
+	show();
 }
 
 /**중복 선택 막는 쿼리*/
@@ -1440,9 +1443,9 @@ function alertSave(moveUrl){
 									<div style="text-align: center;">
 										<form>
 										Start<br>
-										<input type="date" name="startDate" id="startDate" id="startDate"onchange="createDay()"><br>
+										<input type="date" name="startDate" id="startDate" onchange="createDay()"><br>
 										End<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" onchange="createDay()"><br>
+										<input type="date" name="endDate" id="endDate" onchange="createDay()"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1675,7 +1678,14 @@ function createDay() {
 		}	
 	}
 }
-	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
+	var dt = new Date();
+	var str_s = dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+dt.getDate();
+	var str_e = dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+(dt.getDate()+1);
+	document.getElementById('startDate').value = str_s;
+	document.getElementById('endDate').value = str_e;
+	createDay();
+	
+	
 
 function saveThisDay(dayCount){
 	Swal.fire({
