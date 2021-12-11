@@ -17,10 +17,23 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
     <link href="/gooppl/resource/css/bootstrap.min.css" rel="stylesheet"/>
-   	<link href="/gooppl/resource/css/styles.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/modals/">
 <style>
+select{
+	margin-left: 5px;
+    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
+    padding: 0.5rem 0.4rem;
+    height: auto;
+    font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 80%;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    border: 0;
+	border-radius: 5px;
+}
+
 select{
 	margin-left: 5px;
     box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
@@ -51,24 +64,15 @@ input[type="text"]{
 	border-radius: 5px;
 }
 input[type="date"]{
-	background-color: #64a19d;
+	background-color: #78c2ad;
 	outline: none;
 	border: none;
-	font-family: "Roboto Mono",monospace;
 	color: white;
 	border-radius: 5px;
-	font-size: 11px;
+	font-size:14px;
+	width:130px;
 }
 input[type="button"]{
-	border: 0;
-	background-color: #f3969a;
-	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 80%;
-    border-radius: 5px;
-	color: white;
-    box-shadow: 0 0.1875rem 0.1875rem 0 rgb(0 0 0 / 10%) !important;
-}
-#del_Bt{
 	border: 0;
 	background-color: #f3969a;
 	font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1500,9 +1504,10 @@ function alertSave(moveUrl){
 
 </script>
  <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
+ <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" onclick="alertSave('index.do')" style="cursor: pointer;">GooPPl</a>
+            <a class="navbar-brand" onclick="alertSave('index.do')" style="cursor: pointer">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -1556,10 +1561,10 @@ function alertSave(moveUrl){
         </div>
     </nav>
     <!-- Signup-->
-    <section class="signup-section bg-light" id="signup"
+    <section
         style="padding-top: 9rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
-    <div class="container" style="margin-bottom: 40px; margin-top: -60px;">
-    	<div class="col-sm-1 col-md-12">
+    <div class="container-fluid" style="margin-bottom: 40px; margin-top: -60px;" >
+    	<div class="col-sm-1 col-md-12" >
         	<div class="row">
         		<div class="col-md-12">
         			<input type="text" placeholder="여행 제목을 입력해주세요." style="width: 400px;" id="map_title">
@@ -1590,7 +1595,7 @@ function alertSave(moveUrl){
         	</div>
         </div>
     </div>
-    <div class="container">
+    <div class="container-fluid" style="margin-bottom:100px;" >
     <div class="row">
         <div class="col-sm-1 col-md-12">
         	<div class="row">
@@ -1602,9 +1607,9 @@ function alertSave(moveUrl){
 									<div style="text-align: center;">
 										<form>
 										Start<br>
-										<input type="date" name="startDate" id="startDate" id="startDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
+										<input type="date" name="startDate" id="startDate" id="startDate"onchange="createDay()"><br>
 										End<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" style="width: 110px;height: 21px;" onchange="createDay()" data-date-inline-picker="true"><br>
+										<input type="date" name="endDate" id="endDate" id="endDate" onchange="createDay()"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1615,56 +1620,47 @@ function alertSave(moveUrl){
 								</div>
 							</div>
 				        </div>
-				        <div class="col-md-7" >
-				        	<div style="height: 665px; overflow: auto;">
+				        <div class="col-md-7">
+				        	<div style="height: 658px; overflow: auto;">
 				        		<div style="text-align: center;">My Travel</div>
 								<ul id="savedList" style="width:100%; font-size: 14px;" class="savedList">
 								</ul>
 							</div>
 							<div style="text-align: center;">
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="deleteThisday()" id="del_Bt">Delete</button>
-	                       		<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 0.5em;" onclick="saveThisDay('${day_num}')" id="save_Bt">Saved</button>
+	                       		<button type="button" class="btn btn-secondary" style="padding: 0.5rem 0.5em;" onclick="hideMarkers()" id="del_Bt">Delete</button>
+	                       		<button type="button" class="btn btn-primary" style="padding: 0.5rem 0.5em;" onclick="saveThisDay(1)" id="save_Bt">Saved</button>
 	                    	</div>
 				        </div>
 				    </div>
 		        </div>
-		        <div class="col-md-7" style="width: 690px;">
+		        <div class="col-md-7">
 		        	<div id="map" style="width:100%; height:700px;float:right;"></div>
 		        </div>
-		        <div class="col-md-2" style="text-align: center; width: 300px;">
-		        	<select id="cate">
-						<option value="12">관광지</option>
-						<option value="32">숙박</option>
-						<option value="39">음식점</option>
-						<option value="38">쇼핑</option>
-					</select>
-					<div style="height: 4px;"></div>
-		        	<input type="text" name="areaCode" id="areaC">
+		        <div class="col-md-2" style="text-align: center;">
+		        	<div class="input-group mb-3">
+			        	<select id="cate">
+							<option value="12">관광지</option>
+							<option value="32">숙박</option>
+							<option value="39">음식점</option>
+							<option value="38">쇼핑</option>
+						</select>
+			        	<input class="form-control" type="text" name="areaCode" id="areaC">
+		        	</div>
 		        	<div class="row">
-	                    <div class="col-md-12" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+	                    <div class="col-md-12" style="text-align: center; margin-top: -6px; margin-bottom: 16px;">
 	                        <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.5em;" onclick="show()" id="search_bt">Search</button>
 	                    </div>
 	                </div>
-					<div style="height: 584px; overflow: auto;">
+					<div style="height: 601px; overflow: auto;">
 						<table id="setTable" style="width: 100%; text-align: center;">
 						</table>
-					</div>
-					<div>
-					<!-- TestCode
-					<table>
-						<c:forEach var="dto" items="${mapinfolist}">
-							<tr>
-								<td>${dto.contentid}</td>
-							</tr>
-						</c:forEach>
-					</table>
-					 -->
 					</div>
 		        </div>
 		    </div>
         </div>
     </div>
 </div>
+ </section>
  <div id="adInfo" style="display:none;">
 	<table id="adSite">
 		<c:if test="${empty adlist }">
