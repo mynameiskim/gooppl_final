@@ -34,12 +34,15 @@
   			map_idx=#{map_idx}
   	</select>
   	<select id="getMapt" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
-  	 	select
-  	 		* 
-  	 	from 
-  	 		mapt
-  	 	where
-  	 		map_idx=#{map_idx}
+		select * from mapt where member_idx =#{member_idx} and share_ok = 'y' and del_ok = 'n'
+  	</select>
+  	<select id="getMap_t" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
+  		select
+  			*
+  		from 
+  			mapt
+  		where 
+  			map_idx=#{map_idx}
   	</select>
   	<update id="updateMap" parameterType="goo.map_t.model.Gooppl_mapDTO">
   		update
@@ -75,7 +78,7 @@
 		where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end} order by registdate desc
 	</select>
   	<select id="getMap" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
-  		select * from mapt where member_idx =#{member_idx} and SHARE_OK = 'y' and del_ok = 'n'
+  		select * from mapt where member_idx =#{member_idx} and del_ok = 'n'
   	</select>
   	<delete id="planDelete" parameterType="Integer">
   		update mapt set del_ok = 'y' where map_idx = #{map_idx}

@@ -226,6 +226,54 @@ public class OwnerController {
 		return mav;
 	}
 	
+	/**광고주 정보 업데이트 관련 명령어*/
+	@RequestMapping("/updateOwnerInfo2.do")
+	@ResponseBody
+	public Map<String, Object> updateOwnerInfo2(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
+		System.out.println("정보등록 진입");
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code;
+		int member_idx = dto.getMember_idx();
+		double mapx = dto.getMapx();
+		String title = dto.getTitle();
+		System.out.println("member_idx:"+member_idx);
+		System.out.println("mapx:" + mapx);
+		System.out.println("title:"+title);
+		String firstimg = null;
+		// 파일 업로드 처리
+	      MultipartFile uploadFile = dto.getUpload();
+	      if (uploadFile.isEmpty()) {
+	        
+			System.out.println("upload가 널");
+			//result = ownerService.update_ownerInfo_withoutFile(dto);
+			OwnerDTO originDto = ownerService.ckOwnerInfo(member_idx);
+			firstimg = originDto.getFirstimg();
+			System.out.println("firstimg  "+firstimg);
+		}else {
+			String imgUrl = userFolderExist(member_idx);
+			System.out.println("imgUrl:"+ imgUrl+"member_idx:"+ member_idx);
+			firstimg = copyInto(imgUrl, member_idx, dto.getUpload());
+			System.out.println(firstimg);
+		}
+		dto.setFirstimg(firstimg);
+		System.out.println("db 등록 전");
+		int result = ownerService.update_ownerInfo_withFile(dto);
+		System.out.println("db 등록 후");
+		if(result>0) {
+			System.out.println("수정 완료");
+			map.put("msg", "수정이 완료되었습니다.");
+			code = 1;
+		}else {
+			System.out.println("수정 실패");
+			map.put("msg", "ERROR");
+			code = 0;
+		}
+		String msg = result>0?"수정이 완료되었습니다.":"수정에 실패했습니다.";
+		
+		map.put("code", code);
+		return map;
+	}
+	
 	/**광고주 정보 업데이트 관련 명령어(관리자)*/
 	@RequestMapping("/admin_ownerUpdate.do")
 	@ResponseBody

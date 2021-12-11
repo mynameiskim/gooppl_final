@@ -320,7 +320,7 @@ public class AdminAdManagement {
 	}
 	
 	
-	/**광고주 신청 거절*/
+	/**광고 신청 거절*/
 	@RequestMapping("/admin_adInquiry_del.do")
 	@ResponseBody
 	public Map<String, Object> adInquiry_del(@RequestParam(("inquiry_idx"))int inquiry_idx) {
@@ -404,10 +404,28 @@ public class AdminAdManagement {
 		return map;
 	}
 	
+	/**광고 환불 신청 거절*/
+	@RequestMapping("/admin_delInquiry_Delete.do")
+	@ResponseBody
+	public Map<String, Object> admin_delInquiry_Delete(@RequestParam(("inquiry_idx"))int inquiry_idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code=0;
+		
+		int result = ad_inquiryService.admin_delInquiry_Delete(inquiry_idx);
+			
+		if(result>0) {
+			map.put("msg", "환불 거절 완료");
+			code=1;
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
+		map.put("code", code);
+		return map;
+	}
 	
 	
-	
-	/**광고 환불 문의 승인*/
+	/**광고 환불 (관리자)*/
 	@RequestMapping("/admin_refund_Ok.do")
 	@ResponseBody
 	public Map<String, Object> admin_refund_Ok(
@@ -552,5 +570,50 @@ public class AdminAdManagement {
 		mav.addObject("adto", adto);
 		mav.setViewName("admin/ad_management/admin_adStatus_details");
 		return mav;
+	}
+	
+	/**광고 상태 올리기*/
+	@RequestMapping("/admin_adState_up.do")
+	@ResponseBody
+	public Map<String, Object> admin_adState_up(
+			@RequestParam("owner_idx") int owner_idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code=0;
+		
+		int result = adService.admin_adState_up(owner_idx);
+		
+		if(result>0) {
+			System.out.println("광고올림");
+			map.put("msg", "광고 상태 수정완료");
+			code=1;
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
+		map.put("code", code);
+		return map;
+	}
+	
+	/**광고 상태 내리기*/
+	@RequestMapping("/admin_adState_down.do")
+	@ResponseBody
+	public Map<String, Object> admin_adState_down(
+			@RequestParam("owner_idx") int owner_idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code=0;
+		
+		int result = adService.admin_adState_down(owner_idx);
+		
+		if(result>0) {
+			System.out.println("광고내리기 완료");
+			map.put("msg", "광고 상태 수정완료");
+			code=1;
+		}else {
+			map.put("msg", "ERROR");
+			code=0;
+		}
+		map.put("code", code);
+		System.out.println("여기까지 옴");
+		return map;
 	}
 }

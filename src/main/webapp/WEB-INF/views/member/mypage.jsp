@@ -479,7 +479,7 @@ function ckOwerAppli(member_idx){
                                 <div class="col-md-12 fw-bolder">    
                                     <div class="row justify-content-md-center mb-2">
 	                                        <div class="col-md-3 col-sm-3">
-                                            	<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;">보기</button>
+                                            	<button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick="javascript:location.href='shareContent.do?map_idx=${mapdto.map_idx}&member_idx=${mapdto.member_idx}'">보기</button>
                                         	</div>
 	                                        <div class="col-md-3 col-sm-3">
 	                                            <c:if test="${mapdto.share_ok=='n'}">
@@ -555,7 +555,7 @@ function ckOwerAppli(member_idx){
                                             <button type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick='javascript:location.href="existMap.do?map_idx=${mapdto.map_idx}&day_num=1"'>수정</button>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <button id="planDelete_bt" type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick="planDelete(${mapdto.map_idx},${status.index})">삭제</button>
+                                            <button id="planDelete_bt${status.index}" type="button" class="btn btn-primary btn-sm" style="padding: 0.5rem 2.5em;" onclick="planDelete(${mapdto.map_idx},${status.index})">삭제</button>
                                         </div>
                                         <script>
                                         	function planDelete(map_idx,index){
@@ -649,12 +649,12 @@ function ckOwerAppli(member_idx){
 						      <div class="card-footer">
 						       <p class="fs-5 fw-bold">
 						       <label class="text-muted">${reviewdto.writedate }</label>
-						       <img src="/gooppl/resource/img/이미지아이콘2.png" style="width:30px;height:30px;margin:0px 5px;border-radius:5px;">2
-						       <img src="/gooppl/resource/img/댓글아이콘.png" style="width:25px;height:25px;margin:0px 5px;border-radius:5px;">3
+						       <img src="/gooppl/resource/img/search.png" style="width:25px;height:25px;margin:0px 5px;border-radius:5px;">${reviewdto.readnum}
+						       <img src="/gooppl/resource/img/댓글아이콘.png" style="width:25px;height:25px;margin:0px 5px;border-radius:5px;">${rp_count[status.index]}
 						       </p>
-								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewContent.do?review_idx=${reviewdto.review_idx}">보기</button>
-								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewUpdateForm.do'">수정</button>
-								<button class="btn btn-primary" type="button" >삭제</button>
+								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewContent.do?review_idx=${reviewdto.review_idx}'">보기</button>
+								<button class="btn btn-primary" type="button" onclick="javascript:location.href='reviewUpdateForm.do?review_idx=${reviewdto.review_idx}'">수정</button>
+								<button class="btn btn-primary" id="reviewDelete${status.index}" type="button" onclick="reviewDelete(${reviewdto.review_idx});">삭제</button>
 						      </div>
 							   </div>
 					  </div>
@@ -663,6 +663,50 @@ function ckOwerAppli(member_idx){
 			</div>
 			</div>
         </div>
+        <script>
+          	function reviewDelete(review_idx){
+          		Swal.fire({
+          			title: '정말로 삭제하시겠습니까?',
+          			text: "삭제된 리뷰는 복구가 불가능합니다.",
+          			icon: 'warning',
+          			showCancelButton: true,
+          			confirmButtonColor: '#d33',
+          			cancelButtonColor: '#000000',
+          			confirmButtonText: '삭제',
+          			cancelButtonText: '취소',
+          			showLoaderOnConfirm: true,
+          			allowOutsideClick:false
+          		}).then((result) => {
+				  	if (result.isConfirmed) {
+	            		$.ajax({
+	      	              type:"POST",
+	      	              url:"reviewDel.do",
+	      	              data:{"review_idx":review_idx},
+	      	              success:function(data){
+	      	            	  if(data==1){
+	      		            	  Swal.fire({
+	      							  title: '삭제되었습니다!.',
+	      							  icon: 'success',
+	      							  allowOutsideClick:false
+	      		            	  }).then((result) => {
+	      						    	if (result.isConfirmed) {
+	      						    		sessionStorage.setItem("reviewDel",1);
+	      						    		location.reload();
+	      						    	}
+	      						    })
+	      	            	  }else{
+	      	            		  Swal.fire({
+	      							  title: '삭제 실패!',
+	      							  icon: 'warning',
+	      							  confirmButtonText: '확인'
+	      							})  
+	      	            	  }
+	      	              }        
+	      	          });
+				  	}
+          		});	
+          	}
+          </script>
         <!-- 후기 영역 끝 -->
         <!-- 문의 영역 시작 -->
         	<div class="container-sm mb-5" style="padding: 5rem 0; display:none;" id="myInquiryArea">
@@ -809,6 +853,11 @@ function ckOwerAppli(member_idx){
     	if(planDel==1){
     		$('#showMyPlan_bt').click();
     		sessionStorage.setItem("planDel",0)
+    	}
+    	var reviewDel = sessionStorage.getItem("reviewDel");
+    	if(reviewDel==1){
+    		$('#showMyReview_bt').click();
+    		sessionStorage.setItem("reviewDel",0)
     	}
     }
     </script>
