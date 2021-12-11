@@ -211,7 +211,7 @@
           <div id="search" class="row justify-content-md-center mb-5">
                 
 
-                <div id="writereview" class="col-md-2 col-xs-2">
+                <div id="writereview" class="col-md-8 col-xs-2">
                     <button class="btn btn-outline-success btn-sm" style="float: right;" onclick="location.href='reviewWrite.do'">후기작성하기</button>
                 </div>
             </div>
