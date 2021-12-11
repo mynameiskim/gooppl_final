@@ -39,9 +39,6 @@
 
 .div_t {width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-
-
-출처: https://sub0709.tistory.com/114 [쓸데없는 코딩하기]
 </style>
 <script>
 

@@ -153,42 +153,9 @@
 				<div class="col-md-4"></div>
 			</div>
 
-			<!--   	검색영역 -->
-			<div class="row" style="margin-bottom: 64px;">
-				<div class="col-md-offset-1 col-md-10"
-					style="margin: 0px auto; text-align: center; background-color: #F0FFF0;">
-					<div class="row">
-						<div class="col-md-1"></div>
-						<div class="col-md-2 col-xs-12 mb-3">
-							<div class="btn-group">
-								<button class="btn btn-outline-success btn-sm dropdown-toggle"
-									type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									카테고리</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-									<button class="dropdown-item btn-outline-success btn-sm"
-										type="button">가족여행</button>
-									<button class="dropdown-item btn-outline-success btn-sm"
-										type="button">커플여행</button>
-									<button class="dropdown-item btn-outline-success btn-sm"
-										type="button">나홀로여행</button>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-8">
-							<div class="input-group mb-3 ">
-								<input type="text" class="form-control"
-									placeholder="여행지를 입력해주세요" aria-label="Recipient's username"
-									aria-describedby="button-addon2">
-								<button class="btn btn-outline-success" type="button"
-									id="button-addon2">검색</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			
-			<!-- 지도이미지로 표현되는 일정 목록 -->
+			
+			<!-- 슬라이더로 표현되는 일정 목록 -->
 			<div class="row">
 				<div class="slider conter" style="padding-left: 40px;">
 					<c:forEach var="dto" items="${list}" varStatus="status">
@@ -211,7 +178,7 @@
 									<div class="col-md-3">
 											<div class="card-body">
 											
-											<h5 class="card-title"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title }</a></h5>
+											<h5 class="card-title mb-5"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title }</a></h5>
 											<c:choose>
 												<c:when test="${dto.trip_type==1}">
 													<p class="card-text">여행타입 : 홀로여행</p>
@@ -232,11 +199,13 @@
 													<p class="card-text">여행타입 : 가족여행</p>
 												</c:when>
 											</c:choose>
+											<div >
 											<p class="card-text" style="font-size: small;">
 											작성자 :	${member[status.index].nickname }</p>
 											<p class="card-text">
 												<small class="text-muted">${dto.registdate }</small>
 											</p>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -279,7 +248,7 @@
 
 				<!--     버튼 -->
 
-				<div class="container" style="text-align: center; margin-top: 32px;">
+				<div class="container" style="text-align: center; margin-top: 64px;">
 					<a class="mx-2" data-bs-toggle="collapse" href="#collapseExample"
 						role="button" aria-expanded="false"
 						aria-controls="collapseExample"> <i class="fa fa-angle-down"
@@ -289,12 +258,15 @@
 				</div>
 				
 				<!--     전체 일정 목록  -->
+				
+				
 				<c:if test="${empty list }">
 					<div class="collapse row" id="collapseExample"
 						style="margin-top: 32px;">등록된 게시글이 없습니다.</div>
 				</c:if>
 				<div class="collapse row" id="collapseExample"
 					style="margin-top: 32px;">
+						
 					<c:forEach var="dto" items="${list }" varStatus="status">
 						<div class="col-md-3" style="margin-top: 32px;">
 							<div class="card">
@@ -308,7 +280,7 @@
 										class="card-img-top" alt="..." style="height:160px;">
 									</a>
 								<div class="card-body">
-                               	<h5 class="card-title mb-5"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title}</a></h5>
+                               	<h5 class="card-title mb-1"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title}</a></h5>
 									<c:choose>
 										<c:when test="${dto.trip_type==1}">
 											<p class="card-text">여행타입 : 홀로여행</p>

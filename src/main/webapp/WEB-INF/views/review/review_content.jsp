@@ -79,7 +79,7 @@
         <input type="hidden" name="content" value='${dto.content }' >
         <input type="hidden" name="epilogue" value='${dto.epilogue }'>
             <div class="row">
-                <div class="col-md-4" style="height: 128px;">
+                <div class="col-md-3" style="height: 128px;">
                     <!-- 페이지 경로 -->
                     <div id="pagepath">
                         <span> <a href='community.do'>커뮤니티</a>
@@ -88,15 +88,14 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-md-offset-1 col-md-4">
+                <div class="col-md-offset-1 col-md-6">
                     <!-- 	제목 -->
                     <div id="title">
                         <h5 class="display-6 fw-bolder text-center" >${dto.subject }</h5>
                     </div>
                 </div>
                 <!--   작성자 조회수 게시글 번호-->
-                <div class="col-md-2"></div>
-                <div id="readnum" class="col-md-1">
+                <div id="readnum" class="col-md-3 text-center">
                     <div class="row">
                         <div class="col-xs-12">
                             <span>
