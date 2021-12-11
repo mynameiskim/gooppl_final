@@ -37,6 +37,11 @@
 				<b> <a href='admin_member_config.do' style="color: white !important;"
 				>-약관 및 개인정보보호정책</a></b><br />
 			</dd>
+			<dt>문의 관리</dt>
+			<dd>
+				<b> <a href='admin_inquiry.do' style="color: white !important;"
+				>-문의 관리</a></b><br />
+			</dd>
 		</dl>
 	</div>
 	<div id="contents"><h6><b>가입약관 및 개인정보보호정책</b></h6>

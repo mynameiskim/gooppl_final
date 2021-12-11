@@ -25,35 +25,60 @@
     <!-- jquery -->
 	<script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-
+	
+	<script>
+	//광고주 정보 수정
+    function updateOwnerInfo(){
+    	$.ajax({
+				type: "POST",
+				data: new FormData($("#adForm")[0]),
+				url: 'updateOwnerInfo.do',
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				cache: false,
+				dataType: "json",
+				error: function(result){
+				},
+				success: function(result){
+					if(result.code==1){
+						Swal.fire({
+					      title: result.msg,
+					      icon:'success',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#A4C399',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}else {
+						Swal.fire({
+					      title: result.msg,
+					      icon:'error',
+					      confirmButtonText: '확인',
+					      confirmButtonColor: '#d33',
+					      showLoaderOnConfirm: true,
+					      allowOutsideClick: false
+					    }).then((result) => {
+					    	if (result.isConfirmed) {
+					    		location.href='/gooppl/mypage.do';
+					    	}
+					    })
+					}
+				}
+			
+		});
+    }
+	</script>
     
 
 </head>
 
 <body id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">MyPage</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">LogIn</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-
+<%@include file="/WEB-INF/views/member/header.jsp" %>
     <section class="signup-section" id="sigup">
         <form class="form-inline needs-validation" id="adForm" name="adForm" action="updateOwnerInfo.do" method="post" enctype="multipart/form-data">
             <div class="container" style="width:60%">
@@ -354,7 +379,7 @@
                                </div>
                            </div>
                            <div class="col-12">
-                               <button class="btn btn-primary" id="ownerJoinBtn" type="submit">광고 정보 수정</button>
+                               <button class="btn btn-primary" id="ownerUpdateBtn" type="button" onclick="updateOwnerInfo()">광고 정보 수정</button>
                            </div>
                        </div>
                     </div>

@@ -121,6 +121,23 @@ public class MapController {
 		return mav;
 	}
 	
+	@RequestMapping("/goMyPlaceDetail.do")
+	public ModelAndView MyPlaceDetail(
+			@RequestParam("contentid") int contentid,
+			@RequestParam("areacode") int areacode,
+			@RequestParam("sigungucode") int sigungucode
+			) {
+		ModelAndView mav = new ModelAndView();
+		String areaname=areaService.getAreaName(areacode);
+		String sigunguname=sigunguService.getSigunguName(areacode, sigungucode);
+		Gooppl_PlaceDetailDTO dto = gooppl_placedetailService.getThisDateDetail2(contentid);
+		mav.addObject("areaname", areaname);
+		mav.addObject("sigunguname", sigunguname);
+		mav.addObject("placeinfo", dto);
+		mav.setViewName("map/myPlaceDetail");
+		return mav;
+	}
+	
 	@RequestMapping("/goPlaceDetail.do")
 	public ModelAndView placeDetail(
 			@RequestParam("contentid") int contentid,
@@ -256,8 +273,20 @@ public class MapController {
 					mav.addObject("areacode", lastAreacode);
 					mav.addObject("tripNum", tripList.size());
 				}else {
-					mav.addObject("areacode", 1);
-					mav.addObject("tripNum", 0);
+					if(day_num==1) {
+						mav.addObject("areacode", 1);
+						mav.addObject("tripNum", 0);
+					}else {
+						List<Integer> list2=mapinfoService.getThisMapInfo(map_idx, day_num-1);
+						if(list2.size()!=0) {
+							int lastAreacode=gooppl_placedetailService.getLastAreacode(map_idx, day_num-1);
+							mav.addObject("areacode", lastAreacode);
+							mav.addObject("tripNum", 0);
+						}else {
+							mav.addObject("areacode", 1);
+							mav.addObject("tripNum", 0);
+						}
+					}
 				}
 				mav.setViewName("map/existMap");
 			}
@@ -392,12 +421,32 @@ public class MapController {
 	@RequestMapping("/share.do")
 	public ModelAndView shareList(
 			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+		
+		ModelAndView mav = new ModelAndView();
 		int listSize=16;
 		int pageSize=10;
 		int totalCnt=gooppl_mapService.getShareCnt();
+		mav.addObject("totalCnt",totalCnt);
+		// 쿼리에서 불러온 List
 		List<Gooppl_mapDTO> list = gooppl_mapService.mapList(cp,listSize);
+		List<String> firstImg = new ArrayList<String>();
+		List<MemberDTO> mlist = new ArrayList<MemberDTO>(); 
+		
+		int map_idx;
+		int member_idx;
+		for(int i=0; i<list.size(); i++) {
+			map_idx = list.get(i).getMap_idx();
+			member_idx = list.get(i).getMember_idx();
+			String first =  gooppl_placedetailService.getFirstImg(map_idx);
+			MemberDTO dto = memberService.memberInfo(member_idx);
+			firstImg.add(first);
+			mlist.add(dto);
+		}
+		mav.addObject("firstImg",firstImg);
+		mav.addObject("member",mlist);
+				
 		String sharePageStr=goo.page.PageModule.makePage("share.do", totalCnt, listSize, pageSize, cp);
-		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("list", list);
 		mav.addObject("sharePageStr",sharePageStr);
 		mav.setViewName("share/share_list");
@@ -444,14 +493,12 @@ public class MapController {
 
 		@RequestMapping("/getFirstImg.do")
 		@ResponseBody
-		public ModelAndView getFirstImg(
+		public String getFirstImg(
 				@RequestParam("map_idx")int map_idx) {
 			String firstImg = gooppl_placedetailService.getFirstImg(map_idx);
 			System.out.println("확인="+firstImg);
-			ModelAndView mav= new ModelAndView();
-			mav.addObject("firstImg",firstImg );
-			mav.setViewName("share/share_list");
-			return mav;
+
+			return firstImg;
 		}
 	
 	/**#################        공유게시판 관련 ㅁㅅㄷ          #########################*/
@@ -462,7 +509,12 @@ public class MapController {
 		return result;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/planShare.do")
+	public int planShere(int map_idx) {
+		int result = gooppl_mapService.planShare(map_idx);
+		return result;
+	}
 	
 	
 	

@@ -54,7 +54,7 @@
 		//var review_idx=document.getElementById('reviewIdx');
           var review_idx=document.getElementById('review_idx').value;
 		//컨트롤러로이동할 명령어 작성
-		alert(review_idx);
+		//alert(review_idx);
 		location.href="reviewDelete.do?review_idx="+review_idx;
         }
 	}
@@ -67,62 +67,19 @@
 </head>
 
 <body>
- <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-                    <c:choose>
-						<c:when test="${!empty sessionNickname}">
-						
-							<li class="nav-item dropdown dropend">
-								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-								   <c:if test="${sessionScope.sessionMemberType=='M'}">
-										<label class="bg-primary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
-									</c:if>
-									<c:if test="${sessionScope.sessionMemberType=='O'}">
-										<label class="bg-secondary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
-									</c:if>	
-								  </a>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-							</ul>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
-								role="button" onclick="placeLogin()">LogIn</a></li>
-						</c:otherwise>
-					</c:choose>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+     <%@include file="/WEB-INF/views/member/header.jsp" %>
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
         <div class="container-sm mb-5">
-        <form name="reviewContent" action="reviewUpdateForm.do"  method="post" enctype="multipart/form-data">
+        <form name="reviewContent" action="reviewUpdateForm.do?review_idx=${param.review_idx }"  method="post" enctype="multipart/form-data">
         <input type="hidden" id="review_idx" name="review_idx" value="${dto.review_idx }">
         <input type="hidden" name="subject" value='${dto.subject }' >
         <input type="hidden" name="prologue" value='${dto.prologue}' >
         <input type="hidden" name="content" value='${dto.content }' >
         <input type="hidden" name="epilogue" value='${dto.epilogue }'>
             <div class="row">
-                <div class="col-md-4" style="height: 128px;">
+                <div class="col-md-3" style="height: 128px;">
                     <!-- 페이지 경로 -->
                     <div id="pagepath">
                         <span> <a href='community.do'>커뮤니티</a>
@@ -131,15 +88,14 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-md-offset-1 col-md-4">
+                <div class="col-md-offset-1 col-md-6">
                     <!-- 	제목 -->
                     <div id="title">
                         <h5 class="display-6 fw-bolder text-center" >${dto.subject }</h5>
                     </div>
                 </div>
                 <!--   작성자 조회수 게시글 번호-->
-                <div class="col-md-2"></div>
-                <div id="readnum" class="col-md-1">
+                <div id="readnum" class="col-md-3 text-center">
                     <div class="row">
                         <div class="col-xs-12">
                             <span>
@@ -191,10 +147,19 @@
                 </div>
 	                
 	                <!--#### 수정 삭제 버튼 ####-->
+	                <c:choose>
+	                <c:when test="${sessionMember_idx==dto.member_idx }">
 	            <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
 	                <input type="button" value="삭제하기" class="btn btn-secondary" onclick="deleteCon();"></input>
 	                <button type="submit" class="btn btn-light" >수정하기</button>
-	            </div> 
+	            </div>
+	            	</c:when>
+	            	<c:when test="${sessionMember_idx!=dto.member_idx }">
+	            	</c:when>
+	            	</c:choose>
+	            	<!--#### 수정 삭제 버튼 ####-->
+	            
+	            
             </div>
             </form>  
                 <!--##### 본문 경계선 #####-->
@@ -253,13 +218,13 @@
     			for(var i=0; i<result.length; i++){
     				if(result[i].nickname==nick){
     	 				var str = "<div class=\"reply\" style=\"float: left;\">"
-            				str += result[i].content+"</div></hr>"
+            				str += "<strong>"+result[i].nickname+"(나)</strong>&nbsp;:&nbsp;"+result[i].content+"</div></hr>"
             				str += "<div style=\"text-align: right;\"><label class=\"replyDel\" id=\""+result[i].ridx+"\" style=\"cursor: pointer;\">❌</label></div>"
             				str += "<div style=\"text-align: right; font-size: 10px;\">"+result[i].nickname+"</div>"
             				$("#reply").append(str);
     				}else{
         				var str = "<div class=\"reply\" style=\"float: left;\">"
-            				str += result[i].content+"</div></hr>"
+            				str += "<strong>"+ result[i].nickname+"</strong>&nbsp;:&nbsp;"+result[i].content+"</div></hr>"
             				str += "<div style=\"text-align: right;\"><label onclick=\"#\">-</label></div>"
             				str += "<div style=\"text-align: right; font-size: 10px;\">"+result[i].nickname+"</div>"
             				$("#reply").append(str);
@@ -320,46 +285,8 @@
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-    <!-- Contact-->
-    <section class="contact-section bg-primary align-items-center">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-md-center">
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">은평구 동서로 101-2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">1:1상담</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">문의하기</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">FAQ</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">자주하는 질문</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
-        <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
-    </footer>
+    <%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<%@include file="/WEB-INF/views/member/footer.jsp" %>
 </body>
 
 </html>

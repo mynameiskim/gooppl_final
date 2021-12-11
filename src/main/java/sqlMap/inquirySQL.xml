@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goo.inquiry">
+	<select id="inquiryList" parameterType="Integer" resultType="goo.inquiry.model.InquiryDTO">
+		SELECT * FROM inquiry WHERE member_idx = #{member_idx} ORDER BY decode(inquiry_status,'n',1),inquiry_idx desc
+	</select>
+	<insert id="addInquiry" parameterType="Map">
+		insert into inquiry values(
+			inquiry_idx.nextval,
+			#{member_idx},
+			#{inquiry_subject},
+			#{inquiry_content},
+			sysdate,
+			default,
+			default
+		)
+	</insert>
+	<select id="totalInquiry" resultType="Integer">
+		select count(*) from inquiry 
+	</select>
+	<select id="getInquiryList" parameterType="Map" resultType="goo.inquiry.model.InquiryDTO">
+		select * from
+		(select rownum as rnum,a.* from
+		(select * from inquiry order by decode(inquiry_status,'n',1),inquiry_idx desc)a)b
+		where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+		
+	</select>
+	<select id="inquiryInfo" parameterType="Integer" resultType="goo.inquiry.model.InquiryDTO">
+		select * from inquiry where inquiry_idx = #{inquiry_idx}
+	</select>
+	<update id="inquiryUpdate" parameterType="Map">
+		update inquiry set inquiry_status='y',inquiry_answer=#{inquiry_answer} where inquiry_idx = #{inquiry_idx}
+	</update>
+</mapper>

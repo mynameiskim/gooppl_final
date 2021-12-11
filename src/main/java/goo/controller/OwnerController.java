@@ -83,8 +83,8 @@ public class OwnerController {
 	public String userFolderExist(int member_idx) {
 		
 		//이미지 경로
-		String realPath = sc.getRealPath("\\resource\\img\\owner");
-		String imgUrl=realPath+"\\"+member_idx;
+		String realPath = sc.getRealPath("/resource/img/owner");
+		String imgUrl=realPath+"/"+member_idx;
 		
 		File f=new File(imgUrl);
 		if(!f.exists()) {
@@ -114,12 +114,12 @@ public class OwnerController {
 			 byte[] bytes = upload.getBytes();
 			
 			 //복사본 정보
-			 File outFile = new File(imgUrl+"\\"+upload.getOriginalFilename());
+			 File outFile = new File(imgUrl+"/"+upload.getOriginalFilename());
 			 FileOutputStream fos = new FileOutputStream(outFile);
 			 System.out.println("outFile: "+outFile);
 			 
 			 String contextPath = sc.getContextPath();
-			 dbUrl = contextPath + "\\resource\\img\\owner\\" + member_idx + "\\" + upload.getOriginalFilename();
+			 dbUrl = contextPath + "/resource/img/owner/" + member_idx + "/" + upload.getOriginalFilename();
 			 
 			 System.out.println("db에 들어갈 경로:"+dbUrl);
 			 
@@ -187,10 +187,14 @@ public class OwnerController {
 		return mav;
 	}
 	
+	
 	/**광고주 정보 업데이트 관련 명령어*/
 	@RequestMapping("/updateOwnerInfo.do")
-	public ModelAndView updateOwnerInfo(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
+	@ResponseBody
+	public Map<String, Object> updateOwnerInfo(@ModelAttribute("dto")OwnerDTO dto)throws IOException{
 		System.out.println("정보등록 진입");
+		Map<String, Object> map = new HashMap<String, Object>();
+		int code;
 		int member_idx = dto.getMember_idx();
 		double mapx = dto.getMapx();
 		String title = dto.getTitle();
@@ -217,13 +221,19 @@ public class OwnerController {
 		System.out.println("db 등록 전");
 		int result = ownerService.update_ownerInfo_withFile(dto);
 		System.out.println("db 등록 후");
+		if(result>0) {
+			System.out.println("수정 완료");
+			map.put("msg", "수정이 완료되었습니다.");
+			code = 1;
+		}else {
+			System.out.println("수정 실패");
+			map.put("msg", "ERROR");
+			code = 0;
+		}
 		String msg = result>0?"수정이 완료되었습니다.":"수정에 실패했습니다.";
 		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("msg", msg);
-		mav.addObject("goUrl","mypage.do");
-		mav.setViewName("ad/adMsg");
-		return mav;
+		map.put("code", code);
+		return map;
 	}
 	
 	/**광고주 정보 업데이트 관련 명령어(관리자)*/

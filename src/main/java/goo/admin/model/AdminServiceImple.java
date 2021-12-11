@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import goo.member.model.MemberDTO;
+import goo.review.model.ReviewDTO;
 
 public class AdminServiceImple implements AdminService {
 
@@ -67,6 +68,22 @@ public class AdminServiceImple implements AdminService {
 		List<MemberDTO> list=adminDao.allAdminMemberInfo(map);
 		return list;
 	}
+	
+	public List<ReviewDTO> adminReview(int cp,int ls) {
+		int start=(cp-1)*ls+1;
+		int end=cp*ls;
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("start", start);
+		map.put("end",end);
+		List<ReviewDTO> list=adminDao.adminReview(map);
+		return list;
+	}
+	
+	public int adminReviewTotal() {
+		int totalCnt = adminDao.adminReviewTotal();
+		return totalCnt;
+	}
+	
 	public int adminInsert1(MemberDTO mdto) {
 		int count = adminDao.adminInsert1(mdto);
 		return count;

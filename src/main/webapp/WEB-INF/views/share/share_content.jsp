@@ -127,19 +127,20 @@
                 </div>
                 <!-- 컨텐츠 영역-->
                 <div class="row"></div>
-                <div class="row" style="margin-top: 32px;">
+                <div class="row justify-content-md-center" style="margin-top: 32px;">
                
                 
                     <!-- #### 일정 카드 영역 #### -->
-                    <div class="row ">
+                    <div class="row mb-5">
                                 <!--여행 날짜(yyyy-mm-dd-(요일))-->
                                 <div class="col-xs-9 mb-3" style="font-size: medium; ">
                                    <strong>여행 기간 : ${gmdto.startdate }~${gmdto.enddate }</strong>
                                 </div>
-                            </div>
+                   	</div>
+                 
                    <c:forEach var="dto" items="${drlist }"  varStatus="status">
-                    <div class="col-md-9 col-sm-9">
-                     <div class="row" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
+                    <div class="col-md-9 col-sm-9 ">
+                     <div class="row mb-2" style="border: whitesmoke solid 1px; border-top-left-radius: 10px; background-color: white;" >
                         <!--여행 일차-->
                         <div class="col-md-2 col-xs-3 fw-bold" style="background-color: #78C2AD; color: whitesmoke; border-top-left-radius: 10px; text-align: center; font-size: x-large;">
                             Day${dto.day_num }
@@ -157,8 +158,8 @@
                         <div class="col-md-2">
                             <p style="text-align: center; font-size: xx-large; padding-top: 24px;">${dto.route_num }</p>
                         </div>
-                        <div class="col-md-10">
-                            <div class="row">
+                        <div class="col-md-10 ">
+                            <div class="row ">
                                 <!--카드 삽입-->
                                 <div class="col-xs-9" >
                                     <div class="row" style="width: auto; " >
@@ -175,7 +176,7 @@
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
-                                          <c:url var="contentUrl" value="goPlaceDetail.do">
+                                          <c:url var="contentUrl" value="goMyPlaceDetail.do">
 											<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
 											<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
 											<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
@@ -190,21 +191,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-md-center">
+                    <div class="row justify-content-md-center mb-3"> 
                         <div class="col-md-12" style="text-align: center;">
                         <img src="https://img.icons8.com/color/36/26e07f/menu-2.png"/>
                         </div>
                     </div>
                     </div>
                    </c:forEach> 
-                               
+				</div>                          
+                             
                     
-                    <!-- 되면 들어갈 지도영역-->
-                    <div class="col-md-3"></div>
-                    
-                </div>
+                   
                     <!-- 추가 컨텐츠영역-->
-                <div class="row"></div>
+                <div class="row justify-content-md-center">
+                	<div class="col-md-9" style="background-color: white; height:120px; border-radius: 14px;">
+                		<h5 class="display-6 fw-bolder text-center" style="margin-top: 35px;">The End</h5>
+                	</div>
+                </div>
             
 
 

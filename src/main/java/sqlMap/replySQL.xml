@@ -12,4 +12,7 @@
   	<delete id="replyDel" parameterType="Integer">
   		delete from REPLY where ridx = #{ridx}
   	</delete>
+  	<select id="getReplyCount" parameterType="Integer" resultType="Integer">
+  		select count(*) from reply where review_idx = #{review_idx}
+  	</select>
   </mapper>

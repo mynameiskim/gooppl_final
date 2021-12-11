@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<form name="ownerForm" action="admin_ownerUpdate.do" method="post" enctype="multipart/form-data">
+<form name="ownerForm" id="ownerForm" action="admin_ownerUpdate.do" method="post" enctype="multipart/form-data">
     <div id="ownerDetail">
         <fieldset style="border: 3px solid #0000008c; padding: 12px 14px 10px;
 			margin-bottom: 20px;">
@@ -161,7 +161,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3" class="text-center">
-                                        <input class="bt btn-secondary" type="button" onclick="ownerD_Update(${dto.owner_idx})" value="수정">
+                                        <input class="bt btn-secondary" type="button" onclick="ownerD_Update()" value="수정">
                                         <input class="bt btn-danger" type="button" value="삭제" onclick="ownerD_delete(${dto.owner_idx},${dto.member_idx})">
                                     </td>
                                 </tr>

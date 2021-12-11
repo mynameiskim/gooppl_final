@@ -84,6 +84,7 @@ public class ReviewController {
 	@RequestMapping("/reviewContent.do")
 	public ModelAndView reviewContent(@RequestParam(value = "review_idx", defaultValue = "0") int review_idx) {
 		ReviewDTO dto = reviewService.reviewContent(review_idx);
+		reviewService.updateReadnum(review_idx);
 		ModelAndView mav=new ModelAndView();
 		if (dto == null) {
 			mav.addObject("msg","잘못된접근 또는 삭제된 게시글입니다.");
@@ -95,7 +96,7 @@ public class ReviewController {
 		return mav;
 	}
 	/** 리뷰 삭제 */
-	@RequestMapping("/reviewDelete.do")
+	@RequestMapping(value="/reviewDelete.do",method=RequestMethod.GET)
 	public ModelAndView reviewDelete(@RequestParam("review_idx")int review_idx) {
 		System.out.println("진입성공");
 		int result = reviewService.delReview(review_idx);
@@ -105,7 +106,12 @@ public class ReviewController {
 		mav.setViewName("review/reviewMsg");
 		return mav;
 	}
-
+	@RequestMapping(value="/reviewDel.do",method=RequestMethod.POST)
+	@ResponseBody
+	public int reviewDel(int review_idx) {
+		int result = reviewService.reviewDel(review_idx);
+		return result;
+	}
 	/**	리뷰수정 */
 	@RequestMapping("/reviewUpdateForm.do")
 	public ModelAndView reviewUpdateForm(@RequestParam(value = "review_idx", defaultValue = "0") int review_idx) {
@@ -132,7 +138,24 @@ public class ReviewController {
 		mav.setViewName("review/reviewMsg");
 		return mav;
 	}
-	
+	/**리뷰 검색*/
+	@RequestMapping("/reviewFind.do")
+	public ModelAndView reviewFind(
+			@RequestParam("keywards")String keywards,
+			@RequestParam(value="cp",defaultValue = "1" )int cp) {
+			int listSize=4;
+			int pageSize=4;
+			System.out.println(keywards);
+			int totalCnt=reviewService.getTotalFindCnt(keywards);
+			System.out.println(totalCnt);
+		List<ReviewDTO> flist = reviewService.findReview(keywards);
+		String pageStr=goo.page.PageModule.makePage("review.do", totalCnt, listSize, pageSize, cp);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("flist", flist);
+		mav.addObject("pageStr", pageStr);
+		mav.setViewName("review/review_list");
+		return mav;
+	}
 	
 	@RequestMapping("/uploadSummernoteImageFile.do")
 	@ResponseBody
@@ -178,6 +201,5 @@ public class ReviewController {
 
 		return fileDBName;
 	}
-	
 	
 }	

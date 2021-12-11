@@ -27,6 +27,11 @@
 				<b> <a href='admin_member_config.do' style="color: white !important;"
 				>-약관 및 개인정보보호정책</a></b><br />
 			</dd>
+			<dt>문의 관리</dt>
+			<dd>
+				<b> <a href='admin_inquiry.do' style="color: white !important;"
+				>-문의 관리</a></b><br />
+			</dd>
 		</dl>
 	</div>
 	<div id="contents">
@@ -93,6 +98,21 @@
 				</a>
 			</dd>
 		</dl>
+		<div class="section_head">
+			<h4>문의 관리</h4>
+		</div>					
+		<dl class="menu_list">
+			<dt>
+				<a href='admin_inquiry.do' style="color: white !important;"
+					>문의 관리
+				</a></dt>
+			<dd>
+				<a href='admin_inquiry.do'
+					>사용자의 문의사항에 답변을 해주는 곳입니다.
+				</a>
+			</dd>
+		</dl>
+		</div>
 		</div>
 	</div>
 </div>

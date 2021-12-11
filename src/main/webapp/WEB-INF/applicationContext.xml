@@ -82,6 +82,9 @@
 	<bean id="replyDao" class="goo.reply.model.ReplyDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="inquiryDao" class="goo.inquiry.model.InquiryDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	
 	<!-- service -->	
    <bean id="memberService" class="goo.member.model.MemberServiceImple">
@@ -131,5 +134,8 @@
 	</bean>
 	<bean id="replyService" class="goo.reply.model.ReplyServiceImple">
 		<constructor-arg ref="replyDao"></constructor-arg>
+	</bean>
+	<bean id="inquiryService" class="goo.inquiry.model.InquiryServiceImple">
+		<constructor-arg ref="inquiryDao"></constructor-arg>
 	</bean>
 </beans>

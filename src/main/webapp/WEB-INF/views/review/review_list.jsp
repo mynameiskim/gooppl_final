@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,13 +48,16 @@
         padding-right: 8px;
         color: #198754ab;
     }
-
-    .carousel-inner {
+	.carousel-inner {
         padding: 8;
     }
 
     .carousel-item {
         padding: 8px;
+    }
+    
+    #thumbNail img{
+    	height: 160px;
     }
 </style>
 
@@ -146,7 +150,7 @@
             		
             	</div>
             </c:if>
-            <div class="row justify-content-md-center mb-5">
+            <div class="row justify-content-md-center ">
                 <div class="col-md-8">
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
@@ -190,7 +194,8 @@
                     </div>
                 </div>
             </div>
-    </section class="projects-section bg-light">
+           </div>
+    </section >
 	<section>
             <!--     버튼 -->
 		<div class="container-sm">
@@ -201,9 +206,11 @@
                     <span class="ir_su">ALL list</span>
                 </a>
             </div>
-            
+            <!-- ### 검색 ### -->
           <div class="collapse" id="collapseExample">
-          	<div id="search" class="row justify-content-md-center mb-5">
+          <div id="search" class="row justify-content-md-center mb-5">
+                
+
                 <div id="writereview" class="col-md-8 col-xs-2">
                     <button class="btn btn-outline-success btn-sm" style="float: right;" onclick="location.href='reviewWrite.do'">후기작성하기</button>
                 </div>
@@ -219,18 +226,17 @@
                     <div class="col-md-8">
                         <div class="card mb-3">
                             <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="http://www.outdoornews.co.kr/news/photo/201707/24502_76816_822.jpg"
-                                        class="img-fluid rounded-start" alt="썸네일" style="width: 100%;">
-                                </div>
+	                            <div class="col-md-4" id="thumbNail">
+	                            	${dto.content }
+	                            </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-9">
-                                             <c:url var="contentUrl" value="reviewContent.do">
+                                            <c:url var="contentUrl" value="reviewContent.do">
 											<c:param name="review_idx">${dto.review_idx}</c:param>
 											</c:url>
-                                           	<a href="${contentUrl }"><h5 class="card-title mb-5">${dto.subject }</h5></a>
+                                           <h5 class="card-title mb-5" ><a href="${contentUrl }" style="text-decoration: none;" >${dto.subject }</a></h5>
                                             <p class="card-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 400px;">${dto.prologue }</p>
                                             </div>
                                             <div class="col-md-3">
@@ -259,7 +265,6 @@
             </div>
         </div>
 	</section>
-
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

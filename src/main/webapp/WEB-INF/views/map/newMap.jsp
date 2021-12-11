@@ -113,39 +113,6 @@ var map_idx;
 var moveDay;
 var isClick=false;
 
-var adContents=[];
-<c:if test="${empty adlist }">
-	console.log('없음.');
-</c:if>
-<c:forEach var="addto" items="${adlist }">
-	var ad_idx=${addto.owner_idx };
-	var adtitle='[AD] ${addto.title }';
-	var adaddr='${addto.addr }';
-	var adareacode=${addto.areacode };
-	var adsigungucode=${addto.sigungucode };
-	var admapx=${addto.mapx };
-	var admapy=${addto.mapy };
-	var adoverview='${addto.ad_content }';
-	var adreadnum=1;
-	var adhomepage='${addto.business_tel }';
-	var adimg='${addto.firstimg }';
-	var adcontenttype=${addto.contenttype };
-	var adContent={
-		contentid:ad_idx,
-		title:adtitle,
-		addr:adaddr,
-		areacode:adareacode,
-		sigungucode:adsigungucode,
-		mapx:admapx,
-		mapy:admapy,
-		overview:adoverview,
-		readnum:adreadnum,
-		homepage:adhomepage,
-		image:adimg,
-		contenttype:adcontenttype
-	};
-	adContents.push(adContent);
-</c:forEach>
 /**새로 검색할때 관광데이터 리스트 초기화 제이쿼리*/
 $(function () {
     $('#search_bt').click( function() {
@@ -613,6 +580,9 @@ function changeAreacode(){
 	var moveLatLon = new kakao.maps.LatLng(mapy, mapx);
 	
 	map.panTo(moveLatLon);
+	
+	$('#setTable').empty();
+	show();
 }
 
 /**중복 선택 막는 쿼리*/
@@ -679,13 +649,13 @@ function showResult(){
                          tdNode3.setAttribute('style', 'width: 90px;');
                          var tdTextNode3 = document.createTextNode(title);
 
-                      
                          var tdNode4 = document.createElement('td');
                          var addBt = document.createElement('input');
                          addBt.setAttribute('type','button');
                          addBt.setAttribute('value','+');
                          addBt.className = 'add_Bt';
-                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         var image2=encodeURI(image); // 매개변수로 넘길때 \, 한글 경로가 깨짐
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image2+'","'+addr+'",'+contenttype+')');
                          table.appendChild(trNode);
                          trNode.appendChild(tdNode2);
                          trNode.appendChild(tdNode3);
@@ -716,13 +686,13 @@ function showResult(){
                          tdNode3.setAttribute('style', 'width: 90px;');
                          var tdTextNode3 = document.createTextNode(title);
 
-                      
                          var tdNode4 = document.createElement('td');
                          var addBt = document.createElement('input');
                          addBt.setAttribute('type','button');
                          addBt.setAttribute('value','+');
                          addBt.className = 'add_Bt';
-                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image+'","'+addr+'",'+contenttype+')');
+                         var image2=encodeURI(image); // 매개변수로 넘길때 \, 한글 경로가 깨짐
+                         addBt.setAttribute('onclick','makeMarker('+contentid+','+mapy+','+mapx+',"'+title+'","'+image2+'","'+addr+'",'+contenttype+')');
                          
                          table.appendChild(trNode);
                          trNode.appendChild(tdNode2);
@@ -934,7 +904,7 @@ function getResult(){
 function saveAdDetail(contentid){
 	for(var i=0;i<adContents.length;i++){
 		if(adContents[i].contentid==contentid){
-			var title=adContents[i].title.substr(5, adContents[i].title.length);
+			var title=adContents[i].title.substr(4, adContents[i].title.length);
 			var addr=adContents[i].addr;
 			var areacode=adContents[i].areacode;
 			var sigungucode=adContents[i].sigungucode;
@@ -943,7 +913,7 @@ function saveAdDetail(contentid){
 			var mapy=adContents[i].mapy;
 			var overview=adContents[i].overview;
 			var homepage=adContents[i].homepage;
-			var image=adContents[i].image;
+			var image=encodeURI(adContents[i].image);
 			
 			 var placeDetail={
 		     	 	contentid:contentid,
@@ -992,11 +962,11 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
 	return;
 	}
 	placeDetailInfo(contentid);
-	
+
     mapys.push(mapy);
     mapxs.push(mapx);
     titles.push(title);
-    images.push(image);
+    images.push(decodeURI(image)); // 깨짐방지로 인코딩해서 매개변수로 보낸 이미지를 디코드해서 출력해야함
     addrs.push(addr);
     contentids.push(contentid);
     contenttypeids.push(contenttypeid);
@@ -1043,7 +1013,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     var infowindow = new kakao.maps.InfoWindow({
         content: '<table border="0" style="width:155px;height:180px;align:center;margin-left:0px;border-color:#E2E2E2;">'+
 	    			'<tr style="margin-top:0px;">'+
-	    				'<td><img src="'+image+'" style="width:155px;height:100px;"></td>'+
+	    				'<td><img src="'+decodeURI(image)+'" style="width:155px;height:100px;"></td>'+
 	    			'</tr>'+
 	    			'<tr style="height:80px;">'+
 	    				'<td><p style="font-size:12px;padding-left:7px;padding-right:7px;word-break:break-all;padding-top:7px;font-weight: bold;">'+
@@ -1159,7 +1129,7 @@ function makeMarker(contentid, mapy, mapx, title, image, addr, contenttypeid){
     var pNode=document.createElement('span');
     pNode.setAttribute('class', 'placeinfo');
     var imgNode=document.createElement('img');
-    imgNode.setAttribute('src', image);
+    imgNode.setAttribute('src', decodeURI(image));
     imgNode.setAttribute('style', 'width: 80px; height: 80px; border-radius: 8px;');
     imgNode.setAttribute('hover', '');
     pNode.appendChild(imgNode);
@@ -1370,8 +1340,8 @@ function alertSave(moveUrl){
 		});
 }
 </script>
- <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav" >
+        <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" onclick="alertSave('index.do')" style="cursor: pointer">GooPPl</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
@@ -1382,9 +1352,9 @@ function alertSave(moveUrl){
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="alertSave('comunity.do')">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('createMap.do')" style="cursor: pointer">Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('placeList.do')" style="cursor: pointer">Place</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="alertSave('community.do')" style="cursor: pointer">Community</a></li>
                     <c:choose>
 						<c:when test="${!empty sessionNickname}">
 							<li class="nav-item dropdown dropend">
@@ -1411,9 +1381,9 @@ function alertSave(moveUrl){
 									  </a>
 								  </c:if>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" onclick="alertSave('mypage.do')">myPage</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('mypage.do')" style="cursor: pointer">myPage</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" onclick="alertSave('logout.do')">Logout</a></li>
+								<li><a class="dropdown-item" onclick="alertSave('logout.do')" style="cursor: pointer">Logout</a></li>
 							</ul>
 							</li>
 						</c:when>
@@ -1473,9 +1443,9 @@ function alertSave(moveUrl){
 									<div style="text-align: center;">
 										<form>
 										Start<br>
-										<input type="date" name="startDate" id="startDate" id="startDate"onchange="createDay()"><br>
+										<input type="date" name="startDate" id="startDate" onchange="createDay()"><br>
 										End<br>
-										<input type="date" name="endDate" id="endDate" id="endDate" onchange="createDay()"><br>
+										<input type="date" name="endDate" id="endDate" onchange="createDay()"><br>
 										</form>
 									</div>
 									<div id="dayBtDiv" align="center" style="margin-top: 20px;">
@@ -1527,7 +1497,72 @@ function alertSave(moveUrl){
     </div>
 </div>
  </section>
+ <div id="adInfo" style="display:none;">
+	<table id="adSite">
+		<c:if test="${empty adlist }">
+			<tr class="noContent">
+				<td colspan="5" align="center">
+				등록된 광고가 없습니다.
+				</td>
+			</tr>
+		</c:if>
+		<c:forEach var="addto" items="${adlist }">
+			<tr>
+				<td class="adlist">
+					<span class="ad_idx">${addto.owner_idx }</span>
+					<span class="adimg" style="cursor: pointer;">${addto.firstimg }</span>
+					<span class="adaddr">${addto.addr }</span>
+					<span class="adtitle">[AD]${addto.title }</span>
+					<span class="adcontenttype">${addto.contenttype }</span>
+					<span class="adareacode">${addto.areacode }</span>
+					<span class="adsigungucode">${addto.sigungucode }</span>
+					<span class="admapx">${addto.mapx }</span>
+					<span class="admapy">${addto.mapy }</span>
+					<span class="adoverview">${addto.ad_content }</span>
+					<span class="adreadnum">1</span>
+					<span class="adhomepage">${addto.business_tel }</span>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 <script>
+var adContents=[];
+var table=document.getElementById('adSite');
+var datay_n=document.getElementsByClassName('noContent')[0];
+if(datay_n!='undefined'){
+	adList=table.getElementsByClassName('adlist');
+	for(var i=0;i<adList.length;i++){
+		var ad_idx=adList[i].getElementsByClassName('ad_idx')[0].firstChild.nodeValue;
+		var adaddr=adList[i].getElementsByClassName('adaddr')[0].firstChild.nodeValue;
+		var adimage=adList[i].getElementsByClassName('adimg')[0].firstChild.nodeValue;
+		var adtitle=adList[i].getElementsByClassName('adtitle')[0].firstChild.nodeValue;
+		var adcontenttype=adList[i].getElementsByClassName('adcontenttype')[0].firstChild.nodeValue;
+		var adareacode=adList[i].getElementsByClassName('adareacode')[0].firstChild.nodeValue;
+		var adsigungucode=adList[i].getElementsByClassName('adsigungucode')[0].firstChild.nodeValue;
+		var adhomepage=adList[i].getElementsByClassName('adhomepage')[0].firstChild.nodeValue;
+		var admapx=adList[i].getElementsByClassName('admapx')[0].firstChild.nodeValue;
+		var admapy=adList[i].getElementsByClassName('admapy')[0].firstChild.nodeValue;
+		var adoverview=adList[i].getElementsByClassName('adoverview')[0].firstChild.nodeValue;
+		var adreadnum=adList[i].getElementsByClassName('adreadnum')[0].firstChild.nodeValue;
+		var adContent={
+			contentid:ad_idx,
+			title:adtitle,
+			addr:adaddr,
+			areacode:adareacode,
+			sigungucode:adsigungucode,
+			mapx:admapx,
+			mapy:admapy,
+			overview:adoverview,
+			readnum:adreadnum,
+			homepage:adhomepage,
+			image:adimage,
+			contenttype:adcontenttype
+		};
+		adContents.push(adContent);
+	}
+}
+
 (async () => {
     const { value: getName } = await Swal.fire({
         title: '여행 제목을 입력해주세요!',
@@ -1643,7 +1678,14 @@ function createDay() {
 		}	
 	}
 }
-	document.getElementById('startDate').value = new Date().toISOString().substring(0, 10);
+	var dt = new Date();
+	var str_s = dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+dt.getDate();
+	var str_e = dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+(dt.getDate()+1);
+	document.getElementById('startDate').value = str_s;
+	document.getElementById('endDate').value = str_e;
+	createDay();
+	
+	
 
 function saveThisDay(dayCount){
 	Swal.fire({
@@ -1758,9 +1800,10 @@ function savePlaceDetailData(){
 	homepage=encodeURIComponent(homepage);
 	param+='&homepage='+homepage;
 	var firstimage=placeDetails[0].firstimage;
+	firstimage=firstimage;
 	param+='&firstimage='+firstimage;
 	console.log(param);
-	sendRequest('savePlaceDetail.do', param, getResultAdd2, 'GET');
+	sendRequest('savePlaceDetail.do', param, getResultAdd2, 'POST');
 }
 function getResultAdd2(){
 	if(XHR.readyState==4){
@@ -1785,50 +1828,8 @@ function getResultAdd2(){
  
 </script>
 	<!-- Contact-->
-	<section class="contact-section bg-primary align-items-center">
-		<div class="container px-4 px-lg-5">
-			<div class="row gx-4 gx-lg-5 justify-content-md-center">
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Address</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">은평구 동서로 101-2</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-envelope text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Email</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#">hello@yourdomain.com</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-mobile-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">FAQ</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<%@include file="/WEB-INF/views/member/faq.jsp" %>
-	<footer class="footer bg-primary small text-center text-white-50">
-		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
-	</footer>
+    <%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<%@include file="/WEB-INF/views/member/footer.jsp" %>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
