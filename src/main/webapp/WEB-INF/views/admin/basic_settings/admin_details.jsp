@@ -29,7 +29,7 @@
                 </tr>
                 <tr>
                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">비밀번호</th>
-                    <td style="border: 1px solid #0000008c;"><input type="password" name="pwd" id="pwd" required="required" onkeyup="keyUpCheck()" onkeydown="keyUpCheck()">
+                    <td style="border: 1px solid #0000008c;"><input type="password" name="pwd" id="pwd" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_-+=[]{}~?:;`|/]).{8,25}$" required="required" onkeyup="keyUpCheck()" onkeydown="keyUpCheck()">
                     <label id="pwdLabel"> &nbsp;비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.</label><br></td>
                 </tr>
                 <tr>
@@ -41,15 +41,15 @@
 		        </tr>
 		        <tr>
                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">이름</th>
-                    <td style="border: 1px solid #0000008c;"><input type="text" value="${mdto.nickname}"  required="required" name="nickname" id="nickname"></td>
+                    <td style="border: 1px solid #0000008c;"><input type="text" value="${mdto.nickname}" pattern="[가-힣]+"  required="required" name="nickname" id="nickname"><label> &nbsp;한글만 입력해주세요.</label></td>
                 </tr>
                 <tr>
                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">휴대폰</th>
-                    <td style="border: 1px solid #0000008c;"><input type="tel" value="${adto.admin_phone}"  required="required" name="admin_phone" id="admin_phone"  maxlength="11"><label> &nbsp;-없이 숫자만 입력해주세요.</label></td>
+                    <td style="border: 1px solid #0000008c;"><input type="tel" value="${adto.admin_phone}"  required="required" name="admin_phone" id="admin_phone" pattern="^([0-9]){11}$" maxlength="11"><label> &nbsp;-없이 숫자만 입력해주세요.</label></td>
                 </tr>
                 <tr>
                     <th class="tr_bg active text-white" style="border: 1px solid #0000008c;">전화번호</th>
-                    <td style="border: 1px solid #0000008c;"><input type="tel" value="${adto.admin_tel}"  required="required" name="admin_tel" id="admin_tel"  maxlength="11" pattern="^[0-9]+$"><label> &nbsp;-없이 숫자만 입력해주세요.</label></td>
+                    <td style="border: 1px solid #0000008c;"><input type="tel" value="${adto.admin_tel}"  required="required" name="admin_tel" id="admin_tel"  maxlength="11" pattern="^([0-9]){9,11}$"><label> &nbsp;-없이 숫자만 입력해주세요.</label></td>
                 </tr>
                 <tr>
                		<th class="tr_bg active text-white" style="border: 1px solid #0000008c;">우편번호</th>

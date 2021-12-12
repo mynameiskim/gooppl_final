@@ -631,7 +631,7 @@ function sample6_execDaumPostcode() {
         </tr>
         <tr>
         	<th class="tr_bg active text-white">이름</th>
-            <td colspan="3" style="border: 1px solid #0000008c;"><input class="form_control" id="nickname" type="text" name="nickname" required="required" ><label> &nbsp;숫자와 ,특수문자는 입력할 수 없습니다.</label></td>
+            <td colspan="3" style="border: 1px solid #0000008c;"><input class="form_control" id="nickname" type="text" name="nickname" required="required" ></td>
         </tr>
         <tr>
             <th class="tr_bg active text-white">휴대폰</th>

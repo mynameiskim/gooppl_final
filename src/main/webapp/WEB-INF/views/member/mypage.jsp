@@ -665,6 +665,14 @@ function ckOwerAppli(member_idx){
                 </div>
             </div>
             <div class="row justify-content-md-center">
+            <c:if test="${empty list}">
+           		<div class="col-md-6">
+           		  <div class="img-wrapper" style="position: relative; text-align:center; margin:0px auto;">
+           			<a href="inquiryWrite.do"><img class="rounded img-responsive" alt="..." src ="/gooppl/resource/img/마이페이지문의하기2.png"></a>
+				  </div>    
+           		</div>
+            </c:if>
+            <c:if test="${!empty list}">
             	<table class="table table-hover tb_hover">
 			  <thead>
 					<tr class="tr_bg">
@@ -675,13 +683,6 @@ function ckOwerAppli(member_idx){
 					</tr>
 			</thead>
 			  <tbody>
-			  	<c:if test="${empty list}">
-			  		<tr>
-					<td colspan="10" align="center">
-					<b>문의한 내역이 없습니다.</b>
-					</td>
-				</tr>
-			  	</c:if>
 			  	<c:forEach var="list" items="${list}" varStatus="status">
 			  		<c:if test="${list.inquiry_status=='y'}">
 			  		<tr class="tr_aling" id="iq_list${status.index}" onclick="showAnswer(${status.index})">
@@ -715,6 +716,7 @@ function ckOwerAppli(member_idx){
 			  	</c:forEach>
 			  </tbody>
 			</table>
+			</c:if>
 			</div>
         </div>
         <!-- 문의 영역 끝 -->
