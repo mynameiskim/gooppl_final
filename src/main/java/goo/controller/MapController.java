@@ -445,7 +445,7 @@ public class MapController {
 		mav.addObject("firstImg",firstImg);
 		mav.addObject("member",mlist);
 				
-		String sharePageStr=goo.page.PageModule.makePage("share.do", totalCnt, listSize, pageSize, cp);
+		String sharePageStr=goo.page.PageModule2.makePage("share.do", totalCnt, listSize, pageSize, cp);
 		
 		mav.addObject("list", list);
 		mav.addObject("sharePageStr",sharePageStr);
