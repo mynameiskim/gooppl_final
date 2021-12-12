@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="/resource/meta/meta.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,61 +68,7 @@ function ckOwerAppli(member_idx){
 </script>
 <body>
     <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-                    <c:choose>
-						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend">
-								  <c:if test="${sessionScope.sessionMemberType=='M' }">
-								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-								    <label class="bg-primary text-center"
-								    	style="
-                                        width: 30px;
-                                        border-radius: 50%;
-                                        color: #fff;
-                                        font-weight: 600;
-                                        font-size: 1.2rem;">${profileNick}</label>
-								  </a>
-								  </c:if>
-								  <c:if test="${sessionScope.sessionMemberType=='O' }">
-									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-									    <label class="bg-secondary text-center"
-									    	style="
-	                                        width: 30px;
-	                                        border-radius: 50%;
-	                                        color: #fff;
-	                                        font-weight: 600;
-	                                        font-size: 1.2rem;">${profileNick}</label>
-									  </a>
-								  </c:if>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-							</ul>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
-								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
-						</c:otherwise>
-					</c:choose>
-                </ul>
-            </div>
-        </div>
-    </nav>
+ <%@include file="/WEB-INF/views/member/header.jsp" %>
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
@@ -459,7 +406,7 @@ function ckOwerAppli(member_idx){
                                         <div class="col-md-9">
                                             <c:choose>
                                             	<c:when test="${mapdto.trip_type==1}">홀로여행</c:when>
-                                            	<c:when test="${mapdto.trip_type==2}">우정여행$</c:when>
+                                            	<c:when test="${mapdto.trip_type==2}">우정여행</c:when>
                                             	<c:when test="${mapdto.trip_type==3}">커플여행</c:when>
                                             	<c:when test="${mapdto.trip_type==4}">가족여행</c:when>
                                             </c:choose>
@@ -718,6 +665,14 @@ function ckOwerAppli(member_idx){
                 </div>
             </div>
             <div class="row justify-content-md-center">
+            <c:if test="${empty list}">
+           		<div class="col-md-6">
+           		  <div class="img-wrapper" style="position: relative; text-align:center; margin:0px auto;">
+           			<a href="inquiryWrite.do"><img class="rounded img-responsive" alt="..." src ="/gooppl/resource/img/마이페이지문의하기2.png"></a>
+				  </div>    
+           		</div>
+            </c:if>
+            <c:if test="${!empty list}">
             	<table class="table table-hover tb_hover">
 			  <thead>
 					<tr class="tr_bg">
@@ -728,13 +683,6 @@ function ckOwerAppli(member_idx){
 					</tr>
 			</thead>
 			  <tbody>
-			  	<c:if test="${empty list}">
-			  		<tr>
-					<td colspan="10" align="center">
-					<b>문의한 내역이 없습니다.</b>
-					</td>
-				</tr>
-			  	</c:if>
 			  	<c:forEach var="list" items="${list}" varStatus="status">
 			  		<c:if test="${list.inquiry_status=='y'}">
 			  		<tr class="tr_aling" id="iq_list${status.index}" onclick="showAnswer(${status.index})">
@@ -768,6 +716,7 @@ function ckOwerAppli(member_idx){
 			  	</c:forEach>
 			  </tbody>
 			</table>
+			</c:if>
 			</div>
         </div>
         <!-- 문의 영역 끝 -->

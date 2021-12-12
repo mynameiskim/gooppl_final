@@ -45,5 +45,5 @@
     
     <!-- Footer-->
     <footer class="footer bg-primary small text-center text-white-50">
-        <div class="container px-4 px-lg-5">Copyright &copy; Your Website 2021</div>
+        <div class="container px-4 px-lg-5">Copyright &copy; Ezen&GooPPl Website 2021</div>
     </footer>

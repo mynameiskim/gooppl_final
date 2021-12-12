@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="/resource/meta/meta.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -191,9 +192,9 @@ function pagingModule(cp){
 	}
 	for(var i=userGroup*pageSize+1;i<=userGroup*pageSize+pageSize;i++){
 		if(i==cp){
-			pageStr+='<li class="page-item active" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></div>';
+			pageStr+='<li class="page-item active" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></li>';
 		}else{
-			pageStr+='<li class="page-item" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></div>';
+			pageStr+='<li class="page-item" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></li>';
 		}
 		if(i==totalPage){
 			break;

@@ -21,7 +21,7 @@ function month(){
 }
 
 function day(month){
-	sendRequest('day_statistics.do?month='+month,null,dayResult(),'GET');
+	location.href = 'member_statistics.do?month='+month;
 }
 
 function day_select(){
@@ -51,19 +51,8 @@ function showResult(){
 	}
 }
 
-function dayResult(){
-	if(XHR.readyState==4){
-		if(XHR.status==200){			
-			var data=XHR.responseText;
-			var divNode=document.getElementById("day_join_num");
-			if(divNode.style.display=='none'){
-				divNode.innerHTML=data;
-				divNode.style.display = 'block';
-			}else{
-				divNode.style.display = 'none';
-			}
-		}
-	}
+function member_statistics_reset(){
+	location.href = 'member_statistics.do';
 }
 
 function dateSearchStart(){
@@ -124,11 +113,12 @@ function dateSearchStart(){
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
 				<div class="col-md-5 text-center">
-					<input type="button" class="bt btn-dark" style="border-radius: 3px;" value="검색하기" onclick="dateSearchStart()">
+					<input type="button" class="bt btn-dark" style="border-radius: 3px;" value="검색하기" onclick="dateSearchStart()"> 
+					<input type="button" class="bt btn-dark" style="border-radius: 3px;" value="초기화" onclick="member_statistics_reset()"> 
 				</div>	
 			</div>
 		</form>
-		<div id="default">
+		<div id="default" style="${display1}">
 		<fieldset style="padding: 12px 14px 10px;
 		margin-bottom: 5px;">
 			<div>
@@ -146,7 +136,7 @@ function dateSearchStart(){
 					</c:if>
 				</div>
 			</div>
-		<table class="table table-bordered" style="${display}">
+		<table class="table table-bordered" >
 	  		<tr class="tr_align">
   				<th colspan="2" class="text-center active text-white tr_bg">&nbsp;&nbsp;회원통계</th>
 			</tr>
@@ -195,7 +185,29 @@ function dateSearchStart(){
 	  </fieldset>
 	  </div>
 	  <div id="month_join_num" style="display:none;"></div>
-	  <div id="day_join_num" style="display:none;"></div>
+	  <div id="day_join_num" style="${display2}">
+	  <fieldset style="padding: 12px 14px 10px;
+		margin-bottom: 5px;">
+			<div>
+				<div class="col-md-12 text-left">
+					<span id="s1"><b>&nbsp;${year}년 ${month}월 일별 가입자 수 통계입니다.</b></span>
+				</div>
+			</div>
+		<table class="table table-bordered">
+	  		<tr class="tr_align">
+  				<th colspan="2" class="text-center active text-white tr_bg">&nbsp;&nbsp;가입자 수</th>
+			</tr>
+			<c:forEach begin="0" end="${days_length}" step="1" varStatus="status">
+				<tr class="tr_align">
+				<th style="width:10%; text-align: center;">&nbsp;${status.count}일 </th>
+				<td style="width:90%;">&nbsp;
+					<c:forEach begin="0" end="${days[status.index]}" step="1"><img src="${pageContext.request.contextPath}/resource/img/1.gif"><img src="${pageContext.request.contextPath}/resource/img/1.gif"></c:forEach>&nbsp;${days[status.index]}
+				</td>
+			</tr>
+			</c:forEach>
+		</table>
+</fieldset>
+	  </div>
 	</div>
 </div>
 </div>

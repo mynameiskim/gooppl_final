@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="/resource/meta/meta.jsp" %>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -65,62 +66,9 @@
     
 </style>
 
-<body>
+<body onload="javascript:document.getElementById('allList').click();">
     <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-                    <c:choose>
-						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend">
-								  <c:if test="${sessionScope.sessionMemberType=='M' }">
-								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-								    <label class="bg-primary text-center"
-								    	style="
-                                        width: 30px;
-                                        border-radius: 50%;
-                                        color: #fff;
-                                        font-weight: 600;
-                                        font-size: 1.2rem;">${profileNick}</label>
-								  </a>
-								  </c:if>
-								  <c:if test="${sessionScope.sessionMemberType=='O' }">
-									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-									    <label class="bg-secondary text-center"
-									    	style="
-	                                        width: 30px;
-	                                        border-radius: 50%;
-	                                        color: #fff;
-	                                        font-weight: 600;
-	                                        font-size: 1.2rem;">${profileNick}</label>
-									  </a>
-								  </c:if>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-							</ul>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
-								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
-						</c:otherwise>
-					</c:choose>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<%@include file="/WEB-INF/views/member/header.jsp" %>
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 3rem;">
@@ -204,13 +152,13 @@
             <!--     버튼 -->
 		<div class="container-sm">
             <div class="container-sm" style="margin-top: 8px; margin-bottom: 32px; text-align: center;">
-                <a class="mx-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                <a id="allList" class="mx-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true"
                     aria-controls="collapseExample">
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                     <span class="ir_su">ALL list</span>
                 </a>
             </div>
-            <!-- ### 검색 ### -->
+           
           <div class="collapse" id="collapseExample">
           <div id="search" class="row justify-content-md-center mb-5">
                 
@@ -262,7 +210,9 @@
                 <div class="row justify-content-md-center text-center mb-5">
                 	<div class="col-md-4">
                 		<div class="col-md-8" style="margin:0px auto;">
-                			${pageStr }
+	                		<ul class="pagination justify-content-center">
+	                			${pageStr }
+	                		</ul>
                 		</div>
                 	</div>
                 </div>
@@ -279,45 +229,8 @@
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     <!-- Contact-->
-    <section class="contact-section bg-primary align-items-center">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-md-center">
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">은평구 동서로 101-2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">1:1상담</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">문의하기</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">FAQ</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">자주하는 질문</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
-        <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
-    </footer>
+<%@include file="/WEB-INF/views/member/faq.jsp" %>
+<%@include file="/WEB-INF/views/member/footer.jsp" %>
 <script>
 
 /**생성된 리스트 이미지 넓이 100%로 채우는 쿼리*/
@@ -325,12 +238,11 @@ $(function() {
 	$(document).ready(function(){
 		var length = ${fn:length(list) };
 		for(var i=0; i<length; i++){
-			$('#img'+i).css('width','100%');	
+			$('#img'+i).css('width','100%');
 		}
        
      });
 });
-
 </script>
 </body>
 
