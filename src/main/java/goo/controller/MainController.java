@@ -87,6 +87,7 @@ public class MainController {
 			
 			OwnerDTO odto = ownerService.ckOwnerInfo(member_idx);
 			
+			
 			List<Gooppl_mapDTO> mapDTO = gooppl_mapService.getMap(member_idx);
 			int totalPlaceCount[] = new int[mapDTO.size()];
 			String firstImg[] = new String[mapDTO.size()];

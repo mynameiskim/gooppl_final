@@ -93,8 +93,11 @@ public class AdServiceImple implements AdService {
 		return result;
 	}
 	
-	public int pay_Update_ad_info(int owner_idx) {
-		int result = adDao.pay_Update_ad_info(owner_idx);
+	public int pay_Update_ad_info(String imp_uid, int owner_idx) {
+		Map map = new HashMap();
+		map.put("imp_uid", imp_uid);
+		map.put("owner_idx", owner_idx);
+		int result = adDao.pay_Update_ad_info(map);
 		return result;
 	}
 	

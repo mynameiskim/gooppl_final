@@ -96,11 +96,13 @@
   		WHERE
   			OWNER_IDX = #{owner_idx}
   	</select>
-  	<update id="pay_Update_ad_info" parameterType="Integer">
+  	<update id="pay_Update_ad_info" parameterType="Map">
   		UPDATE
   			AD_INFO
   		SET
-  			AD_STATE = '광고중'
+  			AD_STATE = '광고중',
+  			imp_uid = #{imp_uid},
+  			AD_STARTDATE = sysdate
   		WHERE
   			OWNER_IDX = #{owner_idx}
   	</update>
