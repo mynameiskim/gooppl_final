@@ -55,7 +55,7 @@ public class ReviewController {
 		int pageSize=4;
 		int totalCnt=reviewService.getTotalCnt();
 		List<ReviewDTO> list = reviewService.reviewList(cp,listSize);
-		String pageStr=goo.page.PageModule.makePage("review.do", totalCnt, listSize, pageSize, cp);
+		String pageStr=goo.page.PageModule2.makePage("review.do", totalCnt, listSize, pageSize, cp);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.addObject("pageStr",pageStr);

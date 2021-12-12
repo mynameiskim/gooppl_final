@@ -66,7 +66,7 @@
     
 </style>
 
-<body>
+<body onload="javascript:document.getElementById('allList').click();">
     <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 <%@include file="/WEB-INF/views/member/header.jsp" %>
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -152,13 +152,13 @@
             <!--     버튼 -->
 		<div class="container-sm">
             <div class="container-sm" style="margin-top: 8px; margin-bottom: 32px; text-align: center;">
-                <a class="mx-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                <a id="allList" class="mx-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true"
                     aria-controls="collapseExample">
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                     <span class="ir_su">ALL list</span>
                 </a>
             </div>
-            <!-- ### 검색 ### -->
+           
           <div class="collapse" id="collapseExample">
           <div id="search" class="row justify-content-md-center mb-5">
                 
@@ -210,7 +210,9 @@
                 <div class="row justify-content-md-center text-center mb-5">
                 	<div class="col-md-4">
                 		<div class="col-md-8" style="margin:0px auto;">
-                			${pageStr }
+	                		<ul class="pagination justify-content-center">
+	                			${pageStr }
+	                		</ul>
                 		</div>
                 	</div>
                 </div>

@@ -124,11 +124,22 @@
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
-                                          <c:url var="contentUrl" value="goMyPlaceDetail.do">
-											<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
-											<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
-											<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
-											</c:url>
+                                          <c:choose>
+                                          <c:when test="${pdlist[status.index].contentid>1000}">
+	                                          <c:url var="contentUrl" value="goPlaceDetail.do">
+												<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
+												<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
+												<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
+											  </c:url>
+                                          </c:when>
+                                          <c:when test="${pdlist[status.index].contentid<1000}">
+											  <c:url var="contentUrl" value="goAdPlaceDetail.do">
+												<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
+												<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
+												<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
+											  </c:url>
+                                          </c:when>
+										  </c:choose>
                               			 	<h5 class="card-title mb-5"><a href="${contentUrl }">
                               			 	<img src="https://img.icons8.com/fluency/24/000000/information.png"/></a></h5>
                                           </div>

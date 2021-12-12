@@ -58,6 +58,9 @@ public class AdminAdManagement {
 		int pageSize=5;
 		int totalOwnerAppli = ownerService.totalOwnerAppli();
 		System.out.println("총 신청 수:"+totalOwnerAppli);
+		if(totalOwnerAppli==0) {
+			totalOwnerAppli++;
+		}
 		String pageStr = goo.page.PageModule.makePage("admin_ownerAppli.do", totalOwnerAppli, listSize, pageSize, cp);
 		System.out.println("admin_ownerAppli OK");
 		List<OwnerDTO> list = ownerService.allOwnerAppliInfo(cp, listSize);
@@ -141,6 +144,9 @@ public class AdminAdManagement {
 		int pageSize=5;
 		int totalOwner = ownerService.totalOwner();
 		System.out.println("총 광고주 수:"+totalOwner);
+		if(totalOwner==0) {
+			totalOwner++;
+		}
 		String pageStr = goo.page.PageModule.makePage("admin_allOwner.do", totalOwner, listSize, pageSize, cp);
 		List<OwnerDTO> list = ownerService.admin_allOwner(cp, listSize);
 		
@@ -246,6 +252,9 @@ public class AdminAdManagement {
 		int pageSize=5;
 		int totalAdInquiry = ad_inquiryService.admin_totalAdInquiry();
 		System.out.println("총 광고문의 수:"+totalAdInquiry);
+		if(totalAdInquiry==0) {
+			totalAdInquiry++;
+		}
 		String pageStr = goo.page.PageModule.makePage("admin_adAppli.do", totalAdInquiry, listSize, pageSize, cp);
 		List<Ad_inquiryDTO> list = ad_inquiryService.admin_adInquiry(cp, listSize);
 		
@@ -262,12 +271,13 @@ public class AdminAdManagement {
 	
 	@RequestMapping("/admin_adCancel.do")
 	public ModelAndView admin_adCancelList(@RequestParam(value = "cp",defaultValue = "1")int cp) {
-		
-		
 		int listSize=5;
 		int pageSize=5;
 		int totalAdDelInquiry = ad_inquiryService.admin_totalAdDelInquiry();
 		System.out.println("총 환불문의 수:"+totalAdDelInquiry);
+		if(totalAdDelInquiry==0) {
+			totalAdDelInquiry++;
+		}
 		String pageStr = goo.page.PageModule.makePage("admin_adCancel.do", totalAdDelInquiry, listSize, pageSize, cp);
 		List<Ad_inquiryDTO> list = ad_inquiryService.admin_adDelInquiry(cp, listSize);
 		
@@ -500,6 +510,9 @@ public class AdminAdManagement {
 		int pageSize=5;
 		int totalPayment = payment_infoService.totalPayment();
 		System.out.println("전체:"+totalPayment);
+		if(totalPayment==0) {
+			totalPayment++;
+		}
 		String pageStr = goo.page.PageModule.makePage("admin_paymentStatus.do", totalPayment, listSize, pageSize, cp);
 		System.out.println("admin_payment_list OK");
 		List<Payment_infoDTO> list = payment_infoService.allPayment_Info(cp, listSize);
@@ -541,6 +554,9 @@ public class AdminAdManagement {
 		int pageSize=5;
 		int totalAd = adService.total_AdInfo();
 		System.out.println("전체:"+totalAd);
+		if(totalAd==0) {
+			totalAd++;
+		}
 		String pageStr = goo.page.PageModule.makePage("admin_adStatus.do", totalAd, listSize, pageSize, cp);
 		System.out.println("admin_ad_list OK");
 		List<AdDTO> list = adService.all_AdInfo(cp, listSize);

@@ -192,9 +192,9 @@ function pagingModule(cp){
 	}
 	for(var i=userGroup*pageSize+1;i<=userGroup*pageSize+pageSize;i++){
 		if(i==cp){
-			pageStr+='<li class="page-item active" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></div>';
+			pageStr+='<li class="page-item active" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></li>';
 		}else{
-			pageStr+='<li class="page-item" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></div>';
+			pageStr+='<li class="page-item" onclick="movePage('+i+')"><p class="page-link">'+i+'</p></li>';
 		}
 		if(i==totalPage){
 			break;
