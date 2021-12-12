@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="/resource/meta/meta.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -415,47 +416,7 @@ function closeOverlay() {
 </head>
 <body id="page-top" style="background-color: white;">
  <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="placeList.do">Place</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-                    <c:choose>
-						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend">
-								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-								    <c:if test="${sessionScope.sessionMemberType=='M'}">
-										<label class="bg-primary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
-									</c:if>
-									<c:if test="${sessionScope.sessionMemberType=='O'}">
-										<label class="bg-secondary text-center" style="width: 30px; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.2rem;">${profileNick}</label>
-									</c:if>	
-								  </a>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-							</ul>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
-								role="button" onclick="placeLogin()" >LogIn</a></li>
-						</c:otherwise>
-					</c:choose>
-                </ul>
-            </div>
-        </div>
-    </nav>
+	<%@include file="/WEB-INF/views/member/header.jsp" %>
     <section style="padding-top: 1rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, white 100%);">
 		<div
 			class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center" style="margin-top: 60px;">
@@ -476,57 +437,14 @@ function closeOverlay() {
 			</div>
 		</div>
 	</section>
-	    		<!-- Contact-->
-	<section class="contact-section bg-light align-items-center">
-		<div class="container px-4 px-lg-5">
-			<div class="row gx-4 gx-lg-5 justify-content-md-center">
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-map-marked-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Address</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">은평구 동서로 101-2</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-envelope text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">Email</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#">hello@yourdomain.com</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 mb-3 mb-md-0" style="padding: 0px 10px">
-					<div class="card py-1 h-100">
-						<div class="card-body text-center">
-							<i class="fas fa-mobile-alt text-primary mb-2"></i>
-							<h4 class="text-uppercase m-0">FAQ</h4>
-							<hr class="my-4 mx-auto" />
-							<div class="small text-black-50">
-								<a href="#" roll="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">문의하기</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+	<!-- Contact-->
+    <%@include file="/WEB-INF/views/member/faq.jsp" %>
+	<%@include file="/WEB-INF/views/member/footer.jsp" %>
 	<script>
 		function placeLogin(){
 			location.href="index.do?login_result=need";
 		}
 	</script>
-		<!-- Footer-->
-	<%@include file="/WEB-INF/views/member/faq.jsp" %>
-	<footer class="footer bg-light small text-center">
-		<div class="container px-4 px-lg-5">Copyright &copy; Ezen&Team1 2021</div>
-	</footer>
 	  <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=33817b3ae46352524552aa3d23525140"></script>

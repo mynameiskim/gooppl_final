@@ -1,11 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-</head>
-<body>
     <div id="adInquiryDetail">
         <fieldset style="border: 3px solid #0000008c; padding: 12px 14px 10px;
                 margin-bottom: 20px;">
@@ -73,5 +67,3 @@
                 </div>
         </fieldset>
     </div>
-</body>
-</html>

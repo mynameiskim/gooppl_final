@@ -1,11 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 .tb_hover{
        --bs-table-hover-bg: lightgray !important;
@@ -50,16 +44,17 @@ function memberOutDelete(index){
 	}).then((result) => {
 	  if (result.isConfirmed) {
 	  		var param=document.getElementById("out_no"+index).value;
+	  		var param2=document.getElementById("id"+index).value;
 	  		
 			$.ajax({
 				type: "GET",
-				url: 'member_out_delete.do?out_no='+param,
+				url: 'member_out_delete.do?out_no='+param+'&id='+param2,
 				dataType: "json",
 				error: function(result){
 					
 				},
 				success: function(result){
-					if(result.code==0){
+					if(result.code==0  || result.code ==2){
 						Swal.fire({
 					      title: result.msg,
 					      icon:'warning',
@@ -106,10 +101,8 @@ function searchStart(){
 	
 }
 </script>
-</head>
-<body>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>회원관리</b></h5>
@@ -141,7 +134,7 @@ function searchStart(){
 			<tr>
 				<th style="width:20%; vertical-align: middle; text-align: center;">조건 검색</th>
 				<td style="width:80%;">
-					<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="display:inline-block; width:100px;" id="search_type"">
+					<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="display:inline-block; width:100px;" id="search_type">
 						<option value="id" ${id_selected}>아이디</option>
 						<option value="out_reason" ${out_reason_selected}>탈퇴사유</option>
 					</select>
@@ -150,7 +143,7 @@ function searchStart(){
 			</tr>
 			<tr>
 				<th style="width:20%; vertical-align: middle; text-align: center;">탈퇴일</th>
-				<td style="width:80%;"><input id="start_date" value="${start_date}" type="date">~<input id="end_date" value="${end_date}" type="date"></td>
+				<td style="width:80%;"><input id="start_date" value="${start_date}" type="date">~<input id="end_date" value="${end_date}" type="date"><label style="color:red;">&nbsp;&nbsp;${msg}</label></td>
 			</tr>
 		</table>
 			<div class="row justify-content-md-center" style="padding: 20px 0px;">
@@ -160,22 +153,19 @@ function searchStart(){
 			</div>
 		</form>
 		<fieldset style="padding: 12px 14px 10px;
-		margin-bottom: 5px;">
-		<div>
+		margin-bottom: 5px; ${display}">
 			<div class="col-md-12 text-left">
 				<label><b>총 회원수:${totalMemberOut}</b></label>
 				<c:if test="${search_num!=0}">
 					<label><b>검색수: ${search_num}</b></label>
 				</c:if>
 			</div>
-		</div>
-		<table class="table table-hover tb_hover">
+		<table class="table table-hover tb_hover" >
 		  <thead>
 				<tr class="tr_bg">
-					<th class="text-cente active text-white text-opacity-75r"  style="width:5%;"></th>
                     <th class="text-center active text-white text-opacity-75"  style="width:10%;">번호</th>
 					<th class="text-center active text-white text-opacity-75"  style="width:25%;">아이디</th>
-					<th class="text-center active text-white text-opacity-75"  style="width:25%;">탈퇴사유</th>
+					<th class="text-center active text-white text-opacity-75"  style="width:30%;">탈퇴사유</th>
 					<th class="text-center active text-white text-opacity-75"  style="width:25%;">탈퇴일</th>
 					<th class="text-center active text-white text-opacity-75"  style="width:10%;">삭제</th>
 				</tr>
@@ -200,12 +190,13 @@ function searchStart(){
 		  	</c:if>
 		  	<c:forEach var="list" items="${list}" varStatus="status">
 		  		<tr style="vertical-align: middle;">
-		  			<td class="text-center"  style="width:5%;"><input type="checkbox"></td>
 		  			<td class="text-center"  style="width:10%;">${(cp-1)*listSize+status.index+1}
 		  				<input id="out_no${status.index}" type="hidden" value="${list.out_no}">
 		  			</td>
-		  			<td class="text-center"  style="width:25%;">${list.id}</td>
-		  			<td class="text-center"  style="width:25%;">${list.out_reason}</td>
+		  			<td class="text-center"  style="width:25%;">${list.id}
+		  				<input id="id${status.index}" type="hidden" value="${list.id}">
+		  			</td>
+		  			<td class="text-center"  style="width:30%;">${list.out_reason}</td>
 		  			<td class="text-center"  style="width:25%;">${list.outdate}</td>
 		  			<td class="text-center"  style="width:10%;"><input type="button" style="border-radius: 3px;" class="bt btn-danger" value="삭제" onclick="memberOutDelete(${status.index})"></td>
 		  		</tr>
@@ -217,5 +208,3 @@ function searchStart(){
 	</div>
 </div>
 <%@include file="/WEB-INF/views/admin/admin_footer.jsp" %>
-</body>
-</html>	
