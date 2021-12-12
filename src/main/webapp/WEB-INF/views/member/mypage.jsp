@@ -406,7 +406,7 @@ function ckOwerAppli(member_idx){
                                         <div class="col-md-9">
                                             <c:choose>
                                             	<c:when test="${mapdto.trip_type==1}">홀로여행</c:when>
-                                            	<c:when test="${mapdto.trip_type==2}">우정여행$</c:when>
+                                            	<c:when test="${mapdto.trip_type==2}">우정여행</c:when>
                                             	<c:when test="${mapdto.trip_type==3}">커플여행</c:when>
                                             	<c:when test="${mapdto.trip_type==4}">가족여행</c:when>
                                             </c:choose>
