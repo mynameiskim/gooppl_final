@@ -37,7 +37,7 @@
 .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 </style>
 <script>
-var contentid='${placeinfo.owner_idx}';
+var contentid='${placeinfo.contentid}';
 var areacode;
 var sigungucode;
 var centerMapx;
@@ -59,19 +59,19 @@ function settingPage(){
 	 var addr='${placeinfo.addr}';
 	 areacode='${placeinfo.areacode}';
 	 sigungucode='${placeinfo.areacode}';
-	 contenttype='${placeinfo.contenttype}';
+	 contenttype=12;
 	 var mapx=${placeinfo.mapx}+0;
 	 var mapy=${placeinfo.mapy}+0;
-	 overview='${placeinfo.ad_content}.';
-	 var homepage='';
-	 var firstimage='${placeinfo.firstimg}';
+	 overview='${placeinfo.overview}.';
+	 var homepage='${placeinfo.homepage}';
+	 var firstimage='${placeinfo.firstimage}';
 	 placeDetail={
      	 	contentid:contentid,
      	 	title:title,
      	 	addr:addr,
      	 	areacode:areacode,
      	 	sigungucode:sigungucode,
-     	 	contenttype:contenttype,
+     	 	contenttype:12,
      	 	mapx:mapx,
      	 	mapy:mapy,
      	 	overview:overview,
@@ -151,7 +151,7 @@ function settingPage(){
 	btNode2.setAttribute('onclick', 'resizeMinusMap()');
 	map.addControl(btNode1, kakao.maps.ControlPosition.BOTTOMRIGHT);
 	
-	var infocenter='${placeinfo.business_tel}';
+	var infocenter='${placeinfo.homepage}';
 	placeDetail.infocenter=infocenter;
 	 
 	 var area_txtView=document.getElementById('area_txtTable');

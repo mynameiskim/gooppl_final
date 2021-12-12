@@ -5,8 +5,8 @@
    --bs-table-accent-bg: #24292f; !important;
 }
 </style>
-<div id="wrap">
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
+<div id="wrap">
 <div id="container">
 	<div id="aside">
 		<h5><b>기본설정</b></h5>

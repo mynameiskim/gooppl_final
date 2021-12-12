@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="/resource/meta/meta.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,7 +67,7 @@ function ckOwerAppli(member_idx){
 //
 </script>
 <body>
-   	<%@include file="/WEB-INF/views/member/header.jsp" %>
+ <%@include file="/WEB-INF/views/member/header.jsp" %>
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
@@ -361,7 +362,7 @@ function ckOwerAppli(member_idx){
                 <div class="card" style="max-width: 1024px; padding-left:0px;padding-right:0px;">
                     <div class="row align-items-center">
                         <div class="col-md-5">
-                        	<img src="${firstImg[status.index]}" class="img-responsive rounded-start" alt="..." style="width:100%; height:100%;">
+                        	<img src="${firstImg[status.index]}" class="img-responsive rounded-start" alt="..." style="width:100%; height:263px;">
                         </div>
                         <div class="col-md-7">
                             <div class="card-body align-items-center"  style="font-size:18px;">
@@ -662,7 +663,15 @@ function ckOwerAppli(member_idx){
                 </div>
             </div>
             <div class="row justify-content-md-center">
-            	<table class="table table-hover tb_hover">
+            <c:if test="${empty list}">
+           		<div class="col-md-6">
+           		  <div class="img-wrapper" style="position: relative; text-align:center; margin:0px auto;">
+           			<a href="inquiryWrite.do"><img class="rounded img-responsive" alt="..." src ="/gooppl/resource/img/마이페이지문의하기2.png"></a>
+				  </div>    
+           		</div>
+            </c:if>
+			<c:if test="${!empty list}">
+            <table class="table table-hover tb_hover">
 			  <thead>
 					<tr class="tr_bg">
 						<th class="text-center active text-white text-opacity-75" style="width:2%;">#</th>
@@ -672,13 +681,6 @@ function ckOwerAppli(member_idx){
 					</tr>
 			</thead>
 			  <tbody>
-			  	<c:if test="${empty list}">
-			  		<tr>
-					<td colspan="10" align="center">
-					<b>문의한 내역이 없습니다.</b>
-					</td>
-				</tr>
-			  	</c:if>
 			  	<c:forEach var="list" items="${list}" varStatus="status">
 			  		<c:if test="${list.inquiry_status=='y'}">
 			  		<tr class="tr_aling" id="iq_list${status.index}" onclick="showAnswer(${status.index})">
@@ -712,6 +714,7 @@ function ckOwerAppli(member_idx){
 			  	</c:forEach>
 			  </tbody>
 			</table>
+			</c:if>
 			</div>
         </div>
         <!-- 문의 영역 끝 -->

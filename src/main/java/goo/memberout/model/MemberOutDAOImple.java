@@ -68,4 +68,9 @@ public class MemberOutDAOImple implements MemberOutDAO {
 		int count = sqlMap.delete("memberOutDelete", out_no);
 		return count;
 	}
+	
+	public int memberOutDelete2(String goo_id) {
+		int count = sqlMap.delete("memberOutDelete2", goo_id);
+		return count;
+	}
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="/resource/meta/meta.jsp" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,60 +54,7 @@
     </style>
 <body>
    <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="subNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.do">GooPPl</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="createMap.do">Plan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="community.do">Community</a></li>
-                    <c:choose>
-						<c:when test="${!empty sessionNickname}">
-							<li class="nav-item dropdown dropend">
-								  <c:if test="${sessionScope.sessionMemberType=='M' }">
-								  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-								    <label class="bg-primary text-center"
-								    	style="
-                                        width: 30px;
-                                        border-radius: 50%;
-                                        color: #fff;
-                                        font-weight: 600;
-                                        font-size: 1.2rem;">${profileNick}</label>
-								  </a>
-								  </c:if>
-								  <c:if test="${sessionScope.sessionMemberType=='O' }">
-									  <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-									    <label class="bg-secondary text-center"
-									    	style="
-	                                        width: 30px;
-	                                        border-radius: 50%;
-	                                        color: #fff;
-	                                        font-weight: 600;
-	                                        font-size: 1.2rem;">${profileNick}</label>
-									  </a>
-								  </c:if>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="mypage.do">myPage</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="logout.do">Logout</a></li>
-							</ul>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="nav-item"><a id="login_bt" class="nav-link" href="#"
-								role="button" data-bs-toggle="modal" data-bs-target="#loginmd">LogIn</a></li>
-						</c:otherwise>
-					</c:choose>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<%@include file="/WEB-INF/views/member/header.jsp" %>
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
@@ -165,7 +113,7 @@
                                     <div class="row" style="width: auto; " >
                                         <div class="row g-0" style="border-left: solid 0.5px rgb(230, 227, 227);">
                                           <div class="col-md-3 " >
-                                            <img src="${pdlist[status.index].firstimage }" class="img-fluid " alt="..." style="padding: 8px;" >
+                                            <img src="${pdlist[status.index].firstimage }" class="img-fluid " alt="..." style="padding: 8px; width:100%; height:150px;" >
                                           </div>
                                           <div class="col-md-7" style="padding-left: 8px;" >
                                             
@@ -176,11 +124,22 @@
                                             
                                           </div>
                                           <div id="info" class="col-md-1" >
-                                          <c:url var="contentUrl" value="goPlaceDetail.do">
-											<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
-											<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
-											<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
-											</c:url>
+                                          <c:choose>
+                                          <c:when test="${pdlist[status.index].contentid>1000}">
+	                                          <c:url var="contentUrl" value="goPlaceDetail.do">
+												<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
+												<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
+												<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
+											  </c:url>
+                                          </c:when>
+                                          <c:when test="${pdlist[status.index].contentid<1000}">
+											  <c:url var="contentUrl" value="goAdPlaceDetail.do">
+												<c:param name="contentid">${pdlist[status.index].contentid}</c:param>
+												<c:param name="areacode">${pdlist[status.index].areacode }</c:param>
+												<c:param name="sigungucode">${pdlist[status.index].sigungucode }</c:param>
+											  </c:url>
+                                          </c:when>
+										  </c:choose>
                               			 	<h5 class="card-title mb-5"><a href="${contentUrl }">
                               			 	<img src="https://img.icons8.com/fluency/24/000000/information.png"/></a></h5>
                                           </div>
@@ -205,7 +164,7 @@
                     <!-- 추가 컨텐츠영역-->
                 <div class="row justify-content-md-center">
                 	<div class="col-md-9" style="background-color: white; height:120px; border-radius: 14px;">
-                		<h5 class="display-6 fw-bolder text-center" style="margin-top: 35px;">일정 끝 ~!</h5>
+                		<h5 class="display-6 fw-bolder text-center" style="margin-top: 35px;">The End</h5>
                 	</div>
                 </div>
             
@@ -224,45 +183,8 @@
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     <!-- Contact-->
-    <section class="contact-section bg-primary align-items-center">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-md-center">
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50">은평구 동서로 101-2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">1:1상담</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">문의하기</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0" style="padding:0px 10px">
-                    <div class="card py-1 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">FAQ</h4>
-                            <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#">자주하는 질문</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer class="footer bg-primary small text-center text-white-50" style="padding: 2.3rem 0;">
-        <div class="container px-4 px-lg-5">Copyright &copy; Ezen Academy & Team3 2021</div>
-    </footer>
+<%@include file="/WEB-INF/views/member/faq.jsp" %>
+<%@include file="/WEB-INF/views/member/footer.jsp" %>
 </body>
 
 </html>

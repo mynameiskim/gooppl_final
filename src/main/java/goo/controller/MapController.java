@@ -121,6 +121,23 @@ public class MapController {
 		return mav;
 	}
 	
+	@RequestMapping("/goMyPlaceDetail.do")
+	public ModelAndView MyPlaceDetail(
+			@RequestParam("contentid") int contentid,
+			@RequestParam("areacode") int areacode,
+			@RequestParam("sigungucode") int sigungucode
+			) {
+		ModelAndView mav = new ModelAndView();
+		String areaname=areaService.getAreaName(areacode);
+		String sigunguname=sigunguService.getSigunguName(areacode, sigungucode);
+		Gooppl_PlaceDetailDTO dto = gooppl_placedetailService.getThisDateDetail2(contentid);
+		mav.addObject("areaname", areaname);
+		mav.addObject("sigunguname", sigunguname);
+		mav.addObject("placeinfo", dto);
+		mav.setViewName("map/myPlaceDetail");
+		return mav;
+	}
+	
 	@RequestMapping("/goPlaceDetail.do")
 	public ModelAndView placeDetail(
 			@RequestParam("contentid") int contentid,
