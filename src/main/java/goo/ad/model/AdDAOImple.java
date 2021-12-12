@@ -73,4 +73,8 @@ public class AdDAOImple implements AdDAO {
 		int result = sqlMap.update("admin_adState_down", owner_idx);
 		return result;
 	}
+	public int admin_adInfo_del(int owner_idx) {
+		int result = sqlMap.delete("admin_adInfo_del", owner_idx);
+		return result;
+	}
 }

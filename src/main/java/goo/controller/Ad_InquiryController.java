@@ -59,12 +59,32 @@ public class Ad_InquiryController {
 		int member_idx = (Integer) session.getAttribute("sessionMember_idx");
 		int owner_idx = idto.getOwner_idx();
 		String ad_inquiry_state = ad_inquiryService.ckAdInquiry(member_idx);
-		String refund_inquiry_state = ad_inquiryService.ckCancelInquiry(member_idx);
+		
 		AdDTO adto = adService.getAdInfo(owner_idx);
 		if(idto.getInquiry_type().equals("광고신청")) {
 			if(adto!=null) {
-				map.put("msg", "이미 광고가 올라간 상태입니다.");
-				code = 0;
+				if(adto.getAd_state().equals("광고중")) {
+					map.put("msg", "이미 광고가 올라간 상태입니다.");
+					code = 0;
+				}else if(adto.getAd_state().equals("광고내림")) {
+					if(ad_inquiry_state==null||ad_inquiry_state=="") {
+						idto.setInquiry_state("대기");
+						int result = ad_inquiryService.adInquiry(idto);
+						if(result>0) {
+							map.put("msg", "문의가 등록되었습니다.");
+							code = 1;
+						}else {
+							map.put("msg", "ERROR");
+							code = 2;
+						}
+					}else if(ad_inquiry_state.equals("대기")) {
+						map.put("msg", "이미 등록된 광고 신청 문의가 있습니다.");
+						code = 0;
+					}else if(ad_inquiry_state.equals("광고승인")) {
+						map.put("msg", "이미 승인된 광고입니다. 결제를 완료해주세요");
+						code = 0;
+					}
+				}
 			}else {
 				if(ad_inquiry_state==null||ad_inquiry_state=="") {
 					
@@ -90,22 +110,34 @@ public class Ad_InquiryController {
 			if(pdto==null) {
 				map.put("msg", "환불할 결제 내역이 없습니다.");
 				code = 0;
-			}else if((pdto.getStatus()).equals("cancelled")){
-				map.put("msg", "이미 환불된 결제입니다.");
-				code = 0;
-			}else if((pdto.getStatus()).equals("paid")){
-				if(refund_inquiry_state.equals("대기")) {
-					map.put("msg", "이미 등록된 광고 취소 문의가 있습니다.");
+			}else {
+				if((pdto.getStatus()).equals("cancelled")){
+					map.put("msg", "이미 환불된 결제입니다.");
 					code = 0;
-				}else {
-					idto.setInquiry_state("대기");
-					int result = ad_inquiryService.adInquiry(idto);
-					if(result>0) {
-						map.put("msg", "문의가 등록되었습니다.");
-						code = 1;
-					}else {
-						map.put("msg", "ERROR");
-						code = 2;
+				}else if((pdto.getStatus()).equals("paid")){
+					String refund_inquiry_state = ad_inquiryService.ckCancelInquiry(member_idx);
+					if(refund_inquiry_state==null) {
+						idto.setInquiry_state("대기");
+						int result = ad_inquiryService.adInquiry(idto);
+						if(result>0) {
+							map.put("msg", "문의가 등록되었습니다.");
+							code = 1;
+						}else {
+							map.put("msg", "ERROR");
+							code = 2;
+						}
+					}else if(refund_inquiry_state!=null) {
+						if(refund_inquiry_state.equals("대기")) {
+							map.put("msg", "이미 등록된 환불 문의가 있습니다.");
+							code = 0;							
+						}else if(refund_inquiry_state.equals("환불승인")) {
+							idto.setInquiry_state("대기");
+							int result = ad_inquiryService.adInquiry(idto);
+							if(result>0) {
+								map.put("msg", "문의가 등록되었습니다.");
+								code = 1;
+							}
+						}
 					}
 				}
 			}

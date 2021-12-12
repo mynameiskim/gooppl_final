@@ -107,4 +107,8 @@ public class AdServiceImple implements AdService {
 		int result = adDao.admin_adState_down(owner_idx);
 		return result;
 	}
+	public int admin_adInfo_del(int owner_idx) {
+		int result = adDao.admin_adInfo_del(owner_idx);
+		return result;
+	}
 }

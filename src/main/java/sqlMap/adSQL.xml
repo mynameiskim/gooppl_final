@@ -17,10 +17,8 @@
 	)
 	</insert>
 	<update id="admin_refundAd_Del" parameterType="String">
-		UPDATE
+		DELETE FROM
 			AD_INFO
-		SET
-			AD_STATE = '광고내림'
 		WHERE
 			IMP_UID = #{imp_uid}
 	</update>
@@ -122,4 +120,10 @@
 		WHERE
 			owner_idx = #{owner_idx}
   	</update>
+  	<delete id="admin_adInfo_del" parameterType="Integer">
+  		DELETE FROM
+  			AD_INFO
+  		WHERE
+  			owner_idx = #{owner_idx}
+  	</delete>
 </mapper>

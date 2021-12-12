@@ -74,7 +74,7 @@ function payment_refund(index){
 	  		
 	  		
 			jQuery.ajax({
-				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=478cae913fdd742bed389727283c1c5e21395711", // 예: http://www.myservice.com/payments/cancel
+				"url": "https://cors-anywhere.herokuapp.com/https://api.iamport.kr/payments/cancel?_token=1bda06343dcde922357d0b9f2266507b1a201f5a", // 예: http://www.myservice.com/payments/cancel
 			    "type": "POST",
 			    "contentType": "application/json",
 			    "data": JSON.stringify({

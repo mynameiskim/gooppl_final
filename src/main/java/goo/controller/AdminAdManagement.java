@@ -227,6 +227,7 @@ public class AdminAdManagement {
 		
 		int result = ownerService.admin_ownerAppli_del(owner_idx);
 		int memberResult = memberService.admin_changeOwnerType(member_idx);
+		int adResult = adService.admin_adInfo_del(owner_idx);
 			
 		if(result>0) {
 			map.put("msg", "삭제완료");
