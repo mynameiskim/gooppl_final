@@ -224,7 +224,7 @@ function adInquiry(){
                                 <label class="form-label" style="color:#6c757d">사업자번호</label>
                                 <input type="text" class="form-control" id="business_number" name="business_number" value="${business_number}" readonly>
                             </div>
-							<div class="col-4 mb-4" id="changeType"><label class="form-label" style="color:#6c757d" id="notice">광고기간(개월)</label><input type="number" class="form-control" id="ad_period" name="ad_period" required="required"><input type="hidden" name="reason" value="N"></div>
+							<div class="col-4 mb-4" id="changeType"><label class="form-label" style="color:#6c757d" id="notice">광고기간(개월)</label><input type="number" class="form-control" id="ad_period" name="ad_period" min="1" max="24" required="required"><input type="hidden" name="reason" value="N"></div>
                         </div>
                     </div>
                     <div class="mb-4">
