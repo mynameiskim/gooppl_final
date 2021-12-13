@@ -235,7 +235,7 @@ body {
 				</div>
 			 <script>
 			 	function closePopUp(){
-			 	 	self.close();
+			 	 	window.self.close();
 			 	}
 			 </script>
 		</div>

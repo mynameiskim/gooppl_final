@@ -257,5 +257,13 @@ public class MainController {
 		int result = InquiryService.addInquiry(hmp);
 		return result;
 	}
+	@RequestMapping("/conditions.do")
+	public String goConditions() {
+		return "member/conditions";
+	}
+	@RequestMapping("/conditions2.do")
+	public String goConditions2() {
+		return "member/conditions2";
+	}
 	
 }
