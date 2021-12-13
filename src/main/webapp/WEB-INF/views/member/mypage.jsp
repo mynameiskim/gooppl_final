@@ -811,6 +811,11 @@ function ckOwerAppli(member_idx){
     		$('#showMyReview_bt').click();
     		sessionStorage.setItem("reviewDel",0)
     	}
+    	var inquiry_ok = sessionStorage.getItem("inquiry_ok");
+    	if(inquiry_ok==1){
+    		$('#showMyInquiry_bt').click();
+    		sessionStorage.setItem("inquiry_ok",0)
+    	}
     }
     </script>
     <script>

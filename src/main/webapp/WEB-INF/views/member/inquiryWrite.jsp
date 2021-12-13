@@ -76,7 +76,8 @@
 						  allowOutsideClick:false
 	            	  }).then((result) => {
 					    	if (result.isConfirmed) {
-					    		location.reload();
+					    		sessionStorage.setItem("inquiry_ok",1);
+					    		location.href="mypage.do";
 					    	}
 					    })
 	            	  }else{
