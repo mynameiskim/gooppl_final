@@ -24,13 +24,8 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 		this.gooppl_mapDao = gooppl_mapDao;
 	}
 
-	public int getMapidx(Gooppl_mapDTO dto) {
+	public int getMapIdx(Gooppl_mapDTO dto) {
 		int result=gooppl_mapDao.getMapIdx(dto);
-		return result;
-	}
-
-	public int getMemberIdx(int map_idx) {
-		int result=gooppl_mapDao.getMemberIdx(map_idx);
 		return result;
 	}
 	
@@ -82,5 +77,10 @@ public class Gooppl_mapServiceImple implements Gooppl_mapService {
 	public int planShareCancel(int map_idx) {
 		int count = gooppl_mapDao.planShareCancel(map_idx);
 		return count;
+	}
+	
+	public int dayMinus(Gooppl_mapDTO dto) {
+		int result=gooppl_mapDao.dayMinus(dto);
+		return result;
 	}
 }

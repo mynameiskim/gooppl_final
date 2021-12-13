@@ -173,10 +173,9 @@ public class MapController {
 		String enddate_s=endy+"-"+endm+"-"+endd;
 		Date startdate=Date.valueOf(startdate_s);
 		Date enddate=Date.valueOf(enddate_s);
-		
 		ModelAndView mav = new ModelAndView();
 		Gooppl_mapDTO dto = new Gooppl_mapDTO(0, map_title, member_idx, people_num, trip_type, startdate, enddate, enddate, share_ok, del_ok);
-		int result=gooppl_mapService.getMapidx(dto);
+		int result=gooppl_mapService.getMapIdx(dto);
 		mav.addObject("msg", result);
 		mav.setViewName("map/mapMsg");
 		return mav;
@@ -237,14 +236,20 @@ public class MapController {
 			mav.setViewName("redirect:index.do");
 		}else {	
 			int enroll_idx=(Integer)session.getAttribute("sessionMember_idx");
-			int map_member_idx=gooppl_mapService.getMemberIdx(map_idx);
-			if(enroll_idx!=map_member_idx) {
+			Gooppl_mapDTO dto = gooppl_mapService.getMapt(map_idx);
+			if(dto==null) {
+				mav.addObject("msg", "존재하지 않는 게시물입니다.");
+				mav.addObject("goPage", "index.do");
+				mav.setViewName("map/mapMove");
+			}else if(enroll_idx!=dto.getMember_idx()) {
 				mav.addObject("msg", "접근 권한이 없습니다.");
 				mav.addObject("goPage", "index.do");
 				mav.setViewName("map/mapMove");
 			}else {
 				Map map=new HashMap();
 				map.put("map_idx", map_idx);
+				int day_minus=gooppl_mapService.dayMinus(dto)+1;
+				day_num=day_num>day_minus?1:day_num;
 				map.put("day_num", day_num);
 				List<MapInfoDTO> mapinfolist = mapinfoService.mapInfoList(map);
 				mav.addObject("mapinfolist", mapinfolist);
@@ -257,7 +262,7 @@ public class MapController {
 					adlist = ownerService.allOwnerSelect(ownerIdxList);
 				}
 				mav.addObject("open_login", 0);
-				mav.addObject("member_idx", map_member_idx);
+				mav.addObject("member_idx", dto.getMember_idx());
 				mav.addObject("mapdto", mapDto);
 				mav.addObject("arealist", arealist);
 				mav.addObject("sigungulist", sigungulist);
@@ -423,8 +428,8 @@ public class MapController {
 			@RequestParam(value="cp",defaultValue = "1" )int cp) {
 		
 		ModelAndView mav = new ModelAndView();
-		int listSize=16;
-		int pageSize=10;
+		int listSize=8;
+		int pageSize=5;
 		int totalCnt=gooppl_mapService.getShareCnt();
 		mav.addObject("totalCnt",totalCnt);
 		// 쿼리에서 불러온 List
