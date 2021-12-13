@@ -25,14 +25,6 @@
   		from 
   			mapt
   	</select>
-  	<select id="getMemberIdx" resultType="Integer">
-  		select
-  			member_idx
-  		from 
-  			mapt
-  		where
-  			map_idx=#{map_idx}
-  	</select>
   	<select id="getMapt" parameterType="Integer" resultType="goo.map_t.model.Gooppl_mapDTO">
 		select * from mapt where member_idx =#{member_idx} and share_ok = 'y' and del_ok = 'n'
   	</select>
@@ -89,4 +81,12 @@
   	<update id="planShareCancel" parameterType="Integer">
   		update mapt set share_ok = 'n' where map_idx= #{map_idx}
   	</update>
+  	<select id="dayMinus" parameterType="goo.map_t.model.Gooppl_mapDTO" resultType="Integer">
+  		select
+  			(#{enddate}-#{startdate})
+  		from
+  			mapt
+  		where 
+  			map_idx=#{map_idx}
+  	</select>
   </mapper>

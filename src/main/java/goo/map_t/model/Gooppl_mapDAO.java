@@ -6,7 +6,6 @@ import java.util.*;
 public interface Gooppl_mapDAO {
 
 	public int getMapIdx(Gooppl_mapDTO dto);
-	public int getMemberIdx(int map_idx);
 	public Gooppl_mapDTO getMapt(int map_idx);
 	public int updateMap(Gooppl_mapDTO dto);
 	public int updateMapDate(Map map);
@@ -16,4 +15,5 @@ public interface Gooppl_mapDAO {
 	public int planDelete(int map_idx);
 	public int planShare(int map_idx);
 	public int planShareCancel(int map_idx);
+	public int dayMinus(Gooppl_mapDTO dto);
 }
