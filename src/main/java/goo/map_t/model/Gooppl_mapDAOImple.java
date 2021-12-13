@@ -25,11 +25,6 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		return result2;
 	}
 	
-	public int getMemberIdx(int map_idx) {
-		int result=sqlMap.selectOne("getMemberIdx", map_idx);
-		return result;
-	}
-
 	public Gooppl_mapDTO getMapt(int map_idx) {
 		Gooppl_mapDTO dto=sqlMap.selectOne("getMap_t", map_idx);
 		return dto;
@@ -72,4 +67,8 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		return count;
 	}
 
+	public int dayMinus(Gooppl_mapDTO dto) {
+		int result=sqlMap.selectOne("dayMinus", dto);
+		return result;
+	}
 }
