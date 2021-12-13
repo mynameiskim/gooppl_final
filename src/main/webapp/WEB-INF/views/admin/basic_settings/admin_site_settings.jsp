@@ -132,7 +132,7 @@ function siteSettingsUpdate(){
                     <label class="active text-white">키워드설정</label></th>
                     <td style="border: 1px solid #0000008c;">
                         <div>
-                            <label style="padding: 1px 0px; font-weight: 800;">Description(쇼핑몰설명)</label><label style="font-size: 10px; color: #106683;">&nbsp;* 영문,한글,숫자만 입력하세요.</label>
+                            <label style="padding: 1px 0px; font-weight: 800;">Description(사이트설명)</label><label style="font-size: 10px; color: #106683;">&nbsp;* 영문,한글,숫자만 입력하세요.</label>
                         </div>
                         <div>
                             <input id="description" name="description" type="text" style="width: 500px;" name="description" value="${sessionScope.dto.description}">

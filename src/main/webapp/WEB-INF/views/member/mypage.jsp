@@ -67,9 +67,7 @@ function ckOwerAppli(member_idx){
 //
 </script>
 <body>
-    <!-- Navigation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
  <%@include file="/WEB-INF/views/member/header.jsp" %>
-    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
@@ -672,8 +670,8 @@ function ckOwerAppli(member_idx){
 				  </div>    
            		</div>
             </c:if>
-            <c:if test="${!empty list}">
-            	<table class="table table-hover tb_hover">
+			<c:if test="${!empty list}">
+            <table class="table table-hover tb_hover">
 			  <thead>
 					<tr class="tr_bg">
 						<th class="text-center active text-white text-opacity-75" style="width:2%;">#</th>

@@ -10,7 +10,6 @@ import java.sql.Date;
 public interface Gooppl_mapService {
 
 	public int getMapidx(Gooppl_mapDTO dto);
-	public int getMemberIdx(int map_idx);
 	public Gooppl_mapDTO getMapt(int map_idx);
 	public int getShareCnt();
 	public int updateMap(Gooppl_mapDTO dto);
@@ -20,4 +19,5 @@ public interface Gooppl_mapService {
 	public int planDelete(int map_idx); 
 	public int planShare(int map_idx);
 	public int planShareCancel(int map_idx);
+	public int dayMinus(Gooppl_mapDTO dto);
 }
