@@ -428,8 +428,8 @@ public class MapController {
 			@RequestParam(value="cp",defaultValue = "1" )int cp) {
 		
 		ModelAndView mav = new ModelAndView();
-		int listSize=16;
-		int pageSize=10;
+		int listSize=8;
+		int pageSize=5;
 		int totalCnt=gooppl_mapService.getShareCnt();
 		mav.addObject("totalCnt",totalCnt);
 		// 쿼리에서 불러온 List
