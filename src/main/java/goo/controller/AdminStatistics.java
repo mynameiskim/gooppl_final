@@ -40,23 +40,51 @@ public class AdminStatistics {
 	
 	@RequestMapping("/member_statistics.do")
 	public ModelAndView memberStatistics(@RequestParam(value = "start_date" , defaultValue = "")String start_date
-			, @RequestParam(value = "end_date" , defaultValue = "")String end_date,HttpSession session) {
+			, @RequestParam(value = "end_date" , defaultValue = "")String end_date,@RequestParam(value = "month", defaultValue = "0")int month,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		if(session.getAttribute("sessionId")==null||!session.getAttribute("sessionMemberType").equals("A")) {
 			mav.addObject("msg", "관리자 계정으로 로그인해주세요");
 			mav.addObject("goPage", "index.do");
 			mav.setViewName("admin/basic_settings/msg");
 		}else {
-			System.out.println("memberStatistics 진입");
-			if(!start_date.equals("")&&!end_date.equals("")){
-				LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
-				LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
-				
-				if(e_date.isBefore(s_date)) {
-					mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
-					mav.addObject("display", "display : none;");
-				}else if(s_date.isBefore(e_date)) {
+			
+			if(month == 0) {
+				System.out.println("memberStatistics 진입");
+				if(!start_date.equals("")&&!end_date.equals("")){
+					LocalDate s_date = LocalDate.parse(start_date, DateTimeFormatter.ISO_DATE);
+					LocalDate e_date = LocalDate.parse(end_date, DateTimeFormatter.ISO_DATE);
 					
+					if(e_date.isBefore(s_date)) {
+						mav.addObject("msg", "올바르지 않은 형식입니다.끝나는 날짜가 시작하는 날짜보다 이전 날짜입니다. 다시 입력해주세요.");
+						mav.addObject("display1", "display : none;");
+						mav.addObject("display2", "display : none;");
+					}else if(s_date.isBefore(e_date)) {
+						
+						if(!start_date.equals("")&&end_date.equals("")) {
+							System.out.println("start_date 값만 진입");
+							end_date = start_date;
+						}else if(!end_date.equals("")&&start_date.equals("")) {
+							System.out.println("end_date 값만 진입");
+							start_date = end_date;
+						}
+						
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("start_date", start_date);
+						map.put("end_date", end_date);
+						mav.addObject("display1", "display : block;");
+						mav.addObject("display2", "display : none;");
+						map = adminService.statistics(map);
+						
+						mav.addObject("start_date", start_date);
+						mav.addObject("end_date", end_date);
+						mav.addObject("totalMemberNum", map.get("totalMemberNum"));
+						mav.addObject("currentMemberNum", map.get("currentMemberNum"));
+						mav.addObject("adminNum", map.get("adminNum"));
+						mav.addObject("ownerNum", map.get("ownerNum"));
+						mav.addObject("memberNum", map.get("memberNum"));
+						mav.addObject("memberOutNum", map.get("memberOutNum"));
+					}
+				}else{
 					if(!start_date.equals("")&&end_date.equals("")) {
 						System.out.println("start_date 값만 진입");
 						end_date = start_date;
@@ -64,13 +92,12 @@ public class AdminStatistics {
 						System.out.println("end_date 값만 진입");
 						start_date = end_date;
 					}
-					
 					Map<String, Object> map = new HashMap<String, Object>();
+					mav.addObject("display1", "display : block;");
+					mav.addObject("display2", "display : none;");
 					map.put("start_date", start_date);
 					map.put("end_date", end_date);
-					
 					map = adminService.statistics(map);
-					
 					mav.addObject("start_date", start_date);
 					mav.addObject("end_date", end_date);
 					mav.addObject("totalMemberNum", map.get("totalMemberNum"));
@@ -80,28 +107,20 @@ public class AdminStatistics {
 					mav.addObject("memberNum", map.get("memberNum"));
 					mav.addObject("memberOutNum", map.get("memberOutNum"));
 				}
-			}else{
-				if(!start_date.equals("")&&end_date.equals("")) {
-					System.out.println("start_date 값만 진입");
-					end_date = start_date;
-				}else if(!end_date.equals("")&&start_date.equals("")) {
-					System.out.println("end_date 값만 진입");
-					start_date = end_date;
-				}
+				mav.setViewName("/admin/statistics/member_statistics");
+			}else {
+				System.out.println("dayStatistics 진입");
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("start_date", start_date);
-				map.put("end_date", end_date);
-				map = adminService.statistics(map);
-				mav.addObject("start_date", start_date);
-				mav.addObject("end_date", end_date);
-				mav.addObject("totalMemberNum", map.get("totalMemberNum"));
-				mav.addObject("currentMemberNum", map.get("currentMemberNum"));
-				mav.addObject("adminNum", map.get("adminNum"));
-				mav.addObject("ownerNum", map.get("ownerNum"));
-				mav.addObject("memberNum", map.get("memberNum"));
-				mav.addObject("memberOutNum", map.get("memberOutNum"));
+				map = adminService.dayStatistics(month);
+				mav.addObject("display1", "display : none;");
+				mav.addObject("display2", "display : block;");
+				mav.addObject("days", map.get("days"));
+				mav.addObject("days_length", map.get("days_length"));
+				mav.addObject("year", map.get("year"));
+				mav.addObject("month", map.get("month"));
+				mav.setViewName("/admin/statistics/member_statistics");
 			}
-			mav.setViewName("/admin/statistics/member_statistics");
+			
 		}
 		
 		return mav;
@@ -130,17 +149,4 @@ public class AdminStatistics {
 		return mav;
 	}
 	
-	@RequestMapping("/day_statistics.do")
-	public ModelAndView dayStatistics(@RequestParam("month")int month) {
-		System.out.println("dayStatistics 진입");
-		Map<String, Object> map = new HashMap<String, Object>();
-		ModelAndView mav = new ModelAndView();
-		map = adminService.dayStatistics(month);
-		mav.addObject("days", map.get("days"));
-		mav.addObject("days_length", map.get("days_length"));
-		mav.addObject("year", map.get("year"));
-		mav.addObject("month", map.get("month"));
-		mav.setViewName("/admin/statistics/day_join_num");
-		return mav;
-	}
 }
