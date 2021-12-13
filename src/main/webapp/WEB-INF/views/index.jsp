@@ -276,12 +276,13 @@
 							<div class="form-check mb-3">
 								<input type="checkbox" class="form-check-input" id="aggrement1" required> 
 								<label class="form-check-label" for="aggrement1">개인정보 수집 및 이용에 동의합니다.</label>
-								<a href="#" style="text-decoration: none; font-size: 0.7em;">보기</a>
+								<a href="conditions.do" target="_blank" style="text-decoration: none; font-size: 0.7em;" onclick="openPopUp1();">보기</a>
+								
 							</div>
 							<div class="form-check mb-3 mb-3">
 								<input type="checkbox" class="form-check-input" id="aggrement2" required> 
 								<label class="form-check-label" for="aggrement2">이용약관에 동의합니다.</label>
-								<a href="#" style="text-decoration: none; font-size: 0.7em;">보기</a>
+								<a href="conditions2.do" target="_blank" style="text-decoration: none; font-size: 0.7em;">보기</a>
 							</div>
 							<div class="d-grid gap-2 mb-4">
 							<button class="btn btn-primary btn-lg btn-block" type="submit" id="joinbt" disabled="true">회원가입</button>
