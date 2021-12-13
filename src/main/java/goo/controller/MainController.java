@@ -86,7 +86,11 @@ public class MainController {
 			session.setAttribute("ad_inquiry_state", ad_inquiry_state);
 			
 			OwnerDTO odto = ownerService.ckOwnerInfo(member_idx);
-			
+			if(odto!=null) {
+				if(odto.getState().equals("승인")) {
+					session.setAttribute("sessionMemberType","O");
+				}
+			}
 			
 			List<Gooppl_mapDTO> mapDTO = gooppl_mapService.getMap(member_idx);
 			int totalPlaceCount[] = new int[mapDTO.size()];
