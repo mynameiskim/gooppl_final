@@ -17,8 +17,10 @@
 	)
 	</insert>
 	<update id="admin_refundAd_Del" parameterType="String">
-		DELETE FROM
+		UPDATE
 			AD_INFO
+		SET
+			AD_STATE = '광고내림'
 		WHERE
 			IMP_UID = #{imp_uid}
 	</update>

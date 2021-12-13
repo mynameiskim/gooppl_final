@@ -173,10 +173,9 @@ public class MapController {
 		String enddate_s=endy+"-"+endm+"-"+endd;
 		Date startdate=Date.valueOf(startdate_s);
 		Date enddate=Date.valueOf(enddate_s);
-		
 		ModelAndView mav = new ModelAndView();
 		Gooppl_mapDTO dto = new Gooppl_mapDTO(0, map_title, member_idx, people_num, trip_type, startdate, enddate, enddate, share_ok, del_ok);
-		int result=gooppl_mapService.getMapidx(dto);
+		int result=gooppl_mapService.getMapIdx(dto);
 		mav.addObject("msg", result);
 		mav.setViewName("map/mapMsg");
 		return mav;

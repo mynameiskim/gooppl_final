@@ -9,7 +9,7 @@ import java.sql.Date;
 
 public interface Gooppl_mapService {
 
-	public int getMapidx(Gooppl_mapDTO dto);
+	public int getMapIdx(Gooppl_mapDTO dto);
 	public Gooppl_mapDTO getMapt(int map_idx);
 	public int getShareCnt();
 	public int updateMap(Gooppl_mapDTO dto);
