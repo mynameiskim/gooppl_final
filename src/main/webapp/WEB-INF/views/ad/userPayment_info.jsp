@@ -136,6 +136,8 @@ function showResult(){
 		if(XHR.status==200){
 			console.log('넘어왔다..!');
 			var data = XHR.responseText;
+			
+			
 			location.href='mypage.do';
 		}
 	}

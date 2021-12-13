@@ -15,7 +15,8 @@ public interface AdDAO {
 	public List<AdDTO> all_endAdInfo(Map map);
 	public AdDTO ad_info(int ad_idx);
 	public int ckAd_info(int owner_idx);
-	public int pay_Update_ad_info(int owner_idx);
+	public int pay_Update_ad_info(Map map);
 	public int admin_adState_up(int owner_idx);
 	public int admin_adState_down(int owner_idx);
+	public int admin_adInfo_del(int owner_idx);
 }

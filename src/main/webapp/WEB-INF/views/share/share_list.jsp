@@ -212,7 +212,7 @@
 					<div class="collapse row" id="collapseExample"
 						style="margin-top: 32px;">등록된 게시글이 없습니다.</div>
 				</c:if>
-				<div class="collapse row" id="collapseExample"
+				<div class="collapse row mb-5" id="collapseExample"
 					style="margin-top: 32px;">
 						
 					<c:forEach var="dto" items="${list }" varStatus="status">
@@ -258,9 +258,12 @@
 						</div>
 					</c:forEach>
 				<div class="row justify-content-md-center text-center mb-5">
-					<div class="col-md-4">
-						<div class="col-md-8" style="margin: 0px auto;">
-							${sharePageStr }</div>
+					<div class="col-md-4" style="margin-top: 50px;">
+							<div class="col-md-8" style="margin: 0px auto;">
+								<ul class="pagination justify-content-center">
+								${sharePageStr }
+		                		</ul>
+	                		</div>
 					</div>
 				</div>
 				</div>

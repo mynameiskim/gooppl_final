@@ -61,8 +61,8 @@ public class AdDAOImple implements AdDAO {
 		int result = sqlMap.selectOne("ckAd_info", owner_idx);
 		return result;
 	}
-	public int pay_Update_ad_info(int owner_idx) {
-		int result = sqlMap.update("pay_Update_ad_info", owner_idx);
+	public int pay_Update_ad_info(Map map) {
+		int result = sqlMap.update("pay_Update_ad_info", map);
 		return result;
 	}
 	public int admin_adState_up(int owner_idx) {
@@ -71,6 +71,10 @@ public class AdDAOImple implements AdDAO {
 	}
 	public int admin_adState_down(int owner_idx) {
 		int result = sqlMap.update("admin_adState_down", owner_idx);
+		return result;
+	}
+	public int admin_adInfo_del(int owner_idx) {
+		int result = sqlMap.delete("admin_adInfo_del", owner_idx);
 		return result;
 	}
 }

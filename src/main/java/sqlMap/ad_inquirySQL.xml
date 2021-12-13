@@ -19,7 +19,7 @@
 		sysdate
 	)
 	</insert>
-	<select id="admin_totalAdInquiry" resultType="integer">
+	<select id="admin_totalAdInquiry" resultType="Integer">
   		SELECT
   			count(*)
   		FROM
@@ -29,7 +29,7 @@
   		AND
   			INQUIRY_STATE = '대기'
   	</select>
-  	<select id="admin_totalAdUpdateInquiry" resultType="integer">
+  	<select id="admin_totalAdUpdateInquiry" resultType="Integer">
   		SELECT
   			count(*)
   		FROM
@@ -39,7 +39,7 @@
   		AND
   			INQUIRY_STATE = '대기'
   	</select>
-  	<select id="admin_totalAdDelInquiry" resultType="integer">
+  	<select id="admin_totalAdDelInquiry" resultType="Integer">
   		SELECT
   			count(*)
   		FROM
@@ -49,7 +49,7 @@
   		AND
   			INQUIRY_STATE = '대기'
   	</select>
-  	<update id="admin_adInquiry_ok" parameterType="integer">
+  	<update id="admin_adInquiry_ok" parameterType="Integer">
   		UPDATE
   			ad_inquiry
   		SET
@@ -59,7 +59,7 @@
   	</update>
   	
   	<!-- 문의 상세보기 -->
-  	<select id="adInquiry_Info" parameterType="integer" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
+  	<select id="adInquiry_Info" parameterType="Integer" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
   		SELECT
   			*
   		FROM
@@ -67,7 +67,7 @@
   		WHERE
   			INQUIRY_IDX = #{inquiry_idx}
   	</select>
-  	<update id="adInquiry_ok" parameterType="integer">
+  	<update id="adInquiry_ok" parameterType="Integer">
   		UPDATE
   			AD_INQUIRY
   		SET
@@ -75,7 +75,7 @@
   		WHERE
   			INQUIRY_IDX = #{inquiry_idx}
   	</update>
-  	<select id="ckAdInquiry" parameterType="integer" resultType="String">
+  	<select id="ckAdInquiry" parameterType="Integer" resultType="String">
   		SELECT
   			inquiry_state
 		FROM
@@ -85,7 +85,7 @@
 		AND
 			INQUIRY_TYPE = '광고신청'
   	</select>
-  	<select id="ad_paymentInfo" parameterType="integer" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
+  	<select id="ad_paymentInfo" parameterType="Integer" resultType="goo.ad_inquery.model.Ad_inquiryDTO">
   		SELECT
   			*
   		FROM
@@ -95,7 +95,7 @@
   		AND
   			member_idx = #{member_idx}
   	</select>
-  	<delete id="payOk_InquiryDel" parameterType="integer">
+  	<delete id="payOk_InquiryDel" parameterType="Integer">
   		DELETE FROM
   			AD_INQUIRY
   		WHERE
@@ -103,7 +103,7 @@
   		AND
   			INQUIRY_TYPE = '광고신청'
   	</delete>
-  	<delete id="admin_adInquiry_del" parameterType="integer">
+  	<delete id="admin_adInquiry_del" parameterType="Integer">
   		DELETE FROM
   			AD_INQUIRY
   		WHERE
