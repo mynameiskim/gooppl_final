@@ -23,7 +23,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class KakaoApi {
 
 	private final static String K_CLIENT_ID = "d22d44a748a547d16cfdf54e0c8e7e79";
-	private final static String K_REDIRECT_URI = "http://localhost:9090/gooppl/kakaoCallback.do";
+	private final static String K_REDIRECT_URI = "http://192.168.1.243:9090/gooppl/kakaoCallback.do";
 
 
 	// 이런식으로 REDIRECT_URI를 써넣는다.
@@ -39,7 +39,7 @@ public class KakaoApi {
 		
 		postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
 		postParams.add(new BasicNameValuePair("client_id", "d22d44a748a547d16cfdf54e0c8e7e79")); // REST API KEY
-		postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:9090/gooppl/kakaoCallback.do")); // 리다이렉트
+		postParams.add(new BasicNameValuePair("redirect_uri", "http://192.168.1.243:9090/gooppl/kakaoCallback.do")); // 리다이렉트
 		postParams.add(new BasicNameValuePair("code", code)); // 로그인 과정중 얻은 code 값
 		
 		final HttpClient client = HttpClientBuilder.create().build();
