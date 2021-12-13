@@ -38,6 +38,27 @@
 .tr_aling{
 	vertical-align: middle;
 }
+a#MOVE_TOP_BTN {
+		position: fixed;
+		right: 10%;
+		bottom: 10%;
+		z-index: 999;
+		background-color: white;
+		opacity: .8;
+		width: 50px;
+		height: 50px;
+		padding:10px 6px;
+		border-radius: 50%;
+		border: none;
+		color: gray;
+		font-size:18px;
+		font-weight:800;
+		text-decoration: none;
+}
+a#MOVE_TOP_BTN:hover{
+		background-color:#f3969a;
+		color:white;
+}
 </style>
 <script>
 //이미 신청한 광고주
@@ -68,6 +89,27 @@ function ckOwerAppli(member_idx){
 </script>
 <body>
  <%@include file="/WEB-INF/views/member/header.jsp" %>
+ <!-- TOP BTN[S] -->
+	<a href="#" id="MOVE_TOP_BTN">TOP</a>
+	<script>
+    $(function() {
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 300) {
+                $('#MOVE_TOP_BTN').fadeIn();
+            } else {
+                $('#MOVE_TOP_BTN').fadeOut();
+            }
+        });
+        
+        $("#MOVE_TOP_BTN").click(function() {
+            $('html, body').animate({
+                scrollTop : 0
+            }, 0);
+            return false;
+        });
+    });
+	</script>
+<!-- TOP BTN[E] -->
     <section class="signup-section bg-light" id="signup"
         style="padding-top: 10rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
@@ -199,22 +241,34 @@ function ckOwerAppli(member_idx){
                 <div class="modal-body p-2 pt-0">
                     <div class="row justify-content-md-center mb-2">
                         <div class="col text-center">
-                            <div style="display: flex;
-                                        justify-content: center;
-                                        align-items: center;
-                                        width: 80px;
-                                        height: 80px;
-                                        border-radius: 50%;
-                                        background-color: #717171;
-                                        color: #fff;
-                                        margin: 0px auto;
-                                        font-weight: 700;
-                                        font-size: 2.0rem;
-                                        
-                                        "
-                                        >${profileNick}
-                                        
-                            </div>
+                            <c:if test="${sessionScope.sessionMemberType=='O' }">
+			                 <div style="display: flex;
+			                                justify-content: center;
+			                                align-items: center;
+			                                width: 50px;
+			                                height: 50px;
+			                                border-radius: 50%;
+			                                background-color: #f3969a;
+			                                color: #fff;
+			                                margin: 0px auto;
+			                                font-weight: 700;
+                                        	font-size: 2.0rem;">${profileNick}
+			                    </div>
+			                </c:if>
+			                <c:if test="${sessionScope.sessionMemberType=='M' }">
+			                    <div style="display: flex;
+			                                justify-content: center;
+			                                align-items: center;
+			                                width: 50px;
+			                                height: 50px;
+			                                border-radius: 50%;
+			                                background-color: #66a593;
+			                                color: #fff;
+			                                margin: 0px auto;
+			                                font-weight: 700;
+                                        	font-size: 2.0rem;">${profileNick}
+			                    </div>
+			                </c:if>
                             <br>
                         </div>
                     </div>
