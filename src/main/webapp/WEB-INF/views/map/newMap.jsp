@@ -628,9 +628,10 @@ function showResult(){
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
          if(adContents.length!=0){
-            for(var i=0;i<adContents.length;i++){
+            for(var i=0;i<2;i++){
                if(setSigungucode==''){
                   if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
+
                      var title=adContents[i].title;
                      var contentid=adContents[i].contentid;
                      var addr=adContents[i].addr;
@@ -668,7 +669,8 @@ function showResult(){
                   }
                }else{
                   if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode && adContents[i].sigungucode==setSigungucode){
-                     var title=adContents[i].title;
+                	  
+                	 var title=adContents[i].title;
                      var contentid=adContents[i].contentid;
                      var addr=adContents[i].addr;
                      var image=adContents[i].image;
