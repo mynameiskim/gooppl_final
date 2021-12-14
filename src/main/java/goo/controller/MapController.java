@@ -3,13 +3,36 @@
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.poi.common.usermodel.HyperlinkType;
+import org.apache.poi.hssf.usermodel.HSSFHyperlink;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -522,7 +545,141 @@ public class MapController {
 	}
 	
 	
-	
+	@RequestMapping("/downloadMapInfo.do")
+	public void sample(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value="map_idx",defaultValue = "1" )int map_idx) 
+			throws Exception {
+	    try {
+	        String filename = "";
+	        request.setCharacterEncoding("EUC-KR");
+	        String formPath = request.getSession().getServletContext().getRealPath("resource/excel/basicExcelForm.xlsx"); //양식 패스 가져오기
+	        System.out.println(formPath);
+	        InputStream fis = new FileInputStream(formPath);
+	        XSSFWorkbook form_wb = new XSSFWorkbook(fis);
+	        XSSFSheet form_sheet = form_wb.getSheetAt(0);
+	        Gooppl_mapDTO dto=gooppl_mapService.getMapt(map_idx);
+
+	        //양식에 넣어줄 데이터
+	        String mapTitle = dto.getMap_title();
+	        String mapdays = dto.getStartdate().toString()+" ~ "+dto.getEnddate().toString();
+	        String mapPeoplenum = dto.getPeople_num()+"명";
+	        int trip_type=dto.getTrip_type();
+	        String mapTrip_type;
+	        switch(trip_type) {
+	        case 1:mapTrip_type="홀로여행";
+	        case 2:mapTrip_type="커플여행";
+	        case 3:mapTrip_type="우정여행";
+	        case 4:mapTrip_type="가족여행";
+	        default:mapTrip_type="홀로여행";
+	        }
+	        System.out.println(mapTitle+", "+mapdays+", "+mapPeoplenum+", "+mapTrip_type);
+	        List<MapInfoDTO> list=mapinfoService.shareContent(map_idx);
+	        int maxDay=list.get(list.size()-1).getDay_num();
+	        
+	        CellStyle titleStyle=form_wb.createCellStyle();
+	        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+	        titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	        titleStyle.setFillForegroundColor(HSSFColorPredefined.TEAL.getIndex());
+	        titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	        
+	        XSSFFont titleFont=form_wb.createFont();
+	        titleFont.setFontHeightInPoints((short)14);
+	        titleFont.setFontName("맑은 고딕");
+	        titleFont.setBold(true);
+	        titleStyle.setFont(titleFont);
+
+	        //엑셀 폼에 넣기 (로우와 셀 주의!!!)
+	        Cell titleCell=form_sheet.getRow(0).createCell(1);
+	        titleCell.setCellStyle(titleStyle);
+	        titleCell.setCellValue(mapTitle);
+	        form_sheet.getRow(0).createCell(23).setCellValue(mapdays);
+	        form_sheet.getRow(1).createCell(23).setCellValue(mapTrip_type);
+	        form_sheet.getRow(2).createCell(23).setCellValue(mapPeoplenum);
+	        //form_sheet.getRow(4).createCell(3).setCellValue("셀병합실험");
+	        //form_sheet.addMergedRegion(new CellRangeAddress(4, 4, 3, 4));
+	        form_sheet.createRow(4);
+	        form_sheet.createRow(5);
+	        form_sheet.createRow(6);
+	        form_sheet.createRow(7);
+	        
+	        CellStyle contentStyle=form_wb.createCellStyle();
+	        contentStyle.setAlignment(HorizontalAlignment.LEFT);
+	        contentStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	        
+	        XSSFFont contentFont=form_wb.createFont();
+	        contentFont.setFontHeightInPoints((short)9);
+	        contentFont.setFontName("맑은 고딕");
+	        contentFont.setBold(false);
+	        contentStyle.setFont(contentFont);
+	        
+	        CellStyle dateStyle=form_wb.createCellStyle();
+	        dateStyle.setAlignment(HorizontalAlignment.CENTER);
+	        dateStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	        dateStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_ORANGE.getIndex());
+	        dateStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	        
+	        XSSFFont dateFont=form_wb.createFont();
+	        dateFont.setFontHeightInPoints((short)11);
+	        dateFont.setFontName("맑은 고딕");
+	        dateFont.setBold(false);
+	        dateFont.setColor(IndexedColors.WHITE.getIndex());
+	        dateStyle.setFont(dateFont);
+	        
+	        
+	        int start_num=0;
+
+	        for(int i=1;i<=maxDay;i++) {
+	        	 int cellnum=1+((i-1)*4);
+	        	 Cell dayCell=form_sheet.getRow(5).createCell(cellnum);
+	        	 form_sheet.addMergedRegion(new CellRangeAddress(5,6,cellnum,cellnum+2));
+	        	 dayCell.setCellStyle(titleStyle);
+	        	 dayCell.setCellValue("DAY"+i);
+	        	 Cell dateCell=form_sheet.getRow(7).createCell(cellnum);
+	        	 form_sheet.addMergedRegion(new CellRangeAddress(7,7,cellnum,cellnum+2));
+	        	 dateCell.setCellStyle(dateStyle);
+	        	 String startdate=dto.getStartdate().toString();
+	        	 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+	        	 Calendar c=Calendar.getInstance();
+	        	 c.setTime(sdf.parse(startdate));
+	        	 startdate=sdf.format(c.getTime());
+	        	 c.add(Calendar.DATE, i-1);
+	        	 String nowDate=sdf.format(c.getTime());
+	        	 dateCell.setCellValue(nowDate);
+	        	 int max_route_num=mapinfoService.getMaxRoutenum(map_idx, i);
+	        	 List<Integer> contentids =new ArrayList<Integer>();
+	        	 for(int j=start_num;j<start_num+max_route_num;j++) {
+	 	        	contentids.add(list.get(j).getContentid());
+	 	         }
+	 	         List<Gooppl_PlaceDetailDTO> pdList=gooppl_placedetailService.getThisDateDetail(contentids);
+	 	         for(int j=0;j<pdList.size();j++) {
+	 	        	int topRow=form_sheet.getLastRowNum();
+	 	        	if(8+j>topRow) {
+	 	        		form_sheet.createRow(8+j);
+	 	        	}
+	 	        	Cell route_numCell=form_sheet.getRow(8+j).createCell(cellnum);
+	 	        	route_numCell.setCellValue(j+1);
+	 	        	Cell contentCell=form_sheet.getRow(8+j).createCell(cellnum+1);
+	 	        	form_sheet.addMergedRegion(new CellRangeAddress(8+j,8+j,cellnum+1,cellnum+2));
+	 	        	contentCell.setCellStyle(contentStyle);
+	 	        	if(pdList.get(j).getTitle().length()>10) {
+	 	        		contentCell.setCellValue(pdList.get(j).getTitle().substring(0, 10));
+	 	        	}else {
+	 	        		contentCell.setCellValue(pdList.get(j).getTitle());
+	 	        	}
+	 	         }
+	 	         start_num=start_num+max_route_num;
+	        }
+	        
+	        //파일 이름, 형식, 헤더 설정
+	        filename = "fileDown.xlsx";
+	        response.setContentType("ms-vnd/excel;charset=EUC-KR");
+	        response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+	        form_wb.write(response.getOutputStream());
+	        response.getOutputStream().close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 	
 	
 	

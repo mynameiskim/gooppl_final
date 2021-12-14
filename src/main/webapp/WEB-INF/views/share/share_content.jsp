@@ -84,6 +84,9 @@
                                 <div class="col-xs-9 mb-3" style="font-size: medium; ">
                                    <strong>여행 기간 : ${gmdto.startdate }~${gmdto.enddate }</strong>
                                 </div>
+                                <div class="excel_box">
+                                	<a class="down_btn excel member_btn" href="downloadMapInfo.do?map_idx=${gmdto.map_idx}">다운로드</a>
+                                </div>
                    	</div>
                  
                    <c:forEach var="dto" items="${drlist }"  varStatus="status">
