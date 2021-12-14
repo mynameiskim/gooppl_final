@@ -186,7 +186,7 @@ a#MOVE_TOP_BTN:hover{
 										<h6 class="card-title">${list.kr_name}</h6>
 										<p class="card-text" style="font-size: 18px;">${list.area_description }</p>
 										<br>
-										<button type="button" class="btn btn-primary btn-lg" onclick="javascript: location.href='createMap.do?areacode=${list.areacode }&sigungucode=${list.sigungucode }'">일정만들기</button>
+										<button type="button" class="btn btn-primary btn-lg" onclick="javascript: location.href='createMap.do?areacode=${list.areacode }&sigungucode=0'">일정만들기</button>
 										<button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">닫기</button>
 									</div>
 								</div>

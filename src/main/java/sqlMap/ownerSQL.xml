@@ -62,7 +62,7 @@
   	<select id="allOwnerAppliInfo" parameterType="Map" resultType="goo.owner.model.OwnerDTO">
   		SELECT * FROM	
 			(SELECT rownum AS rnum, a.* FROM
-			(SELECT * FROM OWNER_INFO WHERE state = '대기' ORDER BY OWNER_IDX ASC)a)b
+			(SELECT * FROM OWNER_INFO WHERE state = '대기' ORDER BY OWNER_IDX desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
   	</select>
   	<select id="ownerInfo" parameterType="Integer" resultType="goo.owner.model.OwnerDTO">
@@ -109,7 +109,7 @@
 	<select id="admin_allOwner" parameterType="Map" resultType="goo.owner.model.OwnerDTO">
 		SELECT * FROM	
 			(SELECT rownum AS rnum, a.* FROM
-			(SELECT * FROM OWNER_INFO WHERE state = '승인' ORDER BY OWNER_IDX ASC)a)b
+			(SELECT * FROM OWNER_INFO WHERE state = '승인' ORDER BY OWNER_IDX desc)a)b
 		WHERE rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
 	</select>
 	<update id="admin_ownerUpdate" parameterType="goo.owner.model.OwnerDTO">
