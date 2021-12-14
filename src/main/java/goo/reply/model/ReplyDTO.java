@@ -8,7 +8,7 @@ public class ReplyDTO {
 	private String type;
 	private String content;
 	private String nickname;
-	private Date writedate;
+	private String writedate;
 	private int grpno;
 	private int lev;
 	private int sunbun;
@@ -17,8 +17,8 @@ public class ReplyDTO {
 	public ReplyDTO() {
 		super();
 	}
-
-	public ReplyDTO(int ridx, String type, String content, String nickname, Date writedate, int grpno, int lev,
+	
+	public ReplyDTO(int ridx, String type, String content, String nickname, String writedate, int grpno, int lev,
 			int sunbun, int review_idx) {
 		super();
 		this.ridx = ridx;
@@ -64,11 +64,11 @@ public class ReplyDTO {
 		this.nickname = nickname;
 	}
 
-	public Date getWritedate() {
+	public String getWritedate() {
 		return writedate;
 	}
 
-	public void setWritedate(Date writedate) {
+	public void setWritedate(String writedate) {
 		this.writedate = writedate;
 	}
 
@@ -103,6 +103,7 @@ public class ReplyDTO {
 	public void setReview_idx(int review_idx) {
 		this.review_idx = review_idx;
 	}
+
 	
 }
 
