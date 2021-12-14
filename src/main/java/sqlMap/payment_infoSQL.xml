@@ -105,5 +105,11 @@
   		 WHERE
   		 	IMP_UID = #{imp_uid}
   	</select>
+  	<delete id="admin_allPayment_del" parameterType="Integer">
+  		DELETE FROM
+  			PAYMENT_INFO
+  		WHERE
+  			OWNER_IDX = #{owner_idx}
+  	</delete>
   	
   </mapper>

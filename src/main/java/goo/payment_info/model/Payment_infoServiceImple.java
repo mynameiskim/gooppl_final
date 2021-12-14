@@ -87,4 +87,9 @@ public class Payment_infoServiceImple implements Payment_infoService {
 		Payment_infoDTO dto = payment_infoDao.getPaymentDetail(imp_uid);
 		return dto;
 	}
+	
+	public int admin_allPayment_del(int owner_idx) {
+		int result = payment_infoDao.admin_allPayment_del(owner_idx);
+		return result;
+	}
 }

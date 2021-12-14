@@ -68,4 +68,9 @@ public class Payment_infoDAOImple implements Payment_infoDAO {
 		Payment_infoDTO dto = sqlMap.selectOne("getPaymentDetail", imp_uid);
 		return dto;
 	}
+	
+	public int admin_allPayment_del(int owner_idx) {
+		int result = sqlMap.delete("admin_allPayment_del", owner_idx);
+		return result;
+	}
 }
