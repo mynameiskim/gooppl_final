@@ -70,7 +70,7 @@
 <body>
      <%@include file="/WEB-INF/views/member/header.jsp" %>
     <section class="signup-section bg-light" id="signup"
-        style="padding-top: 3rem; background: linear-gradient(to bottom, rgb(255 255 255 / 42%) 0%, rgb(207 255 203 / 28%) 75%, #f6f2f2 100%);">
+        style="padding-top: 3rem; background:white;">
         <h1 class="display-6 fw-bolder mb-5 text-center"></h1>
         <div class="container-sm mb-5">
         <form name="reviewContent" action="reviewUpdateForm.do?review_idx=${param.review_idx }"  method="post" enctype="multipart/form-data">
@@ -124,27 +124,23 @@
 
                 <!--    여행 인트로?-->
                 <div class="row justify-content-md-center mb-5">
-                    <h6 class="fw-bolder text-center  mb-3">
-                        " intro ~ "
-                    </h6>
-                    <p class="fw-bold text-center">
+                    
+                    <p class="fw-bold text-center"><img src="/gooppl/resource/img/left.png" >
                         ${dto.prologue }
-                    </p>
+                    <img src="/gooppl/resource/img/right.png" ></p>
                 </div>
 
 
-                <div class="row justify-content-md-center text-center">
+                <div class="row justify-content-md-center text-center mb-5">
                     <!--    본문내용-->
                     ${dto.content }
                 </div>
                 <!--    에필로그-->
-                <div class="row mb-3">
-                    <h6 class="fw-bolder text-center mb-3 " style="font-size: 18px;">
-                        " outro .. " 
-                    </h6>
-                    <p class="fw-bold text-center">
+                <div class="row mb-5">
+                   
+                    <p class="fw-bold text-center"><img src="/gooppl/resource/img/left.png" >
                     	${dto.epilogue }
-                    </p>
+                    <img src="/gooppl/resource/img/right.png" ></p>
                 </div>
 	                
 	                <!--#### 수정 삭제 버튼 ####-->
@@ -170,7 +166,7 @@
 
 		<!-- Comments Form -->
 		<div>
-		<h2>Comments</h2>
+		<h2>Comments</h2><label style="float: right;">${list }</label>
 		<hr>
 		</div>
 		<div id="reply">
@@ -208,8 +204,10 @@
     	});
     
     function getRelplyList(){
+    	
     	var review_idx = $('input[name=review_idx]').val();
     	var nick = $('input[name=nick]').val();
+    	
     	$.ajax({
     		type: 'GET',
     		url: 'getRelplyList.do',
@@ -218,16 +216,16 @@
     			console.log(result);
     			for(var i=0; i<result.length; i++){
     				if(result[i].nickname==nick){
-    	 				var str = "<div class=\"reply\" style=\"float: left;\">"
-            				str += "<strong>"+result[i].nickname+"(나)</strong>&nbsp;:&nbsp;"+result[i].content+"</div></hr>"
-            				str += "<div style=\"text-align: right;\"><label class=\"replyDel\" id=\""+result[i].ridx+"\" style=\"cursor: pointer;\">❌</label></div>"
-            				str += "<div style=\"text-align: right; font-size: 10px;\">"+result[i].nickname+"</div>"
+    	 				var str = "<div class=\"reply \" >"
+    	 					str = "<div><label style=\"text-align: right; \"><strong>"+result[i].nickname+"(나)</strong></label>&nbsp;:&nbsp;<label style=\"font-size:10px; color:gray;\">"+result[i].writedate+"</label></div>"
+            				str += "&nbsp;&nbsp;"+result[i].content+"</div></hr>"
+            				str += "<div class=\"mb-3\" style=\"text-align: right; border-bottom: 0.5px solid #67c29c36;\"><label class=\"replyDel\" id=\""+result[i].ridx+"\" style=\"cursor: pointer;\">❌</label></div>"
             				$("#reply").append(str);
     				}else{
-        				var str = "<div class=\"reply\" style=\"float: left;\">"
-            				str += "<strong>"+ result[i].nickname+"</strong>&nbsp;:&nbsp;"+result[i].content+"</div></hr>"
-            				str += "<div style=\"text-align: right;\"><label onclick=\"#\">-</label></div>"
-            				str += "<div style=\"text-align: right; font-size: 10px;\">"+result[i].nickname+"</div>"
+        				var str = "<div class=\"reply \" >"
+        					str = "<div><label style=\"text-align: right; \"><strong>"+result[i].nickname+"</strong><label>&nbsp;:&nbsp;<label style=\"font-size:10px; color:gray;\">"+result[i].writedate+"</label></div>"
+            				str += "&nbsp;&nbsp;"+result[i].content+"</div></hr>"
+            				str += "<div class=\"mb-3\" style=\"text-align: right; border-bottom: 0.5px solid #67c29c36;\"><label onclick=\"#\">-</label></div>"
             				$("#reply").append(str);
     				}
     			}
