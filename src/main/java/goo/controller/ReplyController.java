@@ -63,7 +63,6 @@ public class ReplyController {
 			dto.setContent(content);
 			dto.setNickname(nickname);
 			dto.setReview_idx(review_idx);
-	
 			result = replyService.writeReply(dto);
 		}
 		
@@ -75,7 +74,6 @@ public class ReplyController {
 	private List<ReplyDTO> getReplyList(@RequestParam("review_idx")int review_idx) throws Exception{
 		
 		List<ReplyDTO> list = replyService.replyList(review_idx);
-		
 		return list;
 	}
 	
