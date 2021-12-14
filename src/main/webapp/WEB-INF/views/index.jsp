@@ -30,6 +30,29 @@
 <!-- XHM -->
 <script type="text/javascript" src="/gooppl/resource/js/httpRequest.js"></script>
 </head>
+<style>
+a#MOVE_TOP_BTN {
+		position: fixed;
+		right: 10%;
+		bottom: 10%;
+		z-index: 999;
+		background-color: white;
+		opacity: .8;
+		width: 50px;
+		height: 50px;
+		padding:10px 6px;
+		border-radius: 50%;
+		border: none;
+		color: gray;
+		font-size:18px;
+		font-weight:800;
+		text-decoration: none;
+}
+a#MOVE_TOP_BTN:hover{
+		background-color:#f3969a;
+		color:white;
+}
+</style>
 <body id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top"
@@ -91,6 +114,25 @@
 		</div>
 	</header>
 	<!-- Signup-->
+	<a href="#" id="MOVE_TOP_BTN">TOP</a>
+	<script>
+    $(function() {
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 300) {
+                $('#MOVE_TOP_BTN').fadeIn();
+            } else {
+                $('#MOVE_TOP_BTN').fadeOut();
+            }
+        });
+        
+        $("#MOVE_TOP_BTN").click(function() {
+            $('html, body').animate({
+                scrollTop : 0
+            }, 100);
+            return false;
+        });
+    });
+	</script>
 	<section class="signup-section" id="signup">
 		<div class="container px-4 px-lg-5">
 			<div class="row gx-4 gx-lg-5">
@@ -428,7 +470,7 @@
 	 			$('#mail_token').attr('readonly','readonly');
 	 			$('#token_check').css('display','none')
 	 			$('#token_ok').css('display','')
-	 		}else{
+	 		}else if(input_token != made_token){
 	 			Swal.fire({
 					  title: '인증 실패',
 					  text: '인증번호를 확인해주세요!',

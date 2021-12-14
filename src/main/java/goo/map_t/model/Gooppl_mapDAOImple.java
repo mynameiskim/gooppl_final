@@ -18,7 +18,7 @@ public class Gooppl_mapDAOImple implements Gooppl_mapDAO {
 		int result=sqlMap.insert("addMap_t", dto);
 		int result2;
 		if(result>0) {
-			result2=sqlMap.selectOne("getMapIdx");
+			result2=sqlMap.selectOne("getMapIdx", dto.getMember_idx());
 		}else {
 			result2=0;
 		}
