@@ -602,7 +602,7 @@ public class MapController {
 	           CreationHelper createHelper2 = form_wb.getCreationHelper();
 	           goPCell.setCellValue("구플에서 일정보기");
 	           Hyperlink link2 = createHelper2.createHyperlink(Hyperlink.LINK_FILE);
-	           String urlgo="http://192.168.1.243:9090/gooppl/shareContent.do?map_idx="+map_idx+"&member_idx="+dto.getMember_idx();
+	           String urlgo="http://localhost:9090/gooppl/shareContent.do?map_idx="+map_idx+"&member_idx="+dto.getMember_idx();
 	           link2.setAddress(urlgo);
 	           goPCell.setHyperlink((org.apache.poi.ss.usermodel.Hyperlink) link2);
 	           System.out.println("실험");
@@ -709,9 +709,9 @@ public class MapController {
 	                  Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
 	                  String url="";
 	                  if(pdList.get(j).getContentid()<=1000) {
-	                     url="http://192.168.1.243:9090/gooppl/goAdPlaceDetail.do?contentid="+pdList.get(j).getContentid()+"&areacode="+pdList.get(j).getAreacode()+"&sigungucode="+pdList.get(j).getSigungucode();
+	                     url="http://localhost:9090/gooppl/goAdPlaceDetail.do?contentid="+pdList.get(j).getContentid()+"&areacode="+pdList.get(j).getAreacode()+"&sigungucode="+pdList.get(j).getSigungucode();
 	                  }else {
-	                     url="http://192.168.1.243:9090/gooppl/goPlaceDetail.do?contentid="+pdList.get(j).getContentid()+"&areacode="+pdList.get(j).getAreacode()+"&sigungucode="+pdList.get(j).getSigungucode();
+	                     url="http://localhost:9090/gooppl/goPlaceDetail.do?contentid="+pdList.get(j).getContentid()+"&areacode="+pdList.get(j).getAreacode()+"&sigungucode="+pdList.get(j).getSigungucode();
 	                  }
 	                  link.setAddress(url);
 	                  goPageCell.setHyperlink((org.apache.poi.ss.usermodel.Hyperlink) link);
