@@ -11652,11 +11652,12 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(103 154 245 / 39%) 0%, rgba(0 0 0 / 0%) 75%, #fff 100%), url("/gooppl/resource/img/main_bg_jeju2.jpg");
+  background: linear-gradient(to bottom, rgba(103 154 245 / 39%) 0%, rgba(0 0 0 / 0%) 75%, #fff 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
+  overflow: hidden;
 }
 .masthead h1, .masthead .h1 {
   font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

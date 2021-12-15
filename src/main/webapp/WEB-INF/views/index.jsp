@@ -99,20 +99,41 @@ a#MOVE_TOP_BTN:hover{
 		</div>
 	</nav>
 	<!-- Masthead-->
-	<header class="masthead">
-		<div
-			class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
-			<div class="d-flex justify-content-center">
-				<div class="text-center">
-					<p class="lead text-white-50 mb-4">
-						여행 일자, 숙소, 가고 싶은 장소를 선택하세요!<br>쉽고 빠른 여행 일정을 만들어보세요!
-					</p>
-					<h1 class="display-5 fw-bolder text-white mb-2">나의 여행 플래너</h1>
-					<a class="btn btn-primary btn-lg" id="createMap" href="createMap.do">일정만들기</a>
-				</div>
-			</div>
-		</div>
-	</header>
+   <header class="masthead">
+      <div
+         class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+         <div class="d-flex justify-content-center">
+            <div class="overlay" style=" position: absolute;
+                                      top: 0;
+                                      left: 0;
+                                      height: 100%;
+                                      width: 100%;
+                                      background:linear-gradient(to bottom, rgb(132 170 199 / 0%) 0%, rgb(109 212 117 / 0%) 75%, #fff 100%);
+                                      z-index: 2;">
+              </div>
+              <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" style="position: absolute;
+                                         top: 50%;
+                                         left: 50%;
+                                         min-width: 100%;
+                                         min-height: 100%;
+                                         width: auto;
+                                         height: auto;
+                                         z-index: 1;
+                                         -ms-transform: translateX(-50%) translateY(-50%);
+                                         -moz-transform: translateX(-50%) translateY(-50%);
+                                         -webkit-transform: translateX(-50%) translateY(-50%);
+                                         transform: translateX(-50%) translateY(-50%);">
+                 <source src="/gooppl/resource/img/MainMovie.mp4" type="video/mp4">
+                 <strong>Your browser does not support the video tag.</strong>
+               </video>
+            <div class="text-center" style="position: absolute; top: 42%; width: 100%; z-index:3 ">
+               <h6 class="display-5 fw-bolder text-white mb-2" style="text-align: center; font-size: 48px; color: #ffffff;">나의 여행 플래너</h6>
+               <h6 class="display-6 fw-bolder text-white mb-4" style="text-align: center; font-size: 20px; color: #ffffff;">Good Place&nbsp;&nbsp;Good Plan</h6>
+               <a class="btn btn-primary btn-lg" id="creatMap" href="createMap.do" onclick="javascript:location.href='createMap.do'">일정만들기</a>
+            </div>
+         </div>
+      </div>
+   </header>
 	<!-- Signup-->
 	<a href="#" id="MOVE_TOP_BTN">TOP</a>
 	<script>
