@@ -262,10 +262,9 @@
  	     	$.ajax({
  	    		type: 'GET',
  	    		url: 'replyWrite.do',
- 	    		success: function(result){
- 	    			console.log(result);
+ 	    		success: function(){
  	    			},
- 	    		error: function(result){
+ 	    		error: function(){
  	    		},
  	    		complete: function(){
  	    			location.reload();
