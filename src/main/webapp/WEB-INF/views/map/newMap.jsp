@@ -6,8 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일정만들기</title>
-    <link rel="icon" type="image/x-icon" href="resource/assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -628,7 +626,7 @@ function showResult(){
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
          if(adContents.length!=0){
-            for(var i=0;i<2;i++){
+            for(var i=0;i<adContents.length;i++){
                if(setSigungucode==''){
                   if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
 

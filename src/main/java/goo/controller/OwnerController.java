@@ -153,6 +153,7 @@ public class OwnerController {
 		System.out.println("광고 정보 수정 전:"+dto.getAd_content());
 		dto.setAd_content(dto.getAd_content().replaceAll("<br>","\r\n"));
 		dto.setAd_content(dto.getAd_content().replaceAll("<br/>","\r\n"));
+		dto.setAd_content(dto.getAd_content().replace("'", "\""));
 		System.out.println("광고 정보 수정 후:"+dto.getAd_content());
 		System.out.println("db 등록 전");
 		int result = ownerService.addOwnerInfo(dto);

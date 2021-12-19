@@ -269,7 +269,7 @@
 
                                 <select class="form-select mb-2" id="contenttype" name="contenttype" required = "required"> 
                                     <option value="" selected disabled>타입</option>
-                                    <option value="14">문화시설</option>
+                                    <option value="12">문화시설</option>
                                     <option value="32">숙박</option>
                                     <option value="39">음식점</option>
                                     <option value="39">카페</option>

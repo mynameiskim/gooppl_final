@@ -129,22 +129,22 @@
 											<h5 class="card-title mb-5"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title }</a></h5>
 											<c:choose>
 												<c:when test="${dto.trip_type==1}">
-													<p class="card-text">여행타입 : 홀로여행</p>
+													<p class="card-text"> 홀로여행</p>
 												</c:when>
 											</c:choose>
 											<c:choose>
 												<c:when test="${dto.trip_type==2}">
-													<p class="card-text">여행타입 : 우정여행</p>
+													<p class="card-text"> 우정여행</p>
 												</c:when>
 											</c:choose>
 											<c:choose>
 												<c:when test="${dto.trip_type==3}">
-													<p class="card-text">여행타입 : 커플여행</p>
+													<p class="card-text"> 커플여행</p>
 												</c:when>
 											</c:choose>
 											<c:choose>
 												<c:when test="${dto.trip_type==4}">
-													<p class="card-text">여행타입 : 가족여행</p>
+													<p class="card-text"> 가족여행</p>
 												</c:when>
 											</c:choose>
 											<div >
@@ -231,22 +231,22 @@
                                	<h5 class="card-title mb-1"><a href="${contentUrl }" style="text-decoration: none;">${dto.map_title}</a></h5>
 									<c:choose>
 										<c:when test="${dto.trip_type==1}">
-											<p class="card-text">여행타입 : 홀로여행</p>
+											<p class="card-text"> 홀로여행</p>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${dto.trip_type==2}">
-											<p class="card-text">여행타입 : 우정여행</p>
+											<p class="card-text"> 우정여행</p>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${dto.trip_type==3}">
-											<p class="card-text">여행타입 : 커플여행</p>
+											<p class="card-text"> 커플여행</p>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${dto.trip_type==4}">
-											<p class="card-text">여행타입 : 가족여행</p>
+											<p class="card-text"> 가족여행</p>
 										</c:when>
 									</c:choose>
 									<p class="card-text" style="font-size: small;">

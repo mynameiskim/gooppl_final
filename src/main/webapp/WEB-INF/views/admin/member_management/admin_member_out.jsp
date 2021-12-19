@@ -104,26 +104,35 @@ function searchStart(){
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="wrap">
 <div id="container">
-	<div id="aside">
-		<h5><b>회원관리</b></h5>
-		<dl>
-			<dt>회원목록</dt>
-			<dd>
-				 <a href="admin_member_list.do" style="color: white !important;"
-				>-회원목록</a><br />
-			</dd>
-			<dt>탈퇴회원목록</dt>
-			<dd>
-				 <a href="admin_member_out.do" style="color: white !important;"
-					>-탈퇴회원목록</a><br />
-			</dd>
-			<dt>폼메일 관리</dt>
-			<dd>
-				 <a href="admin_formmail_settings.do?form_type=회원가입" style="color: white !important;"
-				>-폼메일 관리</a><br />
-			</dd>
-		</dl>
-	</div>
+	<div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="margin-top: 27px; width: 210px; float: left; color: #24292f !important;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none" style="margin-left:15px;"
+    ">
+      <svg width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-6"><b>회원관리</b></span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item" style="margin: 10px 0;">
+        <a href='admin_member_list.do' style="font-size: 13px; background-color: #24292f; padding-left: 41px; color: white !important;" class="nav-link active" aria-current="page">
+          <svg width="16" height="16"><use xlink:href='admin_member_list.do'></use></svg>
+          회원목록
+        </a>
+      </li>
+      <li style="margin: 10px 0;">
+        <a href='admin_member_out.do' class="nav-link text-white" style="font-size: 13px; padding-left: 28px; background-color: #24292f; color: white !important;">
+          <svg width="16" height="16"><use xlink:href='admin_member_out.do'></use></svg>
+          탈퇴회원목록
+        </a>
+      </li>
+      <li style="margin: 10px 0;">
+        <a href='admin_formmail_settings.do' class="nav-link text-white" style="font-size: 13px; padding-left: 32px; background-color: #24292f; color: white !important;">
+          <svg width="16" height="16"><use xlink:href='admin_formmail_settings.do'></use></svg>
+          폼메일 관리
+        </a>
+      </li>
+    </ul>
+    <hr>
+     </div>
 	<div id="contents">
     	<h6><b>탈퇴회원목록</b></h6>
     	<ul class='helpbox'>

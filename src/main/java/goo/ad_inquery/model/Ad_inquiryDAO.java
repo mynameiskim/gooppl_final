@@ -20,4 +20,5 @@ public interface Ad_inquiryDAO {
 	public int admin_delInquiry_Ok(int inquiry_idx);
 	public int admin_delInquiry_Delete(int inquiry_idx);
 	public String ckCancelInquiry(int member_idx);
+	public int admin_ownerOut_inquiryDel(int owner_idx);
 }

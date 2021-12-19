@@ -15,4 +15,5 @@ public interface Payment_infoDAO {
 	public List<Payment_infoDTO> paidPayment_Info(Map map);
 	public List<Payment_infoDTO> cancelledPayment_Info(Map map);
 	public Payment_infoDTO getPaymentDetail(String imp_uid);
+	public int admin_allPayment_del(int owner_idx);
 }

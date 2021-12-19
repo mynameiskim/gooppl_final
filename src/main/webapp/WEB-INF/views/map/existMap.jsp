@@ -651,7 +651,7 @@ function showResult(){
          var table = document.getElementById('setTable');
          //table.setAttribute('style','width: 20%; float: left;');
          if(adContents.length!=0){
-       		for(var i=0;i<2;i++){
+       		for(var i=0;i<adContents.length;i++){
        			if(setSigungucode==''){
        				if(adContents[i].contenttype==setContenttype && adContents[i].areacode==setAreacode){
        					var title=adContents[i].title;

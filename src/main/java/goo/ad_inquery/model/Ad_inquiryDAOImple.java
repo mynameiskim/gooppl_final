@@ -92,4 +92,9 @@ public class Ad_inquiryDAOImple implements Ad_inquiryDAO {
 		String inquiry_state = sqlMap.selectOne("ckCancelInquiry", member_idx);
 		return inquiry_state;
 	}
+	
+	public int admin_ownerOut_inquiryDel(int owner_idx) {
+		int result = sqlMap.delete("admin_ownerOut_inquiryDel", owner_idx);
+		return result;
+	}
 }

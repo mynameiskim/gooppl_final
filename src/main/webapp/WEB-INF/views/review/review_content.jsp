@@ -125,9 +125,9 @@
                 <!--    여행 인트로?-->
                 <div class="row justify-content-md-center mb-5">
                     
-                    <p class="fw-bold text-center"><img src="/gooppl/resource/img/left.png" >
+                    <p class="fw-bold text-center"><img src="/gooppl/resource/img/right.png" >
                         ${dto.prologue }
-                    <img src="/gooppl/resource/img/right.png" ></p>
+                    <img src="/gooppl/resource/img/left.png" ></p>
                 </div>
 
 
@@ -138,9 +138,9 @@
                 <!--    에필로그-->
                 <div class="row mb-5">
                    
-                    <p class="fw-bold text-center"><img src="/gooppl/resource/img/left.png" >
+                    <p class="fw-bold text-center"><img src="/gooppl/resource/img/right.png" >
                     	${dto.epilogue }
-                    <img src="/gooppl/resource/img/right.png" ></p>
+                    <img src="/gooppl/resource/img/left.png" ></p>
                 </div>
 	                
 	                <!--#### 수정 삭제 버튼 ####-->
@@ -263,6 +263,7 @@
  	    		type: 'GET',
  	    		url: 'replyWrite.do',
  	    		success: function(){
+
  	    			},
  	    		error: function(){
  	    		},

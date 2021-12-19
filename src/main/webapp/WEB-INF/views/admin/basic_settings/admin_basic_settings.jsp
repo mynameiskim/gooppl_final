@@ -4,36 +4,47 @@
 <%@include file="/WEB-INF/views/admin/admin_header.jsp" %>
 <div id="wrap">
 <div id="container">
-	<div id="aside">
-		<h5><b>기본설정</b></h5>
-		<dl>
-			<dt>사이트 정보관리</dt>
-			<dd>
-				<c:url var="site_info_Url" value="admin_site_info.do">
-					<c:param name="goo_id">${sessionScope.sessionId}</c:param>
-				</c:url>
-				<b><a href='${site_info_Url}' style="color: white !important;"
-				>-사이트 기본정보</a></b><br />
-				<b><a href='admin_site_settings.do' style="color: white !important;"
-				>-사이트 환경설정</a></b><br />
-			</dd>
-			<dt>관리자 설정</dt>
-			<dd>
-				<b><a href='admin_settings.do' style="color: white !important;"
-					>-관리자 설정</a></b><br />
-			</dd>
-			<dt>가입약관 및 개인정보보호정책</dt>
-			<dd>
-				<b> <a href='admin_member_config.do' style="color: white !important;"
-				>-약관 및 개인정보보호정책</a></b><br />
-			</dd>
-			<dt>문의 관리</dt>
-			<dd>
-				<b> <a href='admin_inquiry.do' style="color: white !important;"
-				>-문의 관리</a></b><br />
-			</dd>
-		</dl>
-	</div>
+	<div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="margin-top: 27px; width: 210px; float: left; color: #24292f !important;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none" style="margin-left:15px;"
+    ">
+      <svg width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-6"><b>기본설정</b></span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item" style="margin: 10px 0;">
+        <a href='admin_site_info.do?goo_id=${sessionScope.sessionId}' style="padding-left:20px; font-size: 13px; background-color: #24292f; color: white !important;" class="nav-link active" aria-current="page">
+          <svg width="16" height="16"><use xlink:href='admin_site_info.do?goo_id=${sessionScope.sessionId}'></use></svg>
+          사이트 기본정보
+        </a>
+      </li>
+      <li style="margin: 10px 0;">
+        <a href='admin_site_settings.do' class="nav-link text-white" style="padding-left:20px; font-size: 13px; background-color: #24292f; color: white !important;">
+          <svg width="16" height="16"><use xlink:href='admin_site_settings.do'></use></svg>
+          사이트 환경설정
+        </a>
+      </li>
+      <li style="margin: 10px 0;">
+        <a href='admin_settings.do' class="nav-link text-white" style="padding-left:30px; font-size: 13px; background-color: #24292f; color: white !important;">
+          <svg width="16" height="16"><use xlink:href='admin_settings.do'></use></svg>
+          관리자 설정
+        </a>
+      </li>
+      <li style="margin: 10px 0;">
+        <a href='admin_member_config.do' class="nav-link text-white" style="font-size: 13px; background-color: #24292f; color: white !important;">
+          <svg width="16" height="16"><use xlink:href='admin_member_config.do'></use></svg>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;약관 및 <br>&nbsp;&nbsp;&nbsp;&nbsp;개인정보보호정책
+        </a>
+      </li>
+      <li style="margin: 10px 0;">
+        <a href='admin_inquiry.do' class="nav-link text-white" style="padding-left:40px; font-size: 13px; background-color: #24292f; color: white !important;">
+          <svg width="16" height="16"><use xlink:href='admin_inquiry.do'></use></svg>
+          문의 관리
+        </a>
+      </li>
+    </ul>
+    <hr>
+     </div>
 	<div id="contents">
 		<h6><b>기본설정</b></h6>
 			<ul class='helpbox'>

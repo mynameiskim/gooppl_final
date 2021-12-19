@@ -112,4 +112,9 @@ public class Ad_inquiryServiceImple implements Ad_inquiryService {
 		String inquiry_state = ad_inquiryDao.ckCancelInquiry(member_idx);
 		return inquiry_state;
 	}
+	
+	public int admin_ownerOut_inquiryDel(int owner_idx) {
+		int result = ad_inquiryDao.admin_ownerOut_inquiryDel(owner_idx);
+		return result;
+	}
 }
